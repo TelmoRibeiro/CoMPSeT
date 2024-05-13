@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ConsoleMPST.iml" filepath="$PROJECT_DIR$/.idea/modules/ConsoleMPST.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ConsoleMPST.ConsoleMPST-build.iml" filepath="$PROJECT_DIR$/.idea/modules/ConsoleMPST.ConsoleMPST-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/codeMPST.iml" filepath="$PROJECT_DIR$/.idea/modules/codeMPST.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/codeMPST.caos.iml" filepath="$PROJECT_DIR$/.idea/modules/codeMPST.caos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/codeMPST.codeMPST-build.iml" filepath="$PROJECT_DIR$/.idea/modules/codeMPST.codeMPST-build.iml" />
     </modules>
   </component>
 </project>

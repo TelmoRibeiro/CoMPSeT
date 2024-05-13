@@ -1,12 +1,21 @@
-ThisBuild / scalaVersion := "3.4.1"
+//ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / version      := "0.1.0-SNAPSHOT"
 
-lazy val root = (project in file("."))
+lazy val caos = project.in(file("lib/caos"))
+  .enablePlugins(ScalaJSPlugin)
+  .settings(scalaVersion := "3.1.1")
+
+lazy val root = project.in(file("."))
+  .enablePlugins(ScalaJSPlugin)
   .settings(
-    name := "ConsoleMPST",
-    Compile / mainClass  := Some("src.main.scala.mpst.frontend.Main"),
-    // Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
-    libraryDependencies += "org.scala-lang.modules" %%% "scala-parser-combinators" % "2.3.0",
-    libraryDependencies += "org.scala-js"           %%% "scalajs-dom"              % "2.4.0",
+    name := "codeMPST",
+    scalaVersion := "3.1.1",
     scalaJSUseMainModuleInitializer := true,
-  ).enablePlugins(ScalaJSPlugin)
+    Compile / mainClass  := Some("src.main.scala.mpst.frontend.Main"),
+    Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
+    Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
+    libraryDependencies ++= Seq(
+        "org.scala-lang.modules" %%% "scala-parser-combinators" % "2.1.0",
+        ("org.scala-js" %%% "scalajs-dom" % "1.2.0").cross(CrossVersion.for3Use2_13),
+    )
+  ).dependsOn(caos)

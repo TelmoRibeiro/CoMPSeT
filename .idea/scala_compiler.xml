@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <profile name="sbt 1" modules="APIGenMPST" />
-    <profile name="sbt 2" modules="ConsoleMPST">
+    <profile name="sbt 2" modules="ConsoleMPST,codeMPST,codeMPST.caos">
       <parameters>
         <parameter value="-scalajs" />
       </parameters>

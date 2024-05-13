@@ -1,4 +1,15 @@
+package mpst.frontend
 
+import caos.frontend.Site.initSite
+import mpst.syntax.Protocol
+
+object Main:
+  def main(args:Array[String]):Unit =
+    initeSite[Protocol](CaosConfigurator)
+  end main
+end Main
+
+/*
 package mpst.frontend
 
 import mpst.operational_semantic.Network.*
@@ -114,31 +125,5 @@ object Main:
     val environment = Environment.localEnv(global)
     networkMSTraverse(locals,Multiset(),Nil)(using environment)
   end main
-end Main
-
-
-/*
-package mpst.frontend
-
-import mpst.syntax.Protocol
-import mpst.syntax.Protocol.*
-
-object Main:
-  def main(args:Array[String]):Unit =
-
-  end main
-
-  object CaosConfigurator extends Configurator[Protocol]:
-    val name = "Caos Meets MPST"
-    override val languageName:String = "Protocol Language"
-    //
-    val parser = mpst.syntax.Parser.Parser
-    val examples = List(
-      "MasterWorkersPar" -> "m>wA:Work<void> ; m>wB:Work<void> ; (wA>m:Done<void> ; wB>m:Done<void>)",
-    )
-    val widgets = List(
-      "parsed data" -> view(_.toString,Text),
-    )
-  end CaosConfigurator
 end Main
 */
