@@ -1,0 +1,93 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.9.8 (Oracle Corporation Java 21.0.2)
+[debug] Load.defaultLoad until apply took 223.1357ms
+[debug]           Load.loadUnit: plugins took 150.5857ms
+[debug]           Load.loadUnit: defsScala took 0.2519ms
+[debug] [Loading] Scanning directory C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST\project
+[debug]             Load.loadUnit: mkEval took 5.5915ms
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST\project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 9.9435 ms
+[info] loading settings for project apigenmpst-build from plugins.sbt ...
+[debug]               Load.resolveProject(apigenmpst-build) took 30.0361ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id apigenmpst-build, base: C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST\project, plugins: List(<none>))) took 52.5936ms
+[debug] [Loading] Done in C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST\project, returning: (apigenmpst-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 332.3121ms
+[debug]           Load.loadUnit: cleanEvalClasses took 6.6089ms
+[debug]         Load.loadUnit(file:/C:/Users/telmo/Desktop/APIGenMPST/APIGenMPST/project/, ...) took 497.1859ms
+[debug]       Load.apply: load took 582.6611ms
+[debug]       Load.apply: resolveProjects took 4.1374ms
+[debug]       Load.apply: finalTransforms took 47.327ms
+[debug]       Load.apply: config.delegates took 8.7679ms
+[debug]       Load.apply: Def.make(settings)... took 444.2445ms
+[debug]       Load.apply: structureIndex took 108.3964ms
+[debug]       Load.apply: mkStreams took 3.5683ms
+[info] loading project definition from C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST\project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug]     Load.loadUnit: plugins took 2045.3472ms
+[debug]     Load.loadUnit: defsScala took 0.0034ms
+[debug] [Loading] Scanning directory C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST
+[debug]       Load.loadUnit: mkEval took 0.1908ms
+[debug] [Loading] Found root project root w/ remaining 
+[debug] deducing auto plugins based on known facts Set(Atom(org.scalajs.sbtplugin.ScalaJSPlugin), Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.scalajs.sbtplugin.ScalaJSPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.portablescala.sbtplatformdeps.PlatformDepsPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(org.portablescala.sbtplatformdeps.PlatformDepsPlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,org.scalajs.sbtplugin.ScalaJSPlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,org.portablescala.sbtplatformdeps.PlatformDepsPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 3.8515 ms
+[info] loading settings for project root from build.sbt ...
+[debug]         Load.resolveProject(root) took 29.192ms
+[debug]       Load.loadTransitive: finalizeProject(Project(id root, base: C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST, plugins: List(org.scalajs.sbtplugin.ScalaJSPlugin))) took 34.6656ms
+[debug] [Loading] Done in C:\Users\telmo\Desktop\APIGenMPST\APIGenMPST, returning: (root)
+[debug]     Load.loadUnit: loadedProjectsRaw took 3152.0202ms
+[debug]     Load.loadUnit: cleanEvalClasses took 14.2996ms
+[debug]   Load.loadUnit(file:/C:/Users/telmo/Desktop/APIGenMPST/APIGenMPST/, ...) took 5213.7264ms
+[debug] Load.apply: load took 5258.1501ms
+[debug] Load.apply: resolveProjects took 0.2858ms
+[debug] Load.apply: finalTransforms took 30.4134ms
+[debug] Load.apply: config.delegates took 0.7468ms
+[debug] Load.apply: Def.make(settings)... took 118.3006ms
+[debug] Load.apply: structureIndex took 38.0892ms
+[debug] Load.apply: mkStreams took 0.005ms
+[info] set current project to ConsoleMPST (in build file:/C:/Users/telmo/Desktop/APIGenMPST/APIGenMPST/)
+[debug] > Exec(sbtPopOnFailure, None, None)
+[debug] > Exec(resumeFromFailure, None, None)
+[debug] > Exec(notifyUsersAboutShell, None, None)
+[debug] > Exec(iflast shell, None, None)
+[debug] > Exec(shell, None, None)
+[info] sbt server started at local:sbt-server-5a13720b61727ba581ff
+[debug] Writing bsp connection file
+[info] started sbt server
