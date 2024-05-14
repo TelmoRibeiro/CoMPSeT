@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <profile name="sbt 1" modules="APIGenMPST" />
-    <profile name="sbt 2" modules="ConsoleMPST,codeMPST,codeMPST.caos">
+    <profile name="sbt 2" modules="ConsoleMPST,codeMPST">
       <parameters>
         <parameter value="-scalajs" />
+      </parameters>
+    </profile>
+    <profile name="sbt 3" modules="codeMPST.caos">
+      <parameters>
+        <parameter value="-scalajs" />
+        <parameter value="-indent" />
       </parameters>
     </profile>
   </component>

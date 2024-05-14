@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="caos [file:/C:/Users/telmo/Desktop/MPSTCode/]" external.linked.project.path="$MODULE_DIR$/../../lib/caos" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" external.system.module.type="nestedProject" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_21">
-    <output url="file://$MODULE_DIR$/../../lib/caos/target/scala-3.4.1/classes" />
-    <output-test url="file://$MODULE_DIR$/../../lib/caos/target/scala-3.4.1/test-classes" />
+    <output url="file://$MODULE_DIR$/../../lib/caos/target/scala-3.1.1/classes" />
+    <output-test url="file://$MODULE_DIR$/../../lib/caos/target/scala-3.1.1/test-classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../lib/caos">
       <sourceFolder url="file://$MODULE_DIR$/../../lib/caos/src/main/scala" isTestSource="false" />
@@ -10,13 +10,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="sbt: scala-sdk-3.4.1" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-js:scalajs-javalib:1.16.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-js:scalajs-library_2.13:1.16.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-js:scalajs-scalalib_2.13:2.13.13+1.16.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-bridge_2.13:1.16.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-interface_2.13:1.16.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.13:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-lang:scala3-library_sjs1_3:3.4.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: scala-sdk-3.1.1" level="project" />
+    <orderEntry type="library" name="sbt: be.doeraene:scalajs-jquery_sjs1_2.13:1.0.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.lihaoyi:geny_sjs1_2.13:0.6.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.lihaoyi:scalatags_sjs1_2.13:0.9.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.lihaoyi:sourcecode_sjs1_2.13:0.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-js:scalajs-dom_sjs1_2.13:1.2.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-js:scalajs-library_2.13:1.7.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-bridge_2.13:1.7.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-interface_2.13:1.7.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala3-library_sjs1_3:3.1.1:jar" level="project" />
   </component>
 </module>
