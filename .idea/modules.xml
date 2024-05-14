@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/codeMPST.iml" filepath="$PROJECT_DIR$/.idea/modules/codeMPST.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/codeMPST.caos.iml" filepath="$PROJECT_DIR$/.idea/modules/codeMPST.caos.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/codeMPST.codeMPST-build.iml" filepath="$PROJECT_DIR$/.idea/modules/codeMPST.codeMPST-build.iml" />
     </modules>
   </component>
 </project>
