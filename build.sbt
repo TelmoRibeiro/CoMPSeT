@@ -11,13 +11,11 @@ lazy val root = project.in(file("."))
     name := "codeMPST",
     scalaVersion := "3.1.1",
     scalaJSUseMainModuleInitializer := true,
-    Compile / mainClass  := Some("src.main.scala.mpst.frontend.Main"),
+    Compile / mainClass  := Some("mpst.frontend.Main"),
     Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
     Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
     libraryDependencies ++= Seq(
         "org.scala-lang.modules" %%% "scala-parser-combinators" % "2.1.0",
         ("org.scala-js" %%% "scalajs-dom" % "1.2.0").cross(CrossVersion.for3Use2_13),
     ),
-    javacOption ++= Seq("-source", "1.8", "-release", "1.8"),
-    //scalacOptions += "-target:jvm-1.8",
   ).dependsOn(caos)

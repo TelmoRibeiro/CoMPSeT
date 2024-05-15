@@ -5,7 +5,7 @@ import mpst.syntax.Protocol
 
 object Main:
   def main(args:Array[String]):Unit =
-    initeSite[Protocol](CaosConfigurator)
+    initSite[Protocol](CaosConfigurator)
   end main
 end Main
 
