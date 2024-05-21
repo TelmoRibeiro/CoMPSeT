@@ -26,6 +26,11 @@ object Environment:
     localSet.toMap.map{case agent -> environment => agent -> environment}
   end localEnv
 
+  def singleLocalEnv(local:Local):Map[Variable,Local] =
+    if !isLocal(local) then throw new RuntimeException(s"unexpected global type found in [$local]\n")
+    protocolEnv(local)(using Map())
+  end singleLocalEnv
+
   private def protocolEnv(protocol:Protocol)(using environment:Map[Variable,Protocol]):Map[Variable,Protocol] =
     protocol match
       case Interaction(_,_,_,_) => environment

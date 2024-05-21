@@ -20,4 +20,6 @@ object Type:
   type Action = Protocol
   type State  = (Map[String, Protocol], Protocol)
   type Queue  = Map[(Agent,Agent),List[Message]]
+
+  type StateWrapper = (Protocol,Map[Variable,Protocol])
 end Type

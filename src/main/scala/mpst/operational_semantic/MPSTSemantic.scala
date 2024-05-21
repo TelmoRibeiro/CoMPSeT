@@ -1,5 +1,8 @@
 package mpst.operational_semantic
 
+import caos.sos.SOS
+import caos.sos.SOS._
+
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
 import mpst.syntax.Type.*
@@ -13,12 +16,12 @@ import mpst.utilities.StructuralCongruence
 */
 
 object MPSTSemantic:
-  def accept(protocol:Protocol):Boolean =
+  def accepting(protocol:Protocol):Boolean =
     MPSTSemantic.acceptAuxiliary(protocol)
-  end accept
+  end accepting
 
-  def next(protocol:Protocol)(using environment:Map[Variable,Protocol]):Set[(Action,Protocol)] =
-    MPSTSemantic.nextAuxiliary(protocol).toSet
+  def next[A>:Action](protocol:Protocol)(using environment:Map[Variable,Protocol]):Set[(A,Protocol)] =
+    MPSTSemantic.nextAuxiliary(protocol)(using environment).toSet
   end next
 
   private def acceptAuxiliary(protocol:Protocol):Boolean =
@@ -28,10 +31,10 @@ object MPSTSemantic:
       case Receive(_,_,_,_) => false
       case RecursionCall(_) => false // checked with prof. José Proença //
       case Skip             => true
-      case Sequence(protocolA,protocolB) => accept(protocolA) && accept(protocolB)
-      case Parallel(protocolA,protocolB) => accept(protocolA) && accept(protocolB)
-      case Choice  (protocolA,protocolB) => accept(protocolA) || accept(protocolB)
-      case RecursionFixedPoint(_,protocolB) => accept(protocolB)
+      case Sequence(protocolA,protocolB) => acceptAuxiliary(protocolA) && acceptAuxiliary(protocolB)
+      case Parallel(protocolA,protocolB) => acceptAuxiliary(protocolA) && acceptAuxiliary(protocolB)
+      case Choice  (protocolA,protocolB) => acceptAuxiliary(protocolA) || acceptAuxiliary(protocolB)
+      case RecursionFixedPoint(_,protocolB) => acceptAuxiliary(protocolB)
   end acceptAuxiliary
 
   private def nextAuxiliary(protocol:Protocol)(using environment:Map[Variable,Protocol]):List[(Action,Protocol)] =
@@ -53,7 +56,7 @@ object MPSTSemantic:
         val nextB = nextAuxiliary(protocolB)
         val resultA = for nextActionA -> nextProtocolA <- nextA yield
           nextActionA -> StructuralCongruence(Sequence(nextProtocolA,protocolB))
-        val resultB = if accept(protocolA) then nextB else Nil
+        val resultB = if accepting(protocolA) then nextB else Nil
         resultA ++ resultB
       case Parallel(protocolA,protocolB) =>
         val nextA = nextAuxiliary(protocolA)
