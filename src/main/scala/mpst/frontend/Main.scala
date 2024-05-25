@@ -1,11 +1,11 @@
 package mpst.frontend
 
 import caos.frontend.Site.initSite
-import mpst.syntax.Protocol
+import mpst.syntax.Type.*
 
 object Main:
   def main(args:Array[String]):Unit =
-    initSite[Protocol](CaosConfigurator)
+    initSite[Configuration](CaosConfigurator)
   end main
 end Main
 

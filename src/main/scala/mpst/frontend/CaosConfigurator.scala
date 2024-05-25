@@ -12,56 +12,83 @@ import mpst.projection.AsyncProjection
 
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.*
 import mpst.syntax.Type.*
+
 import mpst.utilities.Environment
+
 import mpst.wellformedness.*
 
 import mpst.operational_semantic.MPSTSemanticWrapper
 import mpst.operational_semantic.MPSTSemanticWrapper.*
 
-object CaosConfigurator extends Configurator[Protocol]:
-  val name = "To Be Named..."
+object CaosConfigurator extends Configurator[Configuration]:
+  override val name:String = "CoMPSeT - Comparison of Multiparty Session Types"
 
-  override val languageName:String = "Protocol"
+  override val languageName:String = "protocol"
 
-  val parser:String => Protocol = justParseIt
+  override val parser:String=>Configuration = parseAllWrapper
 
-  val examples:Seq[Example] = List(
-    "MasterWorkers" -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
+  override val examples:Seq[Example] = List(
+    "MasterWorkers"
+      -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
   )
-  val widgets:Seq[(String,WidgetInfo[Protocol])] = List(
-    "view parsed protocol"
-      -> view(_.toString,Text),
+
+  override val widgets:Seq[(String,WidgetInfo[Configuration])] = List(
+    "parsed configuration"
+      -> view(
+      viewProg = (config:Configuration) =>
+        val global -> keywords = config
+        s"parsed global: ${global.toString}\nparsed config: ${keywords.toString}",
+      typ = Text),
+
     "well formedness"
-      -> view(wellFormedness,Text),
-    // @ telmo - not quite what I want CHECK CURRENT PROBLEM
+      -> view(
+      viewProg = (config:Configuration) =>
+        val global -> _ = config
+        s"${wellFormedness(global)}",
+      typ = Text),
+
+    // @ telmo - async not properly working
     "my spin on \"Choreo Semantics (without added dependencies for b-pomsets)\""
-      -> steps(global => getInitialState(global:Global),MPSTSemanticWrapper,(protocol:Protocol,environment:Map[Variable,Protocol])=>protocol.toString,typ=Text),
-    "Global LTS - lazy Env"
-      -> lts(global => getInitialState(global),MPSTSemanticWrapper,viewSt = (protocol:Protocol,environment:Map[Variable,Protocol])=>environment.toString),
-    "Local LTS"
-     -> viewMerms((protocol:Protocol) =>
-      val result = for agent -> local <- AsyncProjection.projectionWithAgent(protocol) yield
+      -> steps(
+      initialSt = (config:Configuration) =>
+        val global -> _ = config
+        global -> Environment.globalEnv(global),
+      sos       = MPSTSemanticWrapper,
+      viewSt    = (pro:Protocol,env:Map[Variable,Protocol]) => pro.toString,
+      typ       = Text,
+    ),
+
+    "Global LTS - with lazy environment"
+      -> lts(
+      initialSt = (config:Configuration) =>
+        val global -> _ = config
+        global -> Environment.globalEnv(global),
+      sos       = MPSTSemanticWrapper,
+      viewSt    = (global:Global,environment:Map[Variable,Global]) => environment.toString,
+    ),
+
+    "Local LTS - with lazy environment"
+     -> viewMerms((config:Configuration) =>
+      val result = for agent -> local <- AsyncProjection.projectionWithAgent(config._1) yield
         agent -> caos.sos.SOS.toMermaid(
-          MPSTSemanticWrapper,
-          local -> Environment.singleLocalEnv(local),
-          _ => " ",
-          _.toString, 80
+          sos      = MPSTSemanticWrapper,
+          s        = local -> Environment.singleLocalEnv(local),
+          showSt   = (protocol:Protocol,environment:Map[Variable,Protocol]) => environment.toString,
+          showAct  = _.toString,
+          maxNodes = 100,
         )
       result.toList
       )
   )
 
-  // @ telmo - will this be problematic?
-  private def getInitialState(global:Global):(Protocol,Map[Variable,Global]) =
-    global -> Environment.globalEnv(global)
-  end getInitialState
+  private def parseAllWrapper(input:String):Configuration =
+    Parser.parseConfiguration(input)
+  end parseAllWrapper
 
-  // @ telmo - too hacky?
-  private def justParseIt(dsl:String):Protocol =
-    Parser(dsl)
-  end justParseIt
+  private def parseWrapper(input:String):Protocol =
+    Parser(input)
+  end parseWrapper
 
   // @ telmo - expand this to better error handling
   private def wellFormedness(global:Global):String =
