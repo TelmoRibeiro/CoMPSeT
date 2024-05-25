@@ -1,15 +1,45 @@
 package mpst.syntax
 
 import mpst.syntax.Protocol.*
+import mpst.syntax.Type.*
+
 import scala.util.matching.Regex
 import scala.util.parsing.combinator.RegexParsers
 
+/* IDEA:
+    just parse the input structure...
+
+  @ telmo -
+    identifier not caring about upper or lower case
+*/
 
 object Parser extends RegexParsers:
   override val whiteSpace: Regex = "( |\t|\r|\f|\n|//.*)+".r
   override def skipWhitespace: Boolean = true
 
-  private def identifier: Parser[String] = """[a-zA-Z]+""".r
+  private def identifier: Parser[String] = """[a-zA-Z0-9_]+""".r
+
+  private def structure: Parser[(Global,Set[Keyword])] =
+    definition ~ opt("[" ~> repsep(keyword,",") <~ "]") ^^ {
+      case globalType ~ configuration => (globalType,configuration.map(_.toSet).getOrElse(Set()))
+    }
+  end structure
+
+  private def keyword:Parser[Keyword] =
+    identifier ^^ {
+      case "sync"         => Keyword.ComSync
+      case "async-ms"     => Keyword.ComAsyncMS
+      case "async-cs"     => Keyword.ComAsyncCS
+      case "interleave-1" => Keyword.InterleaveOn
+      case "interleave-0" => Keyword.InterleaveOff
+      case "rec-k"        => Keyword.RecKleene
+      case "rec-fp"       => Keyword.RecFixedPoint
+      case "rec-0"        => Keyword.RecOff
+    }
+
+  private def definition:Parser[Global] =
+    opt(globalType) ^^ (globalTypeSyntax => globalTypeSyntax.getOrElse(Protocol.Skip))
+  end definition
 
   private def globalType: Parser[Protocol] =
     maybeParallel ~ opt(choice) ^^ {
@@ -72,12 +102,14 @@ object Parser extends RegexParsers:
   private def parentheses: Parser[Protocol] = "(" ~> globalType <~ ")"
 
   private def message: Parser[Protocol] =
-    identifier ~ ">" ~ identifier ~ ":" ~ identifier ~ "<" ~ identifier ~ ">" ^^ {
-      case agentA ~ ">" ~ agentB ~ ":" ~ message ~ "<" ~ sort ~ ">" => Interaction(agentA, agentB, message, sort)
+    identifier ~ ">" ~ identifier ~ ":" ~ identifier ~ opt(sort) ^^ {
+      case agentA ~ ">" ~ agentB ~ ":" ~ message ~ sort => Interaction(agentA,agentB,message,sort.getOrElse("void"))
     }
   end message
 
-  private def end: Parser[Protocol] = "end" ^^^ Skip // @ telmo - to check!
+  private def sort:Parser[String] = "<" ~> identifier <~ ">"
+
+  private def end:Parser[Protocol] = "end" ^^^ Skip
 
   def apply(input:String):Protocol =
     parseAll(globalType, input) match

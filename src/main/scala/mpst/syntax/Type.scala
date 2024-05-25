@@ -10,7 +10,7 @@ package mpst.syntax
 object Type:
   // *global* & *local* types //
   type Global = Protocol
-  type Local = Protocol
+  type Local  = Protocol
   // *protocol* related types //
   type Agent    = String
   type Message  = String

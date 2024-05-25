@@ -28,7 +28,7 @@ object CaosConfigurator extends Configurator[Protocol]:
   val parser:String => Protocol = justParseIt
 
   val examples:Seq[Example] = List(
-    "MasterWorkers" -> "m>wA:Work<void> ; m>wB:Work<void> ; (wA>m:Done<void> || wB>m:Done<void>)",
+    "MasterWorkers" -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
   )
   val widgets:Seq[(String,WidgetInfo[Protocol])] = List(
     "view parsed protocol"

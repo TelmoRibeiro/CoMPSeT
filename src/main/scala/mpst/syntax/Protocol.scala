@@ -3,17 +3,19 @@ package mpst.syntax
 import mpst.syntax.Type.{Agent,Message,Sort,Variable}
 
 /* IDEA:
-  - protocol basics...
+    the basics...
 
-  problem: should Interaction(_,_,_,_) be considered an action as well?
+  @ telmo -
+    should Interaction(_,_,_,_) be considered an action as well?
+    toString is hiding sort
 */
 
 enum Protocol:
   override def toString:String =
     this match
-      case Interaction(agentA,agentB,message,sort) => s"$agentA>$agentB:$message<$sort>"
-      case Send   (agentA,agentB,message,sort) => s"$agentA$agentB!$message<$sort>"
-      case Receive(agentA,agentB,message,sort) => s"$agentA$agentB?$message<$sort>"
+      case Interaction(agentA,agentB,message,_) => s"$agentA>$agentB:$message"
+      case Send   (agentA,agentB,message,_) => s"$agentA$agentB!$message"
+      case Receive(agentA,agentB,message,_) => s"$agentA$agentB?$message"
       case RecursionCall(variable) => s"$variable"
       case Skip => s"skip"
       case Sequence(protocolA,protocolB) => s"$protocolA ; $protocolB"
