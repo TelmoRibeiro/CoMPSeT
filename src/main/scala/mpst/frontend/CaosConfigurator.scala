@@ -35,11 +35,11 @@ object CaosConfigurator extends Configurator[Protocol]:
       -> view(_.toString,Text),
     "well formedness"
       -> view(wellFormedness,Text),
-    // @ telmo - not quite what I want
+    // @ telmo - not quite what I want CHECK CURRENT PROBLEM
     "my spin on \"Choreo Semantics (without added dependencies for b-pomsets)\""
-      -> steps(xs => getInitialState(xs:Protocol),MPSTSemanticWrapper,_.toString,typ=Text),
-    "Global LTS"
-      -> lts(xs => getInitialState(xs:Protocol),MPSTSemanticWrapper,viewSt = _ =>" "),
+      -> steps(global => getInitialState(global:Global),MPSTSemanticWrapper,(protocol:Protocol,environment:Map[Variable,Protocol])=>protocol.toString,typ=Text),
+    "Global LTS - lazy Env"
+      -> lts(global => getInitialState(global),MPSTSemanticWrapper,viewSt = (protocol:Protocol,environment:Map[Variable,Protocol])=>environment.toString),
     "Local LTS"
      -> viewMerms((protocol:Protocol) =>
       val result = for agent -> local <- AsyncProjection.projectionWithAgent(protocol) yield
@@ -53,12 +53,12 @@ object CaosConfigurator extends Configurator[Protocol]:
       )
   )
 
-  // @ telmo - this will be problematic!
-  private def getInitialState(protocol:Protocol):(Protocol,Map[Variable,Global]) =
-    protocol -> Environment.globalEnv(protocol)
+  // @ telmo - will this be problematic?
+  private def getInitialState(global:Global):(Protocol,Map[Variable,Global]) =
+    global -> Environment.globalEnv(global)
   end getInitialState
 
-  // @ telmo - just to warp it
+  // @ telmo - too hacky?
   private def justParseIt(dsl:String):Protocol =
     Parser(dsl)
   end justParseIt
