@@ -1,18 +1,25 @@
-/*
 package mpst.operational_semantic
 
-import mpst.operational_semantic.Network.NetworkMultiset
+import caos.sos.SOS
+
 import mpst.syntax.Type.*
+
+import mpst.syntax.Protocol
+
+import mpst.operational_semantic.Network.NetworkMultiset
+
 import mpst.utilities.Multiset
 
-type LocalEnv     = Map[Agent,Map[Variable,Local]]
-type StateWrapper = ((Action,Set[(Agent, Local)],Multiset[Action]),LocalEnv)
+object NetworkMultisetWrapper extends SOS[Action,NetStateWrapper]:
+  override def accepting(state:NetStateWrapper):Boolean =
+    val (locals,_,_) = state
+    NetworkMultiset.accepting(locals)
+  end accepting
 
-object NetworkMultisetWrapper:
-  def next[A>:Action](state:StateWrapper):Set[(A,StateWrapper)] =
-    val (action,locals,pending,localEnv) = state
-    for (nextAction,nextLocals,nextPending) <- NetworkMultiset.nextNetwork(locals,pending)(using localEnv) yield
-      nextAction -> (nextAction,nextLocals,nextPending,localEnv)
+  override def next[A>:Action](state:NetStateWrapper):Set[(A,NetStateWrapper)] =
+    val (locals,pending,localEnv) = state
+    for (nextAction,nextLocals,nextPending) <- NetworkMultiset.next(locals,pending)(using localEnv) yield
+      val nextState = (nextLocals,nextPending,localEnv)
+      nextAction -> nextState
   end next
 end NetworkMultisetWrapper
-*/

@@ -7,24 +7,25 @@ import caos.frontend.widgets.WidgetInfo.VisualizeOpt
 import caos.sos.SOS
 import caos.sos.SOS.*
 import caos.view.*
-
 import mpst.projection.AsyncProjection
-
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Type.*
-
 import mpst.utilities.Environment
-
+import mpst.utilities.Multiset
 import mpst.wellformedness.*
-
-import mpst.operational_semantic.MPSTSemanticWrapper
+import mpst.operational_semantic.{MPSTSemanticWrapper,NetworkMultisetWrapper}
 import mpst.operational_semantic.MPSTSemanticWrapper.*
 
 object CaosConfigurator extends Configurator[Configuration]:
+  // var usedProjection = Void
+  // var usedSos        = Void
+  // var usedRec        = Void
+  // var usedInter      = Void
+
   override val name:String = "CoMPSeT - Comparison of Multiparty Session Types"
 
-  override val languageName:String = "protocol"
+  override val languageName:String = "session"
 
   override val parser:String=>Configuration = parseAllWrapper
 
@@ -59,6 +60,19 @@ object CaosConfigurator extends Configurator[Configuration]:
       typ       = Text,
     ),
 
+    "Composed Local MSNet Semantics"
+      -> steps(
+      initialSt = (config:Configuration) =>
+        val global -> _ = config
+        val locals   = AsyncProjection.projectionWithAgent(global)
+        val localEnv = Environment.localEnv(global)
+        (locals,Multiset(),localEnv),
+      sos    = NetworkMultisetWrapper,
+      viewSt = (loc:Set[(Agent,Local)],pen:Multiset[Action],env:Map[Agent,Map[Variable,Local]]) =>
+        loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
+      typ    = Text,
+    ),
+
     "Global LTS - with lazy environment"
       -> lts(
       initialSt = (config:Configuration) =>
@@ -85,10 +99,6 @@ object CaosConfigurator extends Configurator[Configuration]:
   private def parseAllWrapper(input:String):Configuration =
     Parser.parseConfiguration(input)
   end parseAllWrapper
-
-  private def parseWrapper(input:String):Protocol =
-    Parser(input)
-  end parseWrapper
 
   // @ telmo - expand this to better error handling
   private def wellFormedness(global:Global):String =

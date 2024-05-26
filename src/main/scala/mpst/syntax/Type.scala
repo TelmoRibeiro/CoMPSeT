@@ -1,5 +1,7 @@
 package mpst.syntax
 
+import mpst.utilities.Multiset
+
 /* IDEA:
     types used throughout the code
     having all types here is not an elegant solution but Protocol.scala does not handle it well
@@ -24,5 +26,8 @@ object Type:
   // *configuration* related types //
   type Configuration = (Global,Set[Keyword])
   // wrappers //
-  type StateWrapper  = (Protocol,Map[Variable,Protocol])
+  type StateWrapper = (Protocol,Map[Variable,Protocol])
+
+  type LocalEnv = Map[Agent, Map[Variable, Local]]
+  type NetStateWrapper = (Set[(Agent, Local)], Multiset[Action], LocalEnv)
 end Type

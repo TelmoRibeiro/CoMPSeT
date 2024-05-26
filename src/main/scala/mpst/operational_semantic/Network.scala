@@ -15,14 +15,25 @@ import mpst.utilities.Multiset
 
 object Network:
   object NetworkMultiset:
-    def nextNetwork(locals:Set[(Agent,Local)],pending:Multiset[Action])(using environment:Map[Agent,Map[Variable,Local]]):Set[(Action,Set[(Agent,Local)],Multiset[Action])] =
+    // @ telmo - check with prof. José Proença
+    def accepting(locals:Set[(Agent,Local)]):Boolean =
+      for local <- locals yield
+        if !MPSTSemantic.accepting(local._2) then return false
+      true
+    end accepting
+
+    def next[A>:Action](locals:Set[(Agent,Local)],pending:Multiset[Action])(using environment:Map[Agent,Map[Variable,Local]]):Set[(A,Set[(Agent,Local)],Multiset[Action])] =
+      nextAuxiliary(locals,pending)(using environment)
+    end next
+
+    private def nextAuxiliary[A>:Action](locals:Set[(Agent,Local)],pending:Multiset[Action])(using environment:Map[Agent,Map[Variable,Local]]):Set[(A,Set[(Agent,Local)],Multiset[Action])] =
       val nextNetwork = for local <- locals yield
         val nextEntry = getNextEntry(local,pending)
         for (nextAction,nextLocal,nextPending) <- nextEntry yield
           val nextLocals = locals-local+nextLocal
           (nextAction,nextLocals,nextPending)
       nextNetwork.flatten
-    end nextNetwork
+    end nextAuxiliary
 
     private def getNextEntry(local:(Agent,Local),pending:Multiset[Action])(using environment:Map[Agent,Map[Variable,Local]]):Set[(Action,(Agent,Local),Multiset[Action])] =
       for nextAction -> nextLocal <- MPSTSemantic.next(local._2)(using environment(local._1)) if notBlocked(nextAction,pending) yield
@@ -44,7 +55,7 @@ object Network:
         case protocol => throw new RuntimeException(s"unexpected protocol found in [$protocol]\n")
     end notBlocked
   end NetworkMultiset
-
+  /*
   object NetworkCausal:
     def nextNetwork(locals:Set[(Agent,Local)],pending:Queue)(using environment:Map[Agent,Map[Variable,Local]]):Set[(Action,Set[(Agent,Local)],Queue)] =
       val nextNetwork = for local <- locals yield
@@ -79,4 +90,5 @@ object Network:
         case protocol => throw new RuntimeException(s"unexpected protocol found in [$protocol]\n")
     end notBlocked
   end NetworkCausal
+  */
 end Network
