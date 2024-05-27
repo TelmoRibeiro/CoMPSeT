@@ -10,6 +10,11 @@ import mpst.operational_semantic.Network.NetworkMultiset
 
 import mpst.utilities.Multiset
 
+/* IDEA:
+
+  @ telmo -
+*/
+
 object NetworkMultisetWrapper extends SOS[Action,NetStateWrapper]:
   override def accepting(state:NetStateWrapper):Boolean =
     val (locals,_,_) = state

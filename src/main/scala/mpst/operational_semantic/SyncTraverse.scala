@@ -1,6 +1,7 @@
 package mpst.operational_semantic
 
 import mpst.syntax.Protocol.*
+
 import mpst.syntax.Type.*
 
 /* IDEA:
@@ -12,12 +13,22 @@ import mpst.syntax.Type.*
 */
 
 object SyncTraverse:
-  def next(locals:Set[(Agent,Local)])(using localEnv:Map[Agent,Map[Variable,Local]]):(Action,Set[(Agent,Local)]) =
+  def accepting(locals:Set[(Agent,Local)]):Boolean =
+    for local <- locals yield
+      if !MPSTSemantic.accepting(local._2) then return false
+    true
+  end accepting
+
+  def next[A>:Action](locals:Set[(Agent,Local)])(using localEnv:LocalEnv):(A,Set[(Agent,Local)]) =
+    nextAuxiliary(locals)(using localEnv)
+  end next
+
+  private def nextAuxiliary[A>:Action](locals:Set[(Agent,Local)])(using localEnv:LocalEnv):(A,Set[(Agent,Local)]) =
     val (sendNextAction,sendLocal,sendNextLocal) = getSend(locals)
     val (recvNextAction,recvLocal,recvNextLocal) = getRecv(locals,sendNextAction)
     val nextLocals = locals - sendLocal - recvLocal + sendNextLocal + recvNextLocal
     sendNextAction -> nextLocals
-  end next
+  end nextAuxiliary
 
   private def getSend(locals:Set[(Agent,Local)])(using localEnv:Map[Agent,Map[Variable,Local]]):(Action,(Agent,Local),(Agent,Local)) =
     def canSend(action:Action,locals:Set[(Agent,Local)]):Boolean =

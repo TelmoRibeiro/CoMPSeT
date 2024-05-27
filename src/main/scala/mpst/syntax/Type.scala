@@ -29,5 +29,6 @@ object Type:
   type StateWrapper = (Protocol,Map[Variable,Protocol])
 
   type LocalEnv = Map[Agent, Map[Variable, Local]]
-  type NetStateWrapper = (Set[(Agent, Local)], Multiset[Action], LocalEnv)
+  type NetStateWrapper = (Set[(Agent, Local)],Multiset[Action],LocalEnv)
+  type SynStateWrapper = (Set[(Agent,Local)],LocalEnv)
 end Type

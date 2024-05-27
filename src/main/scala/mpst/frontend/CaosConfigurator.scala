@@ -7,14 +7,14 @@ import caos.frontend.widgets.WidgetInfo.VisualizeOpt
 import caos.sos.SOS
 import caos.sos.SOS.*
 import caos.view.*
-import mpst.projection.AsyncProjection
+import mpst.projection.{AsyncProjection, SyncProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Type.*
 import mpst.utilities.Environment
 import mpst.utilities.Multiset
 import mpst.wellformedness.*
-import mpst.operational_semantic.{MPSTSemanticWrapper,NetworkMultisetWrapper}
+import mpst.operational_semantic.{MPSTSemanticWrapper, NetworkMultisetWrapper, SyncTraverseWrapper}
 import mpst.operational_semantic.MPSTSemanticWrapper.*
 
 object CaosConfigurator extends Configurator[Configuration]:
@@ -50,7 +50,7 @@ object CaosConfigurator extends Configurator[Configuration]:
       typ = Text),
 
     // @ telmo - async not properly working
-    "my spin on \"Choreo Semantics (without added dependencies for b-pomsets)\""
+    "my spin on \"Choreo Semantics \""
       -> steps(
       initialSt = (config:Configuration) =>
         val global -> _ = config
@@ -60,15 +60,28 @@ object CaosConfigurator extends Configurator[Configuration]:
       typ       = Text,
     ),
 
-    "Composed Local MSNet Semantics"
+    "Composed Local MSNet Semantics - lazy view"
       -> steps(
       initialSt = (config:Configuration) =>
         val global -> _ = config
-        val locals   = AsyncProjection.projectionWithAgent(global)
-        val localEnv = Environment.localEnv(global)
+        val locals      = AsyncProjection.projectionWithAgent(global)
+        val localEnv    = Environment.localEnv(global)
         (locals,Multiset(),localEnv),
       sos    = NetworkMultisetWrapper,
       viewSt = (loc:Set[(Agent,Local)],pen:Multiset[Action],env:Map[Agent,Map[Variable,Local]]) =>
+        loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
+      typ    = Text,
+    ),
+
+    "Composed Local Sync Semantics - lazy view"
+      -> steps(
+      initialSt = (config:Configuration) =>
+        val global -> _ = config
+        val locals      = SyncProjection.projectionWithAgent(global)
+        val localEnv    = Environment.localEnv(global)
+        locals -> localEnv,
+      sos    = SyncTraverseWrapper,
+      viewSt = (loc:Set[(Agent,Local)],env:LocalEnv) =>
         loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
       typ    = Text,
     ),
