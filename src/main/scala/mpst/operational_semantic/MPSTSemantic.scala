@@ -44,19 +44,21 @@ object MPSTSemantic:
       case Interaction(agentA,agentB,message,sort) => List(Send(agentA,agentB,message,sort) -> Receive(agentB,agentA,message,sort))
       case Send   (agentA,agentB,message,sort) => List(protocol -> Skip)
       case Receive(agentA,agentB,message,sort) => List(protocol -> Skip)
-      // @ telmo - RecursionCall(_) is quite hacky!
+      // @ telmo - check RecursionCall(_) for parallel and choice
       case RecursionCall(variable) =>
         val protocolB = environment(variable)
-        val nonRecursiveProtocolB = recursionFree(variable,protocolB)
-        for nextActionB -> nextProtocolB <- nextAuxiliary(nonRecursiveProtocolB) yield
-          nextActionB -> consumeAction(nextActionB,protocolB)
+        nextAuxiliary(protocolB)
+        // @ telmo - RecursionCall(_) is quite hacky!
+        //val nonRecursiveProtocolB = recursionFree(variable,protocolB)
+        //for nextActionB -> nextProtocolB <- nextAuxiliary(nonRecursiveProtocolB) yield
+        //nextActionB -> consumeAction(nextActionB,protocolB)
       case Skip => Nil
       case Sequence(protocolA,protocolB) =>
         val nextA = nextAuxiliary(protocolA)
-        val nextB = nextAuxiliary(protocolB)
+        // val nextB = nextAuxiliary(protocolB)
         val resultA = for nextActionA -> nextProtocolA <- nextA yield
           nextActionA -> StructuralCongruence(Sequence(nextProtocolA,protocolB))
-        val resultB = if accepting(protocolA) then nextB else Nil // @ telmo - introducing error here
+        val resultB = if accepting(protocolA) then nextAuxiliary(protocolB) else Nil // @ telmo - introducing error here
         resultA ++ resultB
       case Parallel(protocolA,protocolB) =>
         val nextA = nextAuxiliary(protocolA)
@@ -73,6 +75,12 @@ object MPSTSemantic:
       case RecursionFixedPoint(variable,protocolB) =>
         nextAuxiliary(protocolB)
   end nextAuxiliary
+
+  private def unfoldRecursion(protocol:Protocol)(using environment:Map[Variable,Protocol]):Protocol =
+    protocol match
+      case RecursionCall(variable) => environment(variable)
+      case _ => protocol
+  end unfoldRecursion
 
   private def recursionFree(recursionVariable:Variable,protocol:Protocol):Protocol =
     def recursionFreeAuxiliary(protocol:Protocol)(using recursionVariable:Variable):Protocol =

@@ -31,7 +31,7 @@ object Parser extends RegexParsers:
       case "asyncMS"       => Keyword.ComAsyncMS
       case "asyncCS"       => Keyword.ComAsyncCS
       case "interleaveOn"  => Keyword.InterleaveOn
-      case "interleave0ff" => Keyword.InterleaveOff
+      case "interleaveOff" => Keyword.InterleaveOff
       case "recK"          => Keyword.RecKleene
       case "recFP"         => Keyword.RecFixedPoint
       case "recOff"        => Keyword.RecOff

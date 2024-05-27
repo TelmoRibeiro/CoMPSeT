@@ -81,4 +81,17 @@ object Protocol:
       case Choice  (protocolA,protocolB) => getAgents(protocolA) ++ getAgents(protocolB)
       case RecursionFixedPoint(_,protocolB) => getAgents(protocolB)
   end getAgents
+
+  def hasParallel(protocol:Protocol):Boolean =
+    protocol match
+      case Interaction(_,_,_,_) => false
+      case Send   (_,_,_,_) => false
+      case Receive(_,_,_,_) => false
+      case RecursionCall(_) => false
+      case Skip => false
+      case Sequence(protocolA,protocolB) => hasParallel(protocolA) && hasParallel(protocolB)
+      case Parallel(protocolA,protocolB) => true
+      case Choice  (protocolA,protocolB) => hasParallel(protocolA) && hasParallel(protocolB)
+      case RecursionFixedPoint(_,protocolB) => hasParallel(protocolB)
+  end hasParallel
 end Protocol

@@ -16,6 +16,7 @@ import mpst.utilities.Multiset
 import mpst.wellformedness.*
 import mpst.operational_semantic.{MPSTSemanticWrapper, NetworkMultisetWrapper, SyncTraverseWrapper}
 import mpst.operational_semantic.MPSTSemanticWrapper.*
+import mpst.syntax.Keyword.{ComAsyncMS, ComSync, InterleaveOff, RecKleene}
 
 object CaosConfigurator extends Configurator[Configuration]:
   // var usedProjection = Void
@@ -32,6 +33,9 @@ object CaosConfigurator extends Configurator[Configuration]:
   override val examples:Seq[Example] = List(
     "MasterWorkers"
       -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
+
+    "SimpleRecursion"
+      -> "def X in (m>w:Task ; X)"
   )
 
   override val widgets:Seq[(String,WidgetInfo[Configuration])] = List(
@@ -63,9 +67,9 @@ object CaosConfigurator extends Configurator[Configuration]:
     "Composed Local MSNet Semantics - lazy view"
       -> steps(
       initialSt = (config:Configuration) =>
-        val global -> _ = config
-        val locals      = AsyncProjection.projectionWithAgent(global)
-        val localEnv    = Environment.localEnv(global)
+        val global -> configuration = config
+        val locals   = AsyncProjection.projectionWithAgent(global)
+        val localEnv = Environment.localEnv(global)
         (locals,Multiset(),localEnv),
       sos    = NetworkMultisetWrapper,
       viewSt = (loc:Set[(Agent,Local)],pen:Multiset[Action],env:Map[Agent,Map[Variable,Local]]) =>
@@ -76,7 +80,7 @@ object CaosConfigurator extends Configurator[Configuration]:
     "Composed Local Sync Semantics - lazy view"
       -> steps(
       initialSt = (config:Configuration) =>
-        val global -> _ = config
+        val global -> configuration = config
         val locals      = SyncProjection.projectionWithAgent(global)
         val localEnv    = Environment.localEnv(global)
         locals -> localEnv,
