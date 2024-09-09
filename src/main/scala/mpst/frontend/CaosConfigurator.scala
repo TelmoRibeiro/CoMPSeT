@@ -38,6 +38,12 @@ object CaosConfigurator extends Configurator[Configuration]:
       -> "def X in (m>w:Task ; X)"
   )
 
+  override val options:Seq[Option] = List(
+    "Communication Type" -> (AsyncMS,AsyncCS,Sync,Multicast),
+    "Interleaving"       -> (On,Off),
+    "Recursion"          -> (FPTailRec,KleeneClosue,Off),
+  )
+
   override val widgets:Seq[(String,WidgetInfo[Configuration])] = List(
     "parsed configuration"
       -> view(
@@ -118,6 +124,7 @@ object CaosConfigurator extends Configurator[Configuration]:
   end parseAllWrapper
 
   // @ telmo - expand this to better error handling
+  // @ telmo - "check" might be useful here
   private def wellFormedness(global:Global):String =
     if DependentlyGuarded(global) && WellBounded(global) && WellBranched(global) && WellChannelled(global) && WellCommunicated(global)
     then "WELL FORMED!"

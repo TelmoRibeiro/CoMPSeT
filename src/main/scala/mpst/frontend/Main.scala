@@ -5,7 +5,7 @@ import mpst.syntax.Type.*
 
 object Main:
   def main(args:Array[String]):Unit =
-    initSite[Configuration](CaosConfigurator)
+    ini tSite[Configuration](CaosConfigurator)
   end main
 end Main
 
