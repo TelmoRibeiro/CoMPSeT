@@ -8,8 +8,7 @@ import caos.sos.SOS
 import caos.sos.SOS.*
 import caos.view.*
 import mpst.projection.{AsyncProjection, SyncProjection}
-import mpst.syntax.Parser
-import mpst.syntax.Protocol
+import mpst.syntax.{Keyword, Parser, Protocol}
 import mpst.syntax.Type.*
 import mpst.utilities.Environment
 import mpst.utilities.Multiset
@@ -37,14 +36,26 @@ object CaosConfigurator extends Configurator[Configuration]:
     "SimpleRecursion"
       -> "def X in (m>w:Task ; X)"
   )
-
-  override val options:Seq[Option] = List(
+  
+  /*
+  override val options:Seq[(String,String)] = List(
     "Communication Type" -> (AsyncMS,AsyncCS,Sync,Multicast),
     "Interleaving"       -> (On,Off),
     "Recursion"          -> (FPTailRec,KleeneClosue,Off),
   )
+  */
 
   override val widgets:Seq[(String,WidgetInfo[Configuration])] = List(
+    "testing multi steps"
+      -> stepsWithConfig(
+      initialSt = (config:Configuration) =>
+        val global -> _ = config
+        global -> Environment.globalEnv(global),
+      SOSs = List(MPSTSemanticWrapper),
+      viewSt = (pro:Protocol,env:Map[Variable,Protocol]) => pro.toString,
+      typ = Text,
+    ),
+
     "parsed configuration"
       -> view(
       viewProg = (config:Configuration) =>

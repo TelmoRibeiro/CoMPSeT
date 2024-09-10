@@ -12,7 +12,7 @@ object TreeLike:
       case Sequence(globalA,globalB) =>
         globalA match
           case Choice(gA,gB) if globalB == Skip => isTreeLike(gA) && isTreeLike(gB)
-          case _ => isTreeLike(globalA,globalB)
+          case _ => isTreeLike(globalA) && isTreeLike(globalB)
       case Parallel(globalA,globalB) => isTreeLike(globalA) && isTreeLike(globalB)
       case Choice  (globalA,globalB) => isTreeLike(globalA) && isTreeLike(globalB)
       case RecursionFixedPoint(_,globalB) => isTreeLike(globalB)
