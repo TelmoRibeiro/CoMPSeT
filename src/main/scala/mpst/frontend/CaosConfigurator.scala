@@ -32,7 +32,7 @@ object CaosConfigurator extends Configurator[Configuration]:
   )
   */
 
-  override val setting: Setting[Configuration] = ???
+  override val setting: Setting[Configuration] = Setting(name = "test", children = List(), widgets = List(), render = false)
   
   override val examples:Seq[Example] = List(
     "MasterWorkers"
@@ -43,6 +43,13 @@ object CaosConfigurator extends Configurator[Configuration]:
   )
   
   override val widgets:Seq[(String,WidgetInfo[Configuration])] = List(
+    "test"
+      -> view(
+      viewProg = (config:Configuration) =>
+        testSetting().toString,
+      typ = Text,
+    ),
+
     "parsed configuration"
       -> view(
       viewProg = (config:Configuration) =>
