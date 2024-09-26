@@ -32,8 +32,21 @@ object CaosConfigurator extends Configurator[Configuration]:
   )
   */
 
-  override val setting: Setting[Configuration] = Setting(name = "test", children = List(), widgets = List(), render = false)
-  
+  //********** SETTING DEFINITION **********//
+  private val InterleavingChoice = Setting[Configuration](name = "On", render = true)
+  private val InterleavingOption = Setting[Configuration](name = "Interleaving", children = List(InterleavingChoice), render = true)
+
+  private val AsyncMSChoice = Setting[Configuration](name = "Async MS", render = true)
+  private val AsyncCSChoice = Setting[Configuration](name = "Async CS", render = true)
+  private val SyncChoice    = Setting[Configuration](name = "Sync", render = true)
+  private val CommModelOption = Setting[Configuration](name = "Interleaving", children = List(AsyncCSChoice, AsyncMSChoice, SyncChoice), render = true)
+
+  private val ConfigA = Setting[Configuration](name = "Config A", children = List(InterleavingOption, CommModelOption), render = true)
+  private val ConfigB = Setting[Configuration](name = "Config B", children = List(InterleavingOption, CommModelOption), render = true)
+
+  override val setting: Setting[Configuration] = Setting(name = "root", children = List(ConfigA, ConfigB), render = true)
+  //********** SETTING DEFINITION **********//
+
   override val examples:Seq[Example] = List(
     "MasterWorkers"
       -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
