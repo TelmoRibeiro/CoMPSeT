@@ -8,43 +8,34 @@ import caos.sos.SOS
 import caos.sos.SOS.*
 import caos.view.*
 import mpst.projection.{AsyncProjection, SyncProjection}
-import mpst.syntax.{Keyword, Parser, Protocol}
+import mpst.syntax.{Parser, Protocol}
 import mpst.syntax.Type.*
 import mpst.utilities.Environment
 import mpst.utilities.Multiset
 import mpst.wellformedness.*
 import mpst.operational_semantic.{MPSTSemanticWrapper, NetworkMultisetWrapper, SyncTraverseWrapper}
 import mpst.operational_semantic.MPSTSemanticWrapper.*
-import mpst.syntax.Keyword.{ComAsyncMS, ComSync, InterleaveOff, RecKleene}
 
-object CaosConfigurator extends Configurator[Configuration]:
+object CaosConfigurator extends Configurator[Global]:
   override val name:String = "CoMPSeT - Comparison of Multiparty Session Types"
 
-  override val languageName:String = "session"
+  override val languageName:String = "Session"
 
-  override val parser:String=>Configuration = parseAllWrapper
-
-  /*
-  override val options:Seq[(String,String)] = List(
-    "Communication Type" -> (AsyncMS,AsyncCS,Sync,Multicast),
-    "Interleaving"       -> (On,Off),
-    "Recursion"          -> (FPTailRec,KleeneClosue,Off),
-  )
-  */
+  override val parser:String=>Global = (input:String) => Parser(input)
 
   //********** SETTING DEFINITION **********//
-  private val InterleavingChoice = Setting[Configuration](name = "On", render = true)
-  private val InterleavingOption = Setting[Configuration](name = "Interleaving", children = List(InterleavingChoice), render = true)
+  private val InterleavingChoice = Setting[Global](name = "On", render = true)
+  private val InterleavingOption = Setting[Global](name = "Interleaving", children = List(InterleavingChoice), render = true)
 
-  private val AsyncMSChoice = Setting[Configuration](name = "Async MS", render = true)
-  private val AsyncCSChoice = Setting[Configuration](name = "Async CS", render = true)
-  private val SyncChoice    = Setting[Configuration](name = "Sync", render = true)
-  private val CommModelOption = Setting[Configuration](name = "Interleaving", children = List(AsyncCSChoice, AsyncMSChoice, SyncChoice), render = true)
+  private val AsyncMSChoice = Setting[Global](name = "Async MS", render = true)
+  private val AsyncCSChoice = Setting[Global](name = "Async CS", render = true)
+  private val SyncChoice    = Setting[Global](name = "Sync", render = true)
+  private val CommModelOption = Setting[Global](name = "Interleaving", children = List(AsyncCSChoice, AsyncMSChoice, SyncChoice), render = true)
 
-  private val ConfigA = Setting[Configuration](name = "Config A", children = List(InterleavingOption, CommModelOption), render = true)
-  private val ConfigB = Setting[Configuration](name = "Config B", children = List(InterleavingOption, CommModelOption), render = true)
+  private val ConfigA = Setting[Global](name = "Config A", children = List(InterleavingOption, CommModelOption), render = true)
+  private val ConfigB = Setting[Global](name = "Config B", children = List(InterleavingOption, CommModelOption), render = true)
 
-  override val setting: Setting[Configuration] = Setting(name = "root", children = List(ConfigA, ConfigB), render = true)
+  override val setting: Setting[Global] = Setting(name = "root", children = List(ConfigA, ConfigB), render = true)
   //********** SETTING DEFINITION **********//
 
   override val examples:Seq[Example] = List(
@@ -55,33 +46,30 @@ object CaosConfigurator extends Configurator[Configuration]:
       -> "def X in (m>w:Task ; X)"
   )
   
-  override val widgets:Seq[(String,WidgetInfo[Configuration])] = List(
+  override val widgets:Seq[(String,WidgetInfo[Global])] = List(
     "test"
       -> view(
-      viewProg = (config:Configuration) =>
+      viewProg = (global:Global) =>
         testSetting().toString,
       typ = Text,
     ),
 
-    "parsed configuration"
+    "parsed global"
       -> view(
-      viewProg = (config:Configuration) =>
-        val global -> keywords = config
-        s"parsed global: ${global.toString}\nparsed config: ${keywords.toString}",
+      viewProg = (global:Global) =>
+        s"parsed global: ${global.toString}",
       typ = Text),
 
-    "well formedness"
+    "well formedness" // there is a check() caos function I might want to explore
       -> view(
-      viewProg = (config:Configuration) =>
-        val global -> _ = config
+      viewProg = (global:Global) =>
         s"${wellFormedness(global)}",
       typ = Text),
 
     // @ telmo - async not properly working
     "my spin on \"Choreo Semantics \""
       -> steps(
-      initialSt = (config:Configuration) =>
-        val global -> _ = config
+      initialSt = (global:Global) =>
         global -> Environment.globalEnv(global),
       sos       = MPSTSemanticWrapper,
       viewSt    = (pro:Protocol,env:Map[Variable,Protocol]) => pro.toString,
@@ -90,42 +78,39 @@ object CaosConfigurator extends Configurator[Configuration]:
 
     "Composed Local MSNet Semantics - lazy view"
       -> steps(
-      initialSt = (config:Configuration) =>
-        val global -> configuration = config
+      initialSt = (global:Global) =>
         val locals   = AsyncProjection.projectionWithAgent(global)
         val localEnv = Environment.localEnv(global)
         (locals,Multiset(),localEnv),
-      sos    = NetworkMultisetWrapper,
+      sos = NetworkMultisetWrapper,
       viewSt = (loc:Set[(Agent,Local)],pen:Multiset[Action],env:Map[Agent,Map[Variable,Local]]) =>
         loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
-      typ    = Text,
+      typ = Text,
     ),
 
     "Composed Local Sync Semantics - lazy view"
       -> steps(
-      initialSt = (config:Configuration) =>
-        val global -> configuration = config
-        val locals      = SyncProjection.projectionWithAgent(global)
-        val localEnv    = Environment.localEnv(global)
+      initialSt = (global:Global) =>
+        val locals   = SyncProjection.projectionWithAgent(global)
+        val localEnv = Environment.localEnv(global)
         locals -> localEnv,
-      sos    = SyncTraverseWrapper,
+      sos = SyncTraverseWrapper,
       viewSt = (loc:Set[(Agent,Local)],env:LocalEnv) =>
         loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
-      typ    = Text,
+      typ = Text,
     ),
 
     "Global LTS - with lazy environment"
       -> lts(
-      initialSt = (config:Configuration) =>
-        val global -> _ = config
+      initialSt = (global:Global) =>
         global -> Environment.globalEnv(global),
-      sos       = MPSTSemanticWrapper,
-      viewSt    = (global:Global,environment:Map[Variable,Global]) => environment.toString,
+      sos = MPSTSemanticWrapper,
+      viewSt = (global:Global,environment:Map[Variable,Global]) => environment.toString,
     ),
 
     "Local LTS - with lazy environment"
-     -> viewMerms((config:Configuration) =>
-      val result = for agent -> local <- AsyncProjection.projectionWithAgent(config._1) yield
+     -> viewMerms((global:Global) =>
+      val result = for agent -> local <- AsyncProjection.projectionWithAgent(global) yield
         agent -> caos.sos.SOS.toMermaid(
           sos      = MPSTSemanticWrapper,
           s        = local -> Environment.singleLocalEnv(local),
@@ -136,10 +121,6 @@ object CaosConfigurator extends Configurator[Configuration]:
       result.toList
       )
   )
-
-  private def parseAllWrapper(input:String):Configuration =
-    Parser.parseConfiguration(input)
-  end parseAllWrapper
 
   // @ telmo - expand this to better error handling
   // @ telmo - "check" might be useful here

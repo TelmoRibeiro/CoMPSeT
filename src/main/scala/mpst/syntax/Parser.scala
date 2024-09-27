@@ -9,7 +9,7 @@ import scala.util.parsing.combinator.RegexParsers
 /* IDEA:
     just parse the input structure...
 
-  @ telmo -
+  @ telmo - NOT REVIEWED
     identifier not caring about upper or lower case
 */
 
@@ -19,27 +19,9 @@ object Parser extends RegexParsers:
 
   private def identifier: Parser[String] = """[a-zA-Z0-9_]+""".r
 
-  private def configuration: Parser[(Global,Set[Keyword])] =
-    definition ~ opt("[" ~> repsep(keyword,",") <~ "]") ^^ {
-      case globalType ~ configuration => (globalType,configuration.map(_.toSet).getOrElse(Set()))
-    }
-  end configuration
-
-  private def keyword:Parser[Keyword] =
-    identifier ^^ {
-      case "sync"          => Keyword.ComSync
-      case "asyncMS"       => Keyword.ComAsyncMS
-      case "asyncCS"       => Keyword.ComAsyncCS
-      case "interleaveOn"  => Keyword.InterleaveOn
-      case "interleaveOff" => Keyword.InterleaveOff
-      case "recK"          => Keyword.RecKleene
-      case "recFP"         => Keyword.RecFixedPoint
-      case "recOff"        => Keyword.RecOff
-    }
-
-  private def definition:Parser[Global] =
+  private def session:Parser[Global] =
     opt(globalType) ^^ (globalTypeSyntax => globalTypeSyntax.getOrElse(Protocol.Skip))
-  end definition
+  end session
 
   private def globalType:Parser[Global] =
     maybeParallel ~ opt(choice) ^^ {
@@ -112,14 +94,8 @@ object Parser extends RegexParsers:
 
   private def skip:Parser[Global] = "skip" ^^^ Protocol.Skip
 
-  def parseConfiguration(input:String):(Global,Set[Keyword]) =
-    parseAll(configuration, input) match
-      case Success(result,_) => result
-      case failure:NoSuccess => throw new RuntimeException(s"parsing failed with msg=[${failure.msg}] and next=[${failure.next}]\n")
-  end parseConfiguration
-
   def apply(input:String):Global =
-    parseAll(definition,input) match
+    parseAll(session,input) match
       case Success(global,_) => global
       case failure:NoSuccess => throw new RuntimeException(s"parsing failed with msg=[${failure.msg}] and next=[${failure.next}]\n")
   end apply

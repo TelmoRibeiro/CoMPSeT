@@ -1,11 +1,12 @@
 package mpst.frontend
 
 import caos.frontend.Site.initSite
-import mpst.syntax.Type.*
+import mpst.syntax.Type.Global
 
+// @ telmo - REVIEWED //
 object Main:
   def main(args:Array[String]):Unit =
-    initSite[Configuration](CaosConfigurator)
+    initSite[Global](CaosConfigurator)
   end main
 end Main
 

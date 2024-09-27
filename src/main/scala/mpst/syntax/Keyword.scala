@@ -7,6 +7,7 @@ package mpst.syntax
     this follows an hacky first solution described by prof. José Proença
 */
 
+@deprecated
 enum Keyword:
   override def toString:String =
     this match
