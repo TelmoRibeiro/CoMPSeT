@@ -27,15 +27,25 @@ object CaosConfigurator extends Configurator[Global]:
   private val InterleavingChoice = Setting[Global](name = "On", render = true)
   private val InterleavingOption = Setting[Global](name = "Interleaving", children = List(InterleavingChoice), render = true)
 
-  private val AsyncMSChoice = Setting[Global](name = "Async MS", render = true)
+  private val AsyncMSWidget = steps(
+    initialSt = (global:Global) =>
+      val locals   = AsyncProjection.projectionWithAgent(global)
+      val localEnv = Environment.localEnv(global)
+      (locals,Multiset(),localEnv),
+    sos = NetworkMultisetWrapper,
+    viewSt = (loc:Set[(Agent,Local)],pen:Multiset[Action],env:Map[Agent,Map[Variable,Local]]) =>
+      loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
+    typ = Text,
+  )
+
+  private val AsyncMSChoice = Setting[Global](name = "Async MS", widgets = List(AsyncMSWidget), render = true)
   private val AsyncCSChoice = Setting[Global](name = "Async CS", render = true)
   private val SyncChoice    = Setting[Global](name = "Sync", render = true)
-  private val CommModelOption = Setting[Global](name = "Interleaving", children = List(AsyncCSChoice, AsyncMSChoice, SyncChoice), render = true)
+  private val CommModelOption = Setting[Global](name = "Comm Model", children = List(AsyncCSChoice, AsyncMSChoice, SyncChoice), render = true)
 
   private val ConfigA = Setting[Global](name = "Config A", children = List(InterleavingOption, CommModelOption), render = true)
-  private val ConfigB = Setting[Global](name = "Config B", children = List(InterleavingOption, CommModelOption), render = true)
 
-  override val setting: Setting[Global] = Setting(name = "root", children = List(ConfigA, ConfigB), render = true)
+  override val setting: Setting[Global] = Setting(name = "Settings", children = List(ConfigA,ConfigA.deepCopy(copyName = "Config B")), render = true)
   //********** SETTING DEFINITION **********//
 
   override val examples:Seq[Example] = List(
@@ -47,13 +57,6 @@ object CaosConfigurator extends Configurator[Global]:
   )
   
   override val widgets:Seq[(String,WidgetInfo[Global])] = List(
-    "test"
-      -> view(
-      viewProg = (global:Global) =>
-        testSetting().toString,
-      typ = Text,
-    ),
-
     "parsed global"
       -> view(
       viewProg = (global:Global) =>
@@ -129,39 +132,38 @@ object CaosConfigurator extends Configurator[Global]:
     then "WELL FORMED!"
     else "NOT WELL FORMED!"
   end wellFormedness
-
-  /* BRAINSTORM:
-    -- BOTTOM UP DESIGN --
-      choice A = (choiceName, widgetsList, render) =>
-        a tuple associating a name, the widgets necessary to implement said choice, and a boolean stating if it should be rendered
-        ex: asyncMSChoice = ("Async - MultiSet", List(steps(...)), true)
-
-      option A = (optionName, choiceList, render) =>
-        a tuple associating a name, the choices available for said option, and a boolean stating if it should be rendered
-        ex: communicationOption = ("Communication Model", List(asyncMSChoice, asyncCSChoice, syncChoice), true)
-
-      config A = (configName, optionList, render) =>
-        a tuple associating a name, the options available for said config, and a boolean stating if it should be rendered
-        ex: config1 = ("Config A", List(communicationOption, InterleavingOption, ...), true)
-
-      setting A = List(config) =>
-        a list (tuple if binary) of configurations
-        we can override it within the CaosConfigurator
-        caos builds the UI knowing this structure
-        the "render" arguments reflects on checkboxes the final user can enable or not (similar to the already present collapse system)
-          essentially collapsing large sections to eliminate visual pollution
-        there would be a "reload" option the final user could press after checking/unchecking boxes
-
-        PROBLEMS:
-          - is this to much?
-            although it reflects almost 1:1 the visual structure as seen by the final user
-              there are many categories: setting, config, options, choices, widgets
-            the render choice will allow to prune entire sections when parsing the structure
-            but the person implementing this structure in his caos configurator will need to write a lot...
-              defining widgets, to define choices, to define options, to define configs, to alas define a setting that the caos will deal with
-          - are there any problems that I am not foreseeing with implementing this on caos?
-          - I am using lists of stuff for the "sake" of simplicity, the possibility of this being implemented in something
-            like a tree is not lost on me, but then what about the different "tiers"
-  */
 end CaosConfigurator
 
+/* BRAINSTORM:
+  -- BOTTOM UP DESIGN --
+    choice A = (choiceName, widgetsList, render) =>
+      a tuple associating a name, the widgets necessary to implement said choice, and a boolean stating if it should be rendered
+      ex: asyncMSChoice = ("Async - MultiSet", List(steps(...)), true)
+
+    option A = (optionName, choiceList, render) =>
+      a tuple associating a name, the choices available for said option, and a boolean stating if it should be rendered
+      ex: communicationOption = ("Communication Model", List(asyncMSChoice, asyncCSChoice, syncChoice), true)
+
+    config A = (configName, optionList, render) =>
+      a tuple associating a name, the options available for said config, and a boolean stating if it should be rendered
+      ex: config1 = ("Config A", List(communicationOption, InterleavingOption, ...), true)
+
+    setting A = List(config) =>
+      a list (tuple if binary) of configurations
+      we can override it within the CaosConfigurator
+      caos builds the UI knowing this structure
+      the "render" arguments reflects on checkboxes the final user can enable or not (similar to the already present collapse system)
+        essentially collapsing large sections to eliminate visual pollution
+      there would be a "reload" option the final user could press after checking/unchecking boxes
+
+      PROBLEMS:
+        - is this to much?
+          although it reflects almost 1:1 the visual structure as seen by the final user
+            there are many categories: setting, config, options, choices, widgets
+          the render choice will allow to prune entire sections when parsing the structure
+          but the person implementing this structure in his caos configurator will need to write a lot...
+            defining widgets, to define choices, to define options, to define configs, to alas define a setting that the caos will deal with
+        - are there any problems that I am not foreseeing with implementing this on caos?
+        - I am using lists of stuff for the "sake" of simplicity, the possibility of this being implemented in something
+          like a tree is not lost on me, but then what about the different "tiers"
+*/

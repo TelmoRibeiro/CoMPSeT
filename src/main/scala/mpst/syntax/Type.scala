@@ -2,7 +2,7 @@ package mpst.syntax
 
 import mpst.utilities.Multiset
 
-/* IDEA:
+/* IDEA: NOT REVIEWED
     types used throughout the code
     having all types here is not an elegant solution but Protocol.scala does not handle it well
 
