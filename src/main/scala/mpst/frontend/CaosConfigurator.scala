@@ -27,7 +27,9 @@ object CaosConfigurator extends Configurator[Global]:
   private val InterleavingChoice = Setting[Global](name = "On", render = true)
   private val InterleavingOption = Setting[Global](name = "Interleaving", children = List(InterleavingChoice), render = true)
 
-  private val AsyncMSWidget = steps(
+  private val AsyncMSWidget =
+    "Composed Local MSNet Semantics"
+    -> steps(
     initialSt = (global:Global) =>
       val locals   = AsyncProjection.projectionWithAgent(global)
       val localEnv = Environment.localEnv(global)
