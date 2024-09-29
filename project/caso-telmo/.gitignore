@@ -1,0 +1,10 @@
+.DS_Store
+
+.idea 
+.bsp
+
+/project/target 
+/project/project/
+/target
+/tool/js/gen/*.js
+/tool/js/gen/*.map
