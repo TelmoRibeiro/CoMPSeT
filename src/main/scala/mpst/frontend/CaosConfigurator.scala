@@ -47,6 +47,8 @@ object CaosConfigurator extends Configurator[Global]:
 
   private val ConfigA = Setting[Global](name = "Config A", children = List(InterleavingOption, CommModelOption), render = true)
 
+  // @ telmo - new instances instead of deepCopy
+
   override val setting: Setting[Global] = Setting(name = "Settings", children = List(ConfigA,ConfigA.deepCopy(copyName = "Config B")), render = true)
   //********** SETTING DEFINITION **********//
 
