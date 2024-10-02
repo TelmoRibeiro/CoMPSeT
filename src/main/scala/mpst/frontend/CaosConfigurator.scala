@@ -37,21 +37,25 @@ object CaosConfigurator extends Configurator[Global]:
       typ = Text,
     )
 
+  private val AsyncMSOption = Option(Map("Async MS" -> true), List(AsyncMSWidget))
+
+  override val options: List[Option[Global]] = List(AsyncMSOption)
+
   private def mkInterleavingOption = {
-    Setting[Global](name = "Interleaving", render = true)
+    Setting(name = "Interleaving", render = true)
   }
 
   private def mkCommModelOption = {
-    val asyncMSChoice = Setting[Global](name = "Async MS", widgets = List(AsyncMSWidget), render = true)
-    val asyncCSChoice = Setting[Global](name = "Async CS", render = true)
-    val syncChoice    = Setting[Global](name = "Sync",     render = true)
-    Setting[Global](name = "Comm Model", children = List(asyncMSChoice, asyncCSChoice, syncChoice), render = true)
+    val asyncMSChoice = Setting(name = "Async MS", render = true)
+    val asyncCSChoice = Setting(name = "Async CS", render = true)
+    val syncChoice    = Setting(name = "Sync",     render = true)
+    Setting(name = "Comm Model", children = List(asyncMSChoice, asyncCSChoice, syncChoice), render = true)
   }
 
-  private val ConfigA = Setting[Global](name = "Config A", children = List(mkInterleavingOption, mkCommModelOption), render = true)
-  private val ConfigB = Setting[Global](name = "Config B", children = List(mkInterleavingOption, mkCommModelOption), render = true)
+  private val ConfigA = Setting(name = "Config A", children = List(mkInterleavingOption, mkCommModelOption), render = true)
+  private val ConfigB = Setting(name = "Config B", children = List(mkInterleavingOption, mkCommModelOption), render = true)
 
-  override val setting: Setting[Global] = Setting(name = "Settings", children = List(ConfigA, ConfigB), render = true)
+  override val setting: Setting = Setting(name = "Settings", children = List(ConfigA, ConfigB), render = true)
   //********** SETTING DEFINITION **********//
 
   override val examples:Seq[Example] = List(
