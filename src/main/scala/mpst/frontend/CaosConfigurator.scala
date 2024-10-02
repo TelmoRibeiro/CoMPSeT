@@ -24,32 +24,34 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser:String=>Global = (input:String) => Parser(input)
 
   //********** SETTING DEFINITION **********//
-  private val InterleavingChoice = Setting[Global](name = "On", render = true)
-  private val InterleavingOption = Setting[Global](name = "Interleaving", children = List(InterleavingChoice), render = true)
-
   private val AsyncMSWidget =
     "Composed Local MSNet Semantics"
-    -> steps(
-    initialSt = (global:Global) =>
-      val locals   = AsyncProjection.projectionWithAgent(global)
-      val localEnv = Environment.localEnv(global)
-      (locals,Multiset(),localEnv),
-    sos = NetworkMultisetWrapper,
-    viewSt = (loc:Set[(Agent,Local)],pen:Multiset[Action],env:Map[Agent,Map[Variable,Local]]) =>
-      loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
-    typ = Text,
-  )
+      -> steps(
+      initialSt = (global: Global) =>
+        val locals = AsyncProjection.projectionWithAgent(global)
+        val localEnv = Environment.localEnv(global)
+        (locals, Multiset(), localEnv),
+      sos = NetworkMultisetWrapper,
+      viewSt = (loc: Set[(Agent, Local)], pen: Multiset[Action], env: Map[Agent, Map[Variable, Local]]) =>
+        loc.map { case (agent, local) => s"$agent: $local" }.mkString("\n"),
+      typ = Text,
+    )
 
-  private val AsyncMSChoice = Setting[Global](name = "Async MS", widgets = List(AsyncMSWidget), render = true)
-  private val AsyncCSChoice = Setting[Global](name = "Async CS", render = true)
-  private val SyncChoice    = Setting[Global](name = "Sync", render = true)
-  private val CommModelOption = Setting[Global](name = "Comm Model", children = List(AsyncCSChoice, AsyncMSChoice, SyncChoice), render = true)
+  private def mkInterleavingOption = {
+    Setting[Global](name = "Interleaving", render = true)
+  }
 
-  private val ConfigA = Setting[Global](name = "Config A", children = List(InterleavingOption, CommModelOption), render = true)
+  private def mkCommModelOption = {
+    val asyncMSChoice = Setting[Global](name = "Async MS", widgets = List(AsyncMSWidget), render = true)
+    val asyncCSChoice = Setting[Global](name = "Async CS", render = true)
+    val syncChoice    = Setting[Global](name = "Sync",     render = true)
+    Setting[Global](name = "Comm Model", children = List(asyncMSChoice, asyncCSChoice, syncChoice), render = true)
+  }
 
-  // @ telmo - new instances instead of deepCopy
+  private val ConfigA = Setting[Global](name = "Config A", children = List(mkInterleavingOption, mkCommModelOption), render = true)
+  private val ConfigB = Setting[Global](name = "Config B", children = List(mkInterleavingOption, mkCommModelOption), render = true)
 
-  override val setting: Setting[Global] = Setting(name = "Settings", children = List(ConfigA,ConfigA.deepCopy(copyName = "Config B")), render = true)
+  override val setting: Setting[Global] = Setting(name = "Settings", children = List(ConfigA, ConfigB), render = true)
   //********** SETTING DEFINITION **********//
 
   override val examples:Seq[Example] = List(
