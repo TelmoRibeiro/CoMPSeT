@@ -25,8 +25,7 @@ object CaosConfigurator extends Configurator[Global]:
 
   //********** SETTING DEFINITION **********//
   private val AsyncMSWidget =
-    "Composed Local MSNet Semantics"
-      -> steps(
+    steps(
       initialSt = (global: Global) =>
         val locals = AsyncProjection.projectionWithAgent(global)
         val localEnv = Environment.localEnv(global)
@@ -37,9 +36,10 @@ object CaosConfigurator extends Configurator[Global]:
       typ = Text,
     )
 
-  private val AsyncMSOption = Option(Map("Async MS" -> true), List(AsyncMSWidget))
+  private val AsyncMSOptionA = Option(Map("Settings.Config A.Comm Model.Async MS" -> true), List("Async MS A" -> AsyncMSWidget))
+  private val AsyncMSOptionB = Option(Map("Settings.Config B.Comm Model.Async MS" -> true), List("Async MS B" -> AsyncMSWidget))
 
-  override val options: List[Option[Global]] = List(AsyncMSOption)
+  override val options: List[Option[Global]] = List(AsyncMSOptionA,AsyncMSOptionB)
 
   private def mkInterleavingOption = {
     Setting(name = "Interleaving", render = true)
