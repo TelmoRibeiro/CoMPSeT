@@ -23,24 +23,7 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val parser:String=>Global = (input:String) => Parser(input)
 
-  //********** SETTING DEFINITION **********//
-  private val AsyncMSWidget =
-    steps(
-      initialSt = (global: Global) =>
-        val locals = AsyncProjection.projectionWithAgent(global)
-        val localEnv = Environment.localEnv(global)
-        (locals, Multiset(), localEnv),
-      sos = NetworkMultisetWrapper,
-      viewSt = (loc: Set[(Agent, Local)], pen: Multiset[Action], env: Map[Agent, Map[Variable, Local]]) =>
-        loc.map { case (agent, local) => s"$agent: $local" }.mkString("\n"),
-      typ = Text,
-    )
-
-  private val AsyncMSOptionA = Option(Map("Settings.Config A.Comm Model.Async MS" -> true), List("Async MS A" -> AsyncMSWidget))
-  private val AsyncMSOptionB = Option(Map("Settings.Config B.Comm Model.Async MS" -> true), List("Async MS B" -> AsyncMSWidget))
-
-  override val options: List[Option[Global]] = List(AsyncMSOptionA,AsyncMSOptionB)
-
+  //********** SETTINGS DEFINITION **********//
   private def mkInterleavingOption = {
     Setting(name = "Interleaving", render = true)
   }
@@ -56,7 +39,26 @@ object CaosConfigurator extends Configurator[Global]:
   private val ConfigB = Setting(name = "Config B", children = List(mkInterleavingOption, mkCommModelOption), render = true)
 
   override val setting: Setting = Setting(name = "Settings", children = List(ConfigA, ConfigB), render = true)
-  //********** SETTING DEFINITION **********//
+  //********** SETTINGS DEFINITION **********//
+
+  //********** OPTIONS DEFINITION **********//
+  private val AsyncMSWidget =
+    steps(
+      initialSt = (global: Global) =>
+        val locals = AsyncProjection.projectionWithAgent(global)
+        val localEnv = Environment.localEnv(global)
+        (locals, Multiset(), localEnv),
+      sos = NetworkMultisetWrapper,
+      viewSt = (loc: Set[(Agent, Local)], pen: Multiset[Action], env: Map[Agent, Map[Variable, Local]]) =>
+        loc.map { case (agent, local) => s"$agent: $local" }.mkString("\n"),
+      typ = Text,
+    )
+
+  private val AsyncMSOptionA = Option(Map("Settings.Config A.Comm Model.Async MS" -> true), List("Async MS A" -> AsyncMSWidget))
+  private val AsyncMSOptionB = Option(Map("Settings.Config B.Comm Model.Async MS" -> true), List("Async MS B" -> AsyncMSWidget))
+
+  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB)
+  //********** OPTIONS DEFINITION **********//
 
   override val examples:Seq[Example] = List(
     "MasterWorkers"
