@@ -1,13 +1,16 @@
 package mpst.syntax
 
-import mpst.syntax.Type.{Agent,Message,Sort,Variable}
+import mpst.syntax.Type.{Agent, Message, Sort, Variable}
 
-/* IDEA:
-    the basics...
-
-  @ telmo -
-    should Interaction(_,_,_,_) be considered an action as well?
-    toString is hiding sort
+/* @ telmo
+  IDEA:
+    => session's representation
+  ISSUES:
+    => should Interaction(_,_,_,_) be considered an action as well?
+    => toString is hiding sort
+    => agentA shall turn to sender, agentB to receiver, message to label
+  REVIEWED:
+    => NEGATIVE
 */
 
 enum Protocol:
