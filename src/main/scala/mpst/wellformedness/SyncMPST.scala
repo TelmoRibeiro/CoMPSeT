@@ -11,8 +11,8 @@ object SyncMPST:
       case Skip => true
       case Sequence(globalA,globalB) => isSyncMPST(globalA) && isSyncMPST(globalB)
       case Parallel(globalA,globalB) =>
-        val agentsA = getAgents(globalA)
-        val agentsB = getAgents(globalB)
+        val agentsA = getParticipants(globalA)
+        val agentsB = getParticipants(globalB)
         agentsA.intersect(agentsB).isEmpty
       case Choice(globalA,globalB) => isSyncMPST(globalA) && isSyncMPST(globalB)
       case RecursionFixedPoint(_,globalB) => isSyncMPST(globalB)

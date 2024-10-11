@@ -13,8 +13,8 @@ import mpst.utilities.StructuralCongruence
 */
 
 object AsyncProjection:
-  def projectionWithAgent(global:Global):Set[(Agent,Local)] =
-    val agents = getAgents(global)
+  def projectionWithAgent(global:Global):Set[(Participant,Local)] =
+    val agents = getParticipants(global)
     for agent <- agents yield
       val maybeLocal = getProjection(global)(using agent)
       maybeLocal match
@@ -23,7 +23,7 @@ object AsyncProjection:
   end projectionWithAgent
 
   def projection(global:Global):Set[Local] =
-    val agents = getAgents(global)
+    val agents = getParticipants(global)
     for agent <- agents yield
       val maybeLocal = getProjection(global)(using agent)
       maybeLocal match
@@ -31,7 +31,7 @@ object AsyncProjection:
         case None        => throw new RuntimeException(s"projection undefined for agent [$agent] in [$global]\n")
   end projection
 
-  private def getProjection(global:Protocol)(using agent:Agent):Option[Protocol] =
+  private def getProjection(global:Protocol)(using agent:Participant):Option[Protocol] =
     global match
       case Interaction(agentA,agentB,message,sort) =>
         if agent == agentA && agent != agentB then

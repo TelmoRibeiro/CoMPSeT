@@ -62,7 +62,7 @@ object WellBranched:
     true
   end checkWellBranched
 
-  private def receivingActions(global:Global,sendingActions:Set[(Agent,Message)])(using environment:Map[Variable,Global]):Set[(Agent,Message)] =
+  private def receivingActions(global:Global,sendingActions:Set[(Participant, Label)])(using environment:Map[Variable,Global]):Set[(Participant, Label)] =
     for agent -> local <- projectionWithAgent(global)
         case Receive(agent,selector,message,_) -> _ <- MPSTSemantic.next(local) if sendingActions contains agent -> message
     yield agent -> message

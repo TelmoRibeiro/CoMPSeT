@@ -27,7 +27,7 @@ object DependentlyGuarded:
       case Parallel(globalA,globalB) => isDependentlyGuarded(globalA) && isDependentlyGuarded(globalB)
       case Choice  (globalA,globalB) => isDependentlyGuarded(globalA) && isDependentlyGuarded(globalB)
       case RecursionFixedPoint(_,globalB) =>
-        val agents = getAgents(globalB)
+        val agents = getParticipants(globalB)
         for agent <- agents yield
           val maybeGlobal = checkDependentlyGuarded(globalB,agent)
           maybeGlobal match
@@ -37,7 +37,7 @@ object DependentlyGuarded:
       case local => throw new RuntimeException(s"unexpected local type found in [$local]\n")
   end isDependentlyGuarded
 
-  private def checkDependentlyGuarded(global:Global,agent:Agent):Option[Global] =
+  private def checkDependentlyGuarded(global:Global,agent:Participant):Option[Global] =
     global match
       case Interaction(agentA,agentB,_, _) =>
         if agent == agentA || agent == agentB

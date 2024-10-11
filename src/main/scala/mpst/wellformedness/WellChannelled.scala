@@ -36,7 +36,7 @@ object WellChannelled:
       case local => throw new RuntimeException(s"unexpected local type found in [$local]\n")
   end isWellChannelled
 
-  private def channels(branch:Global):Set[(Agent,Agent)] =
+  private def channels(branch:Global):Set[(Participant,Participant)] =
     branch match
       case Interaction(agentA,agentB,_,_) => Set() + (agentA -> agentB)
       case RecursionCall(_) => Set()

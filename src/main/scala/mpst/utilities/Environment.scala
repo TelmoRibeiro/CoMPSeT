@@ -19,7 +19,7 @@ object Environment:
     protocolEnv(global)(using Map())
   end globalEnv
 
-  def localEnv(global:Global):Map[Agent,Map[Variable,Local]] =
+  def localEnv(global:Global):Map[Participant,Map[Variable,Local]] =
     if !isGlobal(global) then throw new RuntimeException(s"unexpected local type found in [$global]\n")
     val localSet = for agent -> local <- AsyncProjection.projectionWithAgent(global) yield
       agent -> protocolEnv(local)(using Map())

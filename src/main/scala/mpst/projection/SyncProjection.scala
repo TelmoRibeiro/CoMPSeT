@@ -15,8 +15,8 @@ import mpst.utilities.StructuralCongruence
 */
 
 object SyncProjection:
-  def projectionWithAgent(global:Global):Set[(Agent,Local)] =
-    val agents = getAgents(global)
+  def projectionWithAgent(global:Global):Set[(Participant,Local)] =
+    val agents = getParticipants(global)
     for agent <- agents yield
       val maybeLocal = getProjection(global)(using agent)
       maybeLocal match
@@ -25,7 +25,7 @@ object SyncProjection:
   end projectionWithAgent
 
   def projection(global:Protocol):Set[Protocol] =
-    val agents = getAgents(global)
+    val agents = getParticipants(global)
     for agent <- agents yield
       val maybeLocal = getProjection(global)(using agent)
       maybeLocal match
@@ -33,7 +33,7 @@ object SyncProjection:
         case None        => throw new RuntimeException(s"projection undefined for agent [$agent] in [$global]\n")
   end projection
 
-  private def getProjection(global:Global)(using agent:Agent):Option[Local] =
+  private def getProjection(global:Global)(using agent:Participant):Option[Local] =
     global match
       // @ telmo - if conditions assert well-communication property
       // @ telmo - team automata
@@ -58,8 +58,8 @@ object SyncProjection:
           case Some(localA) -> Some(localB) => Some(Sequence(localA,localB))
           case _ -> _                       => throw new RuntimeException(s"projection undefined for [$agent] in [$global]\n")
       case Parallel(globalA,globalB) =>
-        val agentsA = getAgents(globalA)
-        val agentsB = getAgents(globalB)
+        val agentsA = getParticipants(globalA)
+        val agentsB = getParticipants(globalB)
         if (agentsA contains agent) && !(agentsB contains agent) then
           val maybeLocalA = getProjection(globalA)
           return maybeLocalA
@@ -78,7 +78,7 @@ object SyncProjection:
           case Some(localA) -> Some(localB) => Some(Choice(localA,localB))
           case _ -> _                       => throw new RuntimeException(s"projection undefined for [$agent] in [$global]\n")
       case RecursionFixedPoint(variable,globalB) =>
-        val agentsB = getAgents(globalB)
+        val agentsB = getParticipants(globalB)
         if agentsB contains agent then
           val maybeLocalB = getProjection(globalB)
           maybeLocalB match

@@ -49,7 +49,7 @@ object CaosConfigurator extends Configurator[Global]:
         val localEnv = Environment.localEnv(global)
         (locals, Multiset(), localEnv),
       sos = NetworkMultisetWrapper,
-      viewSt = (loc: Set[(Agent, Local)], pen: Multiset[Action], env: Map[Agent, Map[Variable, Local]]) =>
+      viewSt = (loc: Set[(Participant, Local)], pen: Multiset[Action], env: Map[Participant, Map[Variable, Local]]) =>
         loc.map { case (agent, local) => s"$agent: $local" }.mkString("\n"),
       typ = Text,
     )
@@ -98,7 +98,7 @@ object CaosConfigurator extends Configurator[Global]:
         val localEnv = Environment.localEnv(global)
         (locals,Multiset(),localEnv),
       sos = NetworkMultisetWrapper,
-      viewSt = (loc:Set[(Agent,Local)],pen:Multiset[Action],env:Map[Agent,Map[Variable,Local]]) =>
+      viewSt = (loc:Set[(Participant,Local)], pen:Multiset[Action], env:Map[Participant,Map[Variable,Local]]) =>
         loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
       typ = Text,
     ),
@@ -110,7 +110,7 @@ object CaosConfigurator extends Configurator[Global]:
         val localEnv = Environment.localEnv(global)
         locals -> localEnv,
       sos = SyncTraverseWrapper,
-      viewSt = (loc:Set[(Agent,Local)],env:LocalEnv) =>
+      viewSt = (loc:Set[(Participant,Local)], env:LocalEnv) =>
         loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
       typ = Text,
     ),

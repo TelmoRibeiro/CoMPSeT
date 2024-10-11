@@ -13,25 +13,25 @@ import mpst.syntax.Type.*
 */
 
 object SyncTraverse:
-  def accepting(locals:Set[(Agent,Local)]):Boolean =
+  def accepting(locals:Set[(Participant,Local)]):Boolean =
     for local <- locals yield
       if !MPSTSemantic.accepting(local._2) then return false
     true
   end accepting
 
-  def next[A>:Action](locals:Set[(Agent,Local)])(using localEnv:LocalEnv):(A,Set[(Agent,Local)]) =
+  def next[A>:Action](locals:Set[(Participant,Local)])(using localEnv:LocalEnv):(A,Set[(Participant,Local)]) =
     nextAuxiliary(locals)(using localEnv)
   end next
 
-  private def nextAuxiliary[A>:Action](locals:Set[(Agent,Local)])(using localEnv:LocalEnv):(A,Set[(Agent,Local)]) =
+  private def nextAuxiliary[A>:Action](locals:Set[(Participant,Local)])(using localEnv:LocalEnv):(A,Set[(Participant,Local)]) =
     val (sendNextAction,sendLocal,sendNextLocal) = getSend(locals)
     val (recvNextAction,recvLocal,recvNextLocal) = getRecv(locals,sendNextAction)
     val nextLocals = locals - sendLocal - recvLocal + sendNextLocal + recvNextLocal
     sendNextAction -> nextLocals
   end nextAuxiliary
 
-  private def getSend(locals:Set[(Agent,Local)])(using localEnv:Map[Agent,Map[Variable,Local]]):(Action,(Agent,Local),(Agent,Local)) =
-    def canSend(action:Action,locals:Set[(Agent,Local)]):Boolean =
+  private def getSend(locals:Set[(Participant,Local)])(using localEnv:Map[Participant,Map[Variable,Local]]):(Action,(Participant,Local),(Participant,Local)) =
+    def canSend(action:Action,locals:Set[(Participant,Local)]):Boolean =
       if !isAction(action) then throw new RuntimeException(s"unexpected protocol found in [$action]\n")
       action match
         // @ telmo - that means we are in a situation of the type: a!b:m<s>;G1 | b?a:m<s>;G2
@@ -51,7 +51,7 @@ object SyncTraverse:
     flattenNext.head
   end getSend
 
-  private def getRecv(locals:Set[(Agent,Local)],send:Action)(using localEnv:Map[Agent,Map[Variable,Local]]):(Action,(Agent,Local),(Agent,Local)) =
+  private def getRecv(locals:Set[(Participant,Local)], send:Action)(using localEnv:Map[Participant,Map[Variable,Local]]):(Action,(Participant,Local),(Participant,Local)) =
     def canRecv(action:Action,send:Action):Boolean =
       if !isAction(action) then throw new RuntimeException(s"unexpected protocol found in [$action]\n")
         action match
