@@ -8,7 +8,7 @@ import scala.util.parsing.combinator.RegexParsers
 
 /* @ telmo
   IDEA:
-    => Parser is responsible for parsing the input string representing a session into the "Protocol" internal structure
+    => Parser is responsible for parsing the input String representing a session into Protocol
     => note that it handles it in a similar fashion to "Choreo"
   ISSUES:
     => None
@@ -16,14 +16,13 @@ import scala.util.parsing.combinator.RegexParsers
     => AFFIRMATIVE
 */
 
-/** Parser is responsible for parsing the input string representing a session into the "Protocol" internal structure */
+/** [[Parser]] is responsible for parsing the input [[String]] representing a session into [[Protocol]] */
 object Parser extends RegexParsers:
   override val whiteSpace: Regex = "( |\t|\r|\f|\n|//.*)+".r
   override def skipWhitespace: Boolean = true
 
   private def identifier: Parser[String] = """[a-zA-Z0-9_]+""".r
 
-  /** first element on the type down architecture used for parsing */
   private def session: Parser[Global] = opt(globalType) ^^ (globalTypeSyntax => globalTypeSyntax.getOrElse(Skip))
 
   private def globalType: Parser[Global] =

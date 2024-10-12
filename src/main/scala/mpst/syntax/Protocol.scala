@@ -4,17 +4,18 @@ import mpst.syntax.Type.{Participant, Label, Sort, Variable}
 
 /* @ telmo
   IDEA:
-    => Protocol represents a session's natural structure
+    => Protocol represents a session's natural structure (AST of constructs)
   ISSUES:
+    => current implementations allows for Sort but does not use it
+      as such, it is mostly ignored/hidden as with the case of toString
     => should Interaction(_,_,_,_) be considered an action as well?
-    => toString is hiding sort
-    => agentA shall turn to sender, agentB to receiver, message to label
   REVIEWED:
     => AFFIRMATIVE* => check Receive agent order
 */
 
-/** Protocol represents a session's natural structure */
+/** [[Protocol]] represents a session's natural structure ([[AST]] of constructs)*/
 enum Protocol:
+  /** standard [[toString]] function but hiding [[Type.Sort]] */
   override def toString: String =
     this match
       case Interaction(sender, receiver, label, _) => s"$sender>$receiver:$label"
@@ -28,6 +29,7 @@ enum Protocol:
       case RecursionFixedPoint(variable, protocolB) => s"def $variable in ($protocolB)"
   end toString
 
+  // constructs allowed by our syntax //
   case Interaction(sender: Participant, receiver: Participant, label: Label, sort: Sort)
   case Send   (sender: Participant, receiver: Participant, label: Label, sort: Sort)
   case Receive(receiver: Participant, sender: Participant, label: Label, sort: Sort)
@@ -39,11 +41,11 @@ enum Protocol:
   case RecursionFixedPoint(variable: Variable, protocolB: Protocol)
 end Protocol
 
-/** Protocol represents a session's natural structure */
+/** [[Protocol]] represents a session's natural structure ([[AST]] of constructs) */
 object Protocol:
   /**
-   * Determines if a Protocol corresponds to a Global specification
-   *  - Premise: the whole protocol should be passed as argument, otherwise, not enough information could be present to determine if it is a Global specification
+   * determines if a given [[Protocol]], respecting the [[Premise]], allows a [[Type.Global]] specification
+   *  - [[Premise]]: the [[Protocol]] must include [[Actions]], otherwise defaults to [[true]]
    * */
   def isGlobal(protocol: Protocol): Boolean =
     protocol match
@@ -59,8 +61,8 @@ object Protocol:
   end isGlobal
 
   /**
-   * Determines if a Protocol corresponds to a Local specification
-   *  - Premise: the whole protocol should be passed as argument, otherwise, not enough information could be present to determine if it is a Local specification
+   * determines if a given [[Protocol]], respecting the [[Premise]], allows a [[Type.Local]] specification
+   *  - [[Premise]]: the [[Protocol]] must include [[Actions]], otherwise defaults to [[true]]
    * */
   def isLocal(protocol: Protocol): Boolean =
     protocol match
@@ -75,7 +77,7 @@ object Protocol:
       case RecursionFixedPoint(_, protocolB) => isLocal(protocolB)
   end isLocal
 
-  /** Collects all participants in Protocol */
+  /** collects all [[Type.Participant]] of [[Protocol]] in a [[Set]] */
   def getParticipants(protocol: Protocol): Set[Participant] =
     protocol match
       case Interaction(sender, receiver, _, _) => Set(sender, receiver)
@@ -89,7 +91,7 @@ object Protocol:
       case RecursionFixedPoint(_, protocolB) => getParticipants(protocolB)
   end getParticipants
 
-  /** Determines if a Protocol corresponds to a Local action */
+  /** determines if [[Protocol]] is a [[Type.Local]] [[Action]], i.e., [[Send]] or [[Receive]] */
   def isAction(protocol: Protocol): Boolean =
     protocol match
       case Send   (_, _, _, _) => true
@@ -97,7 +99,7 @@ object Protocol:
       case _ => false
   end isAction
 
-  /** Determines if a Protocol has the interleaving construct */
+  /** determines if [[Protocol]] has any occurrence of the [[Parallel]] construct */
   def hasInterleaving(protocol: Protocol): Boolean =
     protocol match
       case Interaction(_, _, _, _) => false

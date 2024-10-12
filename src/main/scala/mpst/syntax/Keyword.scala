@@ -4,7 +4,7 @@ package mpst.syntax
     - keywords used in describing configurations...
 
    @ telmo -
-    this follows an hacky first solution described by prof. José Proença
+    this follows a hacky first solution described by prof. José Proença
 */
 
 @deprecated
