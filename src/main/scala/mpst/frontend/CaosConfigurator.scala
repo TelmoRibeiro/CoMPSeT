@@ -24,16 +24,16 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser:String=>Global = (input:String) => Parser(input)
 
   //********** SETTINGS DEFINITION **********//
-  private def mkInterleavingOption = {
+  private def mkInterleavingOption =
     Setting(name = "Interleaving", render = true)
-  }
+  end mkInterleavingOption
 
-  private def mkCommModelOption = {
+  private def mkCommModelOption =
     val asyncMSChoice = Setting(name = "Async MS", render = true)
     val asyncCSChoice = Setting(name = "Async CS", render = true)
     val syncChoice    = Setting(name = "Sync",     render = true)
     Setting(name = "Comm Model", children = List(asyncMSChoice, asyncCSChoice, syncChoice), render = true)
-  }
+  end mkCommModelOption
 
   private val ConfigA = Setting(name = "Config A", children = List(mkInterleavingOption, mkCommModelOption), render = true)
   private val ConfigB = Setting(name = "Config B", children = List(mkInterleavingOption, mkCommModelOption), render = true)
@@ -42,7 +42,25 @@ object CaosConfigurator extends Configurator[Global]:
   //********** SETTINGS DEFINITION **********//
 
   //********** OPTIONS DEFINITION **********//
-  private val AsyncMSWidget =
+  private def mkNoInterleavingWidget =
+    view(
+      viewProg = {
+        (global: Global) =>
+          def hasInterleaving(protocol: Protocol): Boolean =
+            val hasInterleaving = Protocol.hasInterleaving(protocol)
+            if hasInterleaving then RuntimeException(s"interleaving construct found in $protocol")
+            hasInterleaving
+          end hasInterleaving
+
+          val locals = AsyncProjection.projectionWithAgent(global)
+
+          s"Has Interleaving: ${hasInterleaving(global) && locals.forall(local => hasInterleaving(local._2))}"
+      },
+      typ = Text
+    )
+  end mkNoInterleavingWidget
+
+  private def mkAsyncMSWidget =
     steps(
       initialSt = (global: Global) =>
         val locals = AsyncProjection.projectionWithAgent(global)
@@ -53,11 +71,15 @@ object CaosConfigurator extends Configurator[Global]:
         loc.map { case (agent, local) => s"$agent: $local" }.mkString("\n"),
       typ = Text,
     )
+  end mkAsyncMSWidget
 
-  private val AsyncMSOptionA = Option(Map("Settings.Config A.Comm Model.Async MS" -> true), List("Async MS A" -> AsyncMSWidget))
-  private val AsyncMSOptionB = Option(Map("Settings.Config B.Comm Model.Async MS" -> true), List("Async MS B" -> AsyncMSWidget))
+  private val AsyncMSOptionA = Option(Map("Settings.Config A.Comm Model.Async MS" -> true), List("Async MS A" -> mkAsyncMSWidget))
+  private val AsyncMSOptionB = Option(Map("Settings.Config B.Comm Model.Async MS" -> true), List("Async MS B" -> mkAsyncMSWidget))
 
-  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB)
+  private val NoInterleavingA = Option(Map("Settings.Config A.Interleaving" -> true), List("No Interleaving A" -> mkNoInterleavingWidget))
+  private val NoInterleavingB = Option(Map("Settings.Config B.Interleaving" -> true), List("No Interleaving B" -> mkNoInterleavingWidget))
+
+  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB) // , NoInterleavingA, NoInterleavingB)
   //********** OPTIONS DEFINITION **********//
 
   override val examples:Seq[Example] = List(
@@ -145,37 +167,3 @@ object CaosConfigurator extends Configurator[Global]:
     else "NOT WELL FORMED!"
   end wellFormedness
 end CaosConfigurator
-
-/* BRAINSTORM:
-  -- BOTTOM UP DESIGN --
-    choice A = (choiceName, widgetsList, render) =>
-      a tuple associating a name, the widgets necessary to implement said choice, and a boolean stating if it should be rendered
-      ex: asyncMSChoice = ("Async - MultiSet", List(steps(...)), true)
-
-    option A = (optionName, choiceList, render) =>
-      a tuple associating a name, the choices available for said option, and a boolean stating if it should be rendered
-      ex: communicationOption = ("Communication Model", List(asyncMSChoice, asyncCSChoice, syncChoice), true)
-
-    config A = (configName, optionList, render) =>
-      a tuple associating a name, the options available for said config, and a boolean stating if it should be rendered
-      ex: config1 = ("Config A", List(communicationOption, InterleavingOption, ...), true)
-
-    setting A = List(config) =>
-      a list (tuple if binary) of configurations
-      we can override it within the CaosConfigurator
-      caos builds the UI knowing this structure
-      the "render" arguments reflects on checkboxes the final user can enable or not (similar to the already present collapse system)
-        essentially collapsing large sections to eliminate visual pollution
-      there would be a "reload" option the final user could press after checking/unchecking boxes
-
-      PROBLEMS:
-        - is this to much?
-          although it reflects almost 1:1 the visual structure as seen by the final user
-            there are many categories: setting, config, options, choices, widgets
-          the render choice will allow to prune entire sections when parsing the structure
-          but the person implementing this structure in his caos configurator will need to write a lot...
-            defining widgets, to define choices, to define options, to define configs, to alas define a setting that the caos will deal with
-        - are there any problems that I am not foreseeing with implementing this on caos?
-        - I am using lists of stuff for the "sake" of simplicity, the possibility of this being implemented in something
-          like a tree is not lost on me, but then what about the different "tiers"
-*/

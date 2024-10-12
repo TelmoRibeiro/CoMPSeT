@@ -81,10 +81,10 @@ object Protocol:
   def getParticipants(protocol: Protocol): Set[Participant] =
     protocol match
       case Interaction(sender, receiver, _, _) => Set(sender, receiver)
-      case Send(sender, receiver, _, _) => Set(sender, receiver)
+      case Send   (sender, receiver, _, _) => Set(sender, receiver)
       case Receive(receiver, sender, _, _) => Set(sender, receiver)
-      case RecursionCall(_) => Set()
-      case Skip => Set()
+      case RecursionCall(_) => Set.empty
+      case Skip => Set.empty
       case Sequence(protocolA, protocolB) => getParticipants(protocolA) ++ getParticipants(protocolB)
       case Parallel(protocolA, protocolB) => getParticipants(protocolA) ++ getParticipants(protocolB)
       case Choice(protocolA, protocolB) => getParticipants(protocolA) ++ getParticipants(protocolB)
