@@ -54,7 +54,7 @@ object CaosConfigurator extends Configurator[Global]:
 
           val locals = AsyncProjection.projectionWithAgent(global)
 
-          s"Has Interleaving: ${hasInterleaving(global) && locals.forall(local => hasInterleaving(local._2))}"
+          s"Has Interleaving: ${hasInterleaving(global) || locals.exists(local => hasInterleaving(local._2))}"
       },
       typ = Text
     )
@@ -76,10 +76,10 @@ object CaosConfigurator extends Configurator[Global]:
   private val AsyncMSOptionA = Option(Map("Settings.Config A.Comm Model.Async MS" -> true), List("Async MS A" -> mkAsyncMSWidget))
   private val AsyncMSOptionB = Option(Map("Settings.Config B.Comm Model.Async MS" -> true), List("Async MS B" -> mkAsyncMSWidget))
 
-  private val NoInterleavingA = Option(Map("Settings.Config A.Interleaving" -> true), List("No Interleaving A" -> mkNoInterleavingWidget))
-  private val NoInterleavingB = Option(Map("Settings.Config B.Interleaving" -> true), List("No Interleaving B" -> mkNoInterleavingWidget))
+  private val NoInterleavingA = Option(Map("Settings.Config A.Interleaving" -> false), List("No Interleaving A" -> mkNoInterleavingWidget))
+  private val NoInterleavingB = Option(Map("Settings.Config B.Interleaving" -> false), List("No Interleaving B" -> mkNoInterleavingWidget))
 
-  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB) // , NoInterleavingA, NoInterleavingB)
+  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB, NoInterleavingA, NoInterleavingB)
   //********** OPTIONS DEFINITION **********//
 
   override val examples:Seq[Example] = List(
