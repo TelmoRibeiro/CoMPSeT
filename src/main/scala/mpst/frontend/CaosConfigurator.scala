@@ -60,6 +60,20 @@ object CaosConfigurator extends Configurator[Global]:
     )
   end mkNoInterleavingWidget
 
+  private def mkNoInterleavingCheck =
+    check(
+      (global: Global) =>
+        def hasInterleaving(protocol: Protocol): Seq[String] =
+          if Protocol.hasInterleaving(protocol) then
+            Seq(s"interleaving construct found in $protocol")
+          else
+            Seq.empty
+
+        val localsWithParticipant = AsyncProjection.projectionWithAgent(global)
+        hasInterleaving(global) ++ localsWithParticipant.flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
+    )
+  end mkNoInterleavingCheck
+
   private def mkAsyncMSWidget =
     steps(
       initialSt = (global: Global) =>
@@ -79,7 +93,11 @@ object CaosConfigurator extends Configurator[Global]:
   private val NoInterleavingA = Option(Map("Settings.Config A.Interleaving" -> false), List("No Interleaving A" -> mkNoInterleavingWidget))
   private val NoInterleavingB = Option(Map("Settings.Config B.Interleaving" -> false), List("No Interleaving B" -> mkNoInterleavingWidget))
 
-  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB, NoInterleavingA, NoInterleavingB)
+  private val NoInterleavingCheckA = Option(Map("Settings.Config B.Interleaving" -> false), List("No Interleaving B" -> mkNoInterleavingCheck))
+  private val NoInterleavingCheckB = Option(Map("Settings.Config B.Interleaving" -> false), List("No Interleaving B" -> mkNoInterleavingCheck))
+
+  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB, NoInterleavingCheckA, NoInterleavingCheckB)
+  //override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB, NoInterleavingA, NoInterleavingB)
   //********** OPTIONS DEFINITION **********//
 
   override val examples:Seq[Example] = List(
