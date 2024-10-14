@@ -42,6 +42,7 @@ object CaosConfigurator extends Configurator[Global]:
   //********** SETTINGS DEFINITION **********//
 
   //********** OPTIONS DEFINITION **********//
+  /*
   private def mkNoInterleavingWidget =
     view(
       viewProg = {
@@ -59,8 +60,8 @@ object CaosConfigurator extends Configurator[Global]:
       typ = Text
     )
   end mkNoInterleavingWidget
-
-  private def mkNoInterleavingCheck =
+  */
+  private def mkNoInterleavingWidget =
     check(
       (global: Global) =>
         def hasInterleaving(protocol: Protocol): Seq[String] =
@@ -72,7 +73,7 @@ object CaosConfigurator extends Configurator[Global]:
         val localsWithParticipant = AsyncProjection.projectionWithAgent(global)
         hasInterleaving(global) ++ localsWithParticipant.flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
     )
-  end mkNoInterleavingCheck
+  end mkNoInterleavingWidget
 
   private def mkAsyncMSWidget =
     steps(
@@ -87,17 +88,20 @@ object CaosConfigurator extends Configurator[Global]:
     )
   end mkAsyncMSWidget
 
-  private val AsyncMSOptionA = Option(Map("Settings.Config A.Comm Model.Async MS" -> true), List("Async MS A" -> mkAsyncMSWidget))
-  private val AsyncMSOptionB = Option(Map("Settings.Config B.Comm Model.Async MS" -> true), List("Async MS B" -> mkAsyncMSWidget))
-
-  private val NoInterleavingA = Option(Map("Settings.Config A.Interleaving" -> false), List("No Interleaving A" -> mkNoInterleavingWidget))
-  private val NoInterleavingB = Option(Map("Settings.Config B.Interleaving" -> false), List("No Interleaving B" -> mkNoInterleavingWidget))
-
-  private val NoInterleavingCheckA = Option(Map("Settings.Config B.Interleaving" -> false), List("No Interleaving B" -> mkNoInterleavingCheck))
-  private val NoInterleavingCheckB = Option(Map("Settings.Config B.Interleaving" -> false), List("No Interleaving B" -> mkNoInterleavingCheck))
-
-  override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB, NoInterleavingCheckA, NoInterleavingCheckB)
-  //override val options: List[Option[Global]] = List(AsyncMSOptionA, AsyncMSOptionB, NoInterleavingA, NoInterleavingB)
+  override val settingConditions: List[SettingCondition[Global]] = List(
+    SettingCondition(
+      condition = (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async MS"),
+      widgets   = List("Async MS A" -> mkAsyncMSWidget)),
+    SettingCondition(
+      condition = (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async MS"),
+      widgets   = List("Async MS B" -> mkAsyncMSWidget)),
+    SettingCondition(
+      condition = (setting: Setting) => !setting.toMap("Settings.Config A.Interleaving"),
+      widgets   = List("No Interleaving A" -> mkNoInterleavingWidget)),
+    SettingCondition(
+      condition = (setting: Setting) => !setting.toMap("Settings.Config B.Interleaving"),
+      widgets   = List("No Interleaving B" -> mkNoInterleavingWidget))
+  )
   //********** OPTIONS DEFINITION **********//
 
   override val examples:Seq[Example] = List(
