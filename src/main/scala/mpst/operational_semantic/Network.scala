@@ -1,61 +1,92 @@
 package mpst.operational_semantic
 
+import mpst.operational_semantic.Network.NetworkMultiset.nextEntry
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
+import mpst.syntax.Type.{Action, Local, Participant, Queue, Variable}
 import mpst.utilities.Multiset
 
-/* IDEA:
-  - MS & CS Networks
-  - CS Net took from choreo
-  - problem: environment is applied to global (only)
-
-  unrelated:
+/* @ telmo
+  IDEA:
+    => asynchronous network with causal and multiset options
+  ISSUES:
+    => environment is applied to global (only) - need to check what I meant by this
+  REVIEWED:
+    => NEGATIVE
 */
 
 object Network:
-  object NetworkMultiset:
-    // @ telmo - check with prof. José Proença
-    def accepting(locals:Set[(Participant,Local)]):Boolean =
-      for local <- locals yield
-        if !MPSTSemantic.accepting(local._2) then return false
-      true
+  object NetworkCausal:
+    def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
+      localsWithParticipant.forall(localWithParticipant => MPSTSemantic.accepting(localWithParticipant._2))
     end accepting
 
-    def next[A>:Action](locals:Set[(Participant,Local)], pending:Multiset[Action])(using environment:Map[Participant,Map[Variable,Local]]):Set[(A,Set[(Participant,Local)],Multiset[Action])] =
-      nextAuxiliary(locals,pending)(using environment)
+    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Queue)(using environment: Map[Participant, Map[Variable, Local]]): Set[(A, Set[(Participant, Local)], Queue)] =
+      nextAuxiliary(localsWithParticipant, pending)(using environment)
     end next
 
-    private def nextAuxiliary[A>:Action](locals:Set[(Participant,Local)], pending:Multiset[Action])(using environment:Map[Participant,Map[Variable,Local]]):Set[(A,Set[(Participant,Local)],Multiset[Action])] =
-      val nextNetwork = for local <- locals yield
-        val nextEntry = getNextEntry(local,pending)
-        for (nextAction,nextLocal,nextPending) <- nextEntry yield
-          val nextLocals = locals-local+nextLocal
-          (nextAction,nextLocals,nextPending)
-      nextNetwork.flatten
+    private def nextAuxiliary[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Queue)(using environment: Map[Participant, Map[Variable, Local]]): Set[(A, Set[(Participant, Local)], Queue)] =
+      for localWithParticipant <- localsWithParticipant yield
+        nextEntry(localWithParticipant, pending).flatMap {
+          (nextAction, nextLocalWithParticipant, nextPending) =>
+            (nextAction, localsWithParticipant - localWithParticipant + nextLocalWithParticipant, nextPending)
+        }
     end nextAuxiliary
 
-    private def getNextEntry(local:(Participant,Local), pending:Multiset[Action])(using environment:Map[Participant,Map[Variable,Local]]):Set[(Action,(Participant,Local),Multiset[Action])] =
-      for nextAction -> nextLocal <- MPSTSemantic.next(local._2)(using environment(local._1)) if notBlocked(nextAction,pending) yield
-        val nextPending = getNextPending(nextAction,pending)
-        (nextAction,local._1 -> nextLocal,nextPending)
-    end getNextEntry
+    private def nextEntry(localWithParticipant: (Participant, Local), pending: Queue)(using environment: Map[Participant, Map[Variable, Local]]): Set[(Action, (Participant, Local), Queue)] =
+      def notBlocked(action: Action, pending: Queue): Boolean =
+        action match
+          case Send   (_, _, _, _) => true
+          case Receive(receiver, sender, label, sort) => pending(sender, receiver).nonEmpty && pending(sender -> receiver).head == label
+          case protocol => throw RuntimeException(s"unexpected Protocol found in [$protocol] where Action was expected")
+      end notBlocked
 
-    private def getNextPending(action:Action,pending:Multiset[Action]):Multiset[Action] =
-      action match
-        case Send   (agentA,agentB,message,sort) => pending + Send(agentA,agentB,message,sort)
-        case Receive(agentA,agentB,message,sort) => pending - Send(agentB,agentA,message,sort)
-        case protocol => throw new RuntimeException(s"unexpected protocol found in [$protocol]\n")
-    end getNextPending
+      def nextPending(action: Action, pending: Queue): Queue =
+        action match
+          case Send   (sender, receiver, label, sort) => pending + ((sender -> receiver) -> (pending.getOrElse(sender -> receiver, Nil) :+ label))
+          case Receive(receiver, sender, label, sort) => pending + ((sender -> receiver) -> pending(sender -> receiver).tail) // @ telmo - it passed the notBlocked test
+          case protocol => throw RuntimeException(s"unexpected Protocol found in [$protocol] where Action was expected")
+      end nextPending
 
-    private def notBlocked(action:Action,pending:Multiset[Action]):Boolean =
-      action match
-        case Send   (_, _, _, _) => true
-        case Receive(agentA,agentB,message,sort) => pending `contains` Send(agentB, agentA, message, sort)
-        case protocol => throw new RuntimeException(s"unexpected protocol found in [$protocol]\n")
-    end notBlocked
+      for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)) if notBlocked(nextAction, pending) yield
+        (nextAction, localWithParticipant._1 -> nextLocal, nextPending(nextAction, pending))
+    end nextEntry
+  end NetworkCausal
+
+  object NetworkMultiset:
+    def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
+      localsWithParticipant.forall(localWithParticipant => MPSTSemantic.accepting(localWithParticipant._2))
+    end accepting
+
+    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action])(using environment: Map[Participant, Map[Variable, Local]]): Set[(A, Set[(Participant, Local)], Multiset[Action])] =
+      nextAuxiliary(localsWithParticipant, pending)(using environment)
+    end next
+
+    private def nextAuxiliary[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action])(using environment: Map[Participant, Map[Variable, Local]]): Set[(A, Set[(Participant, Local)], Multiset[Action])] =
+      for localWithParticipant <- localsWithParticipant yield
+        nextEntry(localWithParticipant, pending).flatMap {
+          (nextAction, nextLocalWithParticipant, nextPending) =>
+            (nextAction, localsWithParticipant - localWithParticipant + nextLocalWithParticipant, nextPending)
+        }
+    end nextAuxiliary
+
+    private def nextEntry(localWithParticipant: (Participant, Local), pending: Multiset[Action])(using environment: Map[Participant, Map[Variable, Local]]): Set[(Action, (Participant, Local), Multiset[Action])] =
+      def notBlocked(action: Action, pending: Multiset[Action]): Boolean =
+        action match
+          case Send   (_, _, _, _) => true
+          case Receive(receiver, sender, label, sort) => pending contains Send(sender, receiver, label, sort)
+          case protocol => throw RuntimeException(s"unexpected Protocol found in [$protocol] where Action was expected")
+      end notBlocked
+
+      def nextPending(action: Action, pending: Multiset[Action]): Multiset[Action] =
+        action match
+          case Send   (sender, receiver, label, sort) => pending + Send(sender, receiver, label, sort)
+          case Receive(receiver, sender, label, sort) => pending - Send(sender, receiver, label, sort)
+          case protocol => throw RuntimeException(s"unexpected Protocol found in [$protocol] where Action was expected")
+      end nextPending
+
+      for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)) if notBlocked(nextAction, pending) yield
+        (nextAction, localWithParticipant._1 -> nextLocal, nextPending(nextAction, pending))
+    end nextEntry
   end NetworkMultiset
-  /*
-    TACKLE CAUSAL
-  */
 end Network
