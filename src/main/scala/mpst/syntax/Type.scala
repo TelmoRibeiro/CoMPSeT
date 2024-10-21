@@ -2,9 +2,11 @@ package mpst.syntax
 
 import mpst.utilities.Multiset
 
+import scala.collection.immutable.Queue
+
 /* @ telmo
   IDEA:
-    => collection of all the internal types used throughout the CoMPSeT project
+    => Collection of all the internal types used throughout the CoMPSeT project.
   ISSUES:
     => None
   REVIEWED:
@@ -23,7 +25,7 @@ object Type:
   // *operational semantic* related types //
   type Action = Protocol
   type State  = (Map[String, Protocol], Protocol)
-  type Queue  = Map[(Participant, Participant), List[Label]]
+  type ChannelQueue = Queue[(Participant, Participant, Label)]
   // wrappers //
   type StateWrapper = (Protocol, Map[Variable, Protocol])
 

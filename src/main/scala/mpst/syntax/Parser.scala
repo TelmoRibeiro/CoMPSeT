@@ -8,15 +8,14 @@ import scala.util.parsing.combinator.RegexParsers
 
 /* @ telmo
   IDEA:
-    => Parser is responsible for parsing the input String representing a session into Protocol
-    => note that it handles it in a similar fashion to "Choreo"
+    => [[Parser]] is responsible for parsing the input [[String]] representing a session into [[Protocol]].
+    => note that it handles it in a similar fashion to "Choreo".
   ISSUES:
     => None
   REVIEWED:
     => AFFIRMATIVE
 */
 
-/** [[Parser]] is responsible for parsing the input [[String]] representing a session into [[Protocol]] */
 object Parser extends RegexParsers:
   override val whiteSpace: Regex = "( |\t|\r|\f|\n|//.*)+".r
   override def skipWhitespace: Boolean = true
