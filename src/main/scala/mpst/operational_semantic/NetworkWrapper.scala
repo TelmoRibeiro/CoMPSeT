@@ -11,7 +11,7 @@ import mpst.utilities.Multiset
   ISSUES:
     => None
   REVIEWED:
-    => NEGATIVE
+    => AFFIRMATIVE
 */
 
 object NetworkWrapper:
