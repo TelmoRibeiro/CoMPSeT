@@ -12,16 +12,21 @@ import mpst.syntax.{Parser, Protocol}
 import mpst.syntax.Type.*
 import mpst.utilities.Environment
 import mpst.utilities.Multiset
+
+import mpst.operational_semantic.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
 import mpst.wellformedness.*
-import mpst.operational_semantic.{MPSTSemanticWrapper, NetworkMultisetWrapper, SyncTraverseWrapper}
-import mpst.operational_semantic.MPSTSemanticWrapper.*
+
+import scala.collection.immutable.Queue
 
 object CaosConfigurator extends Configurator[Global]:
-  override val name:String = "CoMPSeT - Comparison of Multiparty Session Types"
+  override val name: String =
+    "CoMPSeT - Comparison of Multiparty Session Types"
 
-  override val languageName:String = "Session"
+  override val languageName: String =
+    "Session"
 
-  override val parser:String=>Global = (input:String) => Parser(input)
+  override val parser: String => Global =
+    (input: String) => Parser(input)
 
   //********** SETTINGS DEFINITION **********//
   private def mkInterleavingOption =
@@ -29,163 +34,155 @@ object CaosConfigurator extends Configurator[Global]:
   end mkInterleavingOption
 
   private def mkCommModelOption =
-    val asyncMSChoice = Setting(name = "Async MS", render = true)
-    val asyncCSChoice = Setting(name = "Async CS", render = true)
     val syncChoice    = Setting(name = "Sync",     render = true)
-    Setting(name = "Comm Model", children = List(asyncMSChoice, asyncCSChoice, syncChoice), render = true)
+    val asyncCSChoice = Setting(name = "Async CS", render = true)
+    val asyncMSChoice = Setting(name = "Async MS", render = true)
+
+    Setting("Comm Model", List(syncChoice, asyncCSChoice, asyncMSChoice), true)
   end mkCommModelOption
 
-  private val ConfigA = Setting(name = "Config A", children = List(mkInterleavingOption, mkCommModelOption), render = true)
-  private val ConfigB = Setting(name = "Config B", children = List(mkInterleavingOption, mkCommModelOption), render = true)
+  private val ConfigA = Setting("Config A", List(mkInterleavingOption, mkCommModelOption), true)
+  private val ConfigB = Setting("Config B", List(mkInterleavingOption, mkCommModelOption), true)
 
-  override val setting: Setting = Setting(name = "Settings", children = List(ConfigA, ConfigB), render = true)
+  override val setting: Setting = Setting("Settings", List(ConfigA, ConfigB), true)
   //********** SETTINGS DEFINITION **********//
 
   //********** OPTIONS DEFINITION **********//
-  /*
-  private def mkNoInterleavingWidget =
-    view(
-      viewProg = {
-        (global: Global) =>
-          def hasInterleaving(protocol: Protocol): Boolean =
-            val hasInterleaving = Protocol.hasInterleaving(protocol)
-            if hasInterleaving then RuntimeException(s"interleaving construct found in $protocol")
-            hasInterleaving
-          end hasInterleaving
-
-          val locals = AsyncProjection.projectionWithAgent(global)
-
-          s"Has Interleaving: ${hasInterleaving(global) || locals.exists(local => hasInterleaving(local._2))}"
-      },
-      typ = Text
-    )
-  end mkNoInterleavingWidget
-  */
   private def mkNoInterleavingWidget =
     check(
       (global: Global) =>
         def hasInterleaving(protocol: Protocol): Seq[String] =
-          if Protocol.hasInterleaving(protocol) then
-            Seq(s"interleaving construct found in $protocol")
-          else
-            Seq.empty
+          if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
+        end hasInterleaving
 
-        val localsWithParticipant = AsyncProjection.projectionWithAgent(global)
-        hasInterleaving(global) ++ localsWithParticipant.flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
+        hasInterleaving(global) ++ AsyncProjection.projectionWithAgent(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
     )
   end mkNoInterleavingWidget
+
+  private def mkSyncWidget =
+    steps(
+      initialSt = (global: Global) =>
+        SyncProjection.projectionWithAgent(global) -> Environment.localEnv(global),
+      sos       = SyncTraverseWrapper,
+      viewSt    = (localsWithParticipant: Set[(Participant, Local)], env: LocalEnvironments) =>
+        localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+      typ       = Text
+    )
+  end mkSyncWidget
+
+  private def mkAsyncCSWidget =
+    steps(
+      initialSt = (global: Global) =>
+        (AsyncProjection.projectionWithAgent(global), Queue.empty, Environment.localEnv(global)),
+      sos       = NetworkWrapper.NetworkCausal,
+      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: LocalEnvironments) =>
+        localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+      typ       = Text
+    )
+  end mkAsyncCSWidget
 
   private def mkAsyncMSWidget =
     steps(
       initialSt = (global: Global) =>
-        val locals = AsyncProjection.projectionWithAgent(global)
-        val localEnv = Environment.localEnv(global)
-        (locals, Multiset(), localEnv),
-      sos = NetworkMultisetWrapper,
-      viewSt = (loc: Set[(Participant, Local)], pen: Multiset[Action], env: Map[Participant, Map[Variable, Local]]) =>
-        loc.map { case (agent, local) => s"$agent: $local" }.mkString("\n"),
-      typ = Text,
+        (AsyncProjection.projectionWithAgent(global), Multiset(), Environment.localEnv(global)),
+      sos       = NetworkWrapper.NetworkMultiset,
+      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: LocalEnvironments) =>
+        localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+      typ       = Text,
     )
   end mkAsyncMSWidget
 
   override val settingConditions: List[SettingCondition[Global]] = List(
     SettingCondition(
-      condition = (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async MS"),
-      widgets   = List("Async MS A" -> mkAsyncMSWidget)),
+      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Sync"),
+      List("Sync A" -> mkSyncWidget)),
     SettingCondition(
-      condition = (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async MS"),
-      widgets   = List("Async MS B" -> mkAsyncMSWidget)),
+      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Sync"),
+      List("Sync B" -> mkSyncWidget)),
     SettingCondition(
-      condition = (setting: Setting) => !setting.toMap("Settings.Config A.Interleaving"),
-      widgets   = List("No Interleaving A" -> mkNoInterleavingWidget)),
+      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async CS"),
+      List("Async CS A" -> mkAsyncCSWidget)),
     SettingCondition(
-      condition = (setting: Setting) => !setting.toMap("Settings.Config B.Interleaving"),
-      widgets   = List("No Interleaving B" -> mkNoInterleavingWidget))
+      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async CS"),
+      List("Async CS B" -> mkAsyncCSWidget)),
+    SettingCondition(
+      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async MS"),
+      List("Async MS A" -> mkAsyncMSWidget)),
+    SettingCondition(
+      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async MS"),
+      List("Async MS B" -> mkAsyncMSWidget)),
+    SettingCondition(
+      (setting: Setting) => !setting.toMap("Settings.Config A.Interleaving"),
+      List("No Interleaving A" -> mkNoInterleavingWidget)),
+    SettingCondition(
+      (setting: Setting) => !setting.toMap("Settings.Config B.Interleaving"),
+      List("No Interleaving B" -> mkNoInterleavingWidget))
   )
   //********** OPTIONS DEFINITION **********//
 
-  override val examples:Seq[Example] = List(
-    "MasterWorkers"
-      -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
+  override val examples: Seq[Example] = List(
+    "MasterWorkers" ->
+      "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
 
-    "SimpleRecursion"
-      -> "def X in (m>w:Task ; X)"
+    "SimpleRecursion" ->
+      "def X in (m>w:Task ; X)"
   )
   
-  override val widgets:Seq[(String,WidgetInfo[Global])] = List(
-    "parsed global"
-      -> view(
-      viewProg = (global:Global) =>
-        s"parsed global: ${global.toString}",
-      typ = Text),
+  override val widgets: Seq[(String, WidgetInfo[Global])] = List(
+    "parsed global" ->
+      view(
+        viewProg = (global: Global) =>
+          s"parsed global: ${global.toString}",
+        typ      = Text
+      ),
 
-    "well formedness" // there is a check() caos function I might want to explore
-      -> view(
-      viewProg = (global:Global) =>
-        s"${wellFormedness(global)}",
-      typ = Text),
+    "well formedness" ->
+      check((global: Global) =>
+        def wellFormed(condition: Global => Boolean): Seq[String] =
+          if !condition(global) then Seq(s"[$global] failed while testing [$condition]") else Seq.empty
+        end wellFormed
 
-    // @ telmo - async not properly working
-    "my spin on \"Choreo Semantics \""
-      -> steps(
-      initialSt = (global:Global) =>
-        global -> Environment.globalEnv(global),
-      sos       = MPSTSemanticWrapper,
-      viewSt    = (pro:Protocol,env:Map[Variable,Protocol]) => pro.toString,
-      typ       = Text,
-    ),
+        wellFormed(DependentlyGuarded.apply) ++ wellFormed(WellBounded.apply) ++ wellFormed(WellBranched.apply) ++ wellFormed(WellChannelled.apply) ++ wellFormed(WellCommunicated.apply)
+      ),
 
-    "Composed Local MSNet Semantics - lazy view"
-      -> steps(
-      initialSt = (global:Global) =>
-        val locals   = AsyncProjection.projectionWithAgent(global)
-        val localEnv = Environment.localEnv(global)
-        (locals,Multiset(),localEnv),
-      sos = NetworkMultisetWrapper,
-      viewSt = (loc:Set[(Participant,Local)], pen:Multiset[Action], env:Map[Participant,Map[Variable,Local]]) =>
-        loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
-      typ = Text,
-    ),
-
-    "Composed Local Sync Semantics - lazy view"
-      -> steps(
-      initialSt = (global:Global) =>
-        val locals   = SyncProjection.projectionWithAgent(global)
-        val localEnv = Environment.localEnv(global)
-        locals -> localEnv,
-      sos = SyncTraverseWrapper,
-      viewSt = (loc:Set[(Participant,Local)], env:LocalEnv) =>
-        loc.map { case (agent,local) => s"$agent: $local" }.mkString("\n"),
-      typ = Text,
+    "my spin on \"Choreo Semantics \"" ->
+      steps(
+        initialSt = (global: Global) =>
+          global -> Environment.globalEnv(global),
+        sos       = MPSTSemanticWrapper,
+        viewSt    = (protocol: Protocol, environment: Map[Variable, Protocol]) =>
+          protocol.toString,
+        typ       = Text
     ),
 
     "Global LTS - with lazy environment"
       -> lts(
-      initialSt = (global:Global) =>
+      initialSt = (global: Global) =>
         global -> Environment.globalEnv(global),
       sos = MPSTSemanticWrapper,
-      viewSt = (global:Global,environment:Map[Variable,Global]) => environment.toString,
+      viewSt = (global: Global, environment: Map[Variable, Global]) =>
+        environment.toString,
     ),
 
     "Local LTS - with lazy environment"
-     -> viewMerms((global:Global) =>
-      val result = for agent -> local <- AsyncProjection.projectionWithAgent(global) yield
-        agent -> caos.sos.SOS.toMermaid(
-          sos      = MPSTSemanticWrapper,
-          s        = local -> Environment.singleLocalEnv(local),
-          showSt   = (protocol:Protocol,environment:Map[Variable,Protocol]) => environment.toString,
-          showAct  = _.toString,
-          maxNodes = 100,
-        )
-      result.toList
-      )
+     -> viewMerms((global: Global) =>
+        AsyncProjection.projectionWithAgent(global).map {
+          case (participant, local) =>
+            participant -> caos.sos.SOS.toMermaid(
+              sos      = MPSTSemanticWrapper,
+              s        = local -> Environment.singleLocalEnv(local),
+              showSt   = (protocol: Protocol, environment: Map[Variable, Protocol]) =>
+                environment.toString,
+              showAct  = _.toString,
+              maxNodes = 100,
+            )
+        }.toList
+    ),
   )
-
-  // @ telmo - expand this to better error handling
-  // @ telmo - "check" might be useful here
-  private def wellFormedness(global:Global):String =
-    if DependentlyGuarded(global) && WellBounded(global) && WellBranched(global) && WellChannelled(global) && WellCommunicated(global)
-    then "WELL FORMED!"
-    else "NOT WELL FORMED!"
-  end wellFormedness
 end CaosConfigurator

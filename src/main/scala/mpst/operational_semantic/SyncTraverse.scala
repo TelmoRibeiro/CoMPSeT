@@ -19,11 +19,11 @@ object SyncTraverse:
     true
   end accepting
 
-  def next[A>:Action](locals:Set[(Participant,Local)])(using localEnv:LocalEnv):(A,Set[(Participant,Local)]) =
+  def next[A>:Action](locals:Set[(Participant,Local)])(using localEnv:LocalEnvironments):(A,Set[(Participant,Local)]) =
     nextAuxiliary(locals)(using localEnv)
   end next
 
-  private def nextAuxiliary[A>:Action](locals:Set[(Participant,Local)])(using localEnv:LocalEnv):(A,Set[(Participant,Local)]) =
+  private def nextAuxiliary[A>:Action](locals:Set[(Participant,Local)])(using localEnv:LocalEnvironments):(A,Set[(Participant,Local)]) =
     val (sendNextAction,sendLocal,sendNextLocal) = getSend(locals)
     val (recvNextAction,recvLocal,recvNextLocal) = getRecv(locals,sendNextAction)
     val nextLocals = locals - sendLocal - recvLocal + sendNextLocal + recvNextLocal
