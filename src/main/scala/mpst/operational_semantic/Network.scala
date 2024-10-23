@@ -1,7 +1,7 @@
 package mpst.operational_semantic
 
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.{Local, Participant, Action, ChannelQueue, LocalEnvironments}
+import mpst.syntax.Type.{Local, Participant, Action, ChannelQueue, Environment}
 import mpst.utilities.Multiset
 
 /* @ telmo
@@ -20,7 +20,7 @@ object Network:
       localsWithParticipant.forall(localWithParticipant => MPSTSemantic.accepting(localWithParticipant._2))
     end accepting
 
-    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue)(using environment: LocalEnvironments): Set[(A, Set[(Participant, Local)], ChannelQueue)] =
+    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue)(using environment: Environment): Set[(A, Set[(Participant, Local)], ChannelQueue)] =
       localsWithParticipant.flatMap {
         localWithParticipant => nextEntry(localWithParticipant, pending).map {
           case (nextAction, nextLocalWithParticipant, nextPending) =>
@@ -29,7 +29,7 @@ object Network:
       }
     end next
 
-    private def nextEntry(localWithParticipant: (Participant, Local), pending: ChannelQueue)(using environment: LocalEnvironments): Set[(Action, (Participant, Local), ChannelQueue)] =
+    private def nextEntry(localWithParticipant: (Participant, Local), pending: ChannelQueue)(using environment: Environment): Set[(Action, (Participant, Local), ChannelQueue)] =
       def notBlocked(action: Action, pending: ChannelQueue): Boolean = action match
         case Send   (_, _, _, _) => true
         case Receive(receiver, sender, label, sort) =>
@@ -56,7 +56,7 @@ object Network:
       localsWithParticipant.forall(localWithParticipant => MPSTSemantic.accepting(localWithParticipant._2))
     end accepting
 
-    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action])(using environment: LocalEnvironments): Set[(A, Set[(Participant, Local)], Multiset[Action])] =
+    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action])(using environment: Environment): Set[(A, Set[(Participant, Local)], Multiset[Action])] =
       localsWithParticipant.flatMap {
         localWithParticipant => nextEntry(localWithParticipant, pending).map {
           case (nextAction, nextLocalWithParticipant, nextPending) =>
@@ -65,7 +65,7 @@ object Network:
       }
     end next
 
-    private def nextEntry(localWithParticipant: (Participant, Local), pending: Multiset[Action])(using environment: LocalEnvironments): Set[(Action, (Participant, Local), Multiset[Action])] =
+    private def nextEntry(localWithParticipant: (Participant, Local), pending: Multiset[Action])(using environment: Environment): Set[(Action, (Participant, Local), Multiset[Action])] =
       def notBlocked(action: Action, pending: Multiset[Action]): Boolean = action match
         case Send   (_, _, _, _) => true
         case Receive(receiver, sender, label, sort) => pending contains Send(sender, receiver, label, sort)

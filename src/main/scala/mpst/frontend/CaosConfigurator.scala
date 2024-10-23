@@ -64,7 +64,7 @@ object CaosConfigurator extends Configurator[Global]:
       initialSt = (global: Global) =>
         SyncProjection.projectionWithAgent(global) -> Environment.localEnv(global),
       sos       = SyncTraverseWrapper,
-      viewSt    = (localsWithParticipant: Set[(Participant, Local)], env: LocalEnvironments) =>
+      viewSt    = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
         localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
@@ -77,7 +77,7 @@ object CaosConfigurator extends Configurator[Global]:
       initialSt = (global: Global) =>
         (AsyncProjection.projectionWithAgent(global), Queue.empty, Environment.localEnv(global)),
       sos       = NetworkWrapper.NetworkCausal,
-      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: LocalEnvironments) =>
+      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
         localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
@@ -90,7 +90,7 @@ object CaosConfigurator extends Configurator[Global]:
       initialSt = (global: Global) =>
         (AsyncProjection.projectionWithAgent(global), Multiset(), Environment.localEnv(global)),
       sos       = NetworkWrapper.NetworkMultiset,
-      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: LocalEnvironments) =>
+      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
         localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),

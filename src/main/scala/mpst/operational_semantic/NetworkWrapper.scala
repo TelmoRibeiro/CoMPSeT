@@ -1,7 +1,7 @@
 package mpst.operational_semantic
 
 import mpst.operational_semantic.Network
-import mpst.syntax.Type.{Local, Participant, Action, ChannelQueue, LocalEnvironments}
+import mpst.syntax.Type.{Local, Participant, Action, ChannelQueue, Environment}
 import caos.sos.SOS
 import mpst.utilities.Multiset
 
@@ -15,7 +15,7 @@ import mpst.utilities.Multiset
 */
 
 object NetworkWrapper:
-    private type CSState = (Set[(Participant, Local)], ChannelQueue, LocalEnvironments)
+    private type CSState = (Set[(Participant, Local)], ChannelQueue, Environment)
 
     object NetworkCausal extends SOS[Action, CSState]:
       override def accepting(state: CSState): Boolean =
@@ -28,7 +28,7 @@ object NetworkWrapper:
       end next
     end NetworkCausal
 
-    private type MSState = (Set[(Participant, Local)], Multiset[Action], LocalEnvironments)
+    private type MSState = (Set[(Participant, Local)], Multiset[Action], Environment)
 
     object NetworkMultiset extends SOS[Action, MSState]:
       override def accepting(state: MSState): Boolean =
