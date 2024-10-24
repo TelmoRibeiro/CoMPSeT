@@ -28,7 +28,6 @@ object Type:
   type ChannelQueue = Map[(Participant, Participant), Queue[Label]]
   // wrappers //
   type StateWrapper = (Protocol, Map[Variable, Protocol])
-  type SynStateWrapper = (Set[(Participant, Local)], Environment)
   // environment //
   type Environment = Map[Participant, Map[Variable, Local]]
 end Type
