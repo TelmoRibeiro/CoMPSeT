@@ -1,4 +1,4 @@
-package mpst.utilities
+package mpst.utility
 
 import mpst.projection.*
 import mpst.syntax.Protocol

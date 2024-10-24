@@ -2,7 +2,7 @@ package mpst.projection
 
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.utilities.StructuralCongruence
+import mpst.utility.StructuralCongruence
 
 /* IDEA:
   - allow the projection of *global types* into *local types*

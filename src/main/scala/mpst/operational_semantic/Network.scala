@@ -1,8 +1,8 @@
 package mpst.operational_semantic
 
 import mpst.syntax.Protocol.{Action, Label, Local, Participant, Send, Receive}
-import mpst.utilities.Environment.Environment
-import mpst.utilities.Multiset
+import mpst.utility.Environment.Environment
+import mpst.utility.Multiset
 
 import scala.collection.immutable.Queue
 

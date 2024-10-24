@@ -6,8 +6,8 @@ import mpst.projection.{AsyncProjection, SyncProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, toString}
-import mpst.utilities.Environment.{Environment, localEnv, globalEnv, singleLocalEnv}
-import mpst.utilities.Multiset
+import mpst.utility.Environment.{Environment, localEnv, globalEnv, singleLocalEnv}
+import mpst.utility.Multiset
 import mpst.wellformedness.*
 
 import caos.frontend.Configurator

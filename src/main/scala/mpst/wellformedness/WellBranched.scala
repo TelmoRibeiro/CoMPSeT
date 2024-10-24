@@ -4,7 +4,7 @@ import mpst.operational_semantic.MPSTSemantic
 import mpst.projection.SyncProjection.*       // @ telmo - testing for Sync
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.utilities.Environment.*
+import mpst.utility.Environment.*
 
 /* IDEA:
   - check well-formedness on *choice*

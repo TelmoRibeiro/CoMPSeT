@@ -2,7 +2,7 @@ package mpst.frontend.caos_wrapper
 
 import mpst.operational_semantic.SyncTraverse
 import mpst.syntax.Protocol.{Action, Local, Participant}
-import mpst.utilities.Environment.Environment
+import mpst.utility.Environment.Environment
 
 import caos.sos.SOS
 

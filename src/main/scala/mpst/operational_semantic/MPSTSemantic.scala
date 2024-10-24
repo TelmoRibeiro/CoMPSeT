@@ -2,7 +2,7 @@ package mpst.operational_semantic
 
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.utilities.StructuralCongruence
+import mpst.utility.StructuralCongruence
 
 import caos.sos.SOS
 import caos.sos.SOS._

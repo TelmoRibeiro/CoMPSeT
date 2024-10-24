@@ -3,8 +3,8 @@ package mpst.frontend.caos_wrapper
 import mpst.operational_semantic.Network
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.syntax.Protocol.{Action, Local, Participant}
-import mpst.utilities.Environment.Environment
-import mpst.utilities.Multiset
+import mpst.utility.Environment.Environment
+import mpst.utility.Multiset
 
 import caos.sos.SOS
 

@@ -1,4 +1,4 @@
-package mpst.utilities
+package mpst.utility
 
 import scala.annotation.targetName
 
