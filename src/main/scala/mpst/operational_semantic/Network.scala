@@ -37,16 +37,16 @@ object Network:
       def notBlocked(action: Action, pending: ChannelQueue): Boolean = action match
         case Send   (_, _, _, _) => true
         case Receive(receiver, sender, label, sort) =>
-          pending(sender -> receiver).head == label
+          pending.getOrElse(sender -> receiver, Queue.empty).headOption.contains(label)
         case _ => throw RuntimeException(s"unexpected Protocol found in [$action] where [Action] was expected")
       end notBlocked
 
       def nextPending(action: Action, pending: ChannelQueue): ChannelQueue = action match
         case Send   (sender, receiver, label, sort) =>
-          val updatedQueue = pending(sender -> receiver).enqueue(label)
+          val updatedQueue = pending.getOrElse(sender -> receiver, Queue.empty).enqueue(label)
           pending + (sender -> receiver -> updatedQueue)
         case Receive(receiver, sender, label, sort) =>
-          val updatedQueue = pending(sender -> receiver).dequeue._2
+          val updatedQueue = pending.getOrElse(sender -> receiver, Queue.empty).dequeue._2
           pending + (sender -> receiver -> updatedQueue)
         case _ => throw RuntimeException(s"unexpected Protocol found in [$action] where [Action] was expected")
       end nextPending
