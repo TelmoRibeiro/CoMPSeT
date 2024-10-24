@@ -13,7 +13,7 @@ import scala.collection.immutable.Queue
   ISSUES:
     => None
   REVIEWED:
-    => AFFIRMATIVE*
+    => AFFIRMATIVE
 */
 
 object Network:
