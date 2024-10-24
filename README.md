@@ -16,6 +16,7 @@ ___
 - Fix Projections
 - Fix Semantic
 - Fix Well-Formedness (Maybe Call It Projectability?)
+- Fix Utilities
 - Extend Example's List
 - Taus?
 ___
