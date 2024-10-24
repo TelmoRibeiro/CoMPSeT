@@ -1,7 +1,6 @@
 package mpst.syntax
 
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.Global
 
 import scala.util.matching.Regex
 import scala.util.parsing.combinator.RegexParsers

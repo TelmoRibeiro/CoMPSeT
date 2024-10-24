@@ -7,15 +7,30 @@ import caos.frontend.widgets.WidgetInfo.VisualizeOpt
 import caos.sos.SOS
 import caos.sos.SOS.*
 import caos.view.*
-import mpst.frontend.wrappers.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
+import mpst.frontend.caos_wrapper.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
 import mpst.projection.{AsyncProjection, SyncProjection}
-import mpst.syntax.{Parser, Protocol}
-import mpst.syntax.Type.*
-import mpst.utilities.Environment
+import mpst.syntax.Parser
+
+import mpst.syntax.Protocol
+import mpst.syntax.Protocol.*
+
+import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
+
+
+import mpst.utilities.Environment.{Environment, localEnv, globalEnv, singleLocalEnv}
 import mpst.utilities.Multiset
 import mpst.wellformedness.*
 
 import scala.collection.immutable.Queue
+
+/* @ telmo
+  IDEA:
+    => instantiate CAOS.Configurator
+  ISSUES:
+    => None
+  REVIEWED:
+    => AFFIRMATIVE
+*/
 
 object CaosConfigurator extends Configurator[Global]:
   override val name: String =
@@ -61,7 +76,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkSyncWidget =
     steps(
       initialSt = (global: Global) =>
-        SyncProjection.projectionWithAgent(global) -> Environment.localEnv(global),
+        SyncProjection.projectionWithAgent(global) -> localEnv(global),
       sos       = SyncTraverseWrapper,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
         localsWithParticipant.map {
@@ -74,7 +89,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkAsyncCSWidget =
     steps(
       initialSt = (global: Global) =>
-        (AsyncProjection.projectionWithAgent(global), Map.empty, Environment.localEnv(global)),
+        (AsyncProjection.projectionWithAgent(global), Map.empty, localEnv(global)),
       sos       = NetworkWrapper.NetworkCausal,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
         localsWithParticipant.map {
@@ -87,7 +102,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkAsyncMSWidget =
     steps(
       initialSt = (global: Global) =>
-        (AsyncProjection.projectionWithAgent(global), Multiset(), Environment.localEnv(global)),
+        (AsyncProjection.projectionWithAgent(global), Multiset(), localEnv(global)),
       sos       = NetworkWrapper.NetworkMultiset,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
         localsWithParticipant.map {
@@ -153,7 +168,7 @@ object CaosConfigurator extends Configurator[Global]:
     "my spin on \"Choreo Semantics \"" ->
       steps(
         initialSt = (global: Global) =>
-          global -> Environment.globalEnv(global),
+          global -> globalEnv(global),
         sos       = MPSTSemanticWrapper,
         viewSt    = (protocol: Protocol, environment: Map[Variable, Protocol]) =>
           protocol.toString,
@@ -163,7 +178,7 @@ object CaosConfigurator extends Configurator[Global]:
     "Global LTS - with lazy environment"
       -> lts(
       initialSt = (global: Global) =>
-        global -> Environment.globalEnv(global),
+        global -> globalEnv(global),
       sos = MPSTSemanticWrapper,
       viewSt = (global: Global, environment: Map[Variable, Global]) =>
         environment.toString,
@@ -175,7 +190,7 @@ object CaosConfigurator extends Configurator[Global]:
           case (participant, local) =>
             participant -> caos.sos.SOS.toMermaid(
               sos      = MPSTSemanticWrapper,
-              s        = local -> Environment.singleLocalEnv(local),
+              s        = local -> singleLocalEnv(local),
               showSt   = (protocol: Protocol, environment: Map[Variable, Protocol]) =>
                 environment.toString,
               showAct  = _.toString,

@@ -1,7 +1,6 @@
 package mpst.wellformedness
 
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
 
 object SyncMPST:
   private def isSyncMPST(global:Global):Boolean =

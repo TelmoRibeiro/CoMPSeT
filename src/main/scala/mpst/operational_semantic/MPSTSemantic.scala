@@ -1,12 +1,11 @@
 package mpst.operational_semantic
 
-import caos.sos.SOS
-import caos.sos.SOS._
-
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
 import mpst.utilities.StructuralCongruence
+
+import caos.sos.SOS
+import caos.sos.SOS._
 
 /* IDEA:
   - attempt at a strong sequencing semantic - original idea stated in Choreo

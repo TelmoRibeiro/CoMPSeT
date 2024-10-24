@@ -1,7 +1,6 @@
 package mpst.wellformedness
 
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
 
 object TreeLike:
   private def isTreeLike(global:Global):Boolean =

@@ -1,15 +1,17 @@
-package mpst.frontend.wrappers
+package mpst.frontend.caos_wrapper
 
-import caos.sos.SOS
 import mpst.operational_semantic.MPSTSemantic
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
+
+import caos.sos.SOS
 
 /* IDEA:
 
   @ telmo -
 */
+
+private type StateWrapper = (Protocol, Map[Variable, Protocol])
 
 object MPSTSemanticWrapper extends SOS[Action,StateWrapper]:
   override def accepting(state:StateWrapper):Boolean =

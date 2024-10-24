@@ -1,11 +1,13 @@
-package mpst.frontend.wrappers
+package mpst.frontend.caos_wrapper
+
+import mpst.operational_semantic.SyncTraverse
+import mpst.syntax.Protocol.{Action, Local, Participant}
+import mpst.utilities.Environment.Environment
 
 import caos.sos.SOS
-import mpst.operational_semantic.SyncTraverse
-import mpst.syntax.Type.*
 
 /* @ telmo
-  IDEA:
+ IDEA:
     => [[SyncTraverseWrapper]] wraps the [[SyncTraverse]] object to be used with [[CAOS]].
   ISSUES:
     => None

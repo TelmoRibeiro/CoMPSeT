@@ -2,7 +2,6 @@ package mpst.wellformedness
 
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
 
 /*
   IDEA:

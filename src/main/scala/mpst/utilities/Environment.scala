@@ -3,17 +3,18 @@ package mpst.utilities
 import mpst.projection.*
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
 
 /*
   IDEA:
   - get the environment (MAP from RecursionVariable to GlobalType)
   - assumes whole initial type
   - assumes no repetition of recursion variables in different scopes
-    - this assumption can be remove if I complete RenameRecursion
+    - this assumption can be removed if I complete RenameRecursion
 */
 
 object Environment:
+  type Environment = Map[Participant, Map[Variable, Local]]
+
   def globalEnv(global:Global):Map[Variable,Global] =
     if !isGlobal(global) then throw new RuntimeException(s"unexpected local type found in [$global]\n")
     protocolEnv(global)(using Map())

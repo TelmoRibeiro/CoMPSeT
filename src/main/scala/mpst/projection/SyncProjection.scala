@@ -2,7 +2,6 @@ package mpst.projection
 
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.*
 import mpst.utilities.StructuralCongruence
 
 /* IDEA:

@@ -1,9 +1,18 @@
 package mpst.frontend
 
-import caos.frontend.Site.initSite
-import mpst.syntax.Type.Global
+import mpst.syntax.Protocol.Global
 
-// @ telmo - REVIEWED //
+import caos.frontend.Site.initSite
+
+/* @ telmo
+  IDEA:
+    => initialise CAOS.Site
+  ISSUES:
+    => None
+  REVIEWED:
+    => AFFIRMATIVE
+*/
+
 object Main:
   def main(args:Array[String]):Unit =
     initSite[Global](CaosConfigurator)

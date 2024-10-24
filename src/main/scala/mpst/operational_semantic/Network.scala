@@ -1,7 +1,7 @@
 package mpst.operational_semantic
 
-import mpst.syntax.Protocol.*
-import mpst.syntax.Type.{Action, ChannelQueue, Environment, Label, Local, Participant}
+import mpst.syntax.Protocol.{Action, Label, Local, Participant, Send, Receive}
+import mpst.utilities.Environment.Environment
 import mpst.utilities.Multiset
 
 import scala.collection.immutable.Queue
@@ -18,6 +18,8 @@ import scala.collection.immutable.Queue
 
 object Network:
   object NetworkCausal:
+    type ChannelQueue = Map[(Participant, Participant), Queue[Label]]
+
     def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
       localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
     end accepting

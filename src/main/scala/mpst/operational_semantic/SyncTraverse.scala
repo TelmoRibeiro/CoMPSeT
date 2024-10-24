@@ -1,8 +1,7 @@
 package mpst.operational_semantic
 
-import mpst.syntax.Protocol.*
-import mpst.syntax.Type.{Local, Participant, Action, Environment}
-import mpst.utilities.Environment.{localEnv, singleLocalEnv}
+import mpst.syntax.Protocol.{Action, Label, Local, Participant, Send, Receive}
+import mpst.utilities.Environment.Environment
 
 /* @ telmo
   IDEA:

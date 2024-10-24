@@ -1,7 +1,5 @@
 package mpst.syntax
 
-import mpst.syntax.Type.{Participant, Label, Sort, Variable}
-
 /* @ telmo
   IDEA:
     => [[Protocol]] represents a session's natural structure ([[AST]] of constructs).
@@ -27,18 +25,31 @@ enum Protocol:
   end toString
 
   // constructs allowed by our syntax //
-  case Interaction(sender: Participant, receiver: Participant, label: Label, sort: Sort)
-  case Send   (sender: Participant, receiver: Participant, label: Label, sort: Sort)
-  case Receive(receiver: Participant, sender: Participant, label: Label, sort: Sort)
-  case RecursionCall(variable: Variable)
+  case Interaction(sender: Protocol.Participant, receiver: Protocol.Participant, label: Protocol.Label, sort: Protocol.Sort)
+  case Send   (sender: Protocol.Participant, receiver: Protocol.Participant, label: Protocol.Label, sort: Protocol.Sort)
+  case Receive(receiver: Protocol.Participant, sender: Protocol.Participant, label: Protocol.Label, sort: Protocol.Sort)
+  case RecursionCall(variable: Protocol.Variable)
   case Skip
   case Sequence(protocolA: Protocol, protocolB: Protocol)
   case Parallel(protocolA: Protocol, protocolB: Protocol)
   case Choice  (protocolA: Protocol, protocolB: Protocol)
-  case RecursionFixedPoint(variable: Variable, protocolB: Protocol)
+  case RecursionFixedPoint(variable: Protocol.Variable, protocolB: Protocol)
 end Protocol
 
 object Protocol:
+  // global & local Types //
+  type Global = Protocol
+  type Local  = Protocol
+
+  // internal types //
+  type Participant = String
+  type Label       = String
+  type Sort        = String
+  type Variable    = String
+
+  // semantic types //
+  type Action = Protocol
+
   def isGlobal(protocol: Protocol): Boolean = protocol match
     case Interaction(_, _, _, _) => true
     case Send   (_, _, _, _) => false
