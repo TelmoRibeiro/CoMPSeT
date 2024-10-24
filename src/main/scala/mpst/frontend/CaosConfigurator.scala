@@ -75,7 +75,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkAsyncCSWidget =
     steps(
       initialSt = (global: Global) =>
-        (AsyncProjection.projectionWithAgent(global), Queue.empty, Environment.localEnv(global)),
+        (AsyncProjection.projectionWithAgent(global), Map.empty, Environment.localEnv(global)),
       sos       = NetworkWrapper.NetworkCausal,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
         localsWithParticipant.map {

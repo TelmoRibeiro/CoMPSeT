@@ -25,10 +25,10 @@ object Type:
   // *operational semantic* related types //
   type Action = Protocol
   type State  = (Map[String, Protocol], Protocol)
-  type ChannelQueue = Queue[(Participant, Participant, Label)]
+  type ChannelQueue = Map[(Participant, Participant), Queue[Label]]
   // wrappers //
   type StateWrapper = (Protocol, Map[Variable, Protocol])
-
-  type Environment = Map[Participant, Map[Variable, Local]]
   type SynStateWrapper = (Set[(Participant, Local)], Environment)
+  // environment //
+  type Environment = Map[Participant, Map[Variable, Local]]
 end Type

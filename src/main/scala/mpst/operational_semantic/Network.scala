@@ -1,15 +1,17 @@
 package mpst.operational_semantic
 
 import mpst.syntax.Protocol.*
-import mpst.syntax.Type.{Local, Participant, Action, ChannelQueue, Environment}
+import mpst.syntax.Type.{Action, ChannelQueue, Environment, Label, Local, Participant}
 import mpst.utilities.Multiset
+
+import scala.collection.immutable.Queue
 
 /* @ telmo
   IDEA:
     => [[Network]] models the communication progress between multiple [[Participant]]s.
     => The network supports both [[Causal]] ([[ChannelQueue]] - ordered) and [[NonCausal]] ([[Multiset]] - unordered) message passing.
   ISSUES:
-    => check if the queue is session-wise or channel-wise
+    => None
   REVIEWED:
     => AFFIRMATIVE*
 */
@@ -17,7 +19,7 @@ import mpst.utilities.Multiset
 object Network:
   object NetworkCausal:
     def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
-      localsWithParticipant.forall(localWithParticipant => MPSTSemantic.accepting(localWithParticipant._2))
+      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
     end accepting
 
     def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue)(using environment: Environment): Set[(A, Set[(Participant, Local)], ChannelQueue)] =
@@ -33,27 +35,29 @@ object Network:
       def notBlocked(action: Action, pending: ChannelQueue): Boolean = action match
         case Send   (_, _, _, _) => true
         case Receive(receiver, sender, label, sort) =>
-          pending.headOption.exists {
-            case (headSender, headReceiver, headLabel) => headSender == sender && headReceiver == receiver && headLabel == label
-          }
+          pending(sender -> receiver).head == label
         case _ => throw RuntimeException(s"unexpected Protocol found in [$action] where [Action] was expected")
       end notBlocked
 
       def nextPending(action: Action, pending: ChannelQueue): ChannelQueue = action match
-        case Send   (sender, receiver, label, sort) => pending.enqueue((sender, receiver, label))
-        case Receive(receiver, sender, label, sort) => pending.dequeue._2
+        case Send   (sender, receiver, label, sort) =>
+          val updatedQueue = pending(sender -> receiver).enqueue(label)
+          pending + (sender -> receiver -> updatedQueue)
+        case Receive(receiver, sender, label, sort) =>
+          val updatedQueue = pending(sender -> receiver).dequeue._2
+          pending + (sender -> receiver -> updatedQueue)
         case _ => throw RuntimeException(s"unexpected Protocol found in [$action] where [Action] was expected")
       end nextPending
 
       for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1))
-          if notBlocked(nextAction, pending)
+        if notBlocked(nextAction, pending)
       yield (nextAction, localWithParticipant._1 -> nextLocal, nextPending(nextAction, pending))
     end nextEntry
   end NetworkCausal
 
   object NetworkMultiset:
     def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
-      localsWithParticipant.forall(localWithParticipant => MPSTSemantic.accepting(localWithParticipant._2))
+      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
     end accepting
 
     def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action])(using environment: Environment): Set[(A, Set[(Participant, Local)], Multiset[Action])] =
@@ -79,7 +83,7 @@ object Network:
       end nextPending
 
       for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1))
-          if notBlocked(nextAction, pending)
+        if notBlocked(nextAction, pending)
       yield (nextAction, localWithParticipant._1 -> nextLocal, nextPending(nextAction, pending))
     end nextEntry
   end NetworkMultiset
