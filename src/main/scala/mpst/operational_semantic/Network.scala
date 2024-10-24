@@ -11,7 +11,7 @@ import mpst.utilities.Multiset
   ISSUES:
     => check if the queue is session-wise or channel-wise
   REVIEWED:
-    => AFFIRMATIVE
+    => AFFIRMATIVE*
 */
 
 object Network:
