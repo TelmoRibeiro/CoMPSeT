@@ -110,32 +110,43 @@ object CaosConfigurator extends Configurator[Global]:
   override val settingConditions: List[SettingCondition[Global]] = List(
     SettingCondition(
       (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Sync"),
-      List("Sync A" -> mkSyncWidget)),
+      List("Sync A" -> mkSyncWidget)
+    ),
     SettingCondition(
       (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Sync"),
-      List("Sync B" -> mkSyncWidget)),
+      List("Sync B" -> mkSyncWidget)
+    ),
     SettingCondition(
       (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async CS"),
-      List("Async CS A" -> mkAsyncCSWidget)),
+      List("Async CS A" -> mkAsyncCSWidget)
+    ),
     SettingCondition(
       (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async CS"),
-      List("Async CS B" -> mkAsyncCSWidget)),
+      List("Async CS B" -> mkAsyncCSWidget)
+    ),
     SettingCondition(
       (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async MS"),
-      List("Async MS A" -> mkAsyncMSWidget)),
+      List("Async MS A" -> mkAsyncMSWidget)
+    ),
     SettingCondition(
       (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async MS"),
-      List("Async MS B" -> mkAsyncMSWidget)),
+      List("Async MS B" -> mkAsyncMSWidget)
+    ),
     SettingCondition(
       (setting: Setting) => !setting.toMap("Settings.Config A.Interleaving"),
-      List("No Interleaving A" -> mkNoInterleavingWidget)),
+      List("No Interleaving A" -> mkNoInterleavingWidget)
+    ),
     SettingCondition(
       (setting: Setting) => !setting.toMap("Settings.Config B.Interleaving"),
-      List("No Interleaving B" -> mkNoInterleavingWidget))
+      List("No Interleaving B" -> mkNoInterleavingWidget)
+    )
   )
   //********** OPTIONS DEFINITION **********//
 
   override val examples: Seq[Example] = List(
+    "AsyncCS vs AsyncMS" ->
+      "(m>w:Work || m>w:WorkAgain) ; w>m:Done",
+
     "MasterWorkers" ->
       "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
 
