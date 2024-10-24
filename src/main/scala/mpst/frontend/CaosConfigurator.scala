@@ -1,25 +1,20 @@
 package mpst.frontend
 
-import caos.frontend.Configurator
-import caos.frontend.Configurator.*
-import caos.frontend.widgets.WidgetInfo
-import caos.frontend.widgets.WidgetInfo.VisualizeOpt
-import caos.sos.SOS
-import caos.sos.SOS.*
-import caos.view.*
 import mpst.frontend.caos_wrapper.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
+import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.{AsyncProjection, SyncProjection}
 import mpst.syntax.Parser
-
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.*
-
-import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
-
-
+import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, toString}
 import mpst.utilities.Environment.{Environment, localEnv, globalEnv, singleLocalEnv}
 import mpst.utilities.Multiset
 import mpst.wellformedness.*
+
+import caos.frontend.Configurator
+import caos.frontend.Configurator.{check, lts, steps, view, viewMerms, Example, Setting, SettingCondition}
+import caos.frontend.widgets.WidgetInfo
+import caos.sos.SOS.toMermaid
+import caos.view.Text
 
 import scala.collection.immutable.Queue
 
