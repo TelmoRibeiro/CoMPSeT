@@ -1,8 +1,8 @@
-package mpst.operational_semantic
+package mpst.frontend
 
 import caos.sos.SOS
-import mpst.syntax.Type.*
 import mpst.operational_semantic.SyncTraverse
+import mpst.syntax.Type.*
 
 /* @ telmo
   IDEA:

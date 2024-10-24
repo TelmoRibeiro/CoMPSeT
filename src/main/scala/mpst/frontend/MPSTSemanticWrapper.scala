@@ -1,13 +1,10 @@
-package mpst.operational_semantic
+package mpst.frontend
 
 import caos.sos.SOS
-
+import mpst.operational_semantic.MPSTSemantic
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-
 import mpst.syntax.Type.*
-
-import mpst.operational_semantic.MPSTSemantic
 
 /* IDEA:
 

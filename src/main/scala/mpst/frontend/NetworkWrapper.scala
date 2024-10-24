@@ -1,8 +1,8 @@
-package mpst.operational_semantic
+package mpst.frontend
 
-import mpst.operational_semantic.Network
-import mpst.syntax.Type.{Local, Participant, Action, ChannelQueue, Environment}
 import caos.sos.SOS
+import mpst.operational_semantic.Network
+import mpst.syntax.Type.*
 import mpst.utilities.Multiset
 
 /* @ telmo

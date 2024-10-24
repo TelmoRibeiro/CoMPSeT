@@ -12,8 +12,6 @@ import mpst.syntax.{Parser, Protocol}
 import mpst.syntax.Type.*
 import mpst.utilities.Environment
 import mpst.utilities.Multiset
-
-import mpst.operational_semantic.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
 import mpst.wellformedness.*
 
 import scala.collection.immutable.Queue
