@@ -68,7 +68,7 @@ object WellBranched:
   end receivingActions
 
   def apply(global:Global):Boolean =
-    val environment = globalEnv(global)
+    val environment = globalEnvironment(global)
     isWellBranched(global)(using environment)
 end WellBranched
 
