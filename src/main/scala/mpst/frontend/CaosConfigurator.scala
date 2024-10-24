@@ -72,7 +72,7 @@ object CaosConfigurator extends Configurator[Global]:
     steps(
       initialSt = (global: Global) =>
         SyncProjection.projectionWithAgent(global) -> localEnv(global),
-      sos       = SyncTraverseWrapper,
+      sos       = SyncTraverseWrapper.Traverse,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
         localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
