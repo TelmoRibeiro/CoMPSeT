@@ -11,57 +11,57 @@ import mpst.utilities.Environment.{localEnv, singleLocalEnv}
   ISSUES:
     => nextSend and nextReceive may be evolving in multiple evaluation contexts
     => ambiguity may be too restrictive of a clause (sendAction)
+      either the projection rules restrict the possible sendActions
+      or this condition must be relaxed
   REVIEWED:
     => AFFIRMATIVE*
 */
 
 object SyncTraverse:
   def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
-    localsWithParticipant.forall(localWithParticipant => MPSTSemantic.accepting(localWithParticipant._2))
+    localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
   end accepting
 
   def next[A >: Action](localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): (A, Set[(Participant, Local)]) =
     val send = sendAction(localsWithParticipant)
-    val sendTraverse = localsWithParticipant.flatMap { localWithParticipant =>
-      nextSend(localWithParticipant, send)
-      }
-    val receiveTraverse = sendTraverse.flatMap { localWithParticipant =>
-      nextReceive(localWithParticipant, send)
-    }
-    send -> receiveTraverse
+    send -> receiveTraverse(sendTraverse(localsWithParticipant, send), send)
   end next
 
   private def sendAction(localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): Action =
-    val toSend = localsWithParticipant.flatMap { localWithParticipant =>
-      for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1))
-          if nextAction match
-            case Send(_, _, _, _) => true
-            case _ => false
-      yield nextAction
-    }.toList
-    toSend match
-      case Nil => throw RuntimeException(s"no send action found")
+    localsWithParticipant.flatMap {
+      case participant -> local =>
+        MPSTSemantic.next(local)(using environment(participant)).collect {
+          case (nextAction @ Send(_, _, _, _)) -> _ => nextAction
+        }
+    }.toList match
+      case Nil         => throw RuntimeException(s"no send action found")
       case send :: Nil => send
-      case _ => throw RuntimeException(s"possible ambiguity in [$toSend] found")
+      case sendList    => throw RuntimeException(s"possible ambiguity in [$sendList] found")
   end sendAction
 
-  private def nextSend(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-    MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)).map {
-      case nextAction -> nextLocal if nextAction == sendAction => localWithParticipant._1 -> nextLocal
-      case _ => localWithParticipant
-    }
-  end nextSend
+  private def sendTraverse(localsWithParticipant: Set[(Participant, Local)], sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
+    def nextSend(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
+      MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)).collect {
+        case `sendAction` -> nextLocal => localWithParticipant._1 -> nextLocal
+      }
+    end nextSend
 
-  private def nextReceive(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-    MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)).map {
-      case nextAction -> nextLocal
-        if nextAction match
-          case Receive(receiver, sender, label, sort) => sendAction match
-            case Send(sender, receiver, label, sort) => true
-            case _ => false
-          case _ => false
-      => localWithParticipant._1 -> nextLocal
-      case _ => localWithParticipant
+    localsWithParticipant.flatMap{ localWithParticipant =>
+      nextSend(localWithParticipant, sendAction)
     }
-  end nextReceive
+  end sendTraverse
+
+  private def receiveTraverse(localsWithParticipant: Set[(Participant, Local)], sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
+    def nextReceive(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
+      MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)).collect {
+        case Receive(receiver, sender, label, sort) -> nextLocal
+          if sendAction == Send(sender, receiver, label, sort) =>
+          localWithParticipant._1 -> nextLocal
+      }
+    end nextReceive
+
+    localsWithParticipant.flatMap{ localWithParticipant =>
+      nextReceive(localWithParticipant, sendAction)
+    }
+  end receiveTraverse
 end SyncTraverse
