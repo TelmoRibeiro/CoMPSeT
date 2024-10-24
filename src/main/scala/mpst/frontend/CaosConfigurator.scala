@@ -7,6 +7,7 @@ import caos.frontend.widgets.WidgetInfo.VisualizeOpt
 import caos.sos.SOS
 import caos.sos.SOS.*
 import caos.view.*
+import mpst.frontend.wrappers.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
 import mpst.projection.{AsyncProjection, SyncProjection}
 import mpst.syntax.{Parser, Protocol}
 import mpst.syntax.Type.*

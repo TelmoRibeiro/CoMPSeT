@@ -1,4 +1,4 @@
-package mpst.frontend
+package mpst.frontend.wrappers
 
 import caos.sos.SOS
 import mpst.operational_semantic.Network
