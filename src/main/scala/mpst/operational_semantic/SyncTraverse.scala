@@ -39,9 +39,9 @@ object SyncTraverse:
   end sendAction
 
   private def sendTraverse(localsWithParticipant: Set[(Participant, Local)], sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-    def nextSend(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-      MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)).collect {
-        case `sendAction` -> nextLocal => localWithParticipant._1 -> nextLocal
+    def nextSend(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] = localWithParticipant match
+      case participant -> local => MPSTSemantic.next(local)(using environment(participant)).collect {
+        case `sendAction` -> nextLocal => participant -> nextLocal
       }
     end nextSend
 
@@ -51,11 +51,11 @@ object SyncTraverse:
   end sendTraverse
 
   private def receiveTraverse(localsWithParticipant: Set[(Participant, Local)], sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-    def nextReceive(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-      MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1)).collect {
+    def nextReceive(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] = localWithParticipant match
+      case participant -> local => MPSTSemantic.next(local)(using environment(participant)).collect {
         case Receive(receiver, sender, label, sort) -> nextLocal
           if sendAction == Send(sender, receiver, label, sort) =>
-          localWithParticipant._1 -> nextLocal
+            participant -> nextLocal
       }
     end nextReceive
 
