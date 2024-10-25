@@ -23,3 +23,4 @@ ___
 
 ## To Do (CAOS):
 - Review It
+- Session Reload Should Reload the Whole Page as Well
