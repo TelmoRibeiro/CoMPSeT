@@ -13,6 +13,8 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
+- Fix Sync
+  - try with "a>b:Hello ; b>a:Bye"
 - Fix Projections
 - Fix Semantic
 - Fix Well-Formedness (Maybe Call It Projectability?)
