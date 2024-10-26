@@ -15,8 +15,8 @@ import mpst.syntax.Protocol.*
 */
 
 object Environment:
-  private type SingleEnvironment = Map[Variable, Protocol]
-  type Environment = Map[Participant, SingleEnvironment]
+  type SingleEnvironment = Map[Variable, Protocol]
+  type Environment       = Map[Participant, SingleEnvironment]
 
   def globalEnvironment(global: Global): SingleEnvironment =
     if !isGlobal(global) then throw RuntimeException(s"unexpected local type found in [$global]\n")

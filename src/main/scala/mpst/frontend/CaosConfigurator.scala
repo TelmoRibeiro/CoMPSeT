@@ -6,7 +6,7 @@ import mpst.projection.{AsyncProjection, SyncProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, toString}
-import mpst.utility.Environment.{Environment, globalEnvironment, localsEnvironment}
+import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
 
@@ -14,7 +14,7 @@ import caos.frontend.Configurator
 import caos.frontend.Configurator.{check, lts, steps, view, viewMerms, Example, Setting, SettingCondition}
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS.toMermaid
-import caos.view.Text
+import caos.view.{Code, Text}
 
 import scala.collection.immutable.Queue
 
@@ -160,14 +160,13 @@ object CaosConfigurator extends Configurator[Global]:
     }.mkString("\n")
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
-    "parsed global" ->
+    "Global" ->
       view(
-        viewProg = (global: Global) =>
-          s"parsed global: ${global.toString}",
-        typ      = Text
+        viewProg = (global: Global) => s"${global.toString}",
+        typ      = Code("java")
       ),
 
-    "well formedness" ->
+    "Well Formedness" ->
       check((global: Global) =>
         def wellFormed(condition: Global => Boolean): Seq[String] =
           if !condition(global) then Seq(s"[$global] failed while testing [$condition]") else Seq.empty
@@ -176,26 +175,35 @@ object CaosConfigurator extends Configurator[Global]:
         wellFormed(DependentlyGuarded.apply) ++ wellFormed(WellBounded.apply) ++ wellFormed(WellBranched.apply) ++ wellFormed(WellChannelled.apply) ++ wellFormed(WellCommunicated.apply)
       ),
 
-    "my spin on \"Choreo Semantics \"" ->
+    "Locals" ->
+      view(
+        viewProg = (global: Global) =>
+          AsyncProjection.projectionWithAgent(global).map {
+            case participant -> local => s"$participant -> $local"
+          }.mkString("\n"),
+        typ = Code("java")
+      ),
+
+    "\"Choreo\" - My Spin" ->
       steps(
         initialSt = (global: Global) =>
           global -> globalEnvironment(global),
-        sos       = MPSTSemanticWrapper,
-        viewSt    = (protocol: Protocol, environment: Map[Variable, Protocol]) =>
-          protocol.toString,
-        typ       = Text
+        sos    = MPSTSemanticWrapper,
+        viewSt = (global: Global, environment: SingleEnvironment) =>
+          global.toString,
+        typ = Text
     ),
 
-    "Global LTS"
+    "Global Automata"
       -> lts(
       initialSt = (global: Global) =>
         global -> globalEnvironment(global),
       sos = MPSTSemanticWrapper,
-      viewSt = (global: Global, environment: Map[Variable, Global]) =>
+      viewSt = (global: Global, environment: SingleEnvironment) =>
         environment.toPrettyPrint,
     ),
 
-    "Local LTS"
+    "Local Automata"
      -> viewMerms((global: Global) =>
         val environment = localsEnvironment(global)
         AsyncProjection.projectionWithAgent(global).map {
@@ -203,8 +211,8 @@ object CaosConfigurator extends Configurator[Global]:
             val lts = caos.sos.SOS.toMermaid(
               sos = MPSTSemanticWrapper,
               s = local -> environment(participant),
-              showSt = (local: Local, environment: Map[Variable, Local]) =>
-              environment.toPrettyPrint,
+              showSt = (local: Local, environment: SingleEnvironment) =>
+                environment.toPrettyPrint,
               showAct = _.toString,
               maxNodes = 100,
             )
