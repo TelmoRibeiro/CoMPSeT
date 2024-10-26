@@ -50,7 +50,7 @@ object Protocol:
   // semantic types //
   type Action = Protocol
 
-  def isGlobal(protocol: Protocol): Boolean = protocol match
+  def isGlobal(protocol: Global): Boolean = protocol match
     case Interaction(_, _, _, _) => true
     case Send   (_, _, _, _) => false
     case Receive(_, _, _, _) => false
@@ -62,7 +62,7 @@ object Protocol:
     case RecursionFixedPoint(_, protocolB) => isGlobal(protocolB)
   end isGlobal
 
-  def isLocal(protocol: Protocol): Boolean = protocol match
+  def isLocal(protocol: Local): Boolean = protocol match
     case Interaction(_, _, _, _) => false
     case Send   (_, _, _, _) => true
     case Receive(_, _, _, _) => true
@@ -73,6 +73,12 @@ object Protocol:
     case Choice  (protocolA, protocolB) => isLocal(protocolA) && isLocal(protocolB)
     case RecursionFixedPoint(_, protocolB) => isLocal(protocolB)
   end isLocal
+
+  def isAction(protocol: Action): Boolean = protocol match
+    case Send   (_, _, _, _) => true
+    case Receive(_, _, _, _) => true
+    case _ => false
+  end isAction
 
   def getParticipants(protocol: Protocol): Set[Participant] = protocol match
     case Interaction(sender, receiver, _, _) => Set(sender, receiver)
@@ -85,12 +91,6 @@ object Protocol:
     case Choice  (protocolA, protocolB) => getParticipants(protocolA) ++ getParticipants(protocolB)
     case RecursionFixedPoint(_, protocolB) => getParticipants(protocolB)
   end getParticipants
-
-  def isAction(protocol: Protocol): Boolean = protocol match
-    case Send   (_, _, _, _) => true
-    case Receive(_, _, _, _) => true
-    case _ => false
-  end isAction
 
   def hasInterleaving(protocol: Protocol): Boolean = protocol match
     case Interaction(_, _, _, _) => false
