@@ -8,7 +8,6 @@ import mpst.syntax.Protocol.*
   IDEA:
     => [[Environment]] represents the natural mappings between recursion [[Variable]] and the protocol they unfold into
   ISSUES:
-    => we assume the whole protocol is being passed as an argument, otherwise, this can be quite dangerous
     => we assume no variable repetition
       I can try to relax this by reviewing RenameRecursion
   REVIEWED:
@@ -30,11 +29,6 @@ object Environment:
       case participant -> local => participant -> protocolEnvironment(local)(using Map.empty)
     }.toMap
   end localsEnvironment
-
-  def localEnvironment(local: Local): SingleEnvironment =
-    if !isLocal(local) then throw RuntimeException(s"unexpected global type found in [$local]\n")
-    protocolEnvironment(local)(using Map.empty)
-  end localEnvironment
 
   private def protocolEnvironment(protocol: Protocol)(using environment: SingleEnvironment): SingleEnvironment = protocol match
     case Interaction(_, _, _, _) => environment

@@ -6,7 +6,7 @@ import mpst.projection.{AsyncProjection, SyncProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, toString}
-import mpst.utility.Environment.{Environment, localEnvironment, globalEnvironment, localsEnvironment}
+import mpst.utility.Environment.{Environment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
 
@@ -151,7 +151,7 @@ object CaosConfigurator extends Configurator[Global]:
       "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
 
     "SimpleRecursion" ->
-      "def X in (m>w:Task ; X)"
+      "def X in (m>w:Task ; X)",
   )
   
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
@@ -181,7 +181,7 @@ object CaosConfigurator extends Configurator[Global]:
         typ       = Text
     ),
 
-    "Global LTS - with lazy environment"
+    "Global LTS - lazy environment"
       -> lts(
       initialSt = (global: Global) =>
         global -> globalEnvironment(global),
@@ -190,18 +190,20 @@ object CaosConfigurator extends Configurator[Global]:
         environment.toString,
     ),
 
-    "Local LTS - with lazy environment"
+    "Local LTS - lazy environment"
      -> viewMerms((global: Global) =>
+        val environment = localsEnvironment(global)
         AsyncProjection.projectionWithAgent(global).map {
-          case (participant, local) =>
-            participant -> caos.sos.SOS.toMermaid(
-              sos      = MPSTSemanticWrapper,
-              s        = local -> localEnvironment(local),
-              showSt   = (protocol: Protocol, environment: Map[Variable, Protocol]) =>
-                environment.toString,
-              showAct  = _.toString,
+          case participant -> local =>
+            val lts = caos.sos.SOS.toMermaid(
+              sos = MPSTSemanticWrapper,
+              s = local -> environment(participant),
+              showSt = (local: Local, environment: Map[Variable, Local]) =>
+              environment.toString,
+              showAct = _.toString,
               maxNodes = 100,
             )
+            participant -> lts
         }.toList
     ),
   )
