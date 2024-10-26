@@ -153,7 +153,12 @@ object CaosConfigurator extends Configurator[Global]:
     "SimpleRecursion" ->
       "def X in (m>w:Task ; X)",
   )
-  
+
+  extension [K, V](map: Map[K, V])
+    private def toPrettyPrint: String = map.map {
+      case k -> v => s"$k -> $v"
+    }.mkString("\n")
+
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
     "parsed global" ->
       view(
@@ -181,16 +186,16 @@ object CaosConfigurator extends Configurator[Global]:
         typ       = Text
     ),
 
-    "Global LTS - lazy environment"
+    "Global LTS"
       -> lts(
       initialSt = (global: Global) =>
         global -> globalEnvironment(global),
       sos = MPSTSemanticWrapper,
       viewSt = (global: Global, environment: Map[Variable, Global]) =>
-        environment.toString,
+        environment.toPrettyPrint,
     ),
 
-    "Local LTS - lazy environment"
+    "Local LTS"
      -> viewMerms((global: Global) =>
         val environment = localsEnvironment(global)
         AsyncProjection.projectionWithAgent(global).map {
@@ -199,7 +204,7 @@ object CaosConfigurator extends Configurator[Global]:
               sos = MPSTSemanticWrapper,
               s = local -> environment(participant),
               showSt = (local: Local, environment: Map[Variable, Local]) =>
-              environment.toString,
+              environment.toPrettyPrint,
               showAct = _.toString,
               maxNodes = 100,
             )
