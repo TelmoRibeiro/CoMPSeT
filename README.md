@@ -13,9 +13,10 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
+- Add FullMerge
 - Fix Sync
   - try with "a>b:Hello ; b>a:Bye"
-- Fix Projections
+- Fix SyncProjection
 - Fix Semantic
 - Fix Well-Formedness (Maybe Call It Projectability?)
 - Fix Utilities
@@ -25,4 +26,4 @@ ___
 
 ## To Do (CAOS):
 - Review It
-- Session Reload Should Reload the Whole Page as Well
+- There is some problems with the right bar after switching examples without applying configs

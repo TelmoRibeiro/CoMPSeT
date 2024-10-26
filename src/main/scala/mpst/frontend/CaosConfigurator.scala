@@ -2,7 +2,7 @@ package mpst.frontend
 
 import mpst.frontend.caos_wrapper.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
-import mpst.projection.{AsyncProjection, SyncProjection}
+import mpst.projection.{StandardProjection, SyncProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, toString}
@@ -64,7 +64,7 @@ object CaosConfigurator extends Configurator[Global]:
           if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
         end hasInterleaving
 
-        hasInterleaving(global) ++ AsyncProjection.projectionWithAgent(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
+        hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
     )
   end mkNoInterleavingWidget
 
@@ -84,7 +84,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkAsyncCSWidget =
     steps(
       initialSt = (global: Global) =>
-        (AsyncProjection.projectionWithAgent(global), Map.empty, localsEnvironment(global)),
+        (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
       sos       = NetworkWrapper.NetworkCausal,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
         localsWithParticipant.map {
@@ -97,7 +97,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkAsyncMSWidget =
     steps(
       initialSt = (global: Global) =>
-        (AsyncProjection.projectionWithAgent(global), Multiset(), localsEnvironment(global)),
+        (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
       sos       = NetworkWrapper.NetworkMultiset,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
         localsWithParticipant.map {
@@ -178,7 +178,7 @@ object CaosConfigurator extends Configurator[Global]:
     "Locals" ->
       view(
         viewProg = (global: Global) =>
-          AsyncProjection.projectionWithAgent(global).map {
+          StandardProjection.projectionWithParticipant(global).map {
             case participant -> local => s"$participant -> $local"
           }.mkString("\n"),
         typ = Code("java")
@@ -206,7 +206,7 @@ object CaosConfigurator extends Configurator[Global]:
     "Local Automata"
      -> viewMerms((global: Global) =>
         val environment = localsEnvironment(global)
-        AsyncProjection.projectionWithAgent(global).map {
+        StandardProjection.projectionWithParticipant(global).map {
           case participant -> local =>
             val lts = caos.sos.SOS.toMermaid(
               sos = MPSTSemanticWrapper,

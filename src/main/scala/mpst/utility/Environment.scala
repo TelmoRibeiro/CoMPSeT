@@ -1,6 +1,6 @@
 package mpst.utility
 
-import mpst.projection.AsyncProjection
+import mpst.projection.StandardProjection
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
 
@@ -25,7 +25,7 @@ object Environment:
 
   def localsEnvironment(global: Global): Environment =
     if !isGlobal(global) then throw RuntimeException(s"unexpected local type found in [$global]\n")
-    AsyncProjection.projectionWithAgent(global).map {
+    StandardProjection.projectionWithParticipant(global).map {
       case participant -> local => participant -> protocolEnvironment(local)(using Map.empty)
     }.toMap
   end localsEnvironment
