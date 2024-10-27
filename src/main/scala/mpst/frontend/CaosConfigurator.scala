@@ -71,7 +71,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkSyncWidget =
     steps(
       initialSt = (global: Global) =>
-        SyncProjection.projectionWithAgent(global) -> localsEnvironment(global),
+        StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
       sos       = SyncTraverseWrapper.Traverse,
       viewSt    = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
         localsWithParticipant.map {
