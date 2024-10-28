@@ -109,36 +109,36 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val settingConditions: List[SettingCondition[Global]] = List(
     SettingCondition(
-      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Sync") ->
-        List("Sync A" -> mkSyncWidget)
+      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Sync"),
+      List("Sync A" -> mkSyncWidget)
     ),
     SettingCondition(
-      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Sync") ->
-        List("Sync B" -> mkSyncWidget)
+      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Sync"),
+      List("Sync B" -> mkSyncWidget)
     ),
     SettingCondition(
-      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async CS") ->
-        List("Async CS A" -> mkAsyncCSWidget)
+      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async CS"),
+      List("Async CS A" -> mkAsyncCSWidget)
     ),
     SettingCondition(
-      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async CS") ->
-        List("Async CS B" -> mkAsyncCSWidget)
+      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async CS"),
+      List("Async CS B" -> mkAsyncCSWidget)
     ),
     SettingCondition(
-      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async MS") ->
-        List("Async MS A" -> mkAsyncMSWidget)
+      (setting: Setting) => setting.toMap("Settings.Config A.Comm Model.Async MS"),
+      List("Async MS A" -> mkAsyncMSWidget)
     ),
     SettingCondition(
-      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async MS") ->
-        List("Async MS B" -> mkAsyncMSWidget)
+      (setting: Setting) => setting.toMap("Settings.Config B.Comm Model.Async MS"),
+      List("Async MS B" -> mkAsyncMSWidget)
     ),
     SettingCondition(
-      (setting: Setting) => !setting.toMap("Settings.Config A.Interleaving") ->
-        List("No Interleaving A" -> mkNoInterleavingWidget)
+      (setting: Setting) => !setting.toMap("Settings.Config A.Interleaving"),
+      List("No Interleaving A" -> mkNoInterleavingWidget)
     ),
     SettingCondition(
-      (setting: Setting) => !setting.toMap("Settings.Config B.Interleaving") ->
-        List("No Interleaving B" -> mkNoInterleavingWidget)
+      (setting: Setting) => !setting.toMap("Settings.Config B.Interleaving"),
+      List("No Interleaving B" -> mkNoInterleavingWidget)
     )
   )
   //********** OPTIONS DEFINITION **********//

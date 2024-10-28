@@ -44,18 +44,19 @@ object WellBranched:
       }
     end receivesInReceive
 
-    def uniqueSelector(actions: Set[Action]): Participant =
+    def uniqueSelector(actions: Set[Action]): Boolean =
       actions.collect {
         case Send(selector, _, _, _) => selector
       }.toList match
         case Nil => throw RuntimeException(s"no selector found in [$actions]")
-        case selector :: Nil => selector
+        case selector :: Nil => true
         case _ => throw RuntimeException(s"multiple selectors found in [$actions]")
     end uniqueSelector
 
     def noAmbiguity(receivesA: Set[(Participant, Label)], receivesB: Set[(Participant, Label)]): Boolean =
       receivesA.intersect(receivesB) match
-        case intersection if intersection.nonEmpty => RuntimeException(s"ambiguous actions found in [$intersection]")
+        case intersection if intersection.nonEmpty =>
+          throw RuntimeException(s"ambiguous actions found in [$intersection]")
         case _ => true
     end noAmbiguity
 
@@ -74,8 +75,8 @@ object WellBranched:
     val nextActionsA = nextActions(globalA)
     val nextActionsB = nextActions(globalB)
 
-    val receivesA = receivesInReceive(globalA, receivesInSend(nextActionsA))
-    val receivesB = receivesInReceive(globalB, receivesInSend(nextActionsB))
+    val receivesA = receivesInReceive(nextActionsA, receivesInSend(nextActionsA))
+    val receivesB = receivesInReceive(nextActionsB, receivesInSend(nextActionsB))
     
     uniqueSelector(nextActionsA ++ nextActionsB) && noAmbiguity(receivesA, receivesB) && matchingReceives(receivesA, receivesB)
   end wellBranchedAuxiliary
