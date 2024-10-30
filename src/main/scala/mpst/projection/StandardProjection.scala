@@ -1,5 +1,6 @@
 package mpst.projection
 
+import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
 import mpst.utility.StructuralCongruence
 
@@ -19,6 +20,19 @@ object StandardProjection:
         case Some(local) => participant -> StructuralCongruence(local)
         case _ => throw RuntimeException(s"projection undefined for participant [$participant] in [$global]\n")
   end projectionWithParticipant
+
+  private def plainMerge(localA: Local, localB: Local): Option[Local] =
+    localA -> localB match
+      case Sequence(Skip, contLocalA) -> Sequence(Skip, contLocalB) if contLocalA == contLocalB =>
+        Some(contLocalA)
+      case Sequence(Skip, contLocalA) -> Sequence(Skip, contLocalB) =>
+        throw RuntimeException(s"plain merge failed for [$localA] and [$localB]")
+      case _ => Some(Choice(localA, localB))
+  end plainMerge
+
+  private def fullMerge(localA: Local, localB: Local): Option[Local] =
+    ???
+  end fullMerge
 
   private def projection(global: Global)(using participant: Participant): Option[Local] = global match
     case Interaction(`participant`, receiver, label, sort) =>
@@ -42,7 +56,9 @@ object StandardProjection:
     case Choice(globalA, globalB) =>
       for localA <- projection(globalA)
           localB <- projection(globalB)
-      yield Choice(localA, localB)
+          localC <- plainMerge(localA, localB)
+      yield
+        localC
     case RecursionFixedPoint(variable, globalB) =>
       for localB <- projection(globalB)
         yield
