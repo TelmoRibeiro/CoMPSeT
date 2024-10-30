@@ -39,7 +39,7 @@ object StructuralCongruence:
       /* @ telmo -
         choreo allows
         Choice(c1,c1) => runOnce(c1)
-        does this count as structural congruence?
+        does this count as structural congruence? No but it fits a full merge rule
       */
       // recursive: default //
       case Sequence(protocolA,protocolB) => Sequence(runOnce(protocolA),runOnce(protocolB))
