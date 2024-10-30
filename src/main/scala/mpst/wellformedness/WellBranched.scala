@@ -8,6 +8,11 @@ import mpst.utility.Environment.{SingleEnvironment, globalEnvironment}
 /* @ telmo
   IDEA:
     => check well-formedness on branching
+    => conditions:
+      => there can be only one sender (selector)
+      => the receivers on the left must match the receivers on the right and vice versa
+      => there cannot be ambiguous actions on branches
+      => the receivers must be readily available for the communication
   ISSUES:
     => couldn't receivesInReceive be relaxed and become the dual of receivesInSend?
     => add full merge
