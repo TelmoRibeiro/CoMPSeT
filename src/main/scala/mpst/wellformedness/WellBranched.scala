@@ -17,7 +17,7 @@ import mpst.utility.Environment.{SingleEnvironment, globalEnvironment}
     => couldn't receivesInReceive be relaxed and become the dual of receivesInSend?
     => add full merge
   REVIEWED:
-    => NEGATIVE
+    => AFFIRMATIVE*
 */
 
 object WellBranched:
