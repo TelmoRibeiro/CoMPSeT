@@ -1,6 +1,7 @@
 package mpst.wellformedness
 
 import mpst.operational_semantic.MPSTSemantic
+import mpst.projection.StandardProjection
 import mpst.syntax.Protocol.*
 import mpst.utility.Environment.{SingleEnvironment, globalEnvironment}
 
@@ -8,6 +9,7 @@ import mpst.utility.Environment.{SingleEnvironment, globalEnvironment}
   IDEA:
     => check well-formedness on branching
   ISSUES:
+    => couldn't receivesInReceive be relaxed and become the dual of receivesInSend?
     => add full merge
   REVIEWED:
     => NEGATIVE
@@ -29,7 +31,7 @@ object WellBranched:
 
   private def wellBranchedAuxiliary(globalA: Global, globalB: Global)(using environment: SingleEnvironment): Boolean =
     def nextActions(global: Global)(using environment: SingleEnvironment): Set[Action] =
-      for action -> _ <- MPSTSemantic.next(global) yield action
+      MPSTSemantic.next(global).map(_._1)
     end nextActions
 
     def receivesInSend(actions: Set[Action]): Set[(Participant, Label)] =
@@ -38,47 +40,61 @@ object WellBranched:
       }
     end receivesInSend
 
-    def receivesInReceive(actions: Set[Action], receivesInSend: Set[(Participant, Label)])(using environment: SingleEnvironment): Set[(Participant, Label)] =
-      actions.collect {
-        case Receive(receiver, _, label, _) if receivesInSend.contains(receiver -> label) => receiver -> label
-      }
-    end receivesInReceive
-
-    def uniqueSelector(actions: Set[Action]): Boolean =
+    def uniqueSelector(actions: Set[Action]): Participant =
       actions.collect {
         case Send(selector, _, _, _) => selector
       }.toList match
         case Nil => throw RuntimeException(s"no selector found in [$actions]")
-        case selector :: Nil => true
+        case selector :: Nil => selector
         case _ => throw RuntimeException(s"multiple selectors found in [$actions]")
     end uniqueSelector
 
-    def noAmbiguity(receivesA: Set[(Participant, Label)], receivesB: Set[(Participant, Label)]): Boolean =
-      receivesA.intersect(receivesB) match
+    def receivesInReceive(global: Global, selector: Participant, receivesInSend: Set[(Participant, Label)])(using environment: SingleEnvironment): Set[(Participant, Label)] =
+      for
+        participant -> local <- StandardProjection.projectionWithParticipant(global)
+        Receive(_, `selector`, label, _) <- MPSTSemantic.next(local).map(_._1) if receivesInSend.contains(participant -> label)
+      yield participant -> label
+    end receivesInReceive
+
+    def readilyReceived(receivesInSend: Set[(Participant, Label)], receivesInReceive: Set[(Participant, Label)], selector: Participant): Boolean =
+      receivesInSend.forall {
+        case entry @ receiver -> label if !receivesInReceive.contains(entry) =>
+          throw RuntimeException(s"$selector > $receiver : $label cannot be readily received")
+        case _ => true
+      }
+    end readilyReceived
+
+    def noAmbiguity(receivesInReceiveA: Set[(Participant, Label)], receivesInReceiveB: Set[(Participant, Label)]): Boolean =
+      receivesInReceiveA.intersect(receivesInReceiveB) match
         case intersection if intersection.nonEmpty =>
-          throw RuntimeException(s"ambiguous actions found in [$intersection]")
+          throw RuntimeException(s"[$intersection] are ambiguous in both branches")
         case _ => true
     end noAmbiguity
 
-    def matchingReceives(receivesA: Set[(Participant, Label)], receivesB: Set[(Participant, Label)]): Boolean =
-      receivesA.forall {
-        case receiver -> _ if !receivesB.map(_._1).contains(receiver) =>
-          throw RuntimeException(s"[$receiver] not matched in [$receivesB]")
+    def matchingReceivers(receivesInReceiveA: Set[(Participant, Label)], receivesInReceiveB: Set[(Participant, Label)]): Boolean =
+      receivesInReceiveA.forall {
+        case receiver -> _ if !receivesInReceiveB.map(_._1).contains(receiver) =>
+          throw RuntimeException(s"[$receiver] not matched in [$receivesInReceiveB]")
         case _ => true
-      } && receivesB.forall {
-        case receiver -> _ if !receivesA.map(_._1).contains(receiver) =>
-          throw RuntimeException(s"[$receiver] not matched in [$receivesA]")
+      } && receivesInReceiveB.forall {
+        case receiver -> _ if !receivesInReceiveA.map(_._1).contains(receiver) =>
+          throw RuntimeException(s"[$receiver] not matched in [$receivesInReceiveA]")
         case _ => true
       }
-    end matchingReceives
+    end matchingReceivers
 
     val nextActionsA = nextActions(globalA)
     val nextActionsB = nextActions(globalB)
 
-    val receivesA = receivesInReceive(nextActionsA, receivesInSend(nextActionsA))
-    val receivesB = receivesInReceive(nextActionsB, receivesInSend(nextActionsB))
+    val selector = uniqueSelector(nextActionsA ++ nextActionsB)
+
+    val receivesInSendA = receivesInSend(nextActionsA)
+    val receivesInSendB = receivesInSend(nextActionsB)
+
+    val receivesInReceiveA = receivesInReceive(globalA, selector, receivesInSendA)
+    val receivesInReceiveB = receivesInReceive(globalB, selector, receivesInSendB)
     
-    uniqueSelector(nextActionsA ++ nextActionsB) && noAmbiguity(receivesA, receivesB) && matchingReceives(receivesA, receivesB)
+    readilyReceived(receivesInSendA, receivesInReceiveA, selector) && readilyReceived(receivesInSendB, receivesInReceiveB, selector) && noAmbiguity(receivesInReceiveA, receivesInReceiveB) && matchingReceivers(receivesInReceiveA, receivesInReceiveB)
   end wellBranchedAuxiliary
 
   def apply(global: Global): Boolean = wellBranched(global)(using globalEnvironment(global))
