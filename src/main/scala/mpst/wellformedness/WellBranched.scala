@@ -15,6 +15,7 @@ import mpst.utility.Environment.{SingleEnvironment, globalEnvironment}
       => the receivers must be readily available for the communication
   ISSUES:
     => couldn't receivesInReceive be relaxed and become the dual of receivesInSend?
+    => shouldn't the 2nd rule become "there can only be one receiver?"
     => add full merge
   REVIEWED:
     => AFFIRMATIVE*

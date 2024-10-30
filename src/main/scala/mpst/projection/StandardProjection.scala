@@ -5,13 +5,11 @@ import mpst.utility.StructuralCongruence
 
 /* @ telmo
   IDEA:
-    => replicate the projections of ST4MP + recursion
-    => Plain Merge
+    => replicate the projections of VGI
   ISSUES:
-    => check recursion
-    => In order for us to successfully replicate ST4MP we have to check WellBranchedness after
+    => None
   REVIEWED:
-    => AFFIRMATIVE*
+    => AFFIRMATIVE
 */
 
 object StandardProjection:
@@ -47,7 +45,10 @@ object StandardProjection:
       yield Choice(localA, localB)
     case RecursionFixedPoint(variable, globalB) =>
       for localB <- projection(globalB)
-        yield RecursionFixedPoint(variable, localB)
+        yield
+          if   getParticipants(globalB).contains(participant)
+          then RecursionFixedPoint(variable, globalB)
+          else Skip
     case _ => None
   end projection
 end StandardProjection
