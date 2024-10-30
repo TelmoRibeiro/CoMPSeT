@@ -34,12 +34,6 @@ object WellBranched:
       MPSTSemantic.next(global).map(_._1)
     end nextActions
 
-    def receivesInSend(actions: Set[Action]): Set[(Participant, Label)] =
-      actions.collect {
-        case Send(_, receiver, label, _) => receiver -> label
-      }
-    end receivesInSend
-
     def uniqueSelector(actions: Set[Action]): Participant =
       actions.collect {
         case Send(selector, _, _, _) => selector
@@ -48,6 +42,12 @@ object WellBranched:
         case selector :: Nil => selector
         case _ => throw RuntimeException(s"multiple selectors found in [$actions]")
     end uniqueSelector
+
+    def receivesInSend(actions: Set[Action]): Set[(Participant, Label)] =
+      actions.collect {
+        case Send(_, receiver, label, _) => receiver -> label
+      }
+    end receivesInSend
 
     def receivesInReceive(global: Global, selector: Participant, receivesInSend: Set[(Participant, Label)])(using environment: SingleEnvironment): Set[(Participant, Label)] =
       for
