@@ -38,25 +38,11 @@ object CaosConfigurator extends Configurator[Global]:
     (input: String) => Parser(input)
 
   //********** SETTINGS DEFINITION **********//
-  private def mkInterleavingOption =
-    Setting(name = "Interleaving", render = true)
-  end mkInterleavingOption
-
-  private def mkCommModelOption =
-    val syncChoice    = Setting(name = "Sync",     render = true)
-    val asyncCSChoice = Setting(name = "Async CS", render = true)
-    val asyncMSChoice = Setting(name = "Async MS", render = true)
-
-    Setting("Comm Model", List(syncChoice, asyncCSChoice, asyncMSChoice), true)
-  end mkCommModelOption
-
-  private val ConfigA = Setting("Config A", List(mkInterleavingOption, mkCommModelOption), true)
-  private val ConfigB = Setting("Config B", List(mkInterleavingOption, mkCommModelOption), true)
-
-  override val setting: Setting = Setting("Settings", List(ConfigA, ConfigB), true)
+  override val setting: Setting = (Setting("Sync") || Setting("Async CS") || Setting("Async MS")) ++ Setting("Interleaving")
   //********** SETTINGS DEFINITION **********//
 
   //********** OPTIONS DEFINITION **********//
+  /*
   private def mkNoInterleavingWidget =
     check(
       (global: Global) =>
@@ -126,6 +112,9 @@ object CaosConfigurator extends Configurator[Global]:
         List("No Interleaving B" -> mkNoInterleavingWidget),
   )
   //********** OPTIONS DEFINITION **********//
+  */
+
+  override val settingConditions: Seq[SettingCondition[Global]] = List()
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS" ->
