@@ -38,8 +38,10 @@ object CaosConfigurator extends Configurator[Global]:
     (input: String) => Parser(input)
 
   //********** SETTINGS DEFINITION **********//
-  override val setting: Setting = (Setting("Sync") || Setting("Async CS") || Setting("Async MS")) ++ Setting("Interleaving")
+  override val setting: Setting = (Setting("A") || Setting("B") || Setting("C")) ++ Setting("D") ++ Setting("E")
   //********** SETTINGS DEFINITION **********//
+
+  print(setting.toString)
 
   //********** OPTIONS DEFINITION **********//
   /*
