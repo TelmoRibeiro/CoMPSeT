@@ -38,13 +38,13 @@ object CaosConfigurator extends Configurator[Global]:
     (input: String) => Parser(input)
 
   //********** SETTINGS DEFINITION **********//
-  override val setting: Setting = (Setting("A") || Setting("B") || Setting("C")) ++ Setting("D") ++ Setting("E")
+  // simple description
+  // override val setting: Setting = (Setting("Sync") || Setting("Async MS") || Setting("Async CS")) ++ Setting("Interleaving")
+  // renamed description
+  override val setting: Setting = "Configuration" -> (("Comm Model" -> (Setting("Sync") || Setting("Async MS") || Setting("Async CS"))) ++ Setting("Interleaving"))
   //********** SETTINGS DEFINITION **********//
 
-  print(setting.toString)
-
   //********** OPTIONS DEFINITION **********//
-  /*
   private def mkNoInterleavingWidget =
     check(
       (global: Global) =>
@@ -96,27 +96,16 @@ object CaosConfigurator extends Configurator[Global]:
   end mkAsyncMSWidget
 
   override val settingConditions: Seq[SettingCondition[Global]] = List(
-    ((setting: Setting) => setting("Settings.Config A.Comm Model.Sync")) ->
-        List("Sync A" -> mkSyncWidget),
-    ((setting: Setting) => setting("Settings.Config B.Comm Model.Sync")) ->
-        List("Sync B" -> mkSyncWidget),
-    ((setting: Setting) => setting("Settings.Config A.Comm Model.Async CS")) ->
-        List("Async CS A" -> mkAsyncCSWidget),
-    ((setting: Setting) => setting("Settings.Config B.Comm Model.Async CS")) ->
-        List("Async CS B" -> mkAsyncCSWidget),
-    ((setting: Setting) => setting("Settings.Config A.Comm Model.Async MS")) ->
-        List("Async MS A" -> mkAsyncMSWidget),
-    ((setting: Setting) => setting("Settings.Config B.Comm Model.Async MS")) ->
-        List("Async MS B" -> mkAsyncMSWidget),
-    ((setting: Setting) => !setting("Settings.Config A.Interleaving")) ->
-        List("No Interleaving A" -> mkNoInterleavingWidget),
-    ((setting: Setting) => !setting("Settings.Config B.Interleaving")) ->
-        List("No Interleaving B" -> mkNoInterleavingWidget),
+    ((setting: Setting) => setting("Configuration.Comm Model.Sync")) ->
+        List("Sync" -> mkSyncWidget),
+    ((setting: Setting) => setting("Configuration.Comm Model.Async CS")) ->
+        List("Async CS" -> mkAsyncCSWidget),
+    ((setting: Setting) => setting("Configuration.Comm Model.Async MS")) ->
+        List("Async MS" -> mkAsyncMSWidget),
+    ((setting: Setting) => !setting("Configuration.Interleaving")) ->
+        List("No Interleaving" -> mkNoInterleavingWidget),
   )
   //********** OPTIONS DEFINITION **********//
-  */
-
-  override val settingConditions: Seq[SettingCondition[Global]] = List()
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS" ->
