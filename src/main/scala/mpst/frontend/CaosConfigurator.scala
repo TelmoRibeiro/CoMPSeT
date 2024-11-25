@@ -17,6 +17,7 @@ import caos.sos.SOS.toMermaid
 import caos.view.{Code, Text}
 
 import scala.collection.immutable.Queue
+import scala.language.implicitConversions
 
 /* @ telmo
   IDEA:
@@ -45,65 +46,65 @@ object CaosConfigurator extends Configurator[Global]:
   //********** SETTINGS DEFINITION **********//
 
   //********** OPTIONS DEFINITION **********//
-  private def mkNoInterleavingWidget =
-    check(
-      (global: Global) =>
-        def hasInterleaving(protocol: Protocol): Seq[String] =
-          if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
-        end hasInterleaving
+  private val conditionalWidgets: Map[String, WidgetInfo[Global]] = Map(
+    "Sync" ->
+      steps(
+        initialSt = (global: Global) =>
+          StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
+        sos = SyncTraverseWrapper.Traverse,
+        viewSt = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
+          localsWithParticipant.map {
+            case (participant, local) => s"$participant: $local "
+          }.mkString("\n"),
+        typ = Text
+      ),
 
-        hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
-    )
-  end mkNoInterleavingWidget
+    "Async CS" ->
+      steps(
+        initialSt = (global: Global) =>
+          (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
+        sos = NetworkWrapper.NetworkCausal,
+        viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
+          localsWithParticipant.map {
+            case (participant, local) => s"$participant: $local "
+          }.mkString("\n"),
+        typ = Text
+      ),
 
-  private def mkSyncWidget =
-    steps(
-      initialSt = (global: Global) =>
-        StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
-      sos       = SyncTraverseWrapper.Traverse,
-      viewSt    = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
-        localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-      typ       = Text
-    )
-  end mkSyncWidget
+    "Async MS" ->
+      steps(
+        initialSt = (global: Global) =>
+          (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
+        sos = NetworkWrapper.NetworkMultiset,
+        viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
+          localsWithParticipant.map {
+            case (participant, local) => s"$participant: $local "
+          }.mkString("\n"),
+        typ = Text,
+      ),
 
-  private def mkAsyncCSWidget =
-    steps(
-      initialSt = (global: Global) =>
-        (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
-      sos       = NetworkWrapper.NetworkCausal,
-      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
-        localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-      typ       = Text
-    )
-  end mkAsyncCSWidget
+    "No Interleaving" ->
+      check(
+        (global: Global) =>
+          def hasInterleaving(protocol: Protocol): Seq[String] =
+            if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
+          end hasInterleaving
 
-  private def mkAsyncMSWidget =
-    steps(
-      initialSt = (global: Global) =>
-        (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
-      sos       = NetworkWrapper.NetworkMultiset,
-      viewSt    = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
-        localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-      typ       = Text,
-    )
-  end mkAsyncMSWidget
+          hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
+      ),
+  )
+
+  private def mkConditionalWidget(names: List[String]): List[(String, WidgetInfo[Global])] = {
+    names.collect{ name => name -> conditionalWidgets(name) }
+  }
+
+  implicit def toNameList(name: String): List[String] = List(name)
 
   override val settingConditions: Seq[SettingCondition[Global]] = List(
-    ((setting: Setting) => setting("Configuration.Comm Model.Sync")) ->
-        List("Sync" -> mkSyncWidget),
-    ((setting: Setting) => setting("Configuration.Comm Model.Async CS")) ->
-        List("Async CS" -> mkAsyncCSWidget),
-    ((setting: Setting) => setting("Configuration.Comm Model.Async MS")) ->
-        List("Async MS" -> mkAsyncMSWidget),
-    ((setting: Setting) => !setting("Configuration.Interleaving")) ->
-        List("No Interleaving" -> mkNoInterleavingWidget),
+    ((setting: Setting) =>  setting("Configuration.Comm Model.Sync"))     -> mkConditionalWidget("Sync"),
+    ((setting: Setting) =>  setting("Configuration.Comm Model.Async CS")) -> mkConditionalWidget("Async CS"),
+    ((setting: Setting) =>  setting("Configuration.Comm Model.Async MS")) -> mkConditionalWidget("Async MS"),
+    ((setting: Setting) => !setting("Configuration.Interleaving"))        -> mkConditionalWidget("No Interleaving"),
   )
   //********** OPTIONS DEFINITION **********//
 

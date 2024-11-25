@@ -13,6 +13,8 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
+- Add Message Sequence Chart
+- Make Conditions Lazy, Do Not Break The Flow If The Conditions Fail
 - Add FullMerge
 - Fix Sync
   - try with "a>b:Hello ; b>a:Bye"
