@@ -39,72 +39,85 @@ object CaosConfigurator extends Configurator[Global]:
     (input: String) => Parser(input)
 
   //********** SETTINGS DEFINITION **********//
-  // simple description
+  // simple description - standard name convention
+  // example:
   // override val setting: Setting = (Setting("Sync") || Setting("Async MS") || Setting("Async CS")) ++ Setting("Interleaving")
-  // renamed description
+
+  // "complex" description - renaming names
+  // @ telmo - maybe add an implicit conversion like (name: String) -> Setting(name)
+  // example:
   override val setting: Setting = "Configuration" -> (("Comm Model" -> (Setting("Sync") || Setting("Async MS") || Setting("Async CS"))) ++ Setting("Interleaving"))
   //********** SETTINGS DEFINITION **********//
 
   //********** OPTIONS DEFINITION **********//
-  private val conditionalWidgets: Map[String, WidgetInfo[Global]] = Map(
-    "Sync" ->
-      steps(
-        initialSt = (global: Global) =>
-          StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
-        sos = SyncTraverseWrapper.Traverse,
-        viewSt = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
-          localsWithParticipant.map {
-            case (participant, local) => s"$participant: $local "
-          }.mkString("\n"),
-        typ = Text
-      ),
+  private def mkNoInterleavingWidget =
+  check(
+    (global: Global) =>
+      def hasInterleaving(protocol: Protocol): Seq[String] =
+        if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
+      end hasInterleaving
 
-    "Async CS" ->
-      steps(
-        initialSt = (global: Global) =>
-          (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
-        sos = NetworkWrapper.NetworkCausal,
-        viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
-          localsWithParticipant.map {
-            case (participant, local) => s"$participant: $local "
-          }.mkString("\n"),
-        typ = Text
-      ),
+      hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
+  )
+  end mkNoInterleavingWidget
 
-    "Async MS" ->
-      steps(
-        initialSt = (global: Global) =>
-          (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
-        sos = NetworkWrapper.NetworkMultiset,
-        viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
-          localsWithParticipant.map {
-            case (participant, local) => s"$participant: $local "
-          }.mkString("\n"),
-        typ = Text,
-      ),
+  private def mkSyncWidget =
+    steps(
+      initialSt = (global: Global) =>
+        StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
+      sos = SyncTraverseWrapper.Traverse,
+      viewSt = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
+        localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+      typ = Text
+    )
+  end mkSyncWidget
 
-    "No Interleaving" ->
-      check(
-        (global: Global) =>
-          def hasInterleaving(protocol: Protocol): Seq[String] =
-            if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
-          end hasInterleaving
+  private def mkAsyncCSWidget =
+    steps(
+      initialSt = (global: Global) =>
+        (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
+      sos = NetworkWrapper.NetworkCausal,
+      viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
+        localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+      typ = Text
+    )
+  end mkAsyncCSWidget
 
-          hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
-      ),
+  private def mkAsyncMSWidget =
+    steps(
+      initialSt = (global: Global) =>
+        (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
+      sos = NetworkWrapper.NetworkMultiset,
+      viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
+        localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+      typ = Text,
+    )
+  end mkAsyncMSWidget
+
+  // @ telmo - trying to mimic the setup from the original widgets but with conditions
+  private val conditionalWidgets: Seq[(String, WidgetInfo[Global])] = List(
+    "Conditional Steps" -> (
+      if setting("Configuration.Comm Model.Sync") then
+        mkSyncWidget
+      else if setting("Configuration.Comm Model.Async CS") then
+        mkAsyncCSWidget
+      else
+        mkAsyncMSWidget
+    ),
   )
 
-  private def mkConditionalWidget(names: List[String]): List[(String, WidgetInfo[Global])] = {
-    names.collect{ name => name -> conditionalWidgets(name) }
-  }
-
-  implicit def toNameList(name: String): List[String] = List(name)
-
   override val settingConditions: Seq[SettingCondition[Global]] = List(
-    ((setting: Setting) =>  setting("Configuration.Comm Model.Sync"))     -> mkConditionalWidget("Sync"),
-    ((setting: Setting) =>  setting("Configuration.Comm Model.Async CS")) -> mkConditionalWidget("Async CS"),
-    ((setting: Setting) =>  setting("Configuration.Comm Model.Async MS")) -> mkConditionalWidget("Async MS"),
-    ((setting: Setting) => !setting("Configuration.Interleaving"))        -> mkConditionalWidget("No Interleaving"),
+    ((setting: Setting) =>  true) -> conditionalWidgets.toList,
+    ((setting: Setting) =>  setting("Configuration.Comm Model.Sync"))     -> List("Sync" -> mkSyncWidget),
+    ((setting: Setting) =>  setting("Configuration.Comm Model.Async CS")) -> List("Async CS" -> mkAsyncCSWidget),
+    ((setting: Setting) =>  setting("Configuration.Comm Model.Async MS")) -> List("Async MS" -> mkAsyncMSWidget),
+    ((setting: Setting) => !setting("Configuration.Interleaving"))        -> List("No Interleaving" -> mkNoInterleavingWidget),
   )
   //********** OPTIONS DEFINITION **********//
 
