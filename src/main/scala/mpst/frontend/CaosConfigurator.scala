@@ -100,7 +100,8 @@ object CaosConfigurator extends Configurator[Global]:
     )
   end mkAsyncMSWidget
 
-  // @ telmo - trying to mimic the setup from the original widgets but with conditions
+  // @ telmo - trying to mimic the setup from the original widgets but with conditions\
+  // pattern matching examples removed - if testing some flow control
   private val conditionalWidgets: Seq[(String, WidgetInfo[Global])] = List(
     "Conditional Steps" -> (
       if setting("Configuration.Comm Model.Sync") then
