@@ -1,6 +1,7 @@
 package mpst.frontend
 
 import mpst.frontend.caos_wrapper.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
+import caos.frontend.Configurator.str2setting
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.StandardProjection
 import mpst.syntax.Parser
@@ -41,12 +42,11 @@ object CaosConfigurator extends Configurator[Global]:
   //********** SETTINGS DEFINITION **********//
   // simple description - standard name convention
   // example:
-  // override val setting: Setting = (Setting("Sync") || Setting("Async MS") || Setting("Async CS")) ++ Setting("Interleaving")
+  // override val setting: Setting = ("Sync" || "Async MS" || "Async CS") && "Interleaving"
 
   // "complex" description - renaming names
-  // @ telmo - maybe add an implicit conversion like (name: String) -> Setting(name)
   // example:
-  override val setting: Setting = "Configuration" -> (("Comm Model" -> (Setting("Sync") || Setting("Async MS") || Setting("Async CS"))) ++ Setting("Interleaving"))
+  override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving")
   //********** SETTINGS DEFINITION **********//
 
   //********** OPTIONS DEFINITION **********//
