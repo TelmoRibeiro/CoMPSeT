@@ -39,17 +39,30 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  //********** SETTINGS DEFINITION **********//
-  // simple description - standard name convention
-  // example:
-  // override val setting: Setting = ("Sync" || "Async MS" || "Async CS") && "Interleaving"
+  /* @ telmo -
+    simple description -
+      standard name convention
+    example:
+    override val setting: Setting = ("Sync" || "Async MS" || "Async CS") && "Interleaving"
+    */
 
-  // "complex" description - renaming names
-  // example:
+  /* @ telmo -
+    multi-config description -
+      testing if the syntax is simple enough
+    example:
+    private def mkConfig: Setting = "Comm Model" -> ("Sync" || "Async CS" || "Async MS") && "Interleaving"
+    override val setting: Setting = "Configurations" -> ("ConfigA" -> mkConfig || "ConfigB" -> mkConfig)
+    */
+
+  /* @ telmo -
+    "complex" description -
+      renaming names
+    example:
+    */
+
   override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving")
-  //********** SETTINGS DEFINITION **********//
 
-  //********** OPTIONS DEFINITION **********//
+  //********** CONDITIONS DEFINITION **********//
   private def mkNoInterleavingWidget =
   check(
     (global: Global) =>
@@ -100,7 +113,6 @@ object CaosConfigurator extends Configurator[Global]:
     )
   end mkAsyncMSWidget
 
-  // @ telmo - trying to mimic the setup from the original widgets but with conditions\
   // pattern matching examples removed - if testing some flow control
   private val conditionalWidgets: Seq[(String, WidgetInfo[Global])] = List(
     "Conditional Steps" -> (
@@ -120,7 +132,8 @@ object CaosConfigurator extends Configurator[Global]:
     ((setting: Setting) =>  setting("Configuration.Comm Model.Async MS")) -> List("Async MS" -> mkAsyncMSWidget),
     ((setting: Setting) => !setting("Configuration.Interleaving"))        -> List("No Interleaving" -> mkNoInterleavingWidget),
   )
-  //********** OPTIONS DEFINITION **********//
+  // override val settingConditions: Seq[SettingCondition[Global]] = List.empty
+  //********** CONDITIONS DEFINITION **********//
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS" ->
