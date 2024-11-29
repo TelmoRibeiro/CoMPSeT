@@ -1,7 +1,7 @@
 package mpst.frontend
 
+import mpst.frontend.MessageSequenceChart.*
 import mpst.frontend.caos_wrapper.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
-import caos.frontend.Configurator.str2setting
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.StandardProjection
 import mpst.syntax.Parser
@@ -10,12 +10,11 @@ import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, toStr
 import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
-
 import caos.frontend.Configurator
-import caos.frontend.Configurator.{check, lts, steps, view, viewMerms, Example, Setting, SettingCondition}
+import caos.frontend.Configurator.{Example, Setting, SettingCondition, check, lts, steps, str2setting, view, viewAll, viewMerms}
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS.toMermaid
-import caos.view.{Code, Text}
+import caos.view.{Code, Mermaid, Text}
 
 import scala.collection.immutable.Queue
 import scala.language.implicitConversions
@@ -152,11 +151,11 @@ object CaosConfigurator extends Configurator[Global]:
     }.mkString("\n")
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
+    "Message Sequence Chart" ->
+      view(MessageSequenceChart.apply, Mermaid),
+
     "Global" ->
-      view(
-        viewProg = (global: Global) => s"${global.toString}",
-        typ      = Code("java")
-      ),
+      view((global: Global) => s"${global.toString}", Code("java")),
 
     "Well Formedness" ->
       check((global: Global) =>
@@ -168,30 +167,28 @@ object CaosConfigurator extends Configurator[Global]:
       ),
 
     "Locals" ->
-      view(
-        viewProg = (global: Global) =>
-          StandardProjection.projectionWithParticipant(global).map {
-            case participant -> local => s"$participant -> $local"
-          }.mkString("\n"),
-        typ = Code("java")
+      view((global: Global) =>
+        StandardProjection.projectionWithParticipant(global).map {
+          case participant -> local => s"$participant -> $local"
+        }.mkString("\n"),
+        Code("java")
       ),
 
     "\"Choreo\" - My Spin" ->
-      steps(
-        initialSt = (global: Global) =>
-          global -> globalEnvironment(global),
-        sos    = MPSTSemanticWrapper,
-        viewSt = (global: Global, environment: SingleEnvironment) =>
+      steps((global: Global) =>
+        global -> globalEnvironment(global),
+        MPSTSemanticWrapper,
+        (global: Global, environment: SingleEnvironment) =>
           global.toString,
-        typ = Text
+        _.toString,
+        Text
     ),
 
     "Global Automata"
-      -> lts(
-      initialSt = (global: Global) =>
-        global -> globalEnvironment(global),
-      sos = MPSTSemanticWrapper,
-      viewSt = (global: Global, environment: SingleEnvironment) =>
+      -> lts((global: Global) =>
+      global -> globalEnvironment(global),
+      MPSTSemanticWrapper,
+      (global: Global, environment: SingleEnvironment) =>
         environment.toPrettyPrint,
     ),
 
@@ -201,12 +198,12 @@ object CaosConfigurator extends Configurator[Global]:
         StandardProjection.projectionWithParticipant(global).map {
           case participant -> local =>
             val lts = caos.sos.SOS.toMermaid(
-              sos = MPSTSemanticWrapper,
-              s = local -> environment(participant),
-              showSt = (local: Local, environment: SingleEnvironment) =>
+              MPSTSemanticWrapper,
+              local -> environment(participant),
+              (local: Local, environment: SingleEnvironment) =>
                 environment.toPrettyPrint,
-              showAct = _.toString,
-              maxNodes = 100,
+              _.toString,
+              100,
             )
             participant -> lts
         }.toList
