@@ -63,10 +63,11 @@ object CaosConfigurator extends Configurator[Global]:
 
   //********** CONDITIONS DEFINITION **********//
   private def mkNoInterleavingWidget =
-  check(
-    (global: Global) =>
+  check((global: Global) =>
       def hasInterleaving(protocol: Protocol): Seq[String] =
-        if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
+        if Protocol.hasInterleaving(protocol) then
+          Seq(s"interleaving construct found in $protocol")
+        else Seq.empty
       end hasInterleaving
 
       hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
@@ -74,41 +75,38 @@ object CaosConfigurator extends Configurator[Global]:
   end mkNoInterleavingWidget
 
   private def mkSyncWidget =
-    steps(
-      initialSt = (global: Global) =>
-        StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
-      sos = SyncTraverseWrapper.Traverse,
-      viewSt = (localsWithParticipant: Set[(Participant, Local)], environment: Environment) =>
-        localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-      typ = Text
+    steps((global: Global) =>
+      StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
+      SyncTraverseWrapper.Traverse,
+      (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
+        case (participant, local) => s"$participant: $local "
+      }.mkString("\n"),
+      _.toString,
+      Text
     )
   end mkSyncWidget
 
   private def mkAsyncCSWidget =
-    steps(
-      initialSt = (global: Global) =>
-        (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
-      sos = NetworkWrapper.NetworkCausal,
-      viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) =>
-        localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-      typ = Text
+    steps((global: Global) =>
+      (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
+      NetworkWrapper.NetworkCausal,
+      (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
+        case (participant, local) => s"$participant: $local "
+      }.mkString("\n"),
+      _.toString,
+      Text
     )
   end mkAsyncCSWidget
 
   private def mkAsyncMSWidget =
-    steps(
-      initialSt = (global: Global) =>
-        (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
-      sos = NetworkWrapper.NetworkMultiset,
-      viewSt = (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) =>
-        localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-      typ = Text,
+    steps((global: Global) =>
+      (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
+      NetworkWrapper.NetworkMultiset,
+      (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
+        case (participant, local) => s"$participant: $local "
+      }.mkString("\n"),
+      _.toString,
+      Text,
     )
   end mkAsyncMSWidget
 
