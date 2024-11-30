@@ -29,6 +29,11 @@ import scala.language.implicitConversions
 */
 
 object CaosConfigurator extends Configurator[Global]:
+  extension [K, V](map: Map[K, V])
+    private def toPrettyPrint: String = map.map {
+      case k -> v => s"$k -> $v"
+    }.mkString("\n")
+
   override val name: String =
     "CoMPSeT - Comparison of Multiparty Session Types"
 
@@ -122,6 +127,9 @@ object CaosConfigurator extends Configurator[Global]:
     ),
   )
 
+  // @ telmo - add it here
+  println(setting.remainingPath("Configuration.Comm Model"))
+
   override val settingConditions: Seq[SettingCondition[Global]] = List(
     ((setting: Setting) =>  true) -> conditionalWidgets.toList,
     ((setting: Setting) =>  setting("Configuration.Comm Model.Sync"))     -> List("Sync" -> mkSyncWidget),
@@ -142,11 +150,6 @@ object CaosConfigurator extends Configurator[Global]:
     "SimpleRecursion" ->
       "def X in (m>w:Task ; X)",
   )
-
-  extension [K, V](map: Map[K, V])
-    private def toPrettyPrint: String = map.map {
-      case k -> v => s"$k -> $v"
-    }.mkString("\n")
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
     "Message Sequence Chart" ->
