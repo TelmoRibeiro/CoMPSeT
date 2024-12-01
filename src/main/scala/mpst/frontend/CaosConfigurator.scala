@@ -115,51 +115,50 @@ object CaosConfigurator extends Configurator[Global]:
     )
   end mkAsyncMSWidget
 
-  // pattern matching examples removed - if testing some flow control
   private val conditionalWidgets: Seq[(String, WidgetInfo[Global])] = List(
-    "Conditional Steps" -> (
-      if setting("Configuration.Comm Model.Sync") then
-        mkSyncWidget
-      else if setting("Configuration.Comm Model.Async CS") then
-        mkAsyncCSWidget
-      else
-        mkAsyncMSWidget
+    // @ telmo - experimenting "high-level" widget creation
+    "Conditional Steps"
+      -> ( setting("Configuration.Comm Model").head match
+      case "Sync"     => mkSyncWidget
+      case "Async CS" => mkAsyncCSWidget
+      case "Async MS" => mkAsyncMSWidget
     ),
+
+    // @ telmo - experimenting "low-level" widget creation
+    "Conditional Local Automata"
+      -> ( setting("Configuration.Comm Model").head match
+        case "Sync"     => ???
+        case "Async CS" => ???
+        case "Async MS" => ???
+      ),
   )
 
-  // @ telmo - add it here
-  println(setting.remainingPath("Configuration.Comm Model"))
-
   override val settingConditions: Seq[SettingCondition[Global]] = List(
-    ((setting: Setting) =>  true) -> conditionalWidgets.toList,
-    ((setting: Setting) =>  setting("Configuration.Comm Model.Sync"))     -> List("Sync" -> mkSyncWidget),
-    ((setting: Setting) =>  setting("Configuration.Comm Model.Async CS")) -> List("Async CS" -> mkAsyncCSWidget),
-    ((setting: Setting) =>  setting("Configuration.Comm Model.Async MS")) -> List("Async MS" -> mkAsyncMSWidget),
-    ((setting: Setting) => !setting("Configuration.Interleaving"))        -> List("No Interleaving" -> mkNoInterleavingWidget),
+    ((setting: Setting) => true) -> conditionalWidgets.toList,
   )
   // override val settingConditions: Seq[SettingCondition[Global]] = List.empty
   //********** CONDITIONS DEFINITION **********//
 
   override val examples: Seq[Example] = List(
-    "AsyncCS vs AsyncMS" ->
-      "(m>w:Work || m>w:WorkAgain) ; w>m:Done",
+    "AsyncCS vs AsyncMS"
+      -> "(m>w:Work || m>w:WorkAgain) ; w>m:Done",
 
-    "MasterWorkers" ->
-      "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
+    "MasterWorkers"
+      -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
 
-    "SimpleRecursion" ->
-      "def X in (m>w:Task ; X)",
+    "SimpleRecursion"
+      -> "def X in (m>w:Task ; X)",
   )
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
-    "Message Sequence Chart" ->
-      view(MessageSequenceChart.apply, Mermaid),
+    "Message Sequence Chart"
+      -> view(MessageSequenceChart.apply, Mermaid),
 
-    "Global" ->
-      view((global: Global) => s"${global.toString}", Code("java")),
+    "Global"
+      -> view((global: Global) => s"${global.toString}", Code("java")),
 
-    "Well Formedness" ->
-      check((global: Global) =>
+    "Well Formedness"
+      -> check((global: Global) =>
         def wellFormed(condition: Global => Boolean): Seq[String] =
           if !condition(global) then Seq(s"[$global] failed while testing [$condition]") else Seq.empty
         end wellFormed
@@ -167,31 +166,31 @@ object CaosConfigurator extends Configurator[Global]:
         wellFormed(DependentlyGuarded.apply) ++ wellFormed(WellBounded.apply) ++ wellFormed(WellBranched.apply) ++ wellFormed(WellChannelled.apply) ++ wellFormed(WellCommunicated.apply)
       ),
 
-    "Locals" ->
-      view((global: Global) =>
+    "Locals"
+      -> view((global: Global) =>
         StandardProjection.projectionWithParticipant(global).map {
           case participant -> local => s"$participant -> $local"
         }.mkString("\n"),
         Code("java")
       ),
 
-    "\"Choreo\" - My Spin" ->
-      steps((global: Global) =>
+    "\"Choreo\" - My Spin"
+      -> steps((global: Global) =>
         global -> globalEnvironment(global),
         MPSTSemanticWrapper,
         (global: Global, environment: SingleEnvironment) =>
           global.toString,
         _.toString,
         Text
-    ),
+      ),
 
     "Global Automata"
       -> lts((global: Global) =>
-      global -> globalEnvironment(global),
-      MPSTSemanticWrapper,
-      (global: Global, environment: SingleEnvironment) =>
-        environment.toPrettyPrint,
-    ),
+        global -> globalEnvironment(global),
+        MPSTSemanticWrapper,
+        (global: Global, environment: SingleEnvironment) =>
+          environment.toPrettyPrint,
+      ),
 
     "Local Automata"
      -> viewMerms((global: Global) =>
@@ -208,6 +207,6 @@ object CaosConfigurator extends Configurator[Global]:
             )
             participant -> lts
         }.toList
-    ),
+     ),
   )
 end CaosConfigurator
