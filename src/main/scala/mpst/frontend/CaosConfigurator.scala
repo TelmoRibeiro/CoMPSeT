@@ -119,10 +119,13 @@ object CaosConfigurator extends Configurator[Global]:
   private val conditionalWidgets: Seq[(String, WidgetInfo[Global])] = List(
     // @ telmo - experimenting "high-level" widget creation
     "Conditional Steps"
-      -> ( setting("Configuration.Comm Model").head match
-      case "Sync"     => mkSyncWidget
-      case "Async CS" => mkAsyncCSWidget
-      case "Async MS" => mkAsyncMSWidget
+      -> ( setting("Configuration.Comm Model") match
+        case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Sync") =>
+          mkSyncWidget
+        case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async CS") =>
+          mkAsyncCSWidget
+        case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async MS") =>
+          mkAsyncMSWidget
     ),
 
     // @ telmo - experimenting "low-level" widget creation
@@ -140,7 +143,6 @@ object CaosConfigurator extends Configurator[Global]:
     ((setting: Setting) => true) -> conditionalWidgets.toList,
   )
   // override val settingConditions: Seq[SettingCondition[Global]] = List.empty
-  // println(setting.allActiveLeavesFrom("Configuration.Comm Model"))
   //********** CONDITIONS DEFINITION **********//
 
   override val examples: Seq[Example] = List(
