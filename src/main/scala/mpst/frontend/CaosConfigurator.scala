@@ -30,11 +30,6 @@ import scala.language.implicitConversions
 */
 
 object CaosConfigurator extends Configurator[Global]:
-  extension [K, V](map: Map[K, V])
-    private def toPrettyPrint: String = map.map {
-      case k -> v => s"$k -> $v"
-    }.mkString("\n")
-
   override val name: String =
     "CoMPSeT - Comparison of Multiparty Session Types"
 
@@ -67,9 +62,19 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving")
 
-  //********** CONDITIONS DEFINITION **********//
+  override val examples: Seq[Example] = List(
+    "AsyncCS vs AsyncMS"
+      -> "(m>w:Work || m>w:WorkAgain) ; w>m:Done",
+
+    "MasterWorkers"
+      -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
+
+    "SimpleRecursion"
+      -> "def X in (m>w:Task ; X)",
+  )
+
   private def mkNoInterleavingWidget =
-  check((global: Global) =>
+    check((global: Global) =>
       def hasInterleaving(protocol: Protocol): Seq[String] =
         if Protocol.hasInterleaving(protocol) then
           Seq(s"interleaving construct found in $protocol")
@@ -77,7 +82,7 @@ object CaosConfigurator extends Configurator[Global]:
       end hasInterleaving
 
       hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
-  )
+    )
   end mkNoInterleavingWidget
 
   private def mkSyncWidget =
@@ -116,45 +121,8 @@ object CaosConfigurator extends Configurator[Global]:
     )
   end mkAsyncMSWidget
 
-  private val conditionalWidgets: Seq[(String, WidgetInfo[Global])] = List(
-    // @ telmo - experimenting "high-level" widget creation
-    "Conditional Steps"
-      -> ( setting("Configuration.Comm Model") match
-        case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Sync") =>
-          mkSyncWidget
-        case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async CS") =>
-          mkAsyncCSWidget
-        case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async MS") =>
-          mkAsyncMSWidget
-    ),
-
-    // @ telmo - experimenting "low-level" widget creation
-    /*
-    "Conditional Local Automata"
-      -> ( setting("Configuration.Comm Model").head match
-        case "Sync"     => ???
-        case "Async CS" => ???
-        case "Async MS" => ???
-      ),
-     */
-  )
-
-  override val settingConditions: Seq[SettingCondition[Global]] = List(
-    ((setting: Setting) => true) -> conditionalWidgets.toList,
-  )
-  // override val settingConditions: Seq[SettingCondition[Global]] = List.empty
-  //********** CONDITIONS DEFINITION **********//
-
-  override val examples: Seq[Example] = List(
-    "AsyncCS vs AsyncMS"
-      -> "(m>w:Work || m>w:WorkAgain) ; w>m:Done",
-
-    "MasterWorkers"
-      -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
-
-    "SimpleRecursion"
-      -> "def X in (m>w:Task ; X)",
-  )
+  extension [K, V](map: Map[K, V])
+    private def toPrettyPrint: String = map.map{case k -> v => s"$k -> $v"}.mkString("\n")
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
     "Message Sequence Chart"
@@ -214,5 +182,15 @@ object CaosConfigurator extends Configurator[Global]:
             participant -> lts
         }.toList
      ),
+
+    "Conditional Steps"
+      -> ( setting("Configuration.Comm Model") match
+      case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Sync") =>
+        mkSyncWidget
+      case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async CS") =>
+        mkAsyncCSWidget
+      case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async MS") =>
+        mkAsyncMSWidget
+      ),
   )
 end CaosConfigurator
