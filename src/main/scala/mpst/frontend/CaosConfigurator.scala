@@ -11,7 +11,8 @@ import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironme
 import mpst.utility.Multiset
 import mpst.wellformedness.*
 import caos.frontend.Configurator
-import caos.frontend.Configurator.{Example, Setting, SettingCondition, check, lts, steps, str2setting, view, viewAll, viewMerms}
+import caos.frontend.Configurator.*
+import caos.frontend.Setting
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS.toMermaid
 import caos.view.{Code, Mermaid, Text}
@@ -125,18 +126,21 @@ object CaosConfigurator extends Configurator[Global]:
     ),
 
     // @ telmo - experimenting "low-level" widget creation
+    /*
     "Conditional Local Automata"
       -> ( setting("Configuration.Comm Model").head match
         case "Sync"     => ???
         case "Async CS" => ???
         case "Async MS" => ???
       ),
+     */
   )
 
   override val settingConditions: Seq[SettingCondition[Global]] = List(
     ((setting: Setting) => true) -> conditionalWidgets.toList,
   )
   // override val settingConditions: Seq[SettingCondition[Global]] = List.empty
+  // println(setting.allActiveLeavesFrom("Configuration.Comm Model"))
   //********** CONDITIONS DEFINITION **********//
 
   override val examples: Seq[Example] = List(
