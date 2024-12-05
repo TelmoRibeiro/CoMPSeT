@@ -13,20 +13,20 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- Add Message Sequence Chart
-- Make Conditions Lazy, Do Not Break The Flow If The Conditions Fail
+- Fix MSC
+- Fix Merge
+- Add 2nd Recursion
+- Fix Semantic
+- Do Not Break The Flow If The Conditions Fail
 - Add FullMerge
 - Fix Sync
   - try with "a>b:Hello ; b>a:Bye"
-- Fix SyncProjection
-- Fix Semantic
 - Fix Well-Formedness (Maybe Call It Projectability?)
 - Fix Utilities
 - Extend Example's List
-- Taus?
 ___
 
 ## To Do (CAOS):
-- Review It
+- Fix Child Uncheck Bug
 - There is some problems with the right bar after switching examples without applying configs
   - I believe this problem is related to the way I am using check but need to further inspect
