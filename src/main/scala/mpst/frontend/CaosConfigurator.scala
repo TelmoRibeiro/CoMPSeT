@@ -183,14 +183,19 @@ object CaosConfigurator extends Configurator[Global]:
         }.toList
      ),
 
-    "Conditional Steps"
-      -> ( setting("Configuration.Comm Model") match
-      case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Sync") =>
-        mkSyncWidget.setRender(false)
-      case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async CS") =>
-        mkAsyncCSWidget.setRender(false)
-      case activeLeaves if activeLeaves.exists(activeLeaf => activeLeaf.name == "Async MS") =>
-        mkAsyncMSWidget.setRender(false)
+    "Conditional Sync" ->
+      mkSyncWidget.setRender(
+        setting("Configuration.Comm Model").exists(_.name == "Sync")
+      ),
+
+    "Conditional Async CS" ->
+      mkAsyncCSWidget.setRender(
+        setting("Configuration.Comm Model").exists(_.name == "Async CS")
+      ),
+
+    "Conditional Async MS" ->
+      mkAsyncMSWidget.setRender(
+        setting("Configuration.Comm Model").exists(_.name == "Async MS")
       ),
   )
 end CaosConfigurator

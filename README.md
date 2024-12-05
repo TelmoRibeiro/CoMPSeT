@@ -28,6 +28,7 @@ ___
 
 ## To Do (CAOS):
 
-- Improve Render Logic
+- Maybe Turn Render Into A Function
+- Make The Render Conditions Be Evaluated Only At Runtime
 - There is some problems with the right bar after switching examples without applying configs
   - I believe this problem is related to the way I am using check but need to further inspect
