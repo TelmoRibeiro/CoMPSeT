@@ -85,42 +85,6 @@ object CaosConfigurator extends Configurator[Global]:
     )
   end mkNoInterleavingWidget
 
-  private def mkSyncWidget =
-    steps((global: Global) =>
-      StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
-      SyncTraverseWrapper.Traverse,
-      (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
-        case (participant, local) => s"$participant: $local "
-      }.mkString("\n"),
-      _.toString,
-      Text
-    )
-  end mkSyncWidget
-
-  private def mkAsyncCSWidget =
-    steps((global: Global) =>
-      (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
-      NetworkWrapper.NetworkCausal,
-      (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
-        case (participant, local) => s"$participant: $local "
-      }.mkString("\n"),
-      _.toString,
-      Text
-    )
-  end mkAsyncCSWidget
-
-  private def mkAsyncMSWidget =
-    steps((global: Global) =>
-      (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
-      NetworkWrapper.NetworkMultiset,
-      (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
-        case (participant, local) => s"$participant: $local "
-      }.mkString("\n"),
-      _.toString,
-      Text,
-    )
-  end mkAsyncMSWidget
-
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{case k -> v => s"$k -> $v"}.mkString("\n")
 
@@ -184,17 +148,41 @@ object CaosConfigurator extends Configurator[Global]:
      ),
 
     "Conditional Sync" ->
-      mkSyncWidget.setRender(
+      steps((global: Global) =>
+        StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
+        SyncTraverseWrapper.Traverse,
+        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+        _.toString,
+        Text
+      ).setRender(
         setting("Configuration.Comm Model").exists(_.name == "Sync")
       ),
 
     "Conditional Async CS" ->
-      mkAsyncCSWidget.setRender(
+      steps((global: Global) =>
+        (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
+        NetworkWrapper.NetworkCausal,
+        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+        _.toString,
+        Text
+      ).setRender(
         setting("Configuration.Comm Model").exists(_.name == "Async CS")
       ),
 
     "Conditional Async MS" ->
-      mkAsyncMSWidget.setRender(
+      steps((global: Global) =>
+        (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
+        NetworkWrapper.NetworkMultiset,
+        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+        _.toString,
+        Text,
+      ).setRender(
         setting("Configuration.Comm Model").exists(_.name == "Async MS")
       ),
   )
