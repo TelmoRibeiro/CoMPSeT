@@ -27,6 +27,6 @@ ___
 ___
 
 ## To Do (CAOS):
-- Fix Child Uncheck Bug
+- Add Render && Render Logic
 - There is some problems with the right bar after switching examples without applying configs
   - I believe this problem is related to the way I am using check but need to further inspect
