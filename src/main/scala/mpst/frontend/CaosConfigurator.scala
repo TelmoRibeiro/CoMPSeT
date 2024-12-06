@@ -20,6 +20,8 @@ import caos.view.{Code, Mermaid, Text}
 import scala.collection.immutable.Queue
 import scala.language.implicitConversions
 
+import caos.frontend.Site
+
 /* @ telmo
   IDEA:
     => instantiate CAOS.Configurator
@@ -157,8 +159,9 @@ object CaosConfigurator extends Configurator[Global]:
         _.toString,
         Text
       ).setRender(
-        setting("Configuration.Comm Model").exists(_.name == "Sync")
+        Site.setting("Configuration.Comm Model").exists(_.name == "Sync")
       ),
+    // @ telmo - I find that going through Site. is quite hacky...
 
     "Conditional Async CS" ->
       steps((global: Global) =>
@@ -170,7 +173,7 @@ object CaosConfigurator extends Configurator[Global]:
         _.toString,
         Text
       ).setRender(
-        setting("Configuration.Comm Model").exists(_.name == "Async CS")
+        Site.setting("Configuration.Comm Model").exists(_.name == "Async CS")
       ),
 
     "Conditional Async MS" ->
@@ -183,7 +186,7 @@ object CaosConfigurator extends Configurator[Global]:
         _.toString,
         Text,
       ).setRender(
-        setting("Configuration.Comm Model").exists(_.name == "Async MS")
+        Site.setting("Configuration.Comm Model").exists(_.name == "Async MS")
       ),
   )
 end CaosConfigurator

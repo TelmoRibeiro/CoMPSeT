@@ -28,8 +28,6 @@ ___
 
 ## To Do (CAOS):
 
-- Maybe Turn Render Into A Function
-- render on WidgetInfo vs on String -> WidgetInfo
-- Make The Render Conditions Be Evaluated Only At Runtime
+- Render On WidgetInfo vs On String -> WidgetInfo
 - There is some problems with the right bar after switching examples without applying configs
   - I believe this problem is related to the way I am using check but need to further inspect
