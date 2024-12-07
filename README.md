@@ -28,6 +28,8 @@ ___
 
 ## To Do (CAOS):
 
+- Evade The setChecked Issue
+- try to move Configurator.str2setting and Configurator.toSettingRenamed
 - add allowOne vs allowAll - different UI behaviour
 - experiment with exclusive orders
 - swap null for Option[Setting]
