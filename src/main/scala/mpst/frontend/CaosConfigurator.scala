@@ -62,7 +62,7 @@ object CaosConfigurator extends Configurator[Global]:
     example:
     */
 
-  override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving")
+  override val setting: Option[Setting] = Some("Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving"))
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
@@ -152,7 +152,10 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(Site.getSetting("Configuration.Comm Model").exists(_.name == "Sync")),
+      ).setRender(Site.getSetting match
+        case Some(setting) => setting("Configuration.Comm Model").exists(_.name == "Sync")
+        case None => false
+      ),
 
     "Conditional Async CS" ->
       steps((global: Global) =>
@@ -161,7 +164,10 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(Site.getSetting("Configuration.Comm Model").exists(_.name == "Async CS")),
+      ).setRender(Site.getSetting match
+        case Some(setting) => setting("Configuration.Comm Model").exists(_.name == "Async CS")
+        case None => false
+      ),
 
     "Conditional Async MS" ->
       steps((global: Global) =>
@@ -170,6 +176,9 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(Site.getSetting("Configuration.Comm Model").exists(_.name == "Async MS")),
+      ).setRender(Site.getSetting match
+        case Some(setting) => setting("Configuration.Comm Model").exists(_.name == "Async MS")
+        case None => false
+      ),
   )
 end CaosConfigurator
