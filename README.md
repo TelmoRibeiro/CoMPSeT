@@ -28,10 +28,9 @@ ___
 
 ## To Do (CAOS):
 
+- allowOne vs allowAll
 - Evade The setChecked Issue
 - try to move Configurator.str2setting and Configurator.toSettingRenamed
-- add allowOne vs allowAll - different UI behaviour
-- experiment with exclusive orders
 - swap null for Option[Setting]
 - Render On WidgetInfo vs On String -> WidgetInfo
 - There is some problems with the right bar after switching examples without applying configs
