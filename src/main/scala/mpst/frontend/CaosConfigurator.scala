@@ -78,9 +78,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def mkNoInterleavingWidget =
     check((global: Global) =>
       def hasInterleaving(protocol: Protocol): Seq[String] =
-        if Protocol.hasInterleaving(protocol) then
-          Seq(s"interleaving construct found in $protocol")
-        else Seq.empty
+        if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
       end hasInterleaving
 
       hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
@@ -118,8 +116,7 @@ object CaosConfigurator extends Configurator[Global]:
       -> steps((global: Global) =>
         global -> globalEnvironment(global),
         MPSTSemanticWrapper,
-        (global: Global, environment: SingleEnvironment) =>
-          global.toString,
+        (global: Global, environment: SingleEnvironment) => global.toString,
         _.toString,
         Text
       ),
@@ -128,8 +125,7 @@ object CaosConfigurator extends Configurator[Global]:
       -> lts((global: Global) =>
         global -> globalEnvironment(global),
         MPSTSemanticWrapper,
-        (global: Global, environment: SingleEnvironment) =>
-          environment.toPrettyPrint,
+        (global: Global, environment: SingleEnvironment) => environment.toPrettyPrint,
       ),
 
     "Local Automata"
@@ -156,8 +152,6 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-        _.toString,
-        Text
       ).setRender(Site.getSetting("Configuration.Comm Model").exists(_.name == "Sync")),
 
     "Conditional Async CS" ->
@@ -167,8 +161,6 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-        _.toString,
-        Text
       ).setRender(Site.getSetting("Configuration.Comm Model").exists(_.name == "Async CS")),
 
     "Conditional Async MS" ->
@@ -178,8 +170,6 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-        _.toString,
-        Text,
       ).setRender(Site.getSetting("Configuration.Comm Model").exists(_.name == "Async MS")),
   )
 end CaosConfigurator
