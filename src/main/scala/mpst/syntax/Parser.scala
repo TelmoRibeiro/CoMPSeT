@@ -72,7 +72,13 @@ object Parser extends RegexParsers:
 
   private def recursionCall: Parser[Global] = identifier ^^ (recursionVariable => RecursionCall(recursionVariable))
 
-  private def literal: Parser[Global] = parentheses | interaction | skip
+  private def literal: Parser[Global] = recursionKleeneStar | parentheses | interaction | skip
+
+
+  private def recursionKleeneStar: Parser[Global] = parentheses ~ "*" ^^ {
+    case globalType ~ "*" => RecursionKleeneStar(globalType)
+    case _ ~ _ => throw RuntimeException("bad syntax on recursionKleeneStar")  
+  }
 
   private def parentheses: Parser[Global] = "(" ~> globalType <~ ")"
 

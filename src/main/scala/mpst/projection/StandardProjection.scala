@@ -60,11 +60,11 @@ object StandardProjection:
       yield
         localC
     case RecursionFixedPoint(variable, globalB) =>
-      for localB <- projection(globalB)
-        yield
-          if   getParticipants(globalB).contains(participant)
-          then RecursionFixedPoint(variable, globalB)
-          else Skip
+      for localB <- projection(globalB) yield
+        if getParticipants(localB).contains(participant) then RecursionFixedPoint(variable, localB) else Skip
+    case RecursionKleeneStar(globalA) =>
+      for localA <- projection(globalA) yield
+        if getParticipants(localA).contains(participant) then RecursionKleeneStar(localA) else Skip
     case _ => None
   end projection
 end StandardProjection

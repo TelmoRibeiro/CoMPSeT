@@ -35,6 +35,10 @@ object MessageSequenceChart:
       s"""loop
          |  ${toMermaid(globalB)}
          |end""".stripMargin
+    case RecursionKleeneStar(globalA) =>
+      s"""loop
+         |  ${toMermaid(globalA)}
+         |end""".stripMargin
     case _ => ""
   end toMermaid
 

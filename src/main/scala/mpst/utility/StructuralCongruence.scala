@@ -36,6 +36,7 @@ object StructuralCongruence:
       case Parallel(Skip,protocolB) => runOnce(protocolB) // @ telmo - usually literature allows this on "0"
       // @ telmo - CHOICE IS DANGEROUS!
       case RecursionFixedPoint(_,Skip) => Skip            // @ telmo - usually literature allows this on "0"
+      case RecursionKleeneStar(Skip)   => Skip
       /* @ telmo -
         choreo allows
         Choice(c1,c1) => runOnce(c1)
@@ -46,6 +47,7 @@ object StructuralCongruence:
       case Parallel(protocolA,protocolB) => Parallel(runOnce(protocolA),runOnce(protocolB))
       case Choice  (protocolA,protocolB) => Choice  (runOnce(protocolA),runOnce(protocolB))
       case RecursionFixedPoint(variable,protocolB) => RecursionFixedPoint(variable,runOnce(protocolB))
+      case RecursionKleeneStar(protocolA) => RecursionKleeneStar(runOnce(protocolA))
   end runOnce
 
   @tailrec

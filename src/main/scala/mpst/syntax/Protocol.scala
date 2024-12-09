@@ -22,6 +22,7 @@ enum Protocol:
     case Parallel(protocolA, protocolB) => s"($protocolA || $protocolB)"
     case Choice  (protocolA, protocolB) => s"($protocolA + $protocolB)"
     case RecursionFixedPoint(variable, protocolB) => s"def $variable in ($protocolB)"
+    case RecursionKleeneStar(protocolA) => s"($protocolA)*"
   end toString
 
   // constructs allowed by our syntax //
@@ -34,6 +35,7 @@ enum Protocol:
   case Parallel(protocolA: Protocol, protocolB: Protocol)
   case Choice  (protocolA: Protocol, protocolB: Protocol)
   case RecursionFixedPoint(variable: Protocol.Variable, protocolB: Protocol)
+  case RecursionKleeneStar(protocolA: Protocol)
 end Protocol
 
 object Protocol:
@@ -51,32 +53,27 @@ object Protocol:
   type Action = Protocol
 
   def isGlobal(protocol: Global): Boolean = protocol match
-    case Interaction(_, _, _, _) => true
-    case Send   (_, _, _, _) => false
-    case Receive(_, _, _, _) => false
-    case RecursionCall(_) => true
-    case Skip => true
+    case _: Interaction | _: RecursionCall | Skip => true
+    case _: Send | _: Receive => false
     case Sequence(protocolA, protocolB) => isGlobal(protocolA) && isGlobal(protocolB)
     case Parallel(protocolA, protocolB) => isGlobal(protocolA) && isGlobal(protocolB)
     case Choice  (protocolA, protocolB) => isGlobal(protocolA) && isGlobal(protocolB)
     case RecursionFixedPoint(_, protocolB) => isGlobal(protocolB)
+    case RecursionKleeneStar(protocolA)    => isGlobal(protocolA)
   end isGlobal
 
   def isLocal(protocol: Local): Boolean = protocol match
-    case Interaction(_, _, _, _) => false
-    case Send   (_, _, _, _) => true
-    case Receive(_, _, _, _) => true
-    case RecursionCall(_) => true
-    case Skip => true
+    case _: Interaction => false
+    case _: Send | _: Receive | _: RecursionCall | Skip => true
     case Sequence(protocolA, protocolB) => isLocal(protocolA) && isLocal(protocolB)
     case Parallel(protocolA, protocolB) => isLocal(protocolA) && isLocal(protocolB)
     case Choice  (protocolA, protocolB) => isLocal(protocolA) && isLocal(protocolB)
     case RecursionFixedPoint(_, protocolB) => isLocal(protocolB)
+    case RecursionKleeneStar(protocolA)    => isLocal(protocolA)
   end isLocal
 
   def isAction(protocol: Action): Boolean = protocol match
-    case Send   (_, _, _, _) => true
-    case Receive(_, _, _, _) => true
+    case _: Send | _: Receive => true
     case _ => false
   end isAction
 
@@ -90,17 +87,15 @@ object Protocol:
     case Parallel(protocolA, protocolB) => getParticipants(protocolA) ++ getParticipants(protocolB)
     case Choice  (protocolA, protocolB) => getParticipants(protocolA) ++ getParticipants(protocolB)
     case RecursionFixedPoint(_, protocolB) => getParticipants(protocolB)
+    case RecursionKleeneStar(protocolA)    => getParticipants(protocolA)
   end getParticipants
 
   def hasInterleaving(protocol: Protocol): Boolean = protocol match
-    case Interaction(_, _, _, _) => false
-    case Send   (_, _, _, _) => false
-    case Receive(_, _, _, _) => false
-    case RecursionCall(_) => false
-    case Skip => false
+    case _: Interaction | _: Send | _: Receive | _: RecursionCall | Skip => false
     case Sequence(protocolA, protocolB) => hasInterleaving(protocolA) || hasInterleaving(protocolB)
     case Parallel(protocolA, protocolB) => true
     case Choice  (protocolA, protocolB) => hasInterleaving(protocolA) || hasInterleaving(protocolB)
     case RecursionFixedPoint(_, protocolB) => hasInterleaving(protocolB)
+    case RecursionKleeneStar(protocolA)    => hasInterleaving(protocolA)
   end hasInterleaving
 end Protocol
