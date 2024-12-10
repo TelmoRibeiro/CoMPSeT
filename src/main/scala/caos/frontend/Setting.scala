@@ -29,7 +29,7 @@ case class Setting(name: String = null, children: List[Setting] = List(), checke
     s"$ident- ${this.name} | ${this.checked} | ${this.options}\n$childrenString"
   }
 
-  def resolvePathAuxiliary(remainingPath: List[String]): Option[Setting] = { remainingPath match
+  private def resolvePathAuxiliary(remainingPath: List[String]): Option[Setting] = { remainingPath match
       case Nil => Some(this)
       case head :: tail if head == this.name => this.children.find(_.resolvePathAuxiliary(tail).isDefined)
       case head :: tail => None
