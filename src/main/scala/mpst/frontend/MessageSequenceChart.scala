@@ -14,8 +14,8 @@ object MessageSequenceChart:
       s"${interaction2Mermaid(sender, receiver, label)}"
     case Receive(receiver, sender, label, _) =>
       s"${interaction2Mermaid(sender, receiver, label)}"
-    case RecursionCall(_) => // @ telmo - quite hacky v2
-      ""
+    case RecursionCall(variable) =>
+      ???
     case Sequence(globalA, globalB) =>
       s"""  ${toMermaid(globalA)}
          |  ${toMermaid(globalB)}""".stripMargin
@@ -31,10 +31,8 @@ object MessageSequenceChart:
          |else
          |  ${toMermaid(globalB)}
          |end""".stripMargin
-    case RecursionFixedPoint(variable, globalB) => // @ telmo - quite hacky v1
-      s"""loop
-         |  ${toMermaid(globalB)}
-         |end""".stripMargin
+    case RecursionFixedPoint(variable, globalB) =>
+      ???
     case RecursionKleeneStar(globalA) =>
       s"""loop
          |  ${toMermaid(globalA)}
