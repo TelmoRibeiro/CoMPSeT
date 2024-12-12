@@ -180,5 +180,15 @@ object CaosConfigurator extends Configurator[Global]:
         case Some(setting) => setting("Configuration.Comm Model").exists(_.name == "Async MS")
         case None => false
       ),
+
+    // not quite there - only works when I un-toggle
+    "Dynamic Setting Test" ->
+      check((global: Global) => Site.getSetting match
+        case Some(setting) if setting.getChecked("Configuration.Comm Model").getOrElse(false) && setting.getChecked("Configuration.Interleaving").getOrElse(false) =>
+          Site.setSetting(setting && "New Option")
+          Seq(s"tree was updated")
+        case _ =>
+          Seq(s"tree was not updated")
+      ),
   )
 end CaosConfigurator
