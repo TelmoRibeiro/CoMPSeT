@@ -181,11 +181,13 @@ object CaosConfigurator extends Configurator[Global]:
         case None => false
       ),
 
-    // not quite there - only works when I un-toggle
+    // need to re-render after this
     "Dynamic Setting Test" ->
       check((global: Global) => Site.getSetting match
-        case Some(setting) if setting.getChecked("Configuration.Comm Model").getOrElse(false) && setting.getChecked("Configuration.Interleaving").getOrElse(false) =>
-          Site.setSetting(setting && "New Option")
+        case Some(setting) if
+          setting.getChecked("Configuration.Comm Model").getOrElse(false) &&
+          setting.getChecked("Configuration.Interleaving").getOrElse(false) =>
+          Site.setSetting("Configuration" -> (setting && "New Option"))
           Seq(s"tree was updated")
         case _ =>
           Seq(s"tree was not updated")
