@@ -26,7 +26,7 @@ ___
 ___
 
 ## To Do (CAOS):
-
+- Add Update On setSetting
 - Conditional Widgets Do Not Properly Update When The Example Is Swapped Through Apply
 - allowOne vs allowAll
 - Evade The setChecked Issue
