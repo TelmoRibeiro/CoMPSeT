@@ -145,8 +145,8 @@ object CaosConfigurator extends Configurator[Global]:
         }.toList
      ),
 
-    "Conditional Sync" ->
-      steps((global: Global) =>
+    "Conditional Sync"
+      -> steps((global: Global) =>
         StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
         SyncTraverseWrapper.Traverse,
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
@@ -157,8 +157,8 @@ object CaosConfigurator extends Configurator[Global]:
         case None => false
       ),
 
-    "Conditional Async CS" ->
-      steps((global: Global) =>
+    "Conditional Async CS"
+      -> steps((global: Global) =>
         (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
         NetworkWrapper.NetworkCausal,
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
@@ -169,8 +169,8 @@ object CaosConfigurator extends Configurator[Global]:
         case None => false
       ),
 
-    "Conditional Async MS" ->
-      steps((global: Global) =>
+    "Conditional Async MS"
+      -> steps((global: Global) =>
         (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
         NetworkWrapper.NetworkMultiset,
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
@@ -182,15 +182,25 @@ object CaosConfigurator extends Configurator[Global]:
       ),
 
     // need to re-render after this
-    "Dynamic Setting Test" ->
-      check((global: Global) => Site.getSetting match
+    "Dynamic Setting Test"
+      -> check((global: Global) => Site.getSetting match
         case Some(setting) if
           setting.getChecked("Configuration.Comm Model").getOrElse(false) &&
-          setting.getChecked("Configuration.Interleaving").getOrElse(false) =>
+          setting.getChecked("Configuration.Interleaving").getOrElse(false) &&
+          setting.resolvePath("Configuration.New Option").isEmpty   =>
           Site.setSetting("Configuration" -> (setting && "New Option"))
           Seq(s"tree was updated")
         case _ =>
           Seq(s"tree was not updated")
       ),
+
+    /*
+    "Bisimulation - ..."
+      -> compareBranchBisim(
+      NetworkWrapper.NetworkCausal,
+      NetworkWrapper.NetworkMultiset,
+      200
+    ),
+     */
   )
 end CaosConfigurator
