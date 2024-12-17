@@ -187,20 +187,20 @@ object CaosConfigurator extends Configurator[Global]:
         case Some(setting) if
           setting.getChecked("Configuration.Comm Model").getOrElse(false) &&
           setting.getChecked("Configuration.Interleaving").getOrElse(false) &&
-          setting.resolvePath("Configuration.New Option").isEmpty   =>
+          setting.resolvePath("Configuration.New Option").isEmpty =>
           Site.setSetting("Configuration" -> (setting && "New Option"))
-          Seq(s"tree was updated")
+          Seq()
         case _ =>
-          Seq(s"tree was not updated")
+          Seq()
       ),
 
-    /*
     "Bisimulation - ..."
       -> compareBranchBisim(
       NetworkWrapper.NetworkCausal,
       NetworkWrapper.NetworkMultiset,
-      200
+      (global: Global) => (StandardProjection.projectionWithParticipant(global), Map.empty,  localsEnvironment(global)),
+      (global: Global) => (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
+      maxDepth = 100,
     ),
-     */
   )
 end CaosConfigurator

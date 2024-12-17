@@ -26,9 +26,11 @@ ___
 ___
 
 ## To Do (CAOS):
-- Add Update On setSetting
+- Uncheck Propagation Not Properly Working
 - Conditional Widgets Do Not Properly Update When The Example Is Swapped Through Apply
 - allowOne vs allowAll
-- Evade The setChecked Issue
-- Render On WidgetInfo vs On String -> WidgetInfo
 - Do Not Break The Flow If The Conditions Fail
+---
+
+## Meeting:
+- case Some / None as maps and getOrElse (options)
