@@ -200,6 +200,12 @@ object CaosConfigurator extends Configurator[Global]:
       NetworkWrapper.NetworkMultiset,
       (global: Global) => (StandardProjection.projectionWithParticipant(global), Map.empty,  localsEnvironment(global)),
       (global: Global) => (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
+      (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
+        case (participant, local) => s"$participant: $local "
+      }.mkString("\n"),
+      (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
+        case (participant, local) => s"$participant: $local "
+      }.mkString("\n"),
       maxDepth = 100,
     ),
   )
