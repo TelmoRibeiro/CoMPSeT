@@ -62,16 +62,6 @@ object Protocol:
     case RecursionKleeneStar(protocolA)    => isGlobal(protocolA)
   end isGlobal
 
-  def isLocal(protocol: Local): Boolean = protocol match
-    case _: Interaction => false
-    case _: Send | _: Receive | _: RecursionCall | Skip => true
-    case Sequence(protocolA, protocolB) => isLocal(protocolA) && isLocal(protocolB)
-    case Parallel(protocolA, protocolB) => isLocal(protocolA) && isLocal(protocolB)
-    case Choice  (protocolA, protocolB) => isLocal(protocolA) && isLocal(protocolB)
-    case RecursionFixedPoint(_, protocolB) => isLocal(protocolB)
-    case RecursionKleeneStar(protocolA)    => isLocal(protocolA)
-  end isLocal
-
   def isAction(protocol: Action): Boolean = protocol match
     case _: Send | _: Receive => true
     case _ => false
@@ -92,10 +82,28 @@ object Protocol:
 
   def hasInterleaving(protocol: Protocol): Boolean = protocol match
     case _: Interaction | _: Send | _: Receive | _: RecursionCall | Skip => false
+    case _: Parallel => true
     case Sequence(protocolA, protocolB) => hasInterleaving(protocolA) || hasInterleaving(protocolB)
-    case Parallel(protocolA, protocolB) => true
     case Choice  (protocolA, protocolB) => hasInterleaving(protocolA) || hasInterleaving(protocolB)
     case RecursionFixedPoint(_, protocolB) => hasInterleaving(protocolB)
     case RecursionKleeneStar(protocolA)    => hasInterleaving(protocolA)
   end hasInterleaving
+
+  def hasKleeneStarRecursion(protocol: Protocol): Boolean = protocol match
+    case _: Interaction | _: Send | _: Receive | _: RecursionCall | Skip => false
+    case _: RecursionKleeneStar => true
+    case Sequence(protocolA, protocolB) => hasKleeneStarRecursion(protocolA) || hasKleeneStarRecursion(protocolB)
+    case Parallel(protocolA, protocolB) => hasKleeneStarRecursion(protocolA) || hasKleeneStarRecursion(protocolB)
+    case Choice  (protocolA, protocolB) => hasKleeneStarRecursion(protocolA) || hasKleeneStarRecursion(protocolB)
+    case RecursionFixedPoint(_, protocolB) => hasKleeneStarRecursion(protocolB)
+  end hasKleeneStarRecursion
+
+  def hasFixedPointRecursion(protocol: Protocol): Boolean = protocol match
+    case _: Interaction | _: Send | _: Receive | _: RecursionCall | Skip => false // @ telmo - should de presence of RecursionCall render it true as well
+    case _: RecursionFixedPoint => true
+    case Sequence(protocolA, protocolB) => hasFixedPointRecursion(protocolA) || hasFixedPointRecursion(protocolB)
+    case Parallel(protocolA, protocolB) => hasFixedPointRecursion(protocolA) || hasFixedPointRecursion(protocolB)
+    case Choice  (protocolA, protocolB) => hasFixedPointRecursion(protocolA) || hasFixedPointRecursion(protocolB)
+    case RecursionKleeneStar(protocolA) => hasFixedPointRecursion(protocolA)
+  end hasFixedPointRecursion
 end Protocol

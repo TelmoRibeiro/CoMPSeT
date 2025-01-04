@@ -6,7 +6,7 @@ import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.StandardProjection
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, toString}
+import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasInterleaving, hasKleeneStarRecursion, hasRecursion, toString}
 import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
@@ -19,7 +19,6 @@ import caos.view.{Code, Mermaid, Text}
 
 import scala.collection.immutable.Queue
 import scala.language.implicitConversions
-
 import caos.frontend.Site // @ telmo - any problem with this?
 
 /* @ telmo
@@ -62,7 +61,7 @@ object CaosConfigurator extends Configurator[Global]:
     example:
     */
 
-  override val setting: Option[Setting] = Some("Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving"))
+  override val setting: Option[Setting] = Some("Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star")))
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
@@ -75,18 +74,16 @@ object CaosConfigurator extends Configurator[Global]:
       -> "def X in (m>w:Task ; X)",
   )
 
-  private def mkNoInterleavingWidget =
-    check((global: Global) =>
-      def hasInterleaving(protocol: Protocol): Seq[String] =
-        if Protocol.hasInterleaving(protocol) then Seq(s"interleaving construct found in $protocol") else Seq.empty
-      end hasInterleaving
-
-      hasInterleaving(global) ++ StandardProjection.projectionWithParticipant(global).flatMap(localWithParticipant => hasInterleaving(localWithParticipant._2)).toSeq
-    )
-  end mkNoInterleavingWidget
-
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{case k -> v => s"$k -> $v"}.mkString("\n")
+
+  private def mkCheck(condition: Protocol => Boolean, term: String): WidgetInfo[Global] =
+    check((global: Global) =>
+      (Seq("global" -> global) ++ StandardProjection.projectionWithParticipant(global)).collect {
+        case participant -> protocol if condition(protocol) => s"$participant: found [$term] in [$protocol]"
+      }
+    )
+  end mkCheck
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
     "Message Sequence Chart"
@@ -181,7 +178,25 @@ object CaosConfigurator extends Configurator[Global]:
         case None => false
       ),
 
-    // need to re-render after this
+    "Conditional Kleene Start Checker"
+      -> mkCheck(hasKleeneStarRecursion, "Kleene Star Recursion").setRender( Site.getSetting match
+        case Some(setting) => !setting("Configuration.Recursion").exists(_.name == "Kleene Star")
+        case _ => false
+      ),
+
+    "Conditional Fixed Point Checker"
+      -> mkCheck(hasFixedPointRecursion, "Fixed Point Recursion").setRender( Site.getSetting match
+        case Some(setting) => !setting("Configuration.Recursion").exists(_.name == "Fixed Point")
+        case _ => false
+      ),
+
+    "Conditional Interleaving Checker"
+      -> mkCheck(hasInterleaving, "Interleaving").setRender(Site.getSetting match
+        case Some(setting) => !setting("Configuration").exists(_.name == "Interleaving")
+        case _ => false
+      ),
+
+  // need to re-render after this
     "Dynamic Setting Test"
       -> check((global: Global) => Site.getSetting match
         case Some(setting) if
