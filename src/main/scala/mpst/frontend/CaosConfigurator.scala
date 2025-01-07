@@ -6,7 +6,7 @@ import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.StandardProjection
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasInterleaving, hasKleeneStarRecursion, hasRecursion, toString}
+import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasInterleaving, hasKleeneStarRecursion, toString}
 import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
@@ -61,7 +61,7 @@ object CaosConfigurator extends Configurator[Global]:
     example:
     */
 
-  override val setting: Option[Setting] = Some("Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star")))
+  override val setting: Option[Setting] = Some("Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain")))
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
@@ -144,7 +144,11 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Conditional Sync"
       -> steps((global: Global) =>
-        StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
+        Site.getSetting match
+          case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
+            StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global) // @ telmo - swap it
+          case _ =>
+            StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
         SyncTraverseWrapper.Traverse,
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
@@ -156,7 +160,11 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Conditional Async CS"
       -> steps((global: Global) =>
-        (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
+        Site.getSetting match
+          case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
+            (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)) // @ telmo - swap it
+          case _ =>
+            (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
         NetworkWrapper.NetworkCausal,
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
@@ -168,7 +176,11 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Conditional Async MS"
       -> steps((global: Global) =>
-        (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
+      Site.getSetting match
+        case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
+          (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)) // @ telmo - swap it
+        case _ =>
+          (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
         NetworkWrapper.NetworkMultiset,
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
@@ -197,6 +209,7 @@ object CaosConfigurator extends Configurator[Global]:
       ),
 
   // need to re-render after this
+  /*
     "Dynamic Setting Test"
       -> check((global: Global) => Site.getSetting match
         case Some(setting) if
@@ -208,6 +221,7 @@ object CaosConfigurator extends Configurator[Global]:
         case _ =>
           Seq()
       ),
+   */
 
     "Bisimulation - ..."
       -> compareBranchBisim(
