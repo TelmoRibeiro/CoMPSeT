@@ -13,6 +13,7 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
+- Add Plain
 - Fix MSC
 - Fix Merge
 - Propagate New Recursion
