@@ -3,7 +3,7 @@ package mpst.frontend
 import mpst.frontend.MessageSequenceChart.*
 import mpst.frontend.caos_wrapper.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
-import mpst.projection.StandardProjection
+import mpst.projection.{PlainMergeProjection, StandardProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasInterleaving, hasKleeneStarRecursion, toString}
@@ -69,6 +69,9 @@ object CaosConfigurator extends Configurator[Global]:
 
     "MasterWorkers"
       -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
+
+    "Plain Merge"
+      -> "m>wA:Work ; wC>m:Done + m>wB:Work ; wC>m:DoneA",
 
     "SimpleRecursion"
       -> "def X in (m>w:Task ; X)",
@@ -146,7 +149,7 @@ object CaosConfigurator extends Configurator[Global]:
       -> steps((global: Global) =>
         Site.getSetting match
           case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
-            StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global) // @ telmo - swap it
+            PlainMergeProjection.projectionWithParticipant(global) -> localsEnvironment(global)
           case _ =>
             StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
         SyncTraverseWrapper.Traverse,
@@ -162,7 +165,7 @@ object CaosConfigurator extends Configurator[Global]:
       -> steps((global: Global) =>
         Site.getSetting match
           case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
-            (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)) // @ telmo - swap it
+            (PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global))
           case _ =>
             (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
         NetworkWrapper.NetworkCausal,
@@ -178,7 +181,7 @@ object CaosConfigurator extends Configurator[Global]:
       -> steps((global: Global) =>
       Site.getSetting match
         case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
-          (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)) // @ telmo - swap it
+          (PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global))
         case _ =>
           (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
         NetworkWrapper.NetworkMultiset,

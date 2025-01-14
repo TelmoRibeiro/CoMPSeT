@@ -18,21 +18,8 @@ object StandardProjection:
     for participant <- getParticipants(global) yield
       projection(global)(using participant) match
         case Some(local) => participant -> StructuralCongruence(local)
-        case _ => throw RuntimeException(s"projection undefined for participant [$participant] in [$global]\n")
+        case _ => throw RuntimeException(s"projection undefined for [$participant] in [$global]\n")
   end projectionWithParticipant
-
-  private def plainMerge(localA: Local, localB: Local): Option[Local] =
-    localA -> localB match
-      case Sequence(Skip, contLocalA) -> Sequence(Skip, contLocalB) if contLocalA == contLocalB =>
-        Some(contLocalA)
-      case Sequence(Skip, contLocalA) -> Sequence(Skip, contLocalB) =>
-        throw RuntimeException(s"plain merge failed for [$localA] and [$localB]")
-      case _ => Some(Choice(localA, localB))
-  end plainMerge
-
-  private def fullMerge(localA: Local, localB: Local): Option[Local] =
-    ???
-  end fullMerge
 
   private def projection(global: Global)(using participant: Participant): Option[Local] = global match
     case Interaction(`participant`, receiver, label, sort) =>
@@ -56,9 +43,7 @@ object StandardProjection:
     case Choice(globalA, globalB) =>
       for localA <- projection(globalA)
           localB <- projection(globalB)
-          localC <- plainMerge(localA, localB)
-      yield
-        localC
+      yield Choice(localA, localB)
     case RecursionFixedPoint(variable, globalB) =>
       for localB <- projection(globalB) yield
         if getParticipants(localB).contains(participant) then RecursionFixedPoint(variable, localB) else Skip
