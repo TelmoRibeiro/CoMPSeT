@@ -13,7 +13,6 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- Add Plain
 - Fix MSC
 - Fix Merge
 - Propagate New Recursion
@@ -27,6 +26,7 @@ ___
 ___
 
 ## To Do (CAOS):
+- toggle leaf should toggle parents
 - Uncheck Propagation Not Properly Working
 - Conditional Widgets Do Not Properly Update When The Example Is Swapped Through Apply
 - allowOne vs allowAll
