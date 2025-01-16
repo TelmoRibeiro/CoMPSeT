@@ -26,6 +26,7 @@ ___
 ___
 
 ## To Do (CAOS):
+- remove unnecessary Option[Setting]  
 - toggle leaf should toggle parents
 - Uncheck Propagation Not Properly Working
 - Conditional Widgets Do Not Properly Update When The Example Is Swapped Through Apply

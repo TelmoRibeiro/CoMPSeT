@@ -13,13 +13,14 @@ import mpst.wellformedness.*
 import caos.frontend.Configurator
 import caos.frontend.Configurator.*
 import caos.frontend.Setting
+import caos.frontend.Setting.allActiveLeavesFrom
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS.toMermaid
 import caos.view.{Code, Mermaid, Text}
 
 import scala.collection.immutable.Queue
 import scala.language.implicitConversions
-import caos.frontend.Site // @ telmo - any problem with this?
+import caos.frontend.Site.{getSetting, setSetting}
 
 /* @ telmo
   IDEA:
@@ -147,8 +148,8 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Conditional Sync"
       -> steps((global: Global) =>
-        Site.getSetting match
-          case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
+        getSetting.allActiveLeavesFrom("Configuration.Merge") match
+          case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
             PlainMergeProjection.projectionWithParticipant(global) -> localsEnvironment(global)
           case _ =>
             StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
@@ -156,15 +157,12 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(Site.getSetting match
-        case Some(setting) => setting("Configuration.Comm Model").exists(_.name == "Sync")
-        case None => false
-      ),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
 
     "Conditional Async CS"
       -> steps((global: Global) =>
-        Site.getSetting match
-          case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
+        getSetting.allActiveLeavesFrom("Configuration.Merge") match
+          case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
             (PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global))
           case _ =>
             (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
@@ -172,15 +170,12 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(Site.getSetting match
-        case Some(setting) => setting("Configuration.Comm Model").exists(_.name == "Async CS")
-        case None => false
-      ),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS")),
 
     "Conditional Async MS"
       -> steps((global: Global) =>
-      Site.getSetting match
-        case Some(setting) if setting("Configuration.Merge").exists(_.name == "Plain") =>
+      getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
           (PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global))
         case _ =>
           (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
@@ -188,28 +183,16 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(Site.getSetting match
-        case Some(setting) => setting("Configuration.Comm Model").exists(_.name == "Async MS")
-        case None => false
-      ),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
 
     "Conditional Kleene Start Checker"
-      -> mkCheck(hasKleeneStarRecursion, "Kleene Star Recursion").setRender( Site.getSetting match
-        case Some(setting) => !setting("Configuration.Recursion").exists(_.name == "Kleene Star")
-        case _ => false
-      ),
+      -> mkCheck(hasKleeneStarRecursion, "Kleene Star Recursion").setRender(!getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star")),
 
     "Conditional Fixed Point Checker"
-      -> mkCheck(hasFixedPointRecursion, "Fixed Point Recursion").setRender( Site.getSetting match
-        case Some(setting) => !setting("Configuration.Recursion").exists(_.name == "Fixed Point")
-        case _ => false
-      ),
+      -> mkCheck(hasFixedPointRecursion, "Fixed Point Recursion").setRender(!getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point")),
 
     "Conditional Interleaving Checker"
-      -> mkCheck(hasInterleaving, "Interleaving").setRender(Site.getSetting match
-        case Some(setting) => !setting("Configuration").exists(_.name == "Interleaving")
-        case _ => false
-      ),
+      -> mkCheck(hasInterleaving, "Interleaving").setRender(!getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving")),
 
   // need to re-render after this
   /*
