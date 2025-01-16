@@ -62,7 +62,7 @@ object CaosConfigurator extends Configurator[Global]:
     example:
     */
 
-  override val setting: Option[Setting] = Some("Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain")))
+  override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain"))
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
