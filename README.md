@@ -26,7 +26,7 @@ ___
 ___
 
 ## To Do (CAOS):
-- 
+- keep improving
 ---
 
 ## Meeting:
