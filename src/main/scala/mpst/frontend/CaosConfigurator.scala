@@ -13,7 +13,7 @@ import mpst.wellformedness.*
 import caos.frontend.Configurator
 import caos.frontend.Configurator.*
 import caos.frontend.Setting
-import caos.frontend.Setting.allActiveLeavesFrom
+import caos.frontend.Setting.{allActiveFrom, allActiveLeavesFrom}
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS.toMermaid
 import caos.view.{Code, Mermaid, Text}
@@ -107,11 +107,15 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Locals"
       -> view((global: Global) =>
-        StandardProjection.projectionWithParticipant(global).map {
-          case participant -> local => s"$participant -> $local"
-        }.mkString("\n"),
+        val localsWithParticipant = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+          case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
+            Some(PlainMergeProjection.projectionWithParticipant(global))
+          case mergeOptions if mergeOptions.exists(_.name == "Full") =>
+            Some(StandardProjection.projectionWithParticipant(global))
+          case _ => None
+        localsWithParticipant.getOrElse(throw RuntimeException("Merge - checked yet no options enabled")).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
         Code("java")
-      ),
+      ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
     "\"Choreo\" - My Spin"
       -> steps((global: Global) =>
@@ -132,19 +136,24 @@ object CaosConfigurator extends Configurator[Global]:
     "Local Automata"
      -> viewMerms((global: Global) =>
         val environment = localsEnvironment(global)
-        StandardProjection.projectionWithParticipant(global).map {
-          case participant -> local =>
-            val lts = caos.sos.SOS.toMermaid(
-              MPSTSemanticWrapper,
-              local -> environment(participant),
-              (local: Local, environment: SingleEnvironment) =>
-                environment.toPrettyPrint,
-              _.toString,
-              100,
-            )
-            participant -> lts
+        val localsWithParticipant = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+          case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
+            Some(PlainMergeProjection.projectionWithParticipant(global))
+          case mergeOptions if mergeOptions.exists(_.name == "Full") =>
+            Some(StandardProjection.projectionWithParticipant(global))
+          case _ => None
+        localsWithParticipant.getOrElse(throw RuntimeException("Merge - checked yet no options enabled")).map{ case participant -> local =>
+          val lts = caos.sos.SOS.toMermaid(
+            MPSTSemanticWrapper,
+            local -> environment(participant),
+            (local: Local, environment: SingleEnvironment) =>
+              environment.toPrettyPrint,
+            _.toString,
+            100,
+          )
+          participant -> lts
         }.toList
-     ),
+     ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
     "Conditional Sync"
       -> steps((global: Global) =>
@@ -207,7 +216,6 @@ object CaosConfigurator extends Configurator[Global]:
         case _ =>
           Seq()
       ),
-   */
 
     "Bisimulation - ..."
       -> compareBranchBisim(
@@ -223,5 +231,6 @@ object CaosConfigurator extends Configurator[Global]:
         }.mkString("\n"),
         maxDepth = 100,
     ),
+   */
   )
 end CaosConfigurator
