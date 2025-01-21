@@ -13,19 +13,19 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- Fix MSC
-- Fix Merge
-- Propagate New Recursion
-- Fix Semantic
-- Add FullMerge
-- Fix Sync
-  - try with "a>b:Hello ; b>a:Bye"
-- Fix Well-Formedness (Maybe Call It Projectability?)
-- Fix Utilities
-- Extend Example's List
+- change > to ->
+- missing StructuralCongruence() (check plain merge)
+- MSC (add fixed point recursion)
+- full merge (revisit it)
+- klenne star (check if well propagated)
+- global semantic (revisit the sequence problem)
+- sync (truly experiment with it - try with "a>b:Hello ; b>a:Bye")
+- well-formedness (revisit it - chan qge it for projectability)
+- extended examples
 ___
 
 ## To Do (CAOS):
+- implicit renaming on the new examples
 - keep improving
 ---
 

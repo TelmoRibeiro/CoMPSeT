@@ -33,7 +33,7 @@ object PlainMergeProjection:
     val continuationsA = next(localA).map(_._2)
     val continuationsB = next(localB).map(_._2)
     if !(participantsA union participantsB).contains(`participant`) && (continuationsA union continuationsB).size > 1 then
-      throw RuntimeException(s"projection undefined for [${`participant`}] in [${Choice(localA, localB)}]")
+      throw RuntimeException(s"[Plain Merge] - projection undefined for [${`participant`}] in [${Choice(localA, localB)}]")
     true
   end plainMergeAuxiliary
 end PlainMergeProjection
