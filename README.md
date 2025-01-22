@@ -13,7 +13,6 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- change > to ->
 - missing StructuralCongruence() (check plain merge)
 - MSC (add fixed point recursion)
 - full merge (revisit it)

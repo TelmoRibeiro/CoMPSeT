@@ -23,31 +23,31 @@ object Parser extends RegexParsers:
 
   private def session: Parser[Global] = opt(globalType) ^^ (globalTypeSyntax => globalTypeSyntax.getOrElse(Skip))
 
-  private def globalType: Parser[Global] = maybeParallel ~ opt(choice) ^^ {
+  private def globalType: Parser[Global] = maybeInterleaving ~ opt(choice) ^^ {
     case maybeParallelSyntax ~ Some(choiceSyntax) => choiceSyntax(maybeParallelSyntax)
     case maybeParallelSyntax ~ None               => maybeParallelSyntax
   }
   end globalType
 
-  private def choice: Parser[Global => Global] = "+" ~ maybeParallel ~ opt(choice) ^^ {
+  private def choice: Parser[Global => Global] = "+" ~ maybeInterleaving ~ opt(choice) ^^ {
     case "+" ~ maybeParallelSyntax ~ Some(choiceSyntax) => (globalSyntax: Global) => choiceSyntax(Choice(globalSyntax, maybeParallelSyntax))
     case "+" ~ maybeParallelSyntax ~ None               => (globalSyntax: Global) => Choice(globalSyntax, maybeParallelSyntax)
     case _ ~ _ ~ _  => throw RuntimeException("bad syntax on choice")
   }
   end choice
 
-  private def maybeParallel: Parser[Global] = maybeSequence ~ opt(parallel) ^^ {
+  private def maybeInterleaving: Parser[Global] = maybeSequence ~ opt(interleaving) ^^ {
     case maybeSequenceSyntax ~ Some(parallelSyntax) => parallelSyntax(maybeSequenceSyntax)
     case maybeSequenceSyntax ~ None                 => maybeSequenceSyntax
   }
-  end maybeParallel
+  end maybeInterleaving
 
-  private def parallel: Parser[Global => Global] = "||" ~ maybeSequence ~ opt(parallel) ^^ {
+  private def interleaving: Parser[Global => Global] = "||" ~ maybeSequence ~ opt(interleaving) ^^ {
     case "||" ~ maybeSequenceSyntax ~ Some(parallelSyntax) => (globalSyntax: Global) => parallelSyntax(Parallel(globalSyntax, maybeSequenceSyntax))
     case "||" ~ maybeSequenceSyntax ~ None                 => (globalSyntax: Global) => Parallel(globalSyntax, maybeSequenceSyntax)
     case _ ~ _ ~ _ => throw RuntimeException("bad syntax on parallel")
   }
-  end parallel
+  end interleaving
 
   private def maybeSequence: Parser[Global] = atomGlobalType ~ opt(sequence) ^^ {
     case atomGlobalTypeSyntax ~ Some(sequenceSyntax) => sequenceSyntax(atomGlobalTypeSyntax)
@@ -82,8 +82,8 @@ object Parser extends RegexParsers:
 
   private def parentheses: Parser[Global] = "(" ~> globalType <~ ")"
 
-  private def interaction: Parser[Global] = identifier ~ ">" ~ identifier ~ ":" ~ identifier ~ opt(sort) ^^ {
-    case sender ~ ">" ~ receiver ~ ":" ~ label ~ sort => Interaction(sender, receiver, label, sort.getOrElse("void"))
+  private def interaction: Parser[Global] = identifier ~ "->" ~ identifier ~ ":" ~ identifier ~ opt(sort) ^^ {
+    case sender ~ "->" ~ receiver ~ ":" ~ label ~ sort => Interaction(sender, receiver, label, sort.getOrElse("void"))
     case _ ~ _ ~ _ ~ _ ~ _ ~ _ => throw RuntimeException("bad syntax on interaction")
   }
   end interaction

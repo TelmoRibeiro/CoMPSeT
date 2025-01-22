@@ -68,16 +68,16 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
-      -> "(m>w:Work || m>w:WorkAgain) ; w>m:Done",
+      -> "(m->w:Work || m->w:WorkAgain) ; w->m:Done",
 
     "MasterWorkers"
-      -> "m>wA:Work ; m>wB:Work ; (wA>m:Done || wB>m:Done)",
+      -> "m->wA:Work ; m->wB:Work ; (wA->m:Done || wB->m:Done)",
 
     "Plain Merge"
-      -> "m>wA:Work ; wC>m:Done + m>wB:Work ; wC>m:DoneA",
+      -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA",
 
     "SimpleRecursion"
-      -> "def X in (m>w:Task ; X)",
+      -> "def X in (m->w:Task ; X)",
   )
 
   extension [K, V](map: Map[K, V])
