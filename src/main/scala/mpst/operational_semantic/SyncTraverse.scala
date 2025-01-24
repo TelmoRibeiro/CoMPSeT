@@ -21,46 +21,28 @@ object SyncTraverse:
     localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
   end accepting
 
-  def next[A >: Action](localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): (A, Set[(Participant, Local)]) =
-    val send = sendAction(localsWithParticipant)
-    send -> receiveTraverse(sendTraverse(localsWithParticipant, send), send)
+  def next[A >: Action](localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): Set[(A, Set[(Participant, Local)])] =
+    nextSends(localsWithParticipant).map( nextSend =>
+      nextSend -> traverse(localsWithParticipant)(using nextSend)
+    )
   end next
 
-  private def sendAction(localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): Action =
-    localsWithParticipant.flatMap {
-      case participant -> local =>
-        MPSTSemantic.next(local)(using environment(participant)).collect {
-          case (nextAction @ Send(_, _, _, _)) -> _ => nextAction
-        }
-    }.toList match
-      case Nil         => throw RuntimeException(s"no send action found")
-      case send :: Nil => send
-      case sendList    => throw RuntimeException(s"possible ambiguity in [$sendList] found")
-  end sendAction
+  private def nextSends(localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): Set[Send] =
+    localsWithParticipant
+    .flatMap{ case participant -> local => MPSTSemantic.next(local)(using environment(participant)) }
+    .collect{ case (nextSend @ _: Send) -> _ => nextSend }
+  end nextSends
 
-  private def sendTraverse(localsWithParticipant: Set[(Participant, Local)], sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-    def nextSend(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] = localWithParticipant match
-      case participant -> local => MPSTSemantic.next(local)(using environment(participant)).collect {
-        case `sendAction` -> nextLocal => participant -> nextLocal
+  private def matchingReceive(nextSend: Send): Receive =
+    Receive(nextSend.receiver, nextSend.sender, nextSend.label, nextSend.sort)
+  end matchingReceive
+
+  private def traverse(localsWithParticipant: Set[(Participant, Local)])(using nextSend: Send)(using environment: Environment): Set[(Participant, Local)] =
+    localsWithParticipant.flatMap { case participant -> local =>
+      MPSTSemantic.next(local)(using environment(participant)).collect {
+        case (`nextSend`, nextLocal) => participant -> nextLocal
+        case (nextRecv,   nextLocal) if nextRecv == matchingReceive(nextSend) => participant -> nextLocal
       }
-    end nextSend
-
-    localsWithParticipant.flatMap{ localWithParticipant =>
-      nextSend(localWithParticipant, sendAction)
     }
-  end sendTraverse
-
-  private def receiveTraverse(localsWithParticipant: Set[(Participant, Local)], sendAction: Action)(using environment: Environment): Set[(Participant, Local)] =
-    def nextReceive(localWithParticipant: (Participant, Local), sendAction: Action)(using environment: Environment): Set[(Participant, Local)] = localWithParticipant match
-      case participant -> local => MPSTSemantic.next(local)(using environment(participant)).collect {
-        case Receive(receiver, sender, label, sort) -> nextLocal
-          if sendAction == Send(sender, receiver, label, sort) =>
-            participant -> nextLocal
-      }
-    end nextReceive
-
-    localsWithParticipant.flatMap{ localWithParticipant =>
-      nextReceive(localWithParticipant, sendAction)
-    }
-  end receiveTraverse
+  end traverse
 end SyncTraverse

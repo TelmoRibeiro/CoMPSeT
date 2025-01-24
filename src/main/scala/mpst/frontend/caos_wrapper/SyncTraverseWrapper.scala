@@ -24,8 +24,8 @@ object SyncTraverseWrapper:
     end accepting
 
     override def next[A >: Action](state: SyncState): Set[(A, SyncState)] =
-      val nextAction -> nextLocalsWithParticipant = SyncTraverse.next(state._1)(using state._2)
-      Set(nextAction -> (nextLocalsWithParticipant -> state._2))
+      for (nextAction, nextLocalsWithParticipant) <- SyncTraverse.next(state._1)(using state._2) yield
+        nextAction -> (nextLocalsWithParticipant -> state._2)
     end next
   end Traverse
 end SyncTraverseWrapper

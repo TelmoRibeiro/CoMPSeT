@@ -13,12 +13,14 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
+- Add extra requirements to caos
+- review sync
+- sequence it
 - missing StructuralCongruence() (check plain merge)
 - MSC (add fixed point recursion)
 - full merge (revisit it)
 - klenne star (check if well propagated)
 - global semantic (revisit the sequence problem)
-- sync (truly experiment with it - try with "a>b:Hello ; b>a:Bye")
 - well-formedness (revisit it - chan qge it for projectability)
 - extended examples
 ___
