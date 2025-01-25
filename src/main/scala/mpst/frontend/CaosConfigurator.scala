@@ -165,7 +165,7 @@ object CaosConfigurator extends Configurator[Global]:
           case _ =>
             StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global),
         SyncTraverseWrapper.Traverse,
-        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.map {
+        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
@@ -178,7 +178,7 @@ object CaosConfigurator extends Configurator[Global]:
           case _ =>
             (StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)),
         NetworkWrapper.NetworkCausal,
-        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
+        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS")),
@@ -191,7 +191,7 @@ object CaosConfigurator extends Configurator[Global]:
         case _ =>
           (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
         NetworkWrapper.NetworkMultiset,
-        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
+        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
