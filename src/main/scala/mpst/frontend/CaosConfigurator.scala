@@ -62,7 +62,8 @@ object CaosConfigurator extends Configurator[Global]:
     example:
     */
 
-  override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" || "Async MS" || "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain"))
+  // override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" && "Async MS" && "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain"))
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving")
 
   // private val otherSetting: Setting = "Test" -> ("Option A" || "Option B")
 
@@ -93,6 +94,16 @@ object CaosConfigurator extends Configurator[Global]:
         wellFormed(DependentlyGuarded.apply) ++ wellFormed(WellBounded.apply) ++ wellFormed(WellBranched.apply) ++ wellFormed(WellChannelled.apply) ++ wellFormed(WellCommunicated.apply)
       ),
   */
+
+  private def localsWithParticipant(enabledMerge: Set[Setting])(using global: Global): Set[(Participant, Local)] =
+    val localsWithParticipantOption = enabledMerge match
+      case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+        Some(PlainMergeProjection.projectionWithParticipant(global))
+      case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+        Some(StandardProjection.projectionWithParticipant(global))
+      case _ => None
+    localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
+  end localsWithParticipant
 
   private def checkLocals(localsWithParticipant: Set[(Participant, Local)], localCondition: Local => Boolean, settingCondition: => Boolean, prefix: String): Unit =
     localsWithParticipant.foreach {
@@ -218,6 +229,51 @@ object CaosConfigurator extends Configurator[Global]:
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
 
+    "Sync vs Async CS"
+      -> compareBranchBisim(
+        SyncTraverseWrapper.Traverse,
+        NetworkWrapper.NetworkCausal,
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
+        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+        maxDepth = 100,
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS")),
+
+    "Sync vs Async MS"
+      -> compareBranchBisim(
+        SyncTraverseWrapper.Traverse,
+        NetworkWrapper.NetworkMultiset,
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
+        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+          case (participant, local) => s"$participant: $local "
+        }.mkString("\n"),
+        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+          case (participant, local) => s"$participant: $local"
+        }.mkString("\n"),
+        maxDepth = 100,
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
+
+    "Async CS vs Async MS"
+      -> compareBranchBisim(
+        NetworkWrapper.NetworkCausal,
+        NetworkWrapper.NetworkMultiset,
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
+        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+          case (participant, local) => s"$participant: $local"
+        }.mkString("\n"),
+        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+          case (participant, local) => s"$participant: $local"
+        }.mkString("\n"),
+        maxDepth = 100,
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
+
     /*
     "Dynamic Setting Test"
       -> check((global: Global) => Site.getSetting match
@@ -230,21 +286,6 @@ object CaosConfigurator extends Configurator[Global]:
         case _ =>
           Seq()
       ),
-
-    "Bisimulation - ..."
-      -> compareBranchBisim(
-        NetworkWrapper.NetworkCausal,
-        NetworkWrapper.NetworkMultiset,
-        (global: Global) => (StandardProjection.projectionWithParticipant(global), Map.empty,  localsEnvironment(global)),
-        (global: Global) => (StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)),
-        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-        maxDepth = 100,
-    ),
-   */
+    */
   )
 end CaosConfigurator
