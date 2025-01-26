@@ -117,7 +117,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some(StandardProjection.projectionWithParticipant(global))
           case _ => None
-        localsWithParticipant.getOrElse(throw RuntimeException("Merge: some option must be enabled")).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
+        localsWithParticipant.getOrElse(throw RuntimeException("Merge - some option must be enabled")).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
         Code("java")
       ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
@@ -148,7 +148,7 @@ object CaosConfigurator extends Configurator[Global]:
           case mergeOptions if mergeOptions.exists(_.name == "Full") =>
             Some(StandardProjection.projectionWithParticipant(global))
           case _ => None
-        localsWithParticipant.getOrElse(throw RuntimeException("Merge: some option must be enabled")).map{ case participant -> local =>
+        localsWithParticipant.getOrElse(throw RuntimeException("Merge - some option must be enabled")).map{ case participant -> local =>
           val lts = caos.sos.SOS.toMermaid(
             MPSTSemanticWrapper,
             local -> environment(participant),
@@ -169,7 +169,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some(StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global))
           case _ => None
-        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge: some option must be enabled"))
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
         checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
@@ -188,7 +188,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some((StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case _ => None
-        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge: some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
         checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
@@ -207,7 +207,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some((StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case _ => None
-        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge: some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
         checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
