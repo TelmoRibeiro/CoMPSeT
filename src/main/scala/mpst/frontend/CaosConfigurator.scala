@@ -83,14 +83,6 @@ object CaosConfigurator extends Configurator[Global]:
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{case k -> v => s"$k -> $v"}.mkString("\n")
 
-  private def mkCheck(condition: Protocol => Boolean, term: String): WidgetInfo[Global] =
-    check((global: Global) =>
-      (Seq("global" -> global) ++ StandardProjection.projectionWithParticipant(global)).collect {
-        case participant -> protocol if condition(protocol) => s"$participant: found [$term] in [$protocol]"
-      }
-    )
-  end mkCheck
-
   /*
   "Well Formedness"
       -> check((global: Global) =>
@@ -101,6 +93,14 @@ object CaosConfigurator extends Configurator[Global]:
         wellFormed(DependentlyGuarded.apply) ++ wellFormed(WellBounded.apply) ++ wellFormed(WellBranched.apply) ++ wellFormed(WellChannelled.apply) ++ wellFormed(WellCommunicated.apply)
       ),
   */
+
+  private def checkLocals(localsWithParticipant: Set[(Participant, Local)], localCondition: Local => Boolean, settingCondition: => Boolean, prefix: String): Unit =
+    localsWithParticipant.foreach {
+      case participant -> local if localCondition(local) && settingCondition =>
+        throw RuntimeException(s"$prefix - present on [$participant]")
+      case _ =>
+    }
+  end checkLocals
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
     "Message Sequence Chart"
@@ -117,7 +117,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some(StandardProjection.projectionWithParticipant(global))
           case _ => None
-        localsWithParticipant.getOrElse(throw RuntimeException("Merge - checked yet no options enabled")).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
+        localsWithParticipant.getOrElse(throw RuntimeException("Merge: some option must be enabled")).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
         Code("java")
       ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
@@ -163,13 +163,17 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Conditional Sync"
       -> steps((global: Global) =>
-        val initialState = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some(PlainMergeProjection.projectionWithParticipant(global) -> localsEnvironment(global))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some(StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global))
           case _ => None
-        initialState.getOrElse(throw RuntimeException("Merge: some option must be enabled")),
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge: some option must be enabled"))
+        checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
+        checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
+        checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+        initialState,
         SyncTraverseWrapper.Traverse,
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
@@ -178,13 +182,17 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Conditional Async CS"
       -> steps((global: Global) =>
-        val initialState = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some((StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case _ => None
-        initialState.getOrElse(throw RuntimeException("Merge: some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)],
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge: some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
+        checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
+        checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
+        checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+        initialState,
         NetworkWrapper.NetworkCausal,
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
@@ -193,30 +201,24 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Conditional Async MS"
       -> steps((global: Global) =>
-        val initialState = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some((StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case _ => None
-        initialState.getOrElse(throw RuntimeException("Merge: some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)],
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge: some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
+        checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
+        checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
+        checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+        initialState,
         NetworkWrapper.NetworkMultiset,
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
 
-    "Conditional Kleene Start Checker"
-      -> mkCheck(hasKleeneStarRecursion, "Kleene Star Recursion").setRender(!getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star")),
-
-    "Conditional Fixed Point Checker"
-      -> mkCheck(hasFixedPointRecursion, "Fixed Point Recursion").setRender(!getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point")),
-
-    "Conditional Interleaving Checker"
-      -> mkCheck(hasInterleaving, "Interleaving").setRender(!getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving")),
-
-  // need to re-render after this
-  /*
+    /*
     "Dynamic Setting Test"
       -> check((global: Global) => Site.getSetting match
         case Some(setting) if
