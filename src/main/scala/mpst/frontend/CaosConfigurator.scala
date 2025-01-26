@@ -97,7 +97,7 @@ object CaosConfigurator extends Configurator[Global]:
   private def checkLocals(localsWithParticipant: Set[(Participant, Local)], localCondition: Local => Boolean, settingCondition: => Boolean, prefix: String): Unit =
     localsWithParticipant.foreach {
       case participant -> local if localCondition(local) && settingCondition =>
-        throw RuntimeException(s"$prefix - present on [$participant]")
+        throw RuntimeException(s"$prefix - present on participant [$participant]")
       case _ =>
     }
   end checkLocals
