@@ -25,9 +25,8 @@ ___
 ___
 
 ## To Do (CAOS):
-- implicit renaming on the new examples
+- implicit renaming on the new examples (with widgets)
 - parenthesis do not always work (ex: (a && b) && c)
-- keep improving
 ---
 
 ## Meeting:
