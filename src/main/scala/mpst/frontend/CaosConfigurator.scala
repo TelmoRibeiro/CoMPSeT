@@ -63,7 +63,7 @@ object CaosConfigurator extends Configurator[Global]:
     */
 
   // override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" && "Async MS" && "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain"))
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving")
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements")
 
   // private val otherSetting: Setting = "Test" -> ("Option A" || "Option B")
 

@@ -34,8 +34,6 @@ object MPSTSemantic:
   end acceptAuxiliary
 
   private def nextAuxiliary(protocol: Protocol)(using environment: Map[Variable, Protocol]): List[(Action, Protocol)] = protocol match
-    // @ telmo - Interaction(_,_,_,_) is a bit hacky but quite useful in WellBranched
-    // @ telmo - do I have any MPST paper supporting this?
     case Interaction(participantA, participantB, label, sort) => List(Send(participantA, participantB, label, sort) -> Receive(participantB, participantA, label, sort))
     case _: Send | _: Receive    => List(protocol -> Skip)
     case RecursionCall(variable) => nextAuxiliary(environment(variable)) // @ telmo - check RecursionCall(_) for parallel and choice
@@ -55,8 +53,9 @@ object MPSTSemantic:
       resultA ++ resultB
     case Choice(protocolA,protocolB) =>
       nextAuxiliary(protocolA) ++ nextAuxiliary(protocolB)
-    case RecursionFixedPoint(variable, protocolB) =>
-      nextAuxiliary(protocolB)
+    case RecursionFixedPoint(_, protocolB) => protocolB match
+      case _: RecursionCall => throw RuntimeException(s"[$protocol] is not guarded")
+      case _ => nextAuxiliary(protocolB)
     case RecursionKleeneStar(protocolA) =>
       for nextActionA -> nextProtocolA <- nextAuxiliary(protocolA) yield
         nextActionA -> Sequence(nextProtocolA, protocol)
