@@ -1,7 +1,9 @@
 package mpst.frontend
 
 import mpst.frontend.MessageSequenceChart.*
-import mpst.frontend.caos_wrapper.{MPSTSemanticWrapper, NetworkWrapper, SyncTraverseWrapper}
+import mpst.frontend.caos_wrapper.MPSTEnvironmentWrapper.MPSTSemanticWrapper
+import mpst.frontend.caos_wrapper.NetworkWrapper.{NetworkCausal, NetworkMultiset}
+import mpst.frontend.caos_wrapper.SyncEnvironmentWrapper.SyncTraverseWrapper
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.{PlainMergeProjection, StandardProjection}
 import mpst.syntax.Parser
@@ -185,7 +187,7 @@ object CaosConfigurator extends Configurator[Global]:
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
         initialState,
-        SyncTraverseWrapper.Traverse,
+        SyncTraverseWrapper,
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
@@ -204,7 +206,7 @@ object CaosConfigurator extends Configurator[Global]:
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
         initialState,
-        NetworkWrapper.NetworkCausal,
+        NetworkCausal,
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
@@ -223,7 +225,7 @@ object CaosConfigurator extends Configurator[Global]:
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
         initialState,
-        NetworkWrapper.NetworkMultiset,
+        NetworkMultiset,
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
@@ -231,8 +233,8 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Sync vs Async CS"
       -> compareBranchBisim(
-        SyncTraverseWrapper.Traverse,
-        NetworkWrapper.NetworkCausal,
+        SyncTraverseWrapper,
+        NetworkCausal,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), localsEnvironment(global)),
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
@@ -246,8 +248,8 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Sync vs Async MS"
       -> compareBranchBisim(
-        SyncTraverseWrapper.Traverse,
-        NetworkWrapper.NetworkMultiset,
+        SyncTraverseWrapper,
+        NetworkMultiset,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), localsEnvironment(global)),
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
@@ -261,8 +263,8 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Async CS vs Async MS"
       -> compareBranchBisim(
-        NetworkWrapper.NetworkCausal,
-        NetworkWrapper.NetworkMultiset,
+        NetworkCausal,
+        NetworkMultiset,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {

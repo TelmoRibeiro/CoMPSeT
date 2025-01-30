@@ -8,7 +8,7 @@ lazy val caos = project.in(file("lib/caos"))
 lazy val root = project.in(file("."))
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    name := "codeMPST",
+    name := "CoMPSeT",
     scalaVersion := "3.1.1",
     scalaJSUseMainModuleInitializer := true,
     Compile / mainClass  := Some("mpst.frontend.Main"),
