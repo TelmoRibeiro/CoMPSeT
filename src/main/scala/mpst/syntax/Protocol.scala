@@ -50,7 +50,7 @@ object Protocol:
   type Variable    = String
 
   // semantic types //
-  type Action = Protocol
+  type Action = Send | Receive
 
   def isGlobal(protocol: Global): Boolean = protocol match
     case _: Interaction | _: RecursionCall | Skip => true
@@ -61,11 +61,6 @@ object Protocol:
     case RecursionFixedPoint(_, protocolB) => isGlobal(protocolB)
     case RecursionKleeneStar(protocolA)    => isGlobal(protocolA)
   end isGlobal
-
-  def isAction(protocol: Action): Boolean = protocol match
-    case _: Send | _: Receive => true
-    case _ => false
-  end isAction
 
   def getParticipants(protocol: Protocol): Set[Participant] = protocol match
     case Interaction(sender, receiver, _, _) => Set(sender, receiver)
