@@ -22,16 +22,10 @@ object StandardProjection:
   end projectionWithParticipant
 
   private def projection(global: Global)(using participant: Participant): Option[Local] = global match
-    case Interaction(`participant`, receiver, label, sort) =>
-      Some(Send(participant, receiver, label, sort))
-    case Interaction(sender, `participant`, label, sort) =>
-      Some(Receive(participant, sender, label, sort))
-    case _ : Interaction =>
-      Some(Skip)
-    case _ : RecursionCall =>
-      Some(global)
-    case Skip =>
-      Some(Skip)
+    case Interaction(`participant`, receiver, label, sort) if `participant` != receiver => Some(Send(participant, receiver, label, sort))
+    case Interaction(sender, `participant`, label, sort)   if `participant` != sender   => Some(Receive(participant, sender, label, sort))
+    case Interaction(sender, receiver, label, sort)        if `participant` != sender && `participant` != receiver => Some(Skip)
+    case _ : RecursionCall | Skip => Some(global)
     case Sequence(globalA, globalB) =>
       for localA <- projection(globalA)
           localB <- projection(globalB)

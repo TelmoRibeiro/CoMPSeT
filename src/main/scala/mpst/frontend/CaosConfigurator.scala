@@ -276,6 +276,13 @@ object CaosConfigurator extends Configurator[Global]:
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
 
+    "Dependently Guarded"
+      -> check((global: Global) =>
+        if !DependentlyGuarded(global)  then Seq(s"[$global] is not dependently guarded")
+        else if !WellBranched(global)   then Seq(s"[$global] is not well branched")
+        else if !WellChannelled(global) then Seq(s"[$global] is not well channeled")
+        else Seq.empty
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Extra Requirements")),
     /*
     "Dynamic Setting Test"
       -> check((global: Global) => Site.getSetting match

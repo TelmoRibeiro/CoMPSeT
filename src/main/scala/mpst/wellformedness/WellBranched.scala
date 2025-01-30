@@ -24,15 +24,12 @@ import mpst.utility.Environment.{SingleEnvironment, globalEnvironment}
 object WellBranched:
   private def wellBranched(global: Global)(using environment: SingleEnvironment): Boolean = global match
     case _ : Interaction | _ : RecursionCall | Skip => true
-    case Sequence(globalA, globalB) =>
-      wellBranched(globalA) && wellBranched(globalB)
-    case Parallel(globalA, globalB) =>
-      wellBranched(globalA) && wellBranched(globalB)
-    case Choice(globalA, globalB) =>
-      wellBranchedAuxiliary(globalA, globalB) && wellBranched(globalA) && wellBranched(globalB)
-    case RecursionFixedPoint(_, globalB) =>
-      wellBranched(globalB)
-    case _ => throw RuntimeException(s"unexpected local type found in [$global]")
+    case Sequence(globalA, globalB) => wellBranched(globalA) && wellBranched(globalB)
+    case Parallel(globalA, globalB) => wellBranched(globalA) && wellBranched(globalB)
+    case Choice  (globalA, globalB) => wellBranchedAuxiliary(globalA, globalB) && wellBranched(globalA) && wellBranched(globalB)
+    case RecursionFixedPoint(_, globalB) => wellBranched(globalB)
+    case RecursionKleeneStar(globalA)    => wellBranched(globalA)
+    case _ => throw RuntimeException(s"found unexpected [$global]")
   end wellBranched
 
   private def wellBranchedAuxiliary(globalA: Global, globalB: Global)(using environment: SingleEnvironment): Boolean =
@@ -102,5 +99,7 @@ object WellBranched:
     readilyReceived(receivesInSendA, receivesInReceiveA, selector) && readilyReceived(receivesInSendB, receivesInReceiveB, selector) && noAmbiguity(receivesInReceiveA, receivesInReceiveB) && matchingReceivers(receivesInReceiveA, receivesInReceiveB)
   end wellBranchedAuxiliary
 
-  def apply(global: Global): Boolean = wellBranched(global)(using globalEnvironment(global))
+  def apply(global: Global): Boolean =
+    wellBranched(global)(using globalEnvironment(global))
+  end apply
 end WellBranched

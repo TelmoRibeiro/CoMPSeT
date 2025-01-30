@@ -17,61 +17,51 @@ import mpst.syntax.Protocol.*
 */
 
 object DependentlyGuarded:
-  private def isDependentlyGuarded(global:Global):Boolean =
-    global match
-      case Interaction(_, _, _, _) => true
-      case RecursionCall(_) => true
-      case Skip => true
-      case Sequence(globalA,globalB) => isDependentlyGuarded(globalA) && isDependentlyGuarded(globalB)
-      case Parallel(globalA,globalB) => isDependentlyGuarded(globalA) && isDependentlyGuarded(globalB)
-      case Choice  (globalA,globalB) => isDependentlyGuarded(globalA) && isDependentlyGuarded(globalB)
-      case RecursionFixedPoint(_,globalB) =>
-        val agents = getParticipants(globalB)
-        for agent <- agents yield
-          val maybeGlobal = checkDependentlyGuarded(globalB,agent)
-          maybeGlobal match
-            case Some(global) if globalB != global => throw new RuntimeException(s"[$globalB] partially evaluates to [$global] for agent [$agent] yet they are different\n")
-            case _ =>
-        isDependentlyGuarded(globalB)
-      case local => throw new RuntimeException(s"unexpected local type found in [$local]\n")
-  end isDependentlyGuarded
+  private def dependentlyGuarded(global: Global): Boolean = global match
+      case _: Interaction | _: RecursionCall | Skip => true
+      case Sequence(globalA, globalB) => dependentlyGuarded(globalA) && dependentlyGuarded(globalB)
+      case Parallel(globalA, globalB) => dependentlyGuarded(globalA) && dependentlyGuarded(globalB)
+      case Choice  (globalA, globalB) => dependentlyGuarded(globalA) && dependentlyGuarded(globalB)
+      case RecursionFixedPoint(_, globalB) =>
+        for participant <- getParticipants(globalB) yield dependentlyGuardedAuxiliary(globalB, participant) match
+          case Some(global) if globalB != global => throw new RuntimeException(s"[$globalB] partially evaluates to [$global] for participant [$participant] yet they are different")
+          case _ =>
+        dependentlyGuarded(globalB)
+      case RecursionKleeneStar(globalA) =>
+        for participant <- getParticipants(globalA) yield dependentlyGuardedAuxiliary(globalA, participant) match
+          case Some(global) if globalA != global => throw new RuntimeException(s"[$globalA] partially evaluates to [$global] for participant [$participant] yet they are different")
+          case _ =>
+        dependentlyGuarded(globalA)
+      case _ => throw new RuntimeException(s"found unexpected [$global]")
+  end dependentlyGuarded
 
-  private def checkDependentlyGuarded(global:Global,agent:Participant):Option[Global] =
-    global match
-      case Interaction(agentA,agentB,_, _) =>
-        if agent == agentA || agent == agentB
-        then None
-        else Some(global)
-      case RecursionCall(_) => Some(global)
-      case Skip => Some(global)
-      case Sequence(globalA,globalB) =>
-        val maybeGlobalA = checkDependentlyGuarded(globalA,agent)
-        val maybeGlobalB = checkDependentlyGuarded(globalB,agent)
-        maybeGlobalA -> maybeGlobalB match
-          case Some(gA) -> Some(gB) => Some(Sequence(gA,gB))
-          case _ -> _ => None
-      case Parallel(globalA,globalB) =>
-        val maybeGlobalA = checkDependentlyGuarded(globalA,agent)
-        val maybeGlobalB = checkDependentlyGuarded(globalB,agent)
-        maybeGlobalA -> maybeGlobalB match
-          case Some(gA) -> Some(gB) => Some(Parallel(gA,gB))
-          case _ -> _ => None
-      case Choice(globalA,globalB) =>
-        val maybeGlobalA = checkDependentlyGuarded(globalA,agent)
-        val maybeGlobalB = checkDependentlyGuarded(globalB,agent)
-        maybeGlobalA -> maybeGlobalB match
-          case None -> maybeGlobalB => maybeGlobalB
-          case maybeGlobalA -> None => maybeGlobalA
-          case Some(gA) -> Some(gB) => Some(Choice(gA,gB))
-      case RecursionFixedPoint(variable,globalB) =>
-        val maybeGlobalB = checkDependentlyGuarded(globalB,agent)
-        maybeGlobalB match
-          case Some(gB) => Some(gB)
-          case _ => Some(Skip) // @ telmo - TO CHECK
-      case local => throw new RuntimeException(s"unexpected local type found in [$local]\n")
-  end checkDependentlyGuarded
+  private def dependentlyGuardedAuxiliary(global: Global, participant: Participant): Option[Global] = global match
+    case Interaction(sender, receiver, _, _) =>
+      if participant == sender || participant == receiver then None else Some(global)
+    case _: RecursionCall | Skip => Some(global)
+    case Sequence(globalA, globalB) => dependentlyGuardedAuxiliary(globalA, participant) -> dependentlyGuardedAuxiliary(globalB, participant) match
+      case Some(gA) -> Some(gB) => Some(Sequence(gA, gB))
+      case _ -> _ => None
+    case Parallel(globalA, globalB) => dependentlyGuardedAuxiliary(globalA, participant) -> dependentlyGuardedAuxiliary(globalB, participant) match
+      case Some(gA) -> Some(gB) => Some(Parallel(gA, gB))
+      case _ -> _ => None
+    case Choice  (globalA, globalB) =>
+      val maybeGlobalA = dependentlyGuardedAuxiliary(globalA, participant)
+      val maybeGlobalB = dependentlyGuardedAuxiliary(globalB, participant)
+      maybeGlobalA -> maybeGlobalB match
+        case None -> maybeGlobalB => maybeGlobalB
+        case maybeGlobalA -> None => maybeGlobalA
+        case Some(gA) -> Some(gB) => Some(Choice(gA, gB))
+    case RecursionFixedPoint(_, globalB) => dependentlyGuardedAuxiliary(globalB, participant) match
+      case Some(gB) => Some(gB)
+      case _ => Some(Skip)
+    case RecursionKleeneStar(globalA)    => dependentlyGuardedAuxiliary(globalA, participant) match
+      case Some(gb) => Some(gb)
+      case _ => Some(Skip)
+    case _ => throw new RuntimeException(s"found unexpected [$global]\n")
+  end dependentlyGuardedAuxiliary
 
   def apply(global:Global):Boolean =
-    isDependentlyGuarded(global)
+    dependentlyGuarded(global)
   end apply
 end DependentlyGuarded
