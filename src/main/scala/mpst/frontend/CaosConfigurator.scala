@@ -65,7 +65,7 @@ object CaosConfigurator extends Configurator[Global]:
     */
 
   // override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" && "Async MS" && "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain"))
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements")
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements" -> ("Well Interleaved" && "Other"))
 
   // private val otherSetting: Setting = "Test" -> ("Option A" || "Option B")
 
@@ -276,13 +276,18 @@ object CaosConfigurator extends Configurator[Global]:
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
 
-    "Dependently Guarded"
+    "Extra Requirements"
       -> check((global: Global) =>
         if !DependentlyGuarded(global)  then Seq(s"[$global] is not dependently guarded")
         else if !WellBranched(global)   then Seq(s"[$global] is not well branched")
-        else if !WellChannelled(global) then Seq(s"[$global] is not well channeled")
         else Seq.empty
       ).setRender(getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Extra Requirements")),
+
+    "Well Interleaved"
+      -> check((global: Global) =>
+        if !WellInterleaved(global) then Seq(s"[$global] is not well interleaved") else Seq.empty
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Interleaved")),
+
     /*
     "Dynamic Setting Test"
       -> check((global: Global) => Site.getSetting match
