@@ -101,4 +101,8 @@ object Protocol:
     case Choice  (protocolA, protocolB) => hasFixedPointRecursion(protocolA) || hasFixedPointRecursion(protocolB)
     case RecursionKleeneStar(protocolA) => hasFixedPointRecursion(protocolA)
   end hasFixedPointRecursion
+  
+  def hasRecursion(protocol: Protocol): Boolean =
+    hasKleeneStarRecursion(protocol) || hasFixedPointRecursion(protocol)
+  end hasRecursion
 end Protocol
