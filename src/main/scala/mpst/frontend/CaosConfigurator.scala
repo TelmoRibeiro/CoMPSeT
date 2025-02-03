@@ -65,7 +65,7 @@ object CaosConfigurator extends Configurator[Global]:
     */
 
   // override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" && "Async MS" && "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain"))
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Interleaved"))
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
 
   // private val otherSetting: Setting = "Test" -> ("Option A" || "Option B")
 
@@ -288,10 +288,10 @@ object CaosConfigurator extends Configurator[Global]:
         if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Channeled")),
 
-    "Well Interleaved"
+    "Well Bounded"
       -> check((global: Global) =>
-        if !WellInterleaved(global) then Seq(s"[$global] is not well interleaved") else Seq.empty
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Interleaved")),
+        if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Bounded")),
 
     /*
     "Dynamic Setting Test"
