@@ -9,7 +9,7 @@ object WellBounded:
     case RecursionCall(variable) =>
       if   boundedVariables.contains(variable)
       then boundedVariables
-      else throw RuntimeException(s"found unbounded [$variable] in [$global]")
+      else throw RuntimeException(s"found unbounded [$variable]")
     case Sequence(globalA, globalB) =>
       getBoundedVariables(globalB)(using getBoundedVariables(globalA))
     case Parallel(globalA, globalB) =>

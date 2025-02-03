@@ -13,18 +13,20 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- review "Sync"
 - review "Full Merge"
-- extra requirements should be on caos (selectable)
+- review "Sync"
 - klenne star (check if well propagated)
 - missing StructuralCongruence() (check plain merge)
 - MSC (add fixed point recursion)
 - global semantic (revisit the sequence problem)
-- well-formedness (revisit it - change it for projectability)
 - extended examples
 ___
 
 ## To Do (CAOS):
+- do not print settings root
+- checkbox in front of the name
+- streamline font size
+- check should block widgets
 - implicit renaming on the new examples (with widgets)
 - parenthesis do not always work (ex: (a && b) && c)
 ---
