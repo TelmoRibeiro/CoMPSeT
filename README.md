@@ -24,7 +24,6 @@ ___
 
 ## To Do (CAOS):
 - do not print settings root
-- checkbox in front of the name
 - streamline font size
 - check should block widgets
 - implicit renaming on the new examples (with widgets)
@@ -32,4 +31,4 @@ ___
 ---
 
 ## Meeting:
-- case Some / None as maps and getOrElse (options)
+- AKKA
