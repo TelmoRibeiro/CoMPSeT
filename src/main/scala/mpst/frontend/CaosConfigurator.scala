@@ -43,38 +43,27 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  /* @ telmo -
-    simple description -
-      standard name convention
-    example:
-    override val setting: Setting = ("Sync" || "Async MS" || "Async CS") && "Interleaving"
-    */
-
-  /* @ telmo -
-    multi-config description -
-      testing if the syntax is simple enough
-    example:
-    private def mkConfig: Setting = "Comm Model" -> ("Sync" || "Async CS" || "Async MS") && "Interleaving"
-    override val setting: Setting = "Configurations" -> ("ConfigA" -> mkConfig || "ConfigB" -> mkConfig)
-    */
-
-  /* @ telmo -
-    "complex" description -
-      renaming names
-    example:
-    */
-
-  // override val setting: Setting = "Configuration" -> ("Comm Model" -> ("Sync" && "Async MS" && "Async CS") && "Interleaving" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Merge" -> ("Full" || "Plain"))
   override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
 
-  // private val otherSetting: Setting = "Test" -> ("Option A" || "Option B")
+  //private val paperA: Setting = ""
+  //private val paperB: Setting = ""
+  private val paperC: Setting = "Configuration" -> ("Merge" -> (Setting(name="Plain",checked=true) || "Full") && "Comm Model" -> ("Sync" && Setting(name="Async CS",checked=true) && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && Setting(name="Interleaving",checked=true) && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
+  //private val paperD: Setting = ""
+  //private val paperE: Setting = ""
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
       -> "(m->w:Work || m->w:WorkAgain) ; w->m:Done",
 
-    "MasterWorkers"
-      -> "m->wA:Work ; m->wB:Work ; (wA->m:Done || wB->m:Done)",
+    "MW-V1" // no parallel composition no recursion
+      -> "m->wA:Work ; m->wB:Work ; wA->m:Done ; wB->m:Done",
+
+    "MW-V2" // parallel composition yet no recursion
+      -> "m->wA:Work ; m->wB:Work ; (wA->m:Done || wB->m:Done)"
+      -> paperC,
+
+    "MW-V3" // parallel composition and recursion (fixed point)
+      -> "m->wA:Work ; m->wB:Work ; def X in (wA->m:Done || wB->m:Done) ; X", 
 
     "Plain Merge"
       -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA",
