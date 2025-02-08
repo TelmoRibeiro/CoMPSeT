@@ -13,6 +13,7 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
+- add remaining Papers
 - review "Full Merge"
 - review "Sync"
 - klenne star (check if well propagated)
