@@ -33,3 +33,4 @@ ___
 
 ## Meeting:
 - AKKA
+- auto-reload on example switch

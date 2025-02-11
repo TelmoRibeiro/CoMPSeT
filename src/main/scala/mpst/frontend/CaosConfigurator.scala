@@ -45,31 +45,53 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
 
-  //private val paperA: Setting = ""
-  //private val paperB: Setting = ""
+  // paperA: GentleSync
+  private val paperA: Setting = "Configuration" -> ("Merge" -> ("Plain" || Setting(name="Full",checked=true)) && "Comm Model" -> (Setting(name="Sync",checked=true) && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || Setting(name="Fixed Point",checked=true)) && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
+  // paperB: GentleAsync (new async)
+  private val paperB: Setting = "Configuration" -> ("Merge" -> (Setting(name="Plain",checked=true) || "Full") && "Comm Model" -> ("Sync" && Setting(name="Async CS",checked=true) && "Async MS") && "Recursion" -> ("Kleene Star" || Setting(name="Fixed Point",checked=true)) && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
+  // paperC: APIGenScala
   private val paperC: Setting = "Configuration" -> ("Merge" -> (Setting(name="Plain",checked=true) || "Full") && "Comm Model" -> ("Sync" && Setting(name="Async CS",checked=true) && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && Setting(name="Interleaving",checked=true) && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
-  //private val paperD: Setting = ""
-  //private val paperE: Setting = ""
+  // paperD:
+  private val paperD: Setting = "Configuration"
+  // paperE:
+  private val paperE: Setting = "Configuration"
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
-      -> "(m->w:Work || m->w:WorkAgain) ; w->m:Done",
+      -> "(m->w:Work || m->w:WorkAgain) ; w->m:Done"
+      -> setting,
 
-    "MW-V1" // no parallel composition no recursion
-      -> "m->wA:Work ; m->wB:Work ; wA->m:Done ; wB->m:Done",
+    "Plain Merge"
+      -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA"
+      -> setting,
 
-    "MW-V2" // parallel composition yet no recursion
+    "MW-v1" // master worker protocol fully sequential and without recursion
+      -> "m->wA:Work ; m->wB:Work ; wA->m:Done ; wB->m:Done"
+      -> setting,
+
+    "MW-v2" // master worker protocol without recursion (standard)
+      -> "m->wA:Work ; m->wB:Work ; (wA->m:Done || wB->m:Done)"
+      -> setting,
+
+    "MW-v3" // master work protocol fully sequential
+      -> "def X in (m->w:Work ; w->m:Done ; X + m->w:Quit)"
+      -> setting,
+
+    "MW-v4" // master worker protocol
+      -> "def X in (m->wA:Work; wA->wB:Work ; (wA->m:Done || wB->m:Done) ; X + m->wA:Quit; wA->wB:Quit)"
+      -> setting,
+
+    "MW-v2 (with PaperC)" // MW-v2 using the settings of paperC
       -> "m->wA:Work ; m->wB:Work ; (wA->m:Done || wB->m:Done)"
       -> paperC,
 
-    "MW-V3" // parallel composition and recursion (fixed point)
-      -> "m->wA:Work ; m->wB:Work ; def X in (wA->m:Done || wB->m:Done) ; X", 
+    "MW-v3 (with PaperA)" // MW-v3 using the settings of paperA
+      -> "def X in (m->w:Work ; w->m:Done ; X + m->w:Quit)"
+      -> paperA,
 
-    "Plain Merge"
-      -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA",
-
-    "SimpleRecursion"
-      -> "def X in (m->w:Task ; X)",
+    "MW-v3 (with PaperB)" // MW-v3 using the settings of paperB
+      -> "def X in (m->w:Work ; w->m:Done ; X + m->w:Quit)"
+      -> paperB,
   )
 
   extension [K, V](map: Map[K, V])
