@@ -46,15 +46,21 @@ object CaosConfigurator extends Configurator[Global]:
   override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
 
   // paperA: GentleSync
-  private val paperA: Setting = "Configuration" -> ("Merge" -> ("Plain" || Setting(name="Full",checked=true)) && "Comm Model" -> (Setting(name="Sync",checked=true) && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || Setting(name="Fixed Point",checked=true)) && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
+  private val paperA: Setting = setting
+   .setAllChecked("Configuration.Merge.Full")
+   .setAllChecked("Configuration.Comm Model.Sync")
+   .setAllChecked("Configuration.Recursion.Fixed Point")
+
   // paperB: GentleAsync (new async)
-  private val paperB: Setting = "Configuration" -> ("Merge" -> (Setting(name="Plain",checked=true) || "Full") && "Comm Model" -> ("Sync" && Setting(name="Async CS",checked=true) && "Async MS") && "Recursion" -> ("Kleene Star" || Setting(name="Fixed Point",checked=true)) && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
+  private val paperB: Setting = setting
+   .setAllChecked("Configuration.Merge.Plain")
+   .setAllChecked("Configuration.Comm Model.Async CS")
+   .setAllChecked("Configuration.Recursion.Fixed Point")
   // paperC: APIGenScala
-  private val paperC: Setting = "Configuration" -> ("Merge" -> (Setting(name="Plain",checked=true) || "Full") && "Comm Model" -> ("Sync" && Setting(name="Async CS",checked=true) && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && Setting(name="Interleaving",checked=true) && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
-  // paperD:
-  private val paperD: Setting = "Configuration"
-  // paperE:
-  private val paperE: Setting = "Configuration"
+  private val paperC: Setting = setting
+    .setAllChecked("Configuration.Merge.Plain")
+    .setAllChecked("Configuration.Comm Model.Async CS")
+    .setAllChecked("Configuration.Interleaving")
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
