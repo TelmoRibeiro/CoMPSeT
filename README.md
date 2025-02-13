@@ -24,7 +24,6 @@ ___
 ___
 
 ## To Do (CAOS):
-- do not print settings root
 - streamline font size
 - check should block widgets
 - implicit renaming on the new examples (with widgets)
