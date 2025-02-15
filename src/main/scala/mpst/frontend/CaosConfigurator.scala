@@ -169,7 +169,7 @@ object CaosConfigurator extends Configurator[Global]:
         (global: Global, environment: SingleEnvironment) => environment.toPrettyPrint,
       ),
 
-    "Local Automata"
+    "Locals Automata"
      -> viewMerms((global: Global) =>
         val environment = localsEnvironment(global)
         val localsWithParticipant = getSetting.allActiveLeavesFrom("Configuration.Merge") match
