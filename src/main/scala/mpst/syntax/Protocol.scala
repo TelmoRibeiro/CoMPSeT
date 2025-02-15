@@ -75,14 +75,14 @@ object Protocol:
     case RecursionKleeneStar(protocolA)    => getParticipants(protocolA)
   end getParticipants
 
-  def hasInterleaving(protocol: Protocol): Boolean = protocol match
+  def hasParallel(protocol: Protocol): Boolean = protocol match
     case _: Interaction | _: Send | _: Receive | _: RecursionCall | Skip => false
     case _: Parallel => true
-    case Sequence(protocolA, protocolB) => hasInterleaving(protocolA) || hasInterleaving(protocolB)
-    case Choice  (protocolA, protocolB) => hasInterleaving(protocolA) || hasInterleaving(protocolB)
-    case RecursionFixedPoint(_, protocolB) => hasInterleaving(protocolB)
-    case RecursionKleeneStar(protocolA)    => hasInterleaving(protocolA)
-  end hasInterleaving
+    case Sequence(protocolA, protocolB) => hasParallel(protocolA) || hasParallel(protocolB)
+    case Choice  (protocolA, protocolB) => hasParallel(protocolA) || hasParallel(protocolB)
+    case RecursionFixedPoint(_, protocolB) => hasParallel(protocolB)
+    case RecursionKleeneStar(protocolA)    => hasParallel(protocolA)
+  end hasParallel
 
   def hasKleeneStarRecursion(protocol: Protocol): Boolean = protocol match
     case _: Interaction | _: Send | _: Receive | _: RecursionCall | Skip => false

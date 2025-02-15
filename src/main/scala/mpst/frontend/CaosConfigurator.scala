@@ -8,7 +8,7 @@ import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.{PlainMergeProjection, StandardProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasInterleaving, hasKleeneStarRecursion, toString}
+import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasParallel, hasKleeneStarRecursion, toString}
 import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
@@ -43,7 +43,7 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Interleaving" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
 
   // paperA: GentleSync
   private val paperA: Setting = setting
@@ -60,7 +60,7 @@ object CaosConfigurator extends Configurator[Global]:
   private val paperC: Setting = setting
     .setAllChecked("Configuration.Merge.Plain")
     .setAllChecked("Configuration.Comm Model.Async CS")
-    .setAllChecked("Configuration.Interleaving")
+    .setAllChecked("Configuration.Parallel")
 
   override val examples: Seq[Example] = List(
     "AsyncCS vs AsyncMS"
@@ -200,7 +200,7 @@ object CaosConfigurator extends Configurator[Global]:
             Some(StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
-        checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
+        checkLocals(initialState._1, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
         initialState,
@@ -219,7 +219,7 @@ object CaosConfigurator extends Configurator[Global]:
             Some((StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
-        checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
+        checkLocals(initialState._1, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
         initialState,
@@ -238,7 +238,7 @@ object CaosConfigurator extends Configurator[Global]:
             Some((StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
-        checkLocals(initialState._1, hasInterleaving, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Interleaving"), "Interleaving")
+        checkLocals(initialState._1, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
         checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
         checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
         initialState,
