@@ -14,7 +14,7 @@ ___
 
 ## To Do (Core):
 - add remaining Papers
-- review "Full Merge"
+- review merges
 - review "Sync"
 - klenne star (check if well propagated)
 - missing StructuralCongruence() (check plain merge)
