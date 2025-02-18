@@ -24,7 +24,6 @@ ___
 ___
 
 ## To Do (CAOS):
-- streamline font size
 - check should block widgets
 - implicit renaming on the new examples (with widgets)
 - parenthesis do not always work (ex: (a && b) && c)
@@ -32,3 +31,5 @@ ___
 
 ## Meeting:
 - AKKA
+- Settings vs Feature - the distinction should be very clear
+- examples using v2
