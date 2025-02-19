@@ -8,7 +8,7 @@ import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.{PlainMergeProjection, StandardProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasParallel, hasKleeneStarRecursion, toString}
+import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasParallel, hasFixedPointRecursion, hasKleeneStarRecursion, toString}
 import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
@@ -43,7 +43,7 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async CS" && "Async MS") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Channeled" && "Well Bounded"))
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branchedness" && "Well Channeled" && "Well Bounded"))
 
   // paperA: GentleSync
   private val paperA: Setting = setting
@@ -54,65 +54,81 @@ object CaosConfigurator extends Configurator[Global]:
   // paperB: GentleAsync (new async)
   private val paperB: Setting = setting
    .setAllChecked("Configuration.Merge.Plain")
-   .setAllChecked("Configuration.Comm Model.Async CS")
+   .setAllChecked("Configuration.Comm Model.Async (Causal)")
    .setAllChecked("Configuration.Recursion.Fixed Point")
+
   // paperC: APIGenScala
   private val paperC: Setting = setting
     .setAllChecked("Configuration.Merge.Plain")
-    .setAllChecked("Configuration.Comm Model.Async CS")
+    .setAllChecked("Configuration.Comm Model.Async (Causal)")
     .setAllChecked("Configuration.Parallel")
 
+  // paperD: ST4MP
+  private val paperD: Setting = setting
+    .setAllChecked("Configuration.Merge.Plain")
+    .setAllChecked("Configuration.Comm Model.Async (Causal)")
+    .setAllChecked("Configuration.Parallel")
+    .setAllChecked("Configuration.Recursion.Kleene Star")
+
+  // paperE: ...
+  private val paperE: Setting = setting
+
+  // "AsyncCS vs AsyncMS"
+  //      -> "(m->w:Work || m->w:WorkAgain) ; w->m:Done"
+  //      -> setting,
+  //
+  //    "Plain Merge"
+  //      -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA"
+  //      -> setting,
+
+  // master worker protocol fully sequential and without recursion
+  private val mwv1: String = "m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done"
+
+  // master worker protocol without recursion (standard)
+  private val mwv2: String = "m->wA:Work ; m->wB:Work ;\n(wA->m:Done || wB->m:Done)"
+
+  // master work protocol fully sequential
+  private val mwv3: String = "def X in (\n\tm->w:Work ; w->m:Done ; X + m->w:Quit\n)"
+
+  // master worker protocol
+  private val mwv4: String = "def X in (\n\t(\n\t\tm->wA:Work; wA->wB:Work ;\n\t\t(wA->m:Done || wB->m:Done) ; X\n\t) + (m->wA:Quit; wA->wB:Quit)\n)"
+
   override val examples: Seq[Example] = List(
-    "AsyncCS vs AsyncMS"
-      -> "(m->w:Work || m->w:WorkAgain) ; w->m:Done"
+    "MW-v1"
+      -> mwv1
       -> setting,
 
-    "Plain Merge"
-      -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA"
+    "MW-v2"
+      -> mwv2
       -> setting,
 
-    "MW-v1" // master worker protocol fully sequential and without recursion
-      -> "m->wA:Work ; m->wB:Work ; wA->m:Done ; wB->m:Done"
+    "MW-v3"
+      -> mwv3
       -> setting,
 
-    "MW-v2" // master worker protocol without recursion (standard)
-      -> "m->wA:Work ; m->wB:Work ; (wA->m:Done || wB->m:Done)"
+    "MW-v4"
+      -> mwv4
       -> setting,
 
-    "MW-v3" // master work protocol fully sequential
-      -> "def X in (m->w:Work ; w->m:Done ; X + m->w:Quit)"
-      -> setting,
-
-    "MW-v4" // master worker protocol
-      -> "def X in (m->wA:Work; wA->wB:Work ; (wA->m:Done || wB->m:Done) ; X + m->wA:Quit; wA->wB:Quit)"
-      -> setting,
-
-    "MW-v2 (with PaperC)" // MW-v2 using the settings of paperC
-      -> "m->wA:Work ; m->wB:Work ; (wA->m:Done || wB->m:Done)"
+    "MW-v2 (with PaperC)"
+      -> mwv2
       -> paperC,
 
-    "MW-v3 (with PaperA)" // MW-v3 using the settings of paperA
-      -> "def X in (m->w:Work ; w->m:Done ; X + m->w:Quit)"
+    "MW-v3 (with PaperA)"
+      -> mwv3
       -> paperA,
 
-    "MW-v3 (with PaperB)" // MW-v3 using the settings of paperB
-      -> "def X in (m->w:Work ; w->m:Done ; X + m->w:Quit)"
+    "MW-v3 (with PaperB)"
+      -> mwv3
       -> paperB,
+
+    "MW-v4 (with PaperD)"
+      -> mwv4
+      -> paperD,
   )
 
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{case k -> v => s"$k -> $v"}.mkString("\n")
-
-  /*
-  "Well Formedness"
-      -> check((global: Global) =>
-        def wellFormed(condition: Global => Boolean): Seq[String] =
-          if !condition(global) then Seq(s"[$global] failed while testing [$condition]") else Seq.empty
-        end wellFormed
-
-        wellFormed(DependentlyGuarded.apply) ++ wellFormed(WellBounded.apply) ++ wellFormed(WellBranched.apply) ++ wellFormed(WellChannelled.apply) ++ wellFormed(WellCommunicated.apply)
-      ),
-  */
 
   private def localsWithParticipant(enabledMerge: Set[Setting])(using global: Global): Set[(Participant, Local)] =
     val localsWithParticipantOption = enabledMerge match
@@ -121,7 +137,9 @@ object CaosConfigurator extends Configurator[Global]:
       case enabledMerge if enabledMerge.exists(_.name == "Full") =>
         Some(StandardProjection.projectionWithParticipant(global))
       case _ => None
-    localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
+    val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
+    allChecksLocals(localsWithParticipant)
+    localsWithParticipant
   end localsWithParticipant
 
   private def checkLocals(localsWithParticipant: Set[(Participant, Local)], localCondition: Local => Boolean, settingCondition: => Boolean, prefix: String): Unit =
@@ -132,6 +150,12 @@ object CaosConfigurator extends Configurator[Global]:
     }
   end checkLocals
 
+  private def allChecksLocals(localsWithParticipant: Set[(Participant, Local)]): Unit =
+    checkLocals(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
+    checkLocals(localsWithParticipant, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
+    checkLocals(localsWithParticipant, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+  end allChecksLocals
+
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
     "Message Sequence Chart"
       -> view(MessageSequenceChart.apply, Mermaid),
@@ -141,26 +165,17 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Locals"
       -> view((global: Global) =>
-        val localsWithParticipant = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val localsWithParticipantOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some(PlainMergeProjection.projectionWithParticipant(global))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
             Some(StandardProjection.projectionWithParticipant(global))
           case _ => None
-        localsWithParticipant.getOrElse(throw RuntimeException("Merge - some option must be enabled")).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
+        val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
+        allChecksLocals(localsWithParticipant)
+        localsWithParticipant.map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
         Code("java")
       ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
-
-    /*
-    "\"Choreo\" - My Spin"
-      -> steps((global: Global) =>
-        global -> globalEnvironment(global),
-        MPSTSemanticWrapper,
-        (global: Global, environment: SingleEnvironment) => global.toString,
-        _.toString,
-        Text
-      ),
-     */
 
     "Global Automata"
       -> lts((global: Global) =>
@@ -172,13 +187,15 @@ object CaosConfigurator extends Configurator[Global]:
     "Locals Automata"
      -> viewMerms((global: Global) =>
         val environment = localsEnvironment(global)
-        val localsWithParticipant = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val localsWithParticipantOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
             Some(PlainMergeProjection.projectionWithParticipant(global))
           case mergeOptions if mergeOptions.exists(_.name == "Full") =>
             Some(StandardProjection.projectionWithParticipant(global))
           case _ => None
-        localsWithParticipant.getOrElse(throw RuntimeException("Merge - some option must be enabled")).map{ case participant -> local =>
+        val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
+        allChecksLocals(localsWithParticipant)
+        localsWithParticipant.map{ case participant -> local =>
           val lts = caos.sos.SOS.toMermaid(
             MPSTSemanticWrapper,
             local -> environment(participant),
@@ -191,7 +208,7 @@ object CaosConfigurator extends Configurator[Global]:
         }.toList
      ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
-    "Conditional Sync"
+    "Synchronous"
       -> steps((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
@@ -200,9 +217,7 @@ object CaosConfigurator extends Configurator[Global]:
             Some(StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
-        checkLocals(initialState._1, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
-        checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
-        checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+        allChecksLocals(initialState._1)
         initialState,
         SyncTraverseWrapper,
         (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
@@ -210,7 +225,7 @@ object CaosConfigurator extends Configurator[Global]:
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
 
-    "Conditional Async CS"
+    "Asynchronous (Causal)"
       -> steps((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
@@ -219,17 +234,15 @@ object CaosConfigurator extends Configurator[Global]:
             Some((StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
-        checkLocals(initialState._1, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
-        checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
-        checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+        allChecksLocals(initialState._1)
         initialState,
         NetworkCausal,
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS")),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
 
-    "Conditional Async MS"
+    "Asynchronous (Non-Causal)"
       -> steps((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
@@ -238,17 +251,15 @@ object CaosConfigurator extends Configurator[Global]:
             Some((StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
-        checkLocals(initialState._1, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
-        checkLocals(initialState._1, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
-        checkLocals(initialState._1, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+        allChecksLocals(initialState._1)
         initialState,
         NetworkMultiset,
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
-    "Sync vs Async CS"
+    "Sync vs Async (Causal) - Bisimulation"
       -> compareBranchBisim(
         SyncTraverseWrapper,
         NetworkCausal,
@@ -261,9 +272,9 @@ object CaosConfigurator extends Configurator[Global]:
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
         maxDepth = 100,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS")),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
 
-    "Sync vs Async MS"
+    "Sync vs Async (Non-Causal) - Bisimulation"
       -> compareBranchBisim(
         SyncTraverseWrapper,
         NetworkMultiset,
@@ -276,9 +287,9 @@ object CaosConfigurator extends Configurator[Global]:
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
         maxDepth = 100,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
-    "Async CS vs Async MS"
+    "Async (Causal) vs Async (Non-Causal) - Bisimulation"
       -> compareBranchBisim(
         NetworkCausal,
         NetworkMultiset,
@@ -291,13 +302,11 @@ object CaosConfigurator extends Configurator[Global]:
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
         maxDepth = 100,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async CS") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async MS")),
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
-    "Extra Requirements"
+    "Extra Requirements" // fix this
       -> check((global: Global) =>
-        if !DependentlyGuarded(global)  then Seq(s"[$global] is not dependently guarded")
-        else if !WellBranched(global)   then Seq(s"[$global] is not well branched")
-        else Seq.empty
+        if !DependentlyGuarded(global)  then Seq(s"[$global] is not dependently guarded") else Seq.empty
       ).setRender(getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Extra Requirements")),
 
     "Well Channeled"
@@ -309,6 +318,11 @@ object CaosConfigurator extends Configurator[Global]:
       -> check((global: Global) =>
         if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Bounded")),
+
+    "Well Branchedness"
+      -> check((global:Global) =>
+        if !WellBranched(global) then Seq(s"[$global] is not well branchedness") else Seq.empty
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Branchedness")),
 
     /*
     "Dynamic Setting Test"
