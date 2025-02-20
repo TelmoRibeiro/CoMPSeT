@@ -13,14 +13,8 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- add remaining Papers
-- review merges
-- review "Sync"
-- klenne star (check if well propagated)
-- missing StructuralCongruence() (check plain merge)
-- MSC (add fixed point recursion)
-- global semantic (revisit the sequence problem)
-- extended examples
+- review mrgs + sync + strctcng
+- klenne star (check if fully propagated)
 ___
 
 ## To Do (CAOS):

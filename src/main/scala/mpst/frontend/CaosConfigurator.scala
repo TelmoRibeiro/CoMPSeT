@@ -81,19 +81,14 @@ object CaosConfigurator extends Configurator[Global]:
   //      -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA"
   //      -> setting,
 
-  // master worker protocol fully sequential and without recursion
   private val mwv1: String = "m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done"
 
-  // master worker protocol without recursion (standard)
   private val mwv2: String = "m->wA:Work ; m->wB:Work ;\n(wA->m:Done || wB->m:Done)"
 
-  // master work protocol fully sequential
   private val mwv3: String = "def X in (\n\tm->w:Work ; w->m:Done ; X + m->w:Quit\n)"
 
-  // master worker protocol
   private val mwv4: String = "def X in (\n\t(\n\t\tm->wA:Work; wA->wB:Work ;\n\t\t(wA->m:Done || wB->m:Done) ; X\n\t) + (m->wA:Quit; wA->wB:Quit)\n)"
 
-  // master worker protocol with recursion
   private val mwv5: String = "(\n\tm->wA:Work ; m->wB:Work ;\n\t(wA->m:Done || wB->m:Done)\n)*"
 
   override val examples: Seq[Example] = List(
