@@ -93,37 +93,53 @@ object CaosConfigurator extends Configurator[Global]:
   // master worker protocol
   private val mwv4: String = "def X in (\n\t(\n\t\tm->wA:Work; wA->wB:Work ;\n\t\t(wA->m:Done || wB->m:Done) ; X\n\t) + (m->wA:Quit; wA->wB:Quit)\n)"
 
+  // master worker protocol with recursion
+  private val mwv5: String = "(\n\tm->wA:Work ; m->wB:Work ;\n\t(wA->m:Done || wB->m:Done)\n)*"
+
   override val examples: Seq[Example] = List(
     "MW-v1"
       -> mwv1
+      -> "fully sequentialized master-worker (no settings)"
       -> setting,
 
     "MW-v2"
       -> mwv2
+      -> "standard master-worker (no settings)"
       -> setting,
 
     "MW-v3"
       -> mwv3
+      -> "fully sequentialized master-worker with fixed point recursion (no setting)"
       -> setting,
 
     "MW-v4"
       -> mwv4
+      -> "parallel master-worker protocol with fixed point recursion (no setting)"
       -> setting,
 
-    "MW-v2 (with PaperC)"
+    "MW-v5"
+      -> mwv5
+      -> "standard master-worker with kleene star recursion (no setting)"
+      -> setting,
+
+    "MW-v2 (APIGenInScala3)"
       -> mwv2
+      -> "MW-v2 under the APIGenInScala3 settings"
       -> paperC,
 
-    "MW-v3 (with PaperA)"
+    "MW-v3 (VeryGentleIntroMPST)"
       -> mwv3
+      -> "MW-v3 under the VeryGentleIntroMPST settings"
       -> paperA,
 
-    "MW-v3 (with PaperB)"
+    "MW-v3 (GentleIntroMPAsyncST)"
       -> mwv3
+      -> "MW-v3 under the GentleIntroMPAsyncST settings"
       -> paperB,
 
-    "MW-v4 (with PaperD)"
-      -> mwv4
+    "MW-v5 (ST4MP)"
+      -> mwv5
+      -> "MW-v5 under the ST4MP settings"
       -> paperD,
   )
 
