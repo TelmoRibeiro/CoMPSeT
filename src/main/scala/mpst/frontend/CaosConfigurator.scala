@@ -43,25 +43,30 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branchedness" && "Well Channeled" && "Well Bounded"))
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled" && "Well Bounded"))
 
   // paperA: GentleSync
   private val paperA: Setting = setting
-   .setAllChecked("Configuration.Merge.Full")
-   .setAllChecked("Configuration.Comm Model.Sync")
-   .setAllChecked("Configuration.Recursion.Fixed Point")
+    .setAllChecked("Configuration.Merge.Full")
+    .setAllChecked("Configuration.Comm Model.Sync")
+    .setAllChecked("Configuration.Recursion.Fixed Point")
+    .setAllChecked("Configuration.Extra Requirements.Well Branched")
+    .setAllChecked("Configuration.Extra Requirements.Well Bounded")
 
   // paperB: GentleAsync (new async)
   private val paperB: Setting = setting
-   .setAllChecked("Configuration.Merge.Plain")
-   .setAllChecked("Configuration.Comm Model.Async (Causal)")
-   .setAllChecked("Configuration.Recursion.Fixed Point")
+    .setAllChecked("Configuration.Merge.Plain")
+    .setAllChecked("Configuration.Comm Model.Async (Causal)")
+    .setAllChecked("Configuration.Recursion.Fixed Point")
+    .setAllChecked("Configuration.Extra Requirements.Well Branched")
 
   // paperC: APIGenScala
   private val paperC: Setting = setting
     .setAllChecked("Configuration.Merge.Plain")
     .setAllChecked("Configuration.Comm Model.Async (Causal)")
     .setAllChecked("Configuration.Parallel")
+    .setAllChecked("Configuration.Extra Requirements.Well Branched")
+    .setAllChecked("Configuration.Extra Requirements.Well Channeled")
 
   // paperD: ST4MP
   private val paperD: Setting = setting
@@ -69,6 +74,8 @@ object CaosConfigurator extends Configurator[Global]:
     .setAllChecked("Configuration.Comm Model.Async (Causal)")
     .setAllChecked("Configuration.Parallel")
     .setAllChecked("Configuration.Recursion.Kleene Star")
+    .setAllChecked("Configuration.Extra Requirements.Well Branched")
+    .setAllChecked("Configuration.Extra Requirements.Well Channeled")
 
   // paperE: ...
   private val paperE: Setting = setting
