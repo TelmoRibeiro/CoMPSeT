@@ -8,10 +8,7 @@ import mpst.utility.Environment.Environment
     => [[SyncTraverse]] models the communication progress between multiple [[Participant]]s.
     => Traverse supports synchronous message passing.
   ISSUES:
-    => nextSend and nextReceive may be evolving in multiple evaluation contexts
-    => ambiguity may be too restrictive of a clause (sendAction)
-      either the projection rules restrict the possible sendActions
-      or this condition must be relaxed
+    None
   REVIEWED:
     => AFFIRMATIVE*
 */
@@ -21,28 +18,31 @@ object SyncTraverse:
     localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
   end accepting
 
-  def next[A >: Action](localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): Set[(A, Set[(Participant, Local)])] =
-    nextSends(localsWithParticipant).map( nextSend =>
-      nextSend -> traverse(localsWithParticipant)(using nextSend)
+  def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive])(using environment: Environment): Set[(A, Option[Receive], Set[(Participant, Local)])] =
+    localsWithParticipant.flatMap( localWithParticipant =>
+      nextEntry(localWithParticipant, pendingReceive).map{ case (nextAction, nextLocalWithParticipant, nextPendingReceive) =>
+        (nextAction, nextPendingReceive, localsWithParticipant - localWithParticipant + nextLocalWithParticipant)
+      }
     )
   end next
 
-  private def nextSends(localsWithParticipant: Set[(Participant, Local)])(using environment: Environment): Set[Send] =
-    localsWithParticipant
-    .flatMap{ case participant -> local => MPSTSemantic.next(local)(using environment(participant)) }
-    .collect{ case (nextSend @ _: Send) -> _ => nextSend }
-  end nextSends
+  private def nextEntry(localWithParticipant: (Participant, Local), pendingReceive: Option[Receive])(using environment: Environment): Set[(Action, (Participant, Local), Option[Receive])] =
+    def notBlocked(action: Action, pendingReceive: Option[Receive]): Boolean = action match
+      case _: Send => pendingReceive.isEmpty
+      case receive: Receive => pendingReceive.isDefined && receive == pendingReceive.get
+    end notBlocked
 
-  private def matchingReceive(nextSend: Send): Receive =
-    Receive(nextSend.receiver, nextSend.sender, nextSend.label, nextSend.sort)
-  end matchingReceive
+    def matchingReceive(nextSend: Send): Receive =
+      Receive(nextSend.receiver, nextSend.sender, nextSend.label, nextSend.sort)
+    end matchingReceive
 
-  private def traverse(localsWithParticipant: Set[(Participant, Local)])(using nextSend: Send)(using environment: Environment): Set[(Participant, Local)] =
-    localsWithParticipant.flatMap { case participant -> local =>
-      MPSTSemantic.next(local)(using environment(participant)).collect {
-        case (`nextSend`, nextLocal) => participant -> nextLocal
-        case (nextRecv,   nextLocal) if nextRecv == matchingReceive(nextSend) => participant -> nextLocal
-      }
-    }
-  end traverse
+    def nextPendingReceive(action: Action, pendingReceive: Option[Receive]): Option[Receive] = action match
+      case send: Send => Some(matchingReceive(send))
+      case _: Receive => None
+    end nextPendingReceive
+
+    for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1))
+      if notBlocked(nextAction, pendingReceive)
+    yield (nextAction, localWithParticipant._1 -> nextLocal, nextPendingReceive(nextAction, pendingReceive))
+  end nextEntry
 end SyncTraverse

@@ -1,9 +1,8 @@
 package mpst.frontend.caos_wrapper
 
 import mpst.operational_semantic.SyncTraverse
-import mpst.syntax.Protocol.{Action, Local, Participant}
+import mpst.syntax.Protocol.{Action, Local, Participant, Receive}
 import mpst.utility.Environment.Environment
-
 import caos.sos.SOS
 
 /* @ telmo
@@ -16,7 +15,7 @@ import caos.sos.SOS
 */
 
 object SyncEnvironmentWrapper:
-  private type SyncState = (Set[(Participant, Local)], Environment)
+  private type SyncState = (Set[(Participant, Local)], Option[Receive], Environment)
 
   object SyncTraverseWrapper extends SOS[Action, SyncState]:
     override def accepting(state: SyncState): Boolean =
@@ -24,8 +23,8 @@ object SyncEnvironmentWrapper:
     end accepting
 
     override def next[A >: Action](state: SyncState): Set[(A, SyncState)] =
-      for (nextAction, nextLocalsWithParticipant) <- SyncTraverse.next(state._1)(using state._2) yield
-        nextAction -> (nextLocalsWithParticipant -> state._2)
+      for (nextAction, nextPendingReceive, nextLocalsWithParticipant) <- SyncTraverse.next(state._1, state._2)(using state._3) yield
+        nextAction -> (nextLocalsWithParticipant, nextPendingReceive, state._3)
     end next
   end SyncTraverseWrapper
 end SyncEnvironmentWrapper

@@ -8,7 +8,7 @@ import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.{PlainMergeProjection, StandardProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.{Action, Global, Local, Participant, Variable, hasParallel, hasFixedPointRecursion, hasKleeneStarRecursion, toString}
+import mpst.syntax.Protocol.{Receive, Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasKleeneStarRecursion, hasParallel, toString}
 import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
@@ -230,15 +230,15 @@ object CaosConfigurator extends Configurator[Global]:
       -> steps((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
-            Some(PlainMergeProjection.projectionWithParticipant(global) -> localsEnvironment(global))
+            Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some(StandardProjection.projectionWithParticipant(global) -> localsEnvironment(global))
+            Some((StandardProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
         allChecksLocals(initialState._1)
         initialState,
         SyncTraverseWrapper,
-        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
@@ -278,37 +278,39 @@ object CaosConfigurator extends Configurator[Global]:
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Sync vs Async (Causal) - Bisimulation"
-      -> compareBranchBisim(
+      -> compareStrongBisim(
         SyncTraverseWrapper,
         NetworkCausal,
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
-        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
+        _.toString,
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Sync vs Async (Non-Causal) - Bisimulation"
-      -> compareBranchBisim(
+      -> compareStrongBisim(
         SyncTraverseWrapper,
         NetworkMultiset,
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
-        (localsWithParticipant: Set[(Participant, Local)], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
+        _.toString,
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Async (Causal) vs Async (Non-Causal) - Bisimulation"
-      -> compareBranchBisim(
+      -> compareStrongBisim(
         NetworkCausal,
         NetworkMultiset,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
@@ -319,6 +321,7 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
+        _.toString,
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
@@ -337,10 +340,10 @@ object CaosConfigurator extends Configurator[Global]:
         if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Bounded")),
 
-    "Well Branchedness"
+    "Well Branched"
       -> check((global:Global) =>
-        if !WellBranched(global) then Seq(s"[$global] is not well branchedness") else Seq.empty
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Branchedness")),
+        if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Branched")),
 
     /*
     "Dynamic Setting Test"
