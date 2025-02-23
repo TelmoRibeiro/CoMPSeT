@@ -243,7 +243,7 @@ object CaosConfigurator extends Configurator[Global]:
         _.toString,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
-    "Synchronous"
+    "Step-by-Step - Synchronous"
       -> steps((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
@@ -260,7 +260,7 @@ object CaosConfigurator extends Configurator[Global]:
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
 
-    "Asynchronous (Causal)"
+    "Step-by-Step Asynchronous (Causal)"
       -> steps((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
@@ -277,7 +277,7 @@ object CaosConfigurator extends Configurator[Global]:
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
 
-    "Asynchronous (Non-Causal)"
+    "Step-by-Step Asynchronous (Non-Causal)"
       -> steps((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
