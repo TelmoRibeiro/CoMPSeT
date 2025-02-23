@@ -24,6 +24,4 @@ ___
 ---
 
 ## Meeting:
-- AKKA
-- Settings vs Feature - the distinction should be very clear
-- examples using v2
+- 
