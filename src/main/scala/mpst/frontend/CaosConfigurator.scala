@@ -195,7 +195,7 @@ object CaosConfigurator extends Configurator[Global]:
         Code("java")
       ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
-    "Locals Automata"
+    "Local Automata"
       -> viewMerms((global: Global) =>
       val environment = localsEnvironment(global)
       val localsWithParticipantOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
@@ -232,7 +232,9 @@ object CaosConfigurator extends Configurator[Global]:
         allChecksLocals(initialState._1)
         initialState,
         SyncTraverseWrapper,
-        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => "",
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map{
+          case participant -> local => s"$participant: $local"
+        }.mkString("\n"),
         _.toString,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
 
@@ -248,7 +250,9 @@ object CaosConfigurator extends Configurator[Global]:
         allChecksLocals(initialState._1)
         initialState,
         NetworkCausal,
-        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => "",
+        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map{
+          case participant -> local => s"$participant: $local"
+        }.mkString("\n"),
         _.toString,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
 
@@ -264,7 +268,9 @@ object CaosConfigurator extends Configurator[Global]:
         allChecksLocals(initialState._1)
         initialState,
         NetworkMultiset,
-        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => "",
+        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map{
+          case participant -> local => s"$participant: $local"
+        }.mkString("\n"),
         _.toString,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
