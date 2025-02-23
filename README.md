@@ -13,7 +13,7 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- review mrgs + sync + strctcng
+- review mrgs + strctcng
 - klenne star (check if fully propagated)
 ___
 

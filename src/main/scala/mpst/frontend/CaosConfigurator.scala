@@ -195,6 +195,31 @@ object CaosConfigurator extends Configurator[Global]:
         Code("java")
       ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
+    "Locals Automata"
+      -> viewMerms((global: Global) =>
+      val environment = localsEnvironment(global)
+      val localsWithParticipantOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
+          Some(PlainMergeProjection.projectionWithParticipant(global))
+        case mergeOptions if mergeOptions.exists(_.name == "Full") =>
+          Some(StandardProjection.projectionWithParticipant(global))
+        case _ => None
+      val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
+      allChecksLocals(localsWithParticipant)
+      localsWithParticipant.map{ case participant -> local =>
+        val lts = caos.sos.SOS.toMermaid(
+          MPSTSemanticWrapper,
+          local -> environment(participant),
+          (local: Local, environment: SingleEnvironment) =>
+            environment.toPrettyPrint,
+          _.toString,
+          100,
+        )
+        participant -> lts
+      }.toList
+    ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
+
+
     "Local Compositional Automata - Synchronous"
       -> lts((global: Global) =>
         val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
