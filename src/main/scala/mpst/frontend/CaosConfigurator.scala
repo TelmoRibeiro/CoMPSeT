@@ -299,7 +299,7 @@ object CaosConfigurator extends Configurator[Global]:
         NetworkCausal,
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
-        }.mkString("\n") ++ s"pending: $pending\n",
+        }.mkString("\n") ++ s"\npending: $pending\n",
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Step-by-Step Asynchronous (Non-Causal)"
@@ -316,7 +316,7 @@ object CaosConfigurator extends Configurator[Global]:
         NetworkMultiset,
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
-        }.mkString("\n") ++ s"pending: $pending\n",
+        }.mkString("\n") ++ s"\npending: $pending\n",
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Sync vs Async (Causal) - Bisimulation"
