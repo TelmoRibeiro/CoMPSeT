@@ -195,36 +195,53 @@ object CaosConfigurator extends Configurator[Global]:
         Code("java")
       ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
-    "Global Automata"
+    "Local Compositional Automata - Synchronous"
       -> lts((global: Global) =>
-        global -> globalEnvironment(global),
-        MPSTSemanticWrapper,
-        (global: Global, environment: SingleEnvironment) => environment.toPrettyPrint,
-      ),
-
-    "Locals Automata"
-     -> viewMerms((global: Global) =>
-        val environment = localsEnvironment(global)
-        val localsWithParticipantOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
-          case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
-            Some(PlainMergeProjection.projectionWithParticipant(global))
-          case mergeOptions if mergeOptions.exists(_.name == "Full") =>
-            Some(StandardProjection.projectionWithParticipant(global))
+        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+          case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+            Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
+          case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+            Some((StandardProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case _ => None
-        val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
-        allChecksLocals(localsWithParticipant)
-        localsWithParticipant.map{ case participant -> local =>
-          val lts = caos.sos.SOS.toMermaid(
-            MPSTSemanticWrapper,
-            local -> environment(participant),
-            (local: Local, environment: SingleEnvironment) =>
-              environment.toPrettyPrint,
-            _.toString,
-            100,
-          )
-          participant -> lts
-        }.toList
-     ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
+        allChecksLocals(initialState._1)
+        initialState,
+        SyncTraverseWrapper,
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => "",
+        _.toString,
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
+
+    "Local Compositional Automata - Asynchronous (Causal)"
+      -> lts((global: Global) =>
+        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+          case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+            Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
+          case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+            Some((StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
+          case _ => None
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
+        allChecksLocals(initialState._1)
+        initialState,
+        NetworkCausal,
+        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => "",
+        _.toString,
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
+
+    "Local Compositional Automata - Asynchronous (Non-Causal)"
+      -> lts((global: Global) =>
+        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+          case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+            Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
+          case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+            Some((StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
+          case _ => None
+        val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
+        allChecksLocals(initialState._1)
+        initialState,
+        NetworkMultiset,
+        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => "",
+        _.toString,
+      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Synchronous"
       -> steps((global: Global) =>
