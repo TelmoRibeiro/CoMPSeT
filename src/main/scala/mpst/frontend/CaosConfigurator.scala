@@ -278,7 +278,7 @@ object CaosConfigurator extends Configurator[Global]:
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Sync vs Async (Causal) - Bisimulation"
-      -> compareStrongBisim(
+      -> compareBranchBisim(
         SyncTraverseWrapper,
         NetworkCausal,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
@@ -289,12 +289,11 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-        _.toString,
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Sync vs Async (Non-Causal) - Bisimulation"
-      -> compareStrongBisim(
+      -> compareBranchBisim(
         SyncTraverseWrapper,
         NetworkMultiset,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
@@ -305,12 +304,11 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
-        _.toString,
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Async (Causal) vs Async (Non-Causal) - Bisimulation"
-      -> compareStrongBisim(
+      -> compareBranchBisim(
         NetworkCausal,
         NetworkMultiset,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
@@ -321,7 +319,6 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
-        _.toString,
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
