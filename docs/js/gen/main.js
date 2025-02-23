@@ -14497,7 +14497,7 @@ function $c_Lmpst_frontend_CaosConfigurator$() {
     return (_$24$1.Lcaos_frontend_Setting__f_name === "Sync")
   }))(this$20$1)))))(this));
   var y$16 = $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$166, condition$4);
-  var $$x42 = new $c_T2("Synchronous", y$16);
+  var $$x42 = new $c_T2("Step-by-Step - Synchronous", y$16);
   var this$182 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$21$1) => ((global$8$1) => {
     var global$9 = $as_Lmpst_syntax_Protocol(global$8$1);
     matchResult11$1: {
@@ -14558,7 +14558,7 @@ function $c_Lmpst_frontend_CaosConfigurator$() {
     return (_$28$1.Lcaos_frontend_Setting__f_name === "Async (Causal)")
   }))(this$23$1)))))(this));
   var y$17 = $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$182, condition$5);
-  var $$x41 = new $c_T2("Asynchronous (Causal)", y$17);
+  var $$x41 = new $c_T2("Step-by-Step Asynchronous (Causal)", y$17);
   var this$196 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$24$1) => ((global$9$1) => {
     var global$10 = $as_Lmpst_syntax_Protocol(global$9$1);
     matchResult13$1: {
@@ -14619,7 +14619,7 @@ function $c_Lmpst_frontend_CaosConfigurator$() {
     return (_$32$1.Lcaos_frontend_Setting__f_name === "Async (Non-Causal)")
   }))(this$26$1)))))(this));
   var y$18 = $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$196, condition$6);
-  var $$x40 = new $c_T2("Asynchronous (Non-Causal)", y$18);
+  var $$x40 = new $c_T2("Step-by-Step Asynchronous (Non-Causal)", y$18);
   var this$211 = $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($m_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$(), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$(), new $c_sjsr_AnonFunction1(((this$27$1) => ((global$10$1) => {
     var global$11 = $as_Lmpst_syntax_Protocol(global$10$1);
     var _1$12 = $p_Lmpst_frontend_CaosConfigurator$__localsWithParticipant__sci_Set__Lmpst_syntax_Protocol__sci_Set(this$27$1, $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set("Configuration.Merge"), global$11);
