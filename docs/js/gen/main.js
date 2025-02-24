@@ -3180,6 +3180,37 @@ function $m_jl_StackTrace$StringRE$() {
   };
   return $n_jl_StackTrace$StringRE$
 }
+/** @constructor */
+function $c_jl_System$Streams$() {
+  this.jl_System$Streams$__f_out = null;
+  this.jl_System$Streams$__f_err = null;
+  this.jl_System$Streams$__f_in = null;
+  $n_jl_System$Streams$ = this;
+  this.jl_System$Streams$__f_out = new $c_jl_JSConsoleBasedPrintStream(false);
+  this.jl_System$Streams$__f_err = new $c_jl_JSConsoleBasedPrintStream(true);
+  this.jl_System$Streams$__f_in = null
+}
+$c_jl_System$Streams$.prototype = new $h_O();
+$c_jl_System$Streams$.prototype.constructor = $c_jl_System$Streams$;
+/** @constructor */
+function $h_jl_System$Streams$() {
+  /*<skip>*/
+}
+$h_jl_System$Streams$.prototype = $c_jl_System$Streams$.prototype;
+var $d_jl_System$Streams$ = new $TypeData().initClass({
+  jl_System$Streams$: 0
+}, false, "java.lang.System$Streams$", {
+  jl_System$Streams$: 1,
+  O: 1
+});
+$c_jl_System$Streams$.prototype.$classData = $d_jl_System$Streams$;
+var $n_jl_System$Streams$;
+function $m_jl_System$Streams$() {
+  if ((!$n_jl_System$Streams$)) {
+    $n_jl_System$Streams$ = new $c_jl_System$Streams$()
+  };
+  return $n_jl_System$Streams$
+}
 function $p_jl_System$SystemProperties$__loadSystemProperties__O($thiz) {
   var result = {};
   result["java.version"] = "1.8";
@@ -6263,71 +6294,146 @@ function $p_Lmpst_projection_FullMergeProjection$__fullMergeAuxiliary__Lmpst_syn
     var _$5$1 = $as_T2(_$5);
     return $as_Lmpst_syntax_Protocol(_$5$1.T2__f__2)
   }))($thiz))));
-  return ((!((!participantsA.concat__sc_IterableOnce__sc_SetOps(participantsB).contains__O__Z(participant)) && (continuationsA.concat__sc_IterableOnce__sc_SetOps(continuationsB).size__I() > 1))) || ($p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set__sci_Map__Z($thiz, continuationsA, continuationsB, environment) && $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set__sci_Map__Z($thiz, continuationsB, continuationsA, environment)))
+  if ((!((!participantsA.concat__sc_IterableOnce__sc_SetOps(participantsB).contains__O__Z(participant)) && (continuationsA.concat__sc_IterableOnce__sc_SetOps(continuationsB).size__I() > 1)))) {
+    return true
+  } else {
+    var x = ("participant: " + participant);
+    var this$6 = $m_s_Console$();
+    var this$7 = this$6.out__Ljava_io_PrintStream();
+    this$7.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+    var x$2 = ("continuationA: " + continuationsA);
+    var this$9 = $m_s_Console$();
+    var this$10 = this$9.out__Ljava_io_PrintStream();
+    this$10.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+    var x$3 = ("continuationB: " + continuationsB);
+    var this$12 = $m_s_Console$();
+    var this$13 = this$12.out__Ljava_io_PrintStream();
+    this$13.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+    var this$15 = $m_s_Console$();
+    var this$16 = this$15.out__Ljava_io_PrintStream();
+    this$16.java$lang$JSConsoleBasedPrintStream$$printString__T__V("\n");
+    return ($p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set__T__sci_Map__Z($thiz, continuationsA, continuationsB, participant, environment) && $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set__T__sci_Map__Z($thiz, continuationsB, continuationsA, participant, environment))
+  }
 }
-function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set__sci_Map__Z($thiz, continuationsA, continuationsB, environment) {
-  continuationsA.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$1, continuationsB$2, environment$2) => ((continuationA) => {
+function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set__T__sci_Map__Z($thiz, continuationsA, continuationsB, participant, environment) {
+  continuationsA.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$1, continuationsB$2, participant$2, environment$2) => ((continuationA) => {
     var continuationA$1 = $as_Lmpst_syntax_Protocol(continuationA);
-    return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationA$1, environment$2).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$2, continuationsB$1$2, environment$2$2) => ((x$1) => {
+    return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationA$1, environment$2).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$2, continuationsB$1$2, participant$1$2, environment$2$2) => ((x$1) => {
       var x$1$1 = $as_T2(x$1);
       if ((x$1$1 !== null)) {
         var actionA = $as_Lmpst_syntax_Protocol(x$1$1.T2__f__1);
         var nextContinuationA = $as_Lmpst_syntax_Protocol(x$1$1.T2__f__2);
         if ((actionA instanceof $c_Lmpst_syntax_Protocol$Send)) {
-          var sendA = $as_Lmpst_syntax_Protocol$Send(actionA);
-          return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$3, environment$3$2, sendA$2) => ((continuationB) => {
-            var continuationB$1 = $as_Lmpst_syntax_Protocol(continuationB);
-            return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$1, environment$3$2).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$4, sendA$1$2) => ((x$1$2) => {
-              var x$1$3 = $as_T2(x$1$2);
-              if ((x$1$3 !== null)) {
-                var actionB = $as_Lmpst_syntax_Protocol(x$1$3.T2__f__1);
-                $as_Lmpst_syntax_Protocol(x$1$3.T2__f__2);
-                if ((actionB instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-                  var receiveB = $as_Lmpst_syntax_Protocol$Receive(actionB);
-                  throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$1$2) + "] with [") + receiveB) + "]"))
+          var x67 = $as_Lmpst_syntax_Protocol$Send(actionA);
+          var x69 = x67.Lmpst_syntax_Protocol$Send__f_sender;
+          var x70 = x67.Lmpst_syntax_Protocol$Send__f_receiver;
+          if ((participant$1$2 === x69)) {
+            return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$4, environment$3$2, sendA$2) => ((continuationB) => {
+              var continuationB$1 = $as_Lmpst_syntax_Protocol(continuationB);
+              return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$1, environment$3$2).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$5, sendA$1$2) => ((x$1$2) => {
+                var x$1$3 = $as_T2(x$1$2);
+                if ((x$1$3 !== null)) {
+                  var actionB = $as_Lmpst_syntax_Protocol(x$1$3.T2__f__1);
+                  $as_Lmpst_syntax_Protocol(x$1$3.T2__f__2);
+                  if ((actionB instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+                    var receiveB = $as_Lmpst_syntax_Protocol$Receive(actionB);
+                    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$1$2) + "] with [") + receiveB) + "]"))
+                  };
+                  if ((actionB instanceof $c_Lmpst_syntax_Protocol$Send)) {
+                    var sendB = $as_Lmpst_syntax_Protocol$Send(actionB);
+                    if ((((sendA$1$2.Lmpst_syntax_Protocol$Send__f_sender !== sendB.Lmpst_syntax_Protocol$Send__f_sender) || (sendA$1$2.Lmpst_syntax_Protocol$Send__f_receiver !== sendB.Lmpst_syntax_Protocol$Send__f_receiver)) || (sendA$1$2.Lmpst_syntax_Protocol$Send__f_label !== sendB.Lmpst_syntax_Protocol$Send__f_label))) {
+                      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$1$2) + "] with [") + sendB) + "]"))
+                    }
+                  };
+                  return $m_sci_Set$EmptySet$()
                 };
-                if ((actionB instanceof $c_Lmpst_syntax_Protocol$Send)) {
-                  var sendB = $as_Lmpst_syntax_Protocol$Send(actionB);
-                  if ((((sendA$1$2.Lmpst_syntax_Protocol$Send__f_sender !== sendB.Lmpst_syntax_Protocol$Send__f_sender) || (sendA$1$2.Lmpst_syntax_Protocol$Send__f_receiver !== sendB.Lmpst_syntax_Protocol$Send__f_receiver)) || (sendA$1$2.Lmpst_syntax_Protocol$Send__f_label !== sendB.Lmpst_syntax_Protocol$Send__f_label))) {
-                    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$1$2) + "] with [") + sendB) + "]"))
-                  }
+                throw new $c_s_MatchError(x$1$3)
+              }))(this$4, sendA$2))))
+            }))(this$2, environment$2$2, x67))))
+          };
+          if ((participant$1$2 === x70)) {
+            return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$2$1, environment$3$3, sendA$4) => ((continuationB$2) => {
+              var continuationB$3 = $as_Lmpst_syntax_Protocol(continuationB$2);
+              return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$3, environment$3$3).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$7, sendA$3$2) => ((x$1$4) => {
+                var x$1$5 = $as_T2(x$1$4);
+                if ((x$1$5 !== null)) {
+                  var actionB$1 = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__1);
+                  var nextContinuationsB = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__2);
+                  if ((actionB$1 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+                    var receiveB$1 = $as_Lmpst_syntax_Protocol$Receive(actionB$1);
+                    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$3$2) + "] with [") + receiveB$1) + "]"))
+                  };
+                  if ((actionB$1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+                    var sendB$1 = $as_Lmpst_syntax_Protocol$Send(actionB$1);
+                    if (((((sendA$3$2.Lmpst_syntax_Protocol$Send__f_receiver === sendB$1.Lmpst_syntax_Protocol$Send__f_receiver) && (sendA$3$2.Lmpst_syntax_Protocol$Send__f_sender === sendB$1.Lmpst_syntax_Protocol$Send__f_sender)) && (sendA$3$2.Lmpst_syntax_Protocol$Send__f_label === sendB$1.Lmpst_syntax_Protocol$Send__f_label)) && ((nextContinuationsB === null) ? (nextContinuationsB === null) : nextContinuationsB.equals__O__Z(nextContinuationsB)))) {
+                      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$3$2) + "] with [") + sendB$1) + "]"))
+                    }
+                  };
+                  return $m_sci_Set$EmptySet$()
                 };
-                return $m_sci_Set$EmptySet$()
-              };
-              throw new $c_s_MatchError(x$1$3)
-            }))(this$3, sendA$2))))
-          }))(this$2, environment$2$2, sendA))))
+                throw new $c_s_MatchError(x$1$5)
+              }))(this$2$1, sendA$4))))
+            }))(this$2, environment$2$2, x67))))
+          }
         };
         if ((actionA instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-          var receiveA = $as_Lmpst_syntax_Protocol$Receive(actionA);
-          return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$2$1, environment$3$3, nextContinuationA$2, receiveA$2) => ((continuationB$2) => {
-            var continuationB$3 = $as_Lmpst_syntax_Protocol(continuationB$2);
-            return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$3, environment$3$3).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$6, nextContinuationA$1$2, receiveA$1$2) => ((x$1$4) => {
-              var x$1$5 = $as_T2(x$1$4);
-              if ((x$1$5 !== null)) {
-                var actionB$1 = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__1);
-                var nextContinuationB$1 = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__2);
-                if ((actionB$1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
-                  var sendB$1 = $as_Lmpst_syntax_Protocol$Send(actionB$1);
-                  throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$1$2) + "] with [") + sendB$1) + "]"))
+          var x55 = $as_Lmpst_syntax_Protocol$Receive(actionA);
+          var x57 = x55.Lmpst_syntax_Protocol$Receive__f_receiver;
+          var x58 = x55.Lmpst_syntax_Protocol$Receive__f_sender;
+          if ((participant$1$2 === x57)) {
+            return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$3$1, environment$3$4, nextContinuationA$2, receiveA$2) => ((continuationB$3$1) => {
+              var continuationB$4 = $as_Lmpst_syntax_Protocol(continuationB$3$1);
+              return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$4, environment$3$4).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$10, nextContinuationA$1$2, receiveA$1$2) => ((x$1$6) => {
+                var x$1$7 = $as_T2(x$1$6);
+                if ((x$1$7 !== null)) {
+                  var actionB$2 = $as_Lmpst_syntax_Protocol(x$1$7.T2__f__1);
+                  var nextContinuationB$1 = $as_Lmpst_syntax_Protocol(x$1$7.T2__f__2);
+                  if ((actionB$2 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+                    var sendB$2 = $as_Lmpst_syntax_Protocol$Send(actionB$2);
+                    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$1$2) + "] with [") + sendB$2) + "]"))
+                  };
+                  if ((actionB$2 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+                    var receiveB$2 = $as_Lmpst_syntax_Protocol$Receive(actionB$2);
+                    if (((((receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_receiver === receiveB$2.Lmpst_syntax_Protocol$Receive__f_receiver) && (receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_sender === receiveB$2.Lmpst_syntax_Protocol$Receive__f_sender)) && (receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_label === receiveB$2.Lmpst_syntax_Protocol$Receive__f_label)) && ((nextContinuationA$1$2 === null) ? (nextContinuationB$1 === null) : nextContinuationA$1$2.equals__O__Z(nextContinuationB$1)))) {
+                      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$1$2) + "] with [") + receiveB$2) + "]"))
+                    }
+                  };
+                  return $m_sci_Set$EmptySet$()
                 };
-                if ((actionB$1 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-                  var receiveB$1 = $as_Lmpst_syntax_Protocol$Receive(actionB$1);
-                  if (((((receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_receiver === receiveB$1.Lmpst_syntax_Protocol$Receive__f_receiver) && (receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_sender === receiveB$1.Lmpst_syntax_Protocol$Receive__f_sender)) && (receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_label === receiveB$1.Lmpst_syntax_Protocol$Receive__f_label)) && ((nextContinuationA$1$2 === null) ? (nextContinuationB$1 === null) : nextContinuationA$1$2.equals__O__Z(nextContinuationB$1)))) {
-                    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$1$2) + "] with [") + receiveB$1) + "]"))
-                  }
+                throw new $c_s_MatchError(x$1$7)
+              }))(this$3$1, nextContinuationA$2, receiveA$2))))
+            }))(this$2, environment$2$2, nextContinuationA, x55))))
+          };
+          if ((participant$1$2 === x58)) {
+            return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$4$1, environment$3$5, receiveA$4) => ((continuationA$2) => {
+              var continuationA$3 = $as_Lmpst_syntax_Protocol(continuationA$2);
+              return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationA$3, environment$3$5).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$12, receiveA$3$2) => ((x$1$8) => {
+                var x$1$9 = $as_T2(x$1$8);
+                if ((x$1$9 !== null)) {
+                  var actionB$3 = $as_Lmpst_syntax_Protocol(x$1$9.T2__f__1);
+                  $as_Lmpst_syntax_Protocol(x$1$9.T2__f__2);
+                  if ((actionB$3 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+                    var sendB$3 = $as_Lmpst_syntax_Protocol$Send(actionB$3);
+                    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$3$2) + "] with [") + sendB$3) + "]"))
+                  };
+                  if ((actionB$3 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+                    var receiveB$3 = $as_Lmpst_syntax_Protocol$Receive(actionB$3);
+                    if ((((receiveA$3$2.Lmpst_syntax_Protocol$Receive__f_sender !== receiveB$3.Lmpst_syntax_Protocol$Receive__f_sender) || (receiveA$3$2.Lmpst_syntax_Protocol$Receive__f_receiver !== receiveB$3.Lmpst_syntax_Protocol$Receive__f_receiver)) || (receiveA$3$2.Lmpst_syntax_Protocol$Receive__f_label !== receiveB$3.Lmpst_syntax_Protocol$Receive__f_label))) {
+                      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), ((("[Full Merge] - could not merge [" + receiveA$3$2) + "] with [") + receiveB$3))
+                    }
+                  };
+                  return $m_sci_Set$EmptySet$()
                 };
-                return $m_sci_Set$EmptySet$()
-              };
-              throw new $c_s_MatchError(x$1$5)
-            }))(this$2$1, nextContinuationA$2, receiveA$2))))
-          }))(this$2, environment$2$2, nextContinuationA, receiveA))))
+                throw new $c_s_MatchError(x$1$9)
+              }))(this$4$1, receiveA$4))))
+            }))(this$2, environment$2$2, x55))))
+          }
         };
-        throw new $c_s_MatchError(actionA)
+        return $m_sci_Set$EmptySet$()
       };
       throw new $c_s_MatchError(x$1$1)
-    }))(this$1, continuationsB$2, environment$2))))
-  }))($thiz, continuationsB, environment)));
+    }))(this$1, continuationsB$2, participant$2, environment$2))))
+  }))($thiz, continuationsB, participant, environment)));
   return true
 }
 /** @constructor */
@@ -10082,6 +10188,28 @@ function $m_s_sys_package$() {
   };
   return $n_s_sys_package$
 }
+/** @constructor */
+function $c_s_util_DynamicVariable(init) {
+  this.s_util_DynamicVariable__f_v = null;
+  this.s_util_DynamicVariable__f_v = init
+}
+$c_s_util_DynamicVariable.prototype = new $h_O();
+$c_s_util_DynamicVariable.prototype.constructor = $c_s_util_DynamicVariable;
+/** @constructor */
+function $h_s_util_DynamicVariable() {
+  /*<skip>*/
+}
+$h_s_util_DynamicVariable.prototype = $c_s_util_DynamicVariable.prototype;
+$c_s_util_DynamicVariable.prototype.toString__T = (function() {
+  return (("DynamicVariable(" + this.s_util_DynamicVariable__f_v) + ")")
+});
+var $d_s_util_DynamicVariable = new $TypeData().initClass({
+  s_util_DynamicVariable: 0
+}, false, "scala.util.DynamicVariable", {
+  s_util_DynamicVariable: 1,
+  O: 1
+});
+$c_s_util_DynamicVariable.prototype.$classData = $d_s_util_DynamicVariable;
 /** @constructor */
 function $c_s_util_Sorting$() {
   /*<skip>*/
@@ -15915,6 +16043,41 @@ function $m_s_Array$() {
     $n_s_Array$ = new $c_s_Array$()
   };
   return $n_s_Array$
+}
+/** @constructor */
+function $c_s_Console$() {
+  this.s_Console$__f_outVar = null;
+  this.s_Console$__f_errVar = null;
+  this.s_Console$__f_inVar = null;
+  $n_s_Console$ = this;
+  this.s_Console$__f_outVar = new $c_s_util_DynamicVariable($m_jl_System$Streams$().jl_System$Streams$__f_out);
+  this.s_Console$__f_errVar = new $c_s_util_DynamicVariable($m_jl_System$Streams$().jl_System$Streams$__f_err);
+  this.s_Console$__f_inVar = new $c_s_util_DynamicVariable(null)
+}
+$c_s_Console$.prototype = new $h_O();
+$c_s_Console$.prototype.constructor = $c_s_Console$;
+/** @constructor */
+function $h_s_Console$() {
+  /*<skip>*/
+}
+$h_s_Console$.prototype = $c_s_Console$.prototype;
+$c_s_Console$.prototype.out__Ljava_io_PrintStream = (function() {
+  return $as_Ljava_io_PrintStream(this.s_Console$__f_outVar.s_util_DynamicVariable__f_v)
+});
+var $d_s_Console$ = new $TypeData().initClass({
+  s_Console$: 0
+}, false, "scala.Console$", {
+  s_Console$: 1,
+  O: 1,
+  s_io_AnsiColor: 1
+});
+$c_s_Console$.prototype.$classData = $d_s_Console$;
+var $n_s_Console$;
+function $m_s_Console$() {
+  if ((!$n_s_Console$)) {
+    $n_s_Console$ = new $c_s_Console$()
+  };
+  return $n_s_Console$
 }
 /** @constructor */
 function $c_s_LowPriorityImplicits() {
@@ -22670,6 +22833,17 @@ var $d_Lcaos_view_View = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcaos_view_View.prototype.$classData = $d_Lcaos_view_View;
+/** @constructor */
+function $c_Ljava_io_OutputStream() {
+  /*<skip>*/
+}
+$c_Ljava_io_OutputStream.prototype = new $h_O();
+$c_Ljava_io_OutputStream.prototype.constructor = $c_Ljava_io_OutputStream;
+/** @constructor */
+function $h_Ljava_io_OutputStream() {
+  /*<skip>*/
+}
+$h_Ljava_io_OutputStream.prototype = $c_Ljava_io_OutputStream.prototype;
 class $c_jl_AssertionError extends $c_jl_Error {
   constructor(detailMessage) {
     super();
@@ -25403,6 +25577,21 @@ var $d_Lcaos_view_OptionView$OptMermaid = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcaos_view_OptionView$OptMermaid.prototype.$classData = $d_Lcaos_view_OptionView$OptMermaid;
+function $ct_Ljava_io_FilterOutputStream__Ljava_io_OutputStream__($thiz, out) {
+  $thiz.Ljava_io_FilterOutputStream__f_out = out;
+  return $thiz
+}
+/** @constructor */
+function $c_Ljava_io_FilterOutputStream() {
+  this.Ljava_io_FilterOutputStream__f_out = null
+}
+$c_Ljava_io_FilterOutputStream.prototype = new $h_Ljava_io_OutputStream();
+$c_Ljava_io_FilterOutputStream.prototype.constructor = $c_Ljava_io_FilterOutputStream;
+/** @constructor */
+function $h_Ljava_io_FilterOutputStream() {
+  /*<skip>*/
+}
+$h_Ljava_io_FilterOutputStream.prototype = $c_Ljava_io_FilterOutputStream.prototype;
 class $c_jl_ArithmeticException extends $c_jl_RuntimeException {
   constructor(s) {
     super();
@@ -25501,6 +25690,28 @@ var $d_jl_IndexOutOfBoundsException = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_jl_IndexOutOfBoundsException.prototype.$classData = $d_jl_IndexOutOfBoundsException;
+/** @constructor */
+function $c_jl_JSConsoleBasedPrintStream$DummyOutputStream() {
+  /*<skip>*/
+}
+$c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype = new $h_Ljava_io_OutputStream();
+$c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype.constructor = $c_jl_JSConsoleBasedPrintStream$DummyOutputStream;
+/** @constructor */
+function $h_jl_JSConsoleBasedPrintStream$DummyOutputStream() {
+  /*<skip>*/
+}
+$h_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype = $c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype;
+var $d_jl_JSConsoleBasedPrintStream$DummyOutputStream = new $TypeData().initClass({
+  jl_JSConsoleBasedPrintStream$DummyOutputStream: 0
+}, false, "java.lang.JSConsoleBasedPrintStream$DummyOutputStream", {
+  jl_JSConsoleBasedPrintStream$DummyOutputStream: 1,
+  Ljava_io_OutputStream: 1,
+  O: 1,
+  Ljava_io_Closeable: 1,
+  jl_AutoCloseable: 1,
+  Ljava_io_Flushable: 1
+});
+$c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype.$classData = $d_jl_JSConsoleBasedPrintStream$DummyOutputStream;
 class $c_jl_NegativeArraySizeException extends $c_jl_RuntimeException {
   constructor() {
     super();
@@ -33354,6 +33565,42 @@ function $m_s_util_parsing_input_OffsetPosition$() {
   };
   return $n_s_util_parsing_input_OffsetPosition$
 }
+function $ct_Ljava_io_PrintStream__Ljava_io_OutputStream__Z__Ljava_nio_charset_Charset__($thiz, _out, autoFlush, charset) {
+  $thiz.Ljava_io_PrintStream__f_autoFlush = autoFlush;
+  $thiz.Ljava_io_PrintStream__f_charset = charset;
+  $ct_Ljava_io_FilterOutputStream__Ljava_io_OutputStream__($thiz, _out);
+  $thiz.Ljava_io_PrintStream__f_closing = false;
+  $thiz.Ljava_io_PrintStream__f_java$io$PrintStream$$closed = false;
+  $thiz.Ljava_io_PrintStream__f_errorFlag = false;
+  return $thiz
+}
+/** @constructor */
+function $c_Ljava_io_PrintStream() {
+  this.Ljava_io_FilterOutputStream__f_out = null;
+  this.Ljava_io_PrintStream__f_encoder = null;
+  this.Ljava_io_PrintStream__f_autoFlush = false;
+  this.Ljava_io_PrintStream__f_charset = null;
+  this.Ljava_io_PrintStream__f_closing = false;
+  this.Ljava_io_PrintStream__f_java$io$PrintStream$$closed = false;
+  this.Ljava_io_PrintStream__f_errorFlag = false;
+  this.Ljava_io_PrintStream__f_bitmap$0 = false
+}
+$c_Ljava_io_PrintStream.prototype = new $h_Ljava_io_FilterOutputStream();
+$c_Ljava_io_PrintStream.prototype.constructor = $c_Ljava_io_PrintStream;
+/** @constructor */
+function $h_Ljava_io_PrintStream() {
+  /*<skip>*/
+}
+$h_Ljava_io_PrintStream.prototype = $c_Ljava_io_PrintStream.prototype;
+function $as_Ljava_io_PrintStream(obj) {
+  return (((obj instanceof $c_Ljava_io_PrintStream) || (obj === null)) ? obj : $throwClassCastException(obj, "java.io.PrintStream"))
+}
+function $isArrayOf_Ljava_io_PrintStream(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Ljava_io_PrintStream)))
+}
+function $asArrayOf_Ljava_io_PrintStream(obj, depth) {
+  return (($isArrayOf_Ljava_io_PrintStream(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ljava.io.PrintStream;", depth))
+}
 /** @constructor */
 function $c_ju_Collections$$anon$1() {
   /*<skip>*/
@@ -34574,6 +34821,82 @@ function $m_Lcaos_view_Text$() {
   };
   return $n_Lcaos_view_Text$
 }
+function $p_jl_JSConsoleBasedPrintStream__doWriteLine__T__V($thiz, line) {
+  if (($as_T((typeof console)) !== "undefined")) {
+    if ($thiz.jl_JSConsoleBasedPrintStream__f_isErr) {
+      var x = console.error;
+      var $$x1 = $uZ((!(!x)))
+    } else {
+      var $$x1 = false
+    };
+    if ($$x1) {
+      console.error(line)
+    } else {
+      console.log(line)
+    }
+  }
+}
+/** @constructor */
+function $c_jl_JSConsoleBasedPrintStream(isErr) {
+  this.Ljava_io_FilterOutputStream__f_out = null;
+  this.Ljava_io_PrintStream__f_encoder = null;
+  this.Ljava_io_PrintStream__f_autoFlush = false;
+  this.Ljava_io_PrintStream__f_charset = null;
+  this.Ljava_io_PrintStream__f_closing = false;
+  this.Ljava_io_PrintStream__f_java$io$PrintStream$$closed = false;
+  this.Ljava_io_PrintStream__f_errorFlag = false;
+  this.Ljava_io_PrintStream__f_bitmap$0 = false;
+  this.jl_JSConsoleBasedPrintStream__f_isErr = false;
+  this.jl_JSConsoleBasedPrintStream__f_flushed = false;
+  this.jl_JSConsoleBasedPrintStream__f_buffer = null;
+  this.jl_JSConsoleBasedPrintStream__f_isErr = isErr;
+  var out = new $c_jl_JSConsoleBasedPrintStream$DummyOutputStream();
+  $ct_Ljava_io_PrintStream__Ljava_io_OutputStream__Z__Ljava_nio_charset_Charset__(this, out, false, null);
+  this.jl_JSConsoleBasedPrintStream__f_flushed = true;
+  this.jl_JSConsoleBasedPrintStream__f_buffer = ""
+}
+$c_jl_JSConsoleBasedPrintStream.prototype = new $h_Ljava_io_PrintStream();
+$c_jl_JSConsoleBasedPrintStream.prototype.constructor = $c_jl_JSConsoleBasedPrintStream;
+/** @constructor */
+function $h_jl_JSConsoleBasedPrintStream() {
+  /*<skip>*/
+}
+$h_jl_JSConsoleBasedPrintStream.prototype = $c_jl_JSConsoleBasedPrintStream.prototype;
+$c_jl_JSConsoleBasedPrintStream.prototype.java$lang$JSConsoleBasedPrintStream$$printString__T__V = (function(s) {
+  var rest = s;
+  while ((rest !== "")) {
+    var this$1 = rest;
+    var nlPos = $uI(this$1.indexOf("\n"));
+    if ((nlPos < 0)) {
+      this.jl_JSConsoleBasedPrintStream__f_buffer = (("" + this.jl_JSConsoleBasedPrintStream__f_buffer) + rest);
+      this.jl_JSConsoleBasedPrintStream__f_flushed = false;
+      rest = ""
+    } else {
+      var $$x1 = this.jl_JSConsoleBasedPrintStream__f_buffer;
+      var this$3 = rest;
+      $p_jl_JSConsoleBasedPrintStream__doWriteLine__T__V(this, (("" + $$x1) + $as_T(this$3.substring(0, nlPos))));
+      this.jl_JSConsoleBasedPrintStream__f_buffer = "";
+      this.jl_JSConsoleBasedPrintStream__f_flushed = true;
+      var this$4 = rest;
+      var beginIndex = ((1 + nlPos) | 0);
+      rest = $as_T(this$4.substring(beginIndex))
+    }
+  }
+});
+var $d_jl_JSConsoleBasedPrintStream = new $TypeData().initClass({
+  jl_JSConsoleBasedPrintStream: 0
+}, false, "java.lang.JSConsoleBasedPrintStream", {
+  jl_JSConsoleBasedPrintStream: 1,
+  Ljava_io_PrintStream: 1,
+  Ljava_io_FilterOutputStream: 1,
+  Ljava_io_OutputStream: 1,
+  O: 1,
+  Ljava_io_Closeable: 1,
+  jl_AutoCloseable: 1,
+  Ljava_io_Flushable: 1,
+  jl_Appendable: 1
+});
+$c_jl_JSConsoleBasedPrintStream.prototype.$classData = $d_jl_JSConsoleBasedPrintStream;
 function $p_sc_StrictOptimizedLinearSeqOps__loop$2__I__sc_LinearSeq__sc_LinearSeq($thiz, n, s) {
   while (true) {
     if (((n <= 0) || s.isEmpty__Z())) {

@@ -33,14 +33,18 @@ object FullMergeProjection:
     val continuationsA = next(localA).map(_._2)
     val continuationsB = next(localB).map(_._2)
     if !(participantsA union participantsB).contains(`participant`) && (continuationsA union continuationsB).size > 1 then
-      isMergeable(continuationsA, continuationsB)(environment) && isMergeable(continuationsB, continuationsA)(environment)
+      println(s"participant: ${`participant`}")
+      println(s"continuationA: $continuationsA")
+      println(s"continuationB: $continuationsB")
+      println()
+      isMergeable(continuationsA, continuationsB)(participant)(environment) && isMergeable(continuationsB, continuationsA)(participant)(environment)
     else true
   end fullMergeAuxiliary
 
-  private def isMergeable(continuationsA: Set[Local], continuationsB: Set[Local])(environment: SingleEnvironment): Boolean =
+  private def isMergeable(continuationsA: Set[Local], continuationsB: Set[Local])(participant: Participant)(environment: SingleEnvironment): Boolean =
     continuationsA.flatMap{ continuationA =>
       next(continuationA)(using environment).flatMap{ case actionA -> nextContinuationA => actionA match
-        case sendA: Send =>
+        case sendA @ Send(`participant`, receiver, label, _) =>
           continuationsB.flatMap { continuationB =>
             next(continuationB)(using environment).flatMap {
               case actionB -> nextContinuationB => actionB match
@@ -51,7 +55,18 @@ object FullMergeProjection:
                 case _ => Set.empty
             }
           }
-        case receiveA: Receive =>
+        case sendA @ Send(sender, `participant`, label, _) =>
+          continuationsB.flatMap { continuationB =>
+            next(continuationB)(using environment).flatMap {
+              case actionB -> nextContinuationsB => actionB match
+                case receiveB: Receive =>
+                  throw RuntimeException(s"[Full Merge] - could not merge [$sendA] with [$receiveB]")
+                case sendB: Send if sendA.receiver == sendB.receiver && sendA.sender == sendB.sender && sendA.label == sendB.label && nextContinuationsB == nextContinuationsB =>
+                  throw RuntimeException(s"[Full Merge] - could not merge [$sendA] with [$sendB]")
+                case _ => Set.empty
+            }
+          }
+        case receiveA @ Receive(`participant`, sender, label, _) =>
           continuationsB.flatMap { continuationB =>
             next(continuationB)(using environment).flatMap { case actionB -> nextContinuationB => actionB match
               case sendB: Send =>
@@ -61,6 +76,17 @@ object FullMergeProjection:
               case _ => Set.empty
             }
           }
+        case receiveA @ Receive(receiver, `participant`, label, _) =>
+          continuationsB.flatMap { continuationA =>
+            next(continuationA)(using environment).flatMap { case actionB -> nextContinuationB => actionB match
+              case sendB: Send =>
+                throw RuntimeException(s"[Full Merge] - could not merge [$receiveA] with [$sendB]")
+              case receiveB: Receive if receiveA.sender != receiveB.sender || receiveA.receiver != receiveB.receiver || receiveA.label != receiveB.label =>
+                throw RuntimeException(s"[Full Merge] - could not merge [$receiveA] with [$receiveB")
+              case _ => Set.empty
+            }
+          }
+        case _ => Set.empty
       }
     }
     true

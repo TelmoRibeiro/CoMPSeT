@@ -13,15 +13,11 @@ through **index.html** you can visualize the **CAOS** interface
 ___
 
 ## To Do (Core):
-- review mrgs + strctcng
-- klenne star (check if fully propagated)
+- review strctcng
+- check if fully ()* is always propagated
 ___
 
 ## To Do (CAOS):
 - check should block widgets
-- implicit renaming on the new examples (with widgets)
-- parenthesis do not always work (ex: (a && b) && c)
+- check if parenthesis are working for (ex: (a && b) && c)
 ---
-
-## Meeting:
-- 
