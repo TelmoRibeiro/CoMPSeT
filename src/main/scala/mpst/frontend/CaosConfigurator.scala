@@ -45,31 +45,27 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled" && "Well Bounded"))
 
-  // paperA: GentleSync
-  private val paperA: Setting = setting
+  private val VeryGentleIntroMPST: Setting = setting
     .setAllChecked("Configuration.Merge.Full")
     .setAllChecked("Configuration.Comm Model.Sync")
     .setAllChecked("Configuration.Recursion.Fixed Point")
     .setAllChecked("Configuration.Extra Requirements.Well Branched")
     .setAllChecked("Configuration.Extra Requirements.Well Bounded")
 
-  // paperB: GentleAsync (new async)
-  private val paperB: Setting = setting
+  private val GentleIntroMPAsyncST: Setting = setting
     .setAllChecked("Configuration.Merge.Plain")
     .setAllChecked("Configuration.Comm Model.Async (Causal)")
     .setAllChecked("Configuration.Recursion.Fixed Point")
     .setAllChecked("Configuration.Extra Requirements.Well Branched")
 
-  // paperC: APIGenScala
-  private val paperC: Setting = setting
+  private val APIGenInScala3: Setting = setting
     .setAllChecked("Configuration.Merge.Plain")
     .setAllChecked("Configuration.Comm Model.Async (Causal)")
     .setAllChecked("Configuration.Parallel")
     .setAllChecked("Configuration.Extra Requirements.Well Branched")
     .setAllChecked("Configuration.Extra Requirements.Well Channeled")
 
-  // paperD: ST4MP
-  private val paperD: Setting = setting
+  private val ST4MP: Setting = setting
     .setAllChecked("Configuration.Merge.Plain")
     .setAllChecked("Configuration.Comm Model.Async (Causal)")
     .setAllChecked("Configuration.Parallel")
@@ -77,72 +73,80 @@ object CaosConfigurator extends Configurator[Global]:
     .setAllChecked("Configuration.Extra Requirements.Well Branched")
     .setAllChecked("Configuration.Extra Requirements.Well Channeled")
 
-  // paperE: ...
-  private val paperE: Setting = setting
+  private val simpleDelegation: String = "m->w:TaskA || m->w:TaskB"
 
-  // "AsyncCS vs AsyncMS"
-  //      -> "(m->w:Work || m->w:WorkAgain) ; w->m:Done"
-  //      -> setting,
-  //
-  //    "Plain Merge"
-  //      -> "m->wA:Work ; wC->m:Done + m->wB:Work ; wC->m:DoneA"
-  //      -> setting,
+  private val mwv0: String = "m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done"
 
-  private val mwv1: String = "m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done"
+  private val mwv1: String = "m->wA:Work ; m->wB:Work ;\n(wA->m:Done || wB->m:Done)"
 
-  private val mwv2: String = "m->wA:Work ; m->wB:Work ;\n(wA->m:Done || wB->m:Done)"
+  private val mwv2: String = "(\n\tm->wA:Work ; m->wB:Work ;\n\t(wA->m:Done || wB->m:Done)\n)*"
 
-  private val mwv3: String = "def X in (\n\tm->w:Work ; w->m:Done ; X + m->w:Quit\n)"
+  private val recursiveMasterWorker: String = "def X in (\n\tm->w:Work ; w->m:Done ; X + m->w:Quit\n)"
 
-  private val mwv4: String = "def X in (\n\t(\n\t\tm->wA:Work; wA->wB:Work ;\n\t\t(wA->m:Done || wB->m:Done) ; X\n\t) + (m->wA:Quit; wA->wB:Quit)\n)"
+  private val badWellBranched: String = "(m->wA:Work ; wA->m:Done)\n\t+\n(m->wB:Work ; wB->m:Done)"
 
-  private val mwv5: String = "(\n\tm->wA:Work ; m->wB:Work ;\n\t(wA->m:Done || wB->m:Done)\n)*"
+  private val badWellChannelled: String = "(m->w:TaskA ; w->m:Done)\n\t||\n(m->w:TaskB ; w->m:Done)"
 
   override val examples: Seq[Example] = List(
-    "MW-v1"
+    "simple delegation"
+      -> simpleDelegation
+      -> "a simple task delegation using parallel composition (no settings)"
+      -> setting,
+
+    "master-workers - v0"
+      -> mwv0
+      -> "fully sequentialized master-workers (no settings)"
+      -> setting,
+
+    "master-workers - v1"
       -> mwv1
-      -> "fully sequentialized master-worker (no settings)"
+      -> "standard master-workers (no settings)"
       -> setting,
 
-    "MW-v2"
+    "master-workers - v2"
       -> mwv2
-      -> "standard master-worker (no settings)"
+      -> "standard master-workers under kleene star recursion (no setting)"
       -> setting,
 
-    "MW-v3"
-      -> mwv3
-      -> "fully sequentialized master-worker with fixed point recursion (no setting)"
+    "master-worker - fixed point recursion"
+      -> recursiveMasterWorker
+      -> "sequentialized master-worker with fixed point recursion (no setting)"
       -> setting,
 
-    "MW-v4"
-      -> mwv4
-      -> "parallel master-worker protocol with fixed point recursion (no setting)"
-      -> setting,
+    "master-workers - v1 (APIGenInScala3)"
+      -> mwv1
+      -> "master-workers-v1 under the APIGenInScala3 settings"
+      -> APIGenInScala3,
 
-    "MW-v5"
-      -> mwv5
-      -> "standard master-worker with kleene star recursion (no setting)"
-      -> setting,
-
-    "MW-v2 (APIGenInScala3)"
+    "master-worker - v2 (ST4MP)"
       -> mwv2
-      -> "MW-v2 under the APIGenInScala3 settings"
-      -> paperC,
+      -> "master-workers-v2 under the ST4MP settings"
+      -> ST4MP,
 
-    "MW-v3 (VeryGentleIntroMPST)"
-      -> mwv3
-      -> "MW-v3 under the VeryGentleIntroMPST settings"
-      -> paperA,
+    "master-worker - fixed point recursion (VeryGentleIntroMPST)"
+      -> recursiveMasterWorker
+      -> "recursive master-worker under the VeryGentleIntroMPST settings"
+      -> VeryGentleIntroMPST,
 
-    "MW-v3 (GentleIntroMPAsyncST)"
-      -> mwv3
-      -> "MW-v3 under the GentleIntroMPAsyncST settings"
-      -> paperB,
+    "master-worker - fixed point recursion (GentleIntroMPAsyncST)"
+      -> recursiveMasterWorker
+      -> "recursive master-worker under the GentleIntroMPAsyncST settings"
+      -> GentleIntroMPAsyncST,
 
-    "MW-v5 (ST4MP)"
-      -> mwv5
-      -> "MW-v5 under the ST4MP settings"
-      -> paperD,
+    "failed well-branched (GentleIntroMPAsyncST)"
+      -> badWellBranched
+      -> "not well-branched under the GentleIntroMPAsyncST settings"
+      -> GentleIntroMPAsyncST,
+
+    "failed well-channeled (ST4MP)"
+      -> badWellChannelled
+      -> "not well-channeled under the ST4MP settings"
+      -> ST4MP,
+
+    "simple delegation (APIGenInScala3 vs Non-Causal Async.)"
+      -> simpleDelegation
+      -> "simple delegation under the APIGenScala settings vs non-causal async. communication"
+      -> APIGenInScala3.setAllChecked("Configuration.Comm Model.Async (Non-Causal)"),
   )
 
   extension [K, V](map: Map[K, V])
