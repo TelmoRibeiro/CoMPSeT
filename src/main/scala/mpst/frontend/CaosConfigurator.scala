@@ -5,7 +5,7 @@ import mpst.frontend.caos_wrapper.MPSTEnvironmentWrapper.MPSTSemanticWrapper
 import mpst.frontend.caos_wrapper.NetworkWrapper.{NetworkCausal, NetworkMultiset}
 import mpst.frontend.caos_wrapper.SyncEnvironmentWrapper.SyncTraverseWrapper
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
-import mpst.projection.{PlainMergeProjection, StandardProjection}
+import mpst.projection.{PlainMergeProjection, FullMergeProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.{Receive, Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasKleeneStarRecursion, hasParallel, toString}
@@ -157,7 +157,7 @@ object CaosConfigurator extends Configurator[Global]:
       case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
         Some(PlainMergeProjection.projectionWithParticipant(global))
       case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-        Some(StandardProjection.projectionWithParticipant(global))
+        Some(FullMergeProjection.projectionWithParticipant(global))
       case _ => None
     val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
     allChecksLocals(localsWithParticipant)
@@ -187,41 +187,25 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Locals"
       -> view((global: Global) =>
-        val localsWithParticipantOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
-          case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
-            Some(PlainMergeProjection.projectionWithParticipant(global))
-          case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some(StandardProjection.projectionWithParticipant(global))
-          case _ => None
-        val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
-        allChecksLocals(localsWithParticipant)
-        localsWithParticipant.map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
+        localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
         Code("java")
       ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
     "Local Automata"
       -> viewMerms((global: Global) =>
-      val environment = localsEnvironment(global)
-      val localsWithParticipantOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
-        case mergeOptions if mergeOptions.exists(_.name == "Plain") =>
-          Some(PlainMergeProjection.projectionWithParticipant(global))
-        case mergeOptions if mergeOptions.exists(_.name == "Full") =>
-          Some(StandardProjection.projectionWithParticipant(global))
-        case _ => None
-      val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
-      allChecksLocals(localsWithParticipant)
-      localsWithParticipant.map{ case participant -> local =>
-        val lts = caos.sos.SOS.toMermaid(
-          MPSTSemanticWrapper,
-          local -> environment(participant),
-          (local: Local, environment: SingleEnvironment) =>
-            environment.toPrettyPrint,
-          _.toString,
-          100,
-        )
-        participant -> lts
-      }.toList
-    ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
+        val environment = localsEnvironment(global)
+        localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global).map{ case participant -> local =>
+          val lts = caos.sos.SOS.toMermaid(
+            MPSTSemanticWrapper,
+            local -> environment(participant),
+            (local: Local, environment: SingleEnvironment) =>
+              environment.toPrettyPrint,
+            _.toString,
+            100,
+          )
+          participant -> lts
+        }.toList
+      ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
 
 
     "Local Compositional Automata - Synchronous"
@@ -230,7 +214,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some((StandardProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
+            Some((FullMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
         allChecksLocals(initialState._1)
@@ -248,7 +232,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some((StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
+            Some((FullMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
         allChecksLocals(initialState._1)
@@ -266,7 +250,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some((StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
+            Some((FullMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
         allChecksLocals(initialState._1)
@@ -284,7 +268,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some((StandardProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
+            Some((FullMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
         allChecksLocals(initialState._1)
@@ -301,7 +285,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some((StandardProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
+            Some((FullMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
         allChecksLocals(initialState._1)
@@ -318,7 +302,7 @@ object CaosConfigurator extends Configurator[Global]:
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
-            Some((StandardProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
+            Some((FullMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case _ => None
         val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
         allChecksLocals(initialState._1)
