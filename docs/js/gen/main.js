@@ -6292,7 +6292,7 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$1$2) + "] with [") + sendB) + "]"))
                   }
                 };
-                throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("[Full Merge] - found unexpected [" + actionB) + "]"))
+                return $m_sci_Set$EmptySet$()
               };
               throw new $c_s_MatchError(x$1$3)
             }))(this$3, sendA$2))))
@@ -6302,7 +6302,7 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
           var receiveA = $as_Lmpst_syntax_Protocol$Receive(actionA);
           return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$2$1, environment$3$3, nextContinuationA$2, receiveA$2) => ((continuationB$2) => {
             var continuationB$3 = $as_Lmpst_syntax_Protocol(continuationB$2);
-            return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$3, environment$3$3).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$5, nextContinuationA$1$2, receiveA$1$2) => ((x$1$4) => {
+            return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$3, environment$3$3).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$6, nextContinuationA$1$2, receiveA$1$2) => ((x$1$4) => {
               var x$1$5 = $as_T2(x$1$4);
               if ((x$1$5 !== null)) {
                 var actionB$1 = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__1);
@@ -6317,7 +6317,7 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$1$2) + "] with [") + receiveB$1) + "]"))
                   }
                 };
-                throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("[Full Merge] - found unexpected [" + actionB$1) + "]"))
+                return $m_sci_Set$EmptySet$()
               };
               throw new $c_s_MatchError(x$1$5)
             }))(this$2$1, nextContinuationA$2, receiveA$2))))
