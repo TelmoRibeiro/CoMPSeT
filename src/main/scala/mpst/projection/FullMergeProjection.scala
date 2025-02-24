@@ -33,10 +33,6 @@ object FullMergeProjection:
     val continuationsA = next(localA).map(_._2)
     val continuationsB = next(localB).map(_._2)
     if !(participantsA union participantsB).contains(`participant`) && (continuationsA union continuationsB).size > 1 then
-      println(s"participant: ${`participant`}")
-      println(s"continuationA: $continuationsA")
-      println(s"continuationB: $continuationsB")
-      println()
       isMergeable(continuationsA, continuationsB)(participant)(environment) && isMergeable(continuationsB, continuationsA)(participant)(environment)
     else true
   end fullMergeAuxiliary
