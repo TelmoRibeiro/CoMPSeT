@@ -48,7 +48,7 @@ object FullMergeProjection:
                   throw RuntimeException(s"[Full Merge] - could not merge [$sendA] with [$receiveB]")
                 case sendB: Send if sendA.sender != sendB.sender || sendA.receiver != sendB.receiver || sendA.label != sendB.label =>
                   throw RuntimeException(s"[Full Merge] - could not merge [$sendA] with [$sendB]")
-                case _ => throw RuntimeException(s"[Full Merge] - found unexpected [$actionB]")
+                case _ => Set.empty
             }
           }
         case receiveA: Receive =>
@@ -58,7 +58,7 @@ object FullMergeProjection:
                 throw RuntimeException(s"[Full Merge] - could not merge [$receiveA] with [$sendB]")
               case receiveB: Receive if receiveA.receiver == receiveB.receiver && receiveA.sender == receiveB.sender && receiveA.label == receiveB.label && nextContinuationA == nextContinuationB =>
                 throw RuntimeException(s"[Full Merge] - could not merge [$receiveA] with [$receiveB]")
-              case _ => throw RuntimeException(s"[Full Merge] - found unexpected [$actionB]")
+              case _ => Set.empty
             }
           }
       }
