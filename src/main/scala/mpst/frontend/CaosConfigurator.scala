@@ -43,14 +43,13 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled" && "Well Bounded"))
+  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled"))
 
   private val VeryGentleIntroMPST: Setting = setting
     .setAllChecked("Configuration.Merge.Full")
     .setAllChecked("Configuration.Comm Model.Sync")
     .setAllChecked("Configuration.Recursion.Fixed Point")
     .setAllChecked("Configuration.Extra Requirements.Well Branched")
-    .setAllChecked("Configuration.Extra Requirements.Well Bounded")
 
   private val GentleIntroMPAsyncST: Setting = setting
     .setAllChecked("Configuration.Merge.Plain")
@@ -152,7 +151,7 @@ object CaosConfigurator extends Configurator[Global]:
       -> "master-workers-v1 under the APIGenInScala3 settings"
       -> APIGenInScala3,
 
-    "master-worker - v2 (ST4MP)"
+    "master-workers - v2 (ST4MP)"
       -> mwv2
       -> "master-workers-v2 under the ST4MP settings"
       -> ST4MP,
@@ -174,7 +173,7 @@ object CaosConfigurator extends Configurator[Global]:
 
     "simple task delegation (APIGenInScala3 vs Non-Causal Async.)"
       -> simpleDelegation
-      -> "simple delegation under the APIGenScala settings vs non-causal async. communication"
+      -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
       -> APIGenInScala3.setAllChecked("Configuration.Comm Model.Async (Non-Causal)"),
   )
 
@@ -387,20 +386,10 @@ object CaosConfigurator extends Configurator[Global]:
         maxDepth = 100,
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
-    "Extra Requirements" // fix this
-      -> check((global: Global) =>
-        if !DependentlyGuarded(global)  then Seq(s"[$global] is not dependently guarded") else Seq.empty
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Extra Requirements")),
-
     "Well Channeled"
       -> check((global: Global) =>
         if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Channeled")),
-
-    "Well Bounded"
-      -> check((global: Global) =>
-        if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Bounded")),
 
     "Well Branched"
       -> check((global:Global) =>
