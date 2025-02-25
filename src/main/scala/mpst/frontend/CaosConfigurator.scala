@@ -157,9 +157,14 @@ object CaosConfigurator extends Configurator[Global]:
       -> "master-workers-v2 under the ST4MP settings"
       -> ST4MP,
 
-    "simple branching - v2 (VeryGentleIntroMPAsyncST)"
+    "simple branching - v1 (GentleIntroMPAsyncST)"
+      -> simpleBranchingV1
+      -> "simple branching - v1 under the GentleIntroMPAsyncST"
+      -> GentleIntroMPAsyncST,
+
+    "simple branching - v2 (VeryGentleIntroMPST)"
       -> simpleBranchingV2
-      -> "simple branching - v2 under the VeryGentleIntroMPST  settings"
+      -> "simple branching - v2 under the VeryGentleIntroMPST settings"
       -> VeryGentleIntroMPST,
 
     "master-worker - fixed point recursion (GentleIntroMPAsyncST)"
