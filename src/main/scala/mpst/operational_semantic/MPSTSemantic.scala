@@ -12,7 +12,6 @@ import caos.sos.SOS._
   - attempt at a strong sequencing semantic - original idea stated in Choreo
 
   @ telmo -
-    RecursionCall is quite hacky!
 */
 
 object MPSTSemantic:
@@ -37,14 +36,13 @@ object MPSTSemantic:
   private def nextAuxiliary(protocol: Protocol)(using environment: SingleEnvironment): List[(Action, Local)] = protocol match
     case Interaction(participantA, participantB, label, sort) => List(Send(participantA, participantB, label, sort) -> Receive(participantB, participantA, label, sort))
     case action: Action => List(action -> Skip)
-    case RecursionCall(variable) => nextAuxiliary(environment(variable)) // @ telmo - check RecursionCall(_) for parallel and choice
+    case RecursionCall(variable) => nextAuxiliary(environment(variable))
     case Skip => Nil
     case Sequence(protocolA, protocolB) =>
       val nextA = nextAuxiliary(protocolA)
-      // val nextB = nextAuxiliary(protocolB)
       val resultA = for nextActionA -> nextProtocolA <- nextA yield
         nextActionA -> StructuralCongruence(Sequence(nextProtocolA, protocolB))
-      val resultB = if accepting(protocolA) then nextAuxiliary(protocolB) else Nil // @ telmo - introducing error here
+      val resultB = if accepting(protocolA) then nextAuxiliary(protocolB) else Nil
       resultA ++ resultB
     case Parallel(protocolA, protocolB) =>
       val resultA = for nextActionA -> nextProtocolA <- nextAuxiliary(protocolA) yield

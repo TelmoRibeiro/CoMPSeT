@@ -34,6 +34,8 @@ object StructuralCongruence:
       case Sequence(Skip,protocolB) => runOnce(protocolB) // @ telmo - can I count this as Struct.Congruence?
       case Parallel(protocolA,Skip) => runOnce(protocolA) // @ telmo - usually literature allows this on "0"
       case Parallel(Skip,protocolB) => runOnce(protocolB) // @ telmo - usually literature allows this on "0"
+      case Choice  (protocolA,Skip) => runOnce(protocolA) // @ telmo - experimenting
+      case Choice  (Skip,protocolB) => runOnce(protocolB) // @ telmo - experimenting
       // @ telmo - CHOICE IS DANGEROUS!
       case RecursionFixedPoint(_,Skip) => Skip            // @ telmo - usually literature allows this on "0"
       case RecursionKleeneStar(Skip)   => Skip
