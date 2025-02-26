@@ -113,37 +113,37 @@ object CaosConfigurator extends Configurator[Global]:
 
     "simple task delegation"
       -> simpleDelegation
-      -> "a simple task delegation using parallel composition"
+      -> "a simple task delegation using parallel composition (no settings)"
       -> setting,
 
     "simple branching - v1"
       -> simpleBranchingV1
-      -> "a simple branching (plain-mergeable)"
+      -> "a simple branching protocol - plain-merge (no settings)"
       -> setting,
 
     "simple branching - v2"
       -> simpleBranchingV2
-      -> "a simple branching (full-mergeable)"
+      -> "a simple branching protocol - full-merge (no settings)"
       -> setting,
 
     "master-workers - v0"
       -> mwv0
-      -> "fully sequentialized master-workers"
+      -> "fully sequentialized master-workers (no settings)"
       -> setting,
 
     "master-workers - v1"
       -> mwv1
-      -> "standard master-workers"
+      -> "standard master-workers (no settings)"
       -> setting,
 
     "master-workers - v2"
       -> mwv2
-      -> "standard master-workers under kleene star recursion"
+      -> "standard master-workers under kleene star recursion (no settings)"
       -> setting,
 
     "master-worker - fixed point recursion"
       -> recursiveMasterWorker
-      -> "sequentialized master-worker with fixed point recursion"
+      -> "sequentialized master-worker with fixed point recursion (no settings)"
       -> setting,
 
     "master-workers - v1 (APIGenInScala3)"
