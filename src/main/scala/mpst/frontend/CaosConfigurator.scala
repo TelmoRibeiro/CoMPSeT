@@ -91,41 +91,6 @@ object CaosConfigurator extends Configurator[Global]:
   private val badWellChannelled: String = "(m->w:TaskA ; w->m:Done)\n\t||\n(m->w:TaskB ; w->m:Done)"
 
   override val examples: Seq[Example] = List(
-    "simple task delegation"
-      -> simpleDelegation
-      -> "a simple task delegation using parallel composition (no settings)"
-      -> setting,
-
-    "simple branching - v1"
-      -> simpleBranchingV1
-      -> "a simple branching (plain-mergeable)"
-      -> setting,
-
-    "simple branching - v2"
-      -> simpleBranchingV2
-      -> "a simple branching (full-mergeable)"
-      -> setting,
-
-    "master-workers - v0"
-      -> mwv0
-      -> "fully sequentialized master-workers (no settings)"
-      -> setting,
-
-    "master-workers - v1"
-      -> mwv1
-      -> "standard master-workers (no settings)"
-      -> setting,
-
-    "master-workers - v2"
-      -> mwv2
-      -> "standard master-workers under kleene star recursion (no setting)"
-      -> setting,
-
-    "master-worker - fixed point recursion"
-      -> recursiveMasterWorker
-      -> "sequentialized master-worker with fixed point recursion (no setting)"
-      -> setting,
-
     "APIGenInScala3 settings"
       -> ""
       -> "APIGenInScala3 settings"
@@ -145,6 +110,41 @@ object CaosConfigurator extends Configurator[Global]:
       -> ""
       -> "GentleIntroMPAsyncST settings"
       -> GentleIntroMPAsyncST,
+
+    "simple task delegation"
+      -> simpleDelegation
+      -> "a simple task delegation using parallel composition"
+      -> setting,
+
+    "simple branching - v1"
+      -> simpleBranchingV1
+      -> "a simple branching (plain-mergeable)"
+      -> setting,
+
+    "simple branching - v2"
+      -> simpleBranchingV2
+      -> "a simple branching (full-mergeable)"
+      -> setting,
+
+    "master-workers - v0"
+      -> mwv0
+      -> "fully sequentialized master-workers"
+      -> setting,
+
+    "master-workers - v1"
+      -> mwv1
+      -> "standard master-workers"
+      -> setting,
+
+    "master-workers - v2"
+      -> mwv2
+      -> "standard master-workers under kleene star recursion"
+      -> setting,
+
+    "master-worker - fixed point recursion"
+      -> recursiveMasterWorker
+      -> "sequentialized master-worker with fixed point recursion"
+      -> setting,
 
     "master-workers - v1 (APIGenInScala3)"
       -> mwv1
@@ -166,15 +166,15 @@ object CaosConfigurator extends Configurator[Global]:
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
       -> VeryGentleIntroMPST,
 
-    "master-worker - fixed point recursion (GentleIntroMPAsyncST)"
-      -> recursiveMasterWorker
-      -> "recursive master-worker under the GentleIntroMPAsyncST settings"
-      -> GentleIntroMPAsyncST,
-
     "simple task delegation (APIGenInScala3 vs Non-Causal Async.)"
       -> simpleDelegation
       -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
       -> APIGenInScala3.setAllChecked("Configuration.Comm Model.Async (Non-Causal)"),
+
+    "master-worker - fixed point recursion (ST4MP) | recursion fail"
+      -> recursiveMasterWorker
+      -> "failed recursion for the master-worker - fixed point recursion under ST4MP settings"
+      -> ST4MP,
   )
 
   extension [K, V](map: Map[K, V])
