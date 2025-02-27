@@ -1,23 +1,49 @@
-# CoMPSeT
-___
+----------
+# Overview
 
-## To Run:
-**JVM and SBT must be installed**  
-  
-In **/CoMPSeT** run:
-````bash
-sbt clean
-sbt fastOptJS
-````
-through **index.html** you can visualize the **CAOS** interface
-___
+This document describes how to run and recompile the tool:
 
-## To Do (Core):
-- review strctcng
-- check if fully ()* is always propagated
-___
+- Using `compset-src` (supports running/recompiling *outside* a virtual machine)
 
-## To Do (CAOS):
-- check should block widgets
-- check if parenthesis are working for (ex: (a && b) && c)
----
+--------------------
+
+# How to use `compset-src`
+
+## Running the tool
+
+1. Open `compset-src/lib/caos/tool/index.html` in a web browser supporting `JavaScript`.
+
+    The left panels provide the input interface. It consists of an input form to write new global types, checkboxes to modify semantical properties, and buttons to load existing examples. By default, the `master-workers - v0` example is loaded. The right panels provide the output interface.
+
+2. To visualize the global type as a sequence diagram, click on the `Message Sequence Diagram` title (not the whole box; exactly the title).
+
+3. To visualize the projections, an option from `Merge` must be selected. Confirm the decision by clicking on the button on the right side of the `Settings` title. When the button is hovered, a pop out stating `Load settings` should appear.
+    
+    To visualize the projections as text, click on the `Locals` title (exactly the title).
+    To visualize the projections as lts, click on the `Local Automata` title (exactly the title).
+
+4. To interact with the communication model, an option from `Comm Model` must be selected. Confirm the decision by clicking on the button on the right side of the `Settings` title. When the button is hovered, a pop out stating `Load settings` should appear.
+
+    To visualize the lts regarding the whole communication model, click on the `Local Compositional Automata` title (exactly).
+    To reconstruct possible traces, click on the `Step-by-Step` title (exactly).
+
+5. To visualize the `Bisimulation` comparison, multiple options from `Comm Model` must be selected. Confirm the decision by clicking on the button on the right side of the `Settings` title. When the button is hovered, a pop out stating `Load settings` should appear.
+
+    Click on the `Bisimulation` title (exactly).
+
+6. To suppress errors regarding the presence of recursion implementation, an option from `Recursion` must be selected. Confirm the decision by clicking on the button on right side of the `Settings` title. When the button is hovered, a pop out stating `Load settings` should appear.
+
+7. To suppress errors regarding the presence of parallel composition, the `Parallel` option must be selected. Confirm the decision by clicking on the button on the right side of the `Settings` title. When the button is hovered, a pop out stating `Load settings` should appear.
+
+8. To make the branching behaviour comply with the expected behaviour from MPST, the `Well Branched` option must be selected under `Extra Requirements`. Confirm the decision by clicking on the button on the right side of the `Settings` title. When the button is hovered, a pop out stating `Load setting` should appear.
+
+9. To make the parallel composition comply with different communication on different sub-protocols, the `Well Channeled` option must be selected under `Extra Requirements`. Confirm the decision by clicking on the button on the right side of the `Settings` title. When the button is hovered, a pop out stating `Load setting` should appear.
+
+## Recompiling the tool
+
+1. Install [SBT](https://www.scala-sbt.org)
+2. Install [JRE](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) (Java Runtime Environment)
+3. Compile the code by opening a terminal in `compset-src` and executing:
+   ```
+   sbt fastOptJS
+   ```
