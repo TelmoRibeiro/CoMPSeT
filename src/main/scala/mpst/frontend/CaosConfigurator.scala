@@ -127,22 +127,22 @@ object CaosConfigurator extends Configurator[Global]:
       -> setting,
 
     "APIGenInScala3 settings"
-      -> mwv1
+      -> mwv0
       -> "APIGenInScala3 settings (placeholder protocol)"
       -> APIGenInScala3,
 
     "ST4MP settings"
-      -> mwv1
+      -> mwv0
       -> "ST4MP settings (placeholder protocol)"
       -> ST4MP,
 
     "VeryGentleIntroMPST settings"
-      -> mwv1
+      -> mwv0
       -> "VeryGentleIntroMPST settings (placeholder protocol)"
       -> VeryGentleIntroMPST,
 
     "GentleIntroMPAsyncST settings"
-      -> mwv1
+      -> mwv0
       -> "GentleIntroMPAsyncST settings (placeholder protocol)"
       -> GentleIntroMPAsyncST,
 
