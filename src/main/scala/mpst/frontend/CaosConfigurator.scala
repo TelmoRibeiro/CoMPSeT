@@ -91,25 +91,20 @@ object CaosConfigurator extends Configurator[Global]:
   private val badWellChannelled: String = "(m->w:TaskA ; w->m:Done)\n\t||\n(m->w:TaskB ; w->m:Done)"
 
   override val examples: Seq[Example] = List(
-    "APIGenInScala3 settings"
-      -> ""
-      -> "APIGenInScala3 settings"
-      -> APIGenInScala3,
+    "master-workers - v1"
+      -> mwv1
+      -> "standard master-workers (no settings)"
+      -> setting,
 
-    "ST4MP settings"
-      -> ""
-      -> "ST4MP settings"
-      -> ST4MP,
+    "master-workers - v0"
+      -> mwv0
+      -> "fully sequentialized master-workers (no settings)"
+      -> setting,
 
-    "VeryGentleIntroMPST settings"
-      -> ""
-      -> "VeryGentleIntroMPST settings"
-      -> VeryGentleIntroMPST,
-
-    "GentleIntroMPAsyncST settings"
-      -> ""
-      -> "GentleIntroMPAsyncST settings"
-      -> GentleIntroMPAsyncST,
+    "master-workers - v2"
+      -> mwv2
+      -> "standard master-workers under kleene star recursion (no settings)"
+      -> setting,
 
     "simple task delegation"
       -> simpleDelegation
@@ -126,25 +121,30 @@ object CaosConfigurator extends Configurator[Global]:
       -> "a simple branching protocol - full-merge (no settings)"
       -> setting,
 
-    "master-workers - v0"
-      -> mwv0
-      -> "fully sequentialized master-workers (no settings)"
-      -> setting,
-
-    "master-workers - v1"
-      -> mwv1
-      -> "standard master-workers (no settings)"
-      -> setting,
-
-    "master-workers - v2"
-      -> mwv2
-      -> "standard master-workers under kleene star recursion (no settings)"
-      -> setting,
-
     "master-worker - fixed point recursion"
       -> recursiveMasterWorker
       -> "sequentialized master-worker with fixed point recursion (no settings)"
       -> setting,
+
+    "APIGenInScala3 settings"
+      -> mwv1
+      -> "APIGenInScala3 settings (placeholder protocol)"
+      -> APIGenInScala3,
+
+    "ST4MP settings"
+      -> mwv1
+      -> "ST4MP settings (placeholder protocol)"
+      -> ST4MP,
+
+    "VeryGentleIntroMPST settings"
+      -> mwv1
+      -> "VeryGentleIntroMPST settings (placeholder protocol)"
+      -> VeryGentleIntroMPST,
+
+    "GentleIntroMPAsyncST settings"
+      -> mwv1
+      -> "GentleIntroMPAsyncST settings (placeholder protocol)"
+      -> GentleIntroMPAsyncST,
 
     "master-workers - v1 (APIGenInScala3)"
       -> mwv1
@@ -175,6 +175,11 @@ object CaosConfigurator extends Configurator[Global]:
       -> recursiveMasterWorker
       -> "failed recursion for the master-worker - fixed point recursion under ST4MP settings"
       -> ST4MP,
+
+    "master-workers - v2 (GentleIntroMPAsyncST) | parallel fail"
+      -> mwv2
+      -> "failed parallel for the master-workers - v2 under GentleIntroMPAsyncST settings"
+      -> GentleIntroMPAsyncST,
   )
 
   extension [K, V](map: Map[K, V])
