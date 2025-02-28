@@ -397,9 +397,14 @@ object CaosConfigurator extends Configurator[Global]:
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Channeled")),
 
     "Well Branched"
-      -> check((global:Global) =>
+      -> check((global: Global) =>
         if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Branched")),
+
+    "Well Bounded"
+      -> check((global: Global) =>
+        if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
+      )
 
     /*
     "Dynamic Setting Test"
