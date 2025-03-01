@@ -5,7 +5,9 @@ import mpst.utility.Environment.Environment
 
 
 object SyncTraverse:
-  def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean = localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
+  def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
+    localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
+  end accepting
 
   def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv])(using environment: Environment): Set[(A, Option[Recv], Set[(Participant, Local)])] =
     localsWithParticipant.flatMap( localWithParticipant =>

@@ -1,15 +1,5 @@
 package mpst.syntax
 
-/* @ telmo
-  IDEA:
-    => [[Protocol]] represents a session's natural structure ([[AST]] of constructs).
-  ISSUES:
-    => current implementations allows for Sort but do not use it.
-        As such, it is mostly ignored/hidden as with the case of toString.
-    => should Interaction(_,_,_,_) be considered an Action as well?
-  REVIEWED:
-    => AFFIRMATIVE
-*/
 
 enum Protocol:
   override def toString: String = this match
@@ -79,7 +69,7 @@ object Protocol:
   end getParticipants
 
   def hasParallel(protocol: Protocol): Boolean = protocol match
-    case _: Interaction | _: Send | _: Recv | _: RecursionCall | Skip => false
+    case _: Interaction | _: Action | _: RecursionCall | Skip => false
     case _: Parallel => true
     case Sequence(protocolA, protocolB) => hasParallel(protocolA) || hasParallel(protocolB)
     case Choice  (protocolA, protocolB) => hasParallel(protocolA) || hasParallel(protocolB)
@@ -88,7 +78,7 @@ object Protocol:
   end hasParallel
 
   def hasKleeneStarRecursion(protocol: Protocol): Boolean = protocol match
-    case _: Interaction | _: Send | _: Recv | _: RecursionCall | Skip => false
+    case _: Interaction | _: Action | _: RecursionCall | Skip => false
     case _: RecursionKleeneStar => true
     case Sequence(protocolA, protocolB) => hasKleeneStarRecursion(protocolA) || hasKleeneStarRecursion(protocolB)
     case Parallel(protocolA, protocolB) => hasKleeneStarRecursion(protocolA) || hasKleeneStarRecursion(protocolB)
@@ -97,7 +87,7 @@ object Protocol:
   end hasKleeneStarRecursion
 
   def hasFixedPointRecursion(protocol: Protocol): Boolean = protocol match
-    case _: Interaction | _: Send | _: Recv | _: RecursionCall | Skip => false
+    case _: Interaction | _: Action | _: RecursionCall | Skip => false
     case _: RecursionFixedPoint => true
     case Sequence(protocolA, protocolB) => hasFixedPointRecursion(protocolA) || hasFixedPointRecursion(protocolB)
     case Parallel(protocolA, protocolB) => hasFixedPointRecursion(protocolA) || hasFixedPointRecursion(protocolB)

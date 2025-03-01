@@ -10,12 +10,16 @@ import caos.sos.SOS._
 
 
 object MPSTSemantic:
-  def accepting(protocol: Protocol): Boolean = MPSTSemantic.acceptAuxiliary(protocol)
+  def accepting(protocol: Protocol): Boolean =
+    MPSTSemantic.acceptAuxiliary(protocol)
+  end accepting
 
-  def next[A >: Action](protocol: Protocol)(using environment: SingleEnvironment): Set[(A, Protocol)] = MPSTSemantic.nextAuxiliary(protocol)(using environment).toSet
+  def next[A >: Action](protocol: Protocol)(using environment: SingleEnvironment): Set[(A, Protocol)] =
+    MPSTSemantic.nextAuxiliary(protocol)(using environment).toSet
+  end next
 
-  private def acceptAuxiliary(protocol:Protocol): Boolean = protocol match
-    case _: Interaction | _: Send | _: Recv | _: RecursionCall => false
+  private def acceptAuxiliary(protocol: Protocol): Boolean = protocol match
+    case _: Interaction | _: Action | _: RecursionCall => false
     case Skip => true
     case Sequence(protocolA, protocolB) => acceptAuxiliary(protocolA) && acceptAuxiliary(protocolB)
     case Parallel(protocolA, protocolB) => acceptAuxiliary(protocolA) && acceptAuxiliary(protocolB)
@@ -25,10 +29,14 @@ object MPSTSemantic:
   end acceptAuxiliary
 
   private def nextAuxiliary(protocol: Protocol)(using environment: SingleEnvironment): List[(Action, Local)] = protocol match
-    case interaction: Interaction => List(Send(interaction.sender, interaction.receiver, interaction.label) -> Recv(interaction.receiver, interaction.sender, interaction.label))
-    case action: Action => List(action -> Skip)
-    case RecursionCall(variable) => nextAuxiliary(environment(variable))
-    case Skip => Nil
+    case interaction: Interaction =>
+      List(Send(interaction.sender, interaction.receiver, interaction.label) -> Recv(interaction.receiver, interaction.sender, interaction.label))
+    case action: Action =>
+      List(action -> Skip)
+    case RecursionCall(variable) =>
+      nextAuxiliary(environment(variable))
+    case Skip =>
+      Nil
     case Sequence(protocolA, protocolB) =>
       val nextA = nextAuxiliary(protocolA)
       val resultA = for nextActionA -> nextProtocolA <- nextA yield
@@ -48,6 +56,6 @@ object MPSTSemantic:
       case _ => nextAuxiliary(protocolB)
     case RecursionKleeneStar(protocolA) =>
       for nextActionA -> nextProtocolA <- nextAuxiliary(protocolA) yield
-        nextActionA -> Sequence(nextProtocolA, protocol)
+        nextActionA -> StructuralCongruence(Sequence(nextProtocolA, protocol))
   end nextAuxiliary
 end MPSTSemantic
