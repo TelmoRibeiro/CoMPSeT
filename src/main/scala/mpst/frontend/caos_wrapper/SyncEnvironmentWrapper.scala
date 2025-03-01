@@ -1,7 +1,7 @@
 package mpst.frontend.caos_wrapper
 
 import mpst.operational_semantic.SyncTraverse
-import mpst.syntax.Protocol.{Action, Local, Participant, Receive}
+import mpst.syntax.Protocol.{Action, Local, Participant, Recv}
 import mpst.utility.Environment.Environment
 import caos.sos.SOS
 
@@ -15,7 +15,7 @@ import caos.sos.SOS
 */
 
 object SyncEnvironmentWrapper:
-  private type SyncState = (Set[(Participant, Local)], Option[Receive], Environment)
+  private type SyncState = (Set[(Participant, Local)], Option[Recv], Environment)
 
   object SyncTraverseWrapper extends SOS[Action, SyncState]:
     override def accepting(state: SyncState): Boolean =

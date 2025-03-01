@@ -3,16 +3,6 @@ package mpst.wellformedness
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
 
-/* IDEA:
-  - check well-formedness (linearity?) on *parallel* branches
-    - channel = sendingAgent -> receivingAgent
-    - if channels are shared in both branches then *error*
-    - otherwise communications are secure since they are independent
-    - error = "possible dependent communications in branch [globalA] and [globalB] caused by the shared channels [sharedChannels]"
-
-    problem:
-      None?
-*/
 
 object WellChanneled:
   private def isWellChanneled(global: Global): Boolean = global match
@@ -27,7 +17,7 @@ object WellChanneled:
 
   private def isWellChanneledAuxiliary(globalA: Global, globalB: Global): Boolean =
     def communications(branch: Global): Set[(Participant, Participant, Label)] = branch match
-      case Interaction(sender, receiver, label, _) => Set((sender, receiver, label))
+      case interaction: Interaction => Set((interaction.sender, interaction.receiver, interaction.label))
       case _: RecursionCall | Skip => Set.empty
       case Sequence(globalA, globalB) => communications(globalA) ++ communications(globalB)
       case Parallel(globalA, globalB) => communications(globalA) ++ communications(globalB)

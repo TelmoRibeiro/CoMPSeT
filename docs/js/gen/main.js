@@ -5477,62 +5477,53 @@ $c_ju_regex_PatternCompiler$CompiledCharClass.prototype.$classData = $d_ju_regex
 function $s_Lmpst_frontend_Main__main__AT__V(args) {
   $m_Lcaos_frontend_Site$().initSite__Lcaos_frontend_Configurator__V($m_Lmpst_frontend_CaosConfigurator$())
 }
-function $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sender, receiver, label) {
-  return (((((sender + " ->> ") + receiver) + " :") + label) + "\n")
-}
 function $p_Lmpst_frontend_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, note, participants) {
   return ((("note left of " + participants.head__O()) + ": ") + note)
 }
+function $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sender, receiver, label) {
+  return (((((sender + " ->> ") + receiver) + " :") + label) + "\n")
+}
 function $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, global, participants) {
   if ((global instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Interaction(global);
-    var x38 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
-    var x39 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
-    var x40 = x$1.Lmpst_syntax_Protocol$Interaction__f_label;
-    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, x38, x39, x40))
+    var interaction = $as_Lmpst_syntax_Protocol$Interaction(global);
+    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, interaction.Lmpst_syntax_Protocol$Interaction__f_sender, interaction.Lmpst_syntax_Protocol$Interaction__f_receiver, interaction.Lmpst_syntax_Protocol$Interaction__f_label))
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1$1 = $as_Lmpst_syntax_Protocol$Send(global);
-    var x32 = x$1$1.Lmpst_syntax_Protocol$Send__f_sender;
-    var x33 = x$1$1.Lmpst_syntax_Protocol$Send__f_receiver;
-    var x34 = x$1$1.Lmpst_syntax_Protocol$Send__f_label;
-    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, x32, x33, x34))
-  } else if ((global instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var x$1$2 = $as_Lmpst_syntax_Protocol$Receive(global);
-    var x26 = x$1$2.Lmpst_syntax_Protocol$Receive__f_receiver;
-    var x27 = x$1$2.Lmpst_syntax_Protocol$Receive__f_sender;
-    var x28 = x$1$2.Lmpst_syntax_Protocol$Receive__f_label;
-    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, x27, x26, x28))
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(global);
+    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sendAction.Lmpst_syntax_Protocol$Send__f_sender, sendAction.Lmpst_syntax_Protocol$Send__f_receiver, sendAction.Lmpst_syntax_Protocol$Send__f_label))
+  } else if ((global instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var recvAction = $as_Lmpst_syntax_Protocol$Recv(global);
+    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, recvAction.Lmpst_syntax_Protocol$Recv__f_sender, recvAction.Lmpst_syntax_Protocol$Recv__f_receiver, recvAction.Lmpst_syntax_Protocol$Recv__f_label))
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
-    var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionCall(global);
-    var x23 = x$1$3.Lmpst_syntax_Protocol$RecursionCall__f_variable;
+    var x$1 = $as_Lmpst_syntax_Protocol$RecursionCall(global);
+    var x23 = x$1.Lmpst_syntax_Protocol$RecursionCall__f_variable;
     return ("" + $p_Lmpst_frontend_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("goto " + x23), participants))
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-    var x$1$4 = $as_Lmpst_syntax_Protocol$Sequence(global);
-    var x19 = x$1$4.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-    var x20 = x$1$4.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+    var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(global);
+    var x19 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+    var x20 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
     var x = ((("  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x19, participants)) + "\r\n         |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x20, participants));
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-    var x$1$5 = $as_Lmpst_syntax_Protocol$Parallel(global);
-    var x15 = x$1$5.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-    var x16 = x$1$5.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+    var x$1$2 = $as_Lmpst_syntax_Protocol$Parallel(global);
+    var x15 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+    var x16 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolB;
     var x$2 = (((("par\r\n         |  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x15, participants)) + "\r\n         |and\r\n         |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x16, participants)) + "\r\n         |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$2, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-    var x$1$6 = $as_Lmpst_syntax_Protocol$Choice(global);
-    var x11 = x$1$6.Lmpst_syntax_Protocol$Choice__f_protocolA;
-    var x12 = x$1$6.Lmpst_syntax_Protocol$Choice__f_protocolB;
+    var x$1$3 = $as_Lmpst_syntax_Protocol$Choice(global);
+    var x11 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolA;
+    var x12 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolB;
     var x$3 = (((("alt\r\n         |  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x11, participants)) + "\r\n         |else\r\n         |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x12, participants)) + "\r\n         |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$3, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-    var x$1$7 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(global);
-    var x7 = x$1$7.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
-    var x8 = x$1$7.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+    var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(global);
+    var x7 = x$1$4.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
+    var x8 = x$1$4.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
     var x$4 = (((("|rect rgb(50,200,200)\r\n          |  " + $p_Lmpst_frontend_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("Label " + x7), participants)) + "\r\n          |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x8, participants)) + "\r\n          |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$4, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-    var x$1$8 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(global);
-    var x4 = x$1$8.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+    var x$1$5 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(global);
+    var x4 = x$1$5.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
     var x$5 = (("loop\r\n         |  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x4, participants)) + "\r\n         |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$5, 124)
   } else {
@@ -5581,7 +5572,7 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmps
         if ((x1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
           break matchAlts2
         };
-        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
           break matchAlts2
         };
         if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
@@ -5636,9 +5627,7 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmps
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
       var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
-      var x4 = x$1$4.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-      protocol$tailLocal1 = x4;
-      continue
+      return true
     };
     throw new $c_s_MatchError(x1)
   }
@@ -5648,19 +5637,21 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
   while (true) {
     var x51 = protocol$tailLocal2;
     if ((x51 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Interaction(x51);
-      var x77 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
-      var x78 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
-      var x79 = x$1.Lmpst_syntax_Protocol$Interaction__f_label;
-      var x80 = x$1.Lmpst_syntax_Protocol$Interaction__f_sort;
+      var interaction = $as_Lmpst_syntax_Protocol$Interaction(x51);
       $m_s_package$();
       var $$x1 = $m_sr_ScalaRunTime$();
-      var self = new $c_Lmpst_syntax_Protocol$Send(x77, x78, x79, x80);
-      var y = new $c_Lmpst_syntax_Protocol$Receive(x78, x77, x79, x80);
+      var sender = interaction.Lmpst_syntax_Protocol$Interaction__f_sender;
+      var receiver = interaction.Lmpst_syntax_Protocol$Interaction__f_receiver;
+      var label = interaction.Lmpst_syntax_Protocol$Interaction__f_label;
+      var self = new $c_Lmpst_syntax_Protocol$Send(sender, receiver, label);
+      var receiver$1 = interaction.Lmpst_syntax_Protocol$Interaction__f_receiver;
+      var sender$1 = interaction.Lmpst_syntax_Protocol$Interaction__f_sender;
+      var label$1 = interaction.Lmpst_syntax_Protocol$Interaction__f_label;
+      var y = new $c_Lmpst_syntax_Protocol$Recv(receiver$1, sender$1, label$1);
       var elems = $$x1.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([new $c_T2(self, y)]));
       return $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)
     };
-    if (((x51 instanceof $c_Lmpst_syntax_Protocol$Send) || (x51 instanceof $c_Lmpst_syntax_Protocol$Receive))) {
+    if (((x51 instanceof $c_Lmpst_syntax_Protocol$Send) || (x51 instanceof $c_Lmpst_syntax_Protocol$Recv))) {
       $m_s_package$();
       var $$x2 = $m_sr_ScalaRunTime$();
       var y$1 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
@@ -5668,8 +5659,8 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
       return $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1)
     };
     if ((x51 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$RecursionCall(x51);
-      var x73 = x$1$1.Lmpst_syntax_Protocol$RecursionCall__f_variable;
+      var x$1 = $as_Lmpst_syntax_Protocol$RecursionCall(x51);
+      var x73 = x$1.Lmpst_syntax_Protocol$RecursionCall__f_variable;
       protocol$tailLocal2 = $as_Lmpst_syntax_Protocol(environment.apply__O__O(x73));
       continue
     };
@@ -5678,80 +5669,80 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
       return $m_s_package$().s_package$__f_Nil
     };
     if ((x51 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Sequence(x51);
-      var x69 = x$1$2.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x70 = x$1$2.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(x51);
+      var x69 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x70 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
       var nextA = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x69, environment);
-      var p = new $c_sjsr_AnonFunction1(((this$12) => ((x$1$3) => {
-        var x$1$4 = $as_T2(x$1$3);
-        return ((x$1$4 !== null) && ($as_Lmpst_syntax_Protocol(x$1$4.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$4.T2__f__2), true))
+      var p = new $c_sjsr_AnonFunction1(((this$11) => ((x$1$2) => {
+        var x$1$3 = $as_T2(x$1$2);
+        return ((x$1$3 !== null) && ($as_Lmpst_syntax_Protocol(x$1$3.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$3.T2__f__2), true))
       }))($thiz));
       var resultA = $as_sci_List($ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), nextA, p).map__F1__O(new $c_sjsr_AnonFunction1(((this$2$1, protocolB$2) => ((x$1$2$1) => {
-        var x$1$5 = $as_T2(x$1$2$1);
-        if ((x$1$5 !== null)) {
-          var nextActionA$1 = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__1);
-          var nextProtocolA$1 = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__2);
-          var this$15 = $m_Lmpst_utility_StructuralCongruence$();
+        var x$1$4 = $as_T2(x$1$2$1);
+        if ((x$1$4 !== null)) {
+          var nextActionA$1 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__1);
+          var nextProtocolA$1 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__2);
+          var this$14 = $m_Lmpst_utility_StructuralCongruence$();
           var protocol$1 = new $c_Lmpst_syntax_Protocol$Sequence(nextProtocolA$1, protocolB$2);
-          var y$2 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$15, protocol$1);
+          var y$2 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$14, protocol$1);
           return new $c_T2(nextActionA$1, y$2)
         };
-        throw new $c_s_MatchError(x$1$5)
+        throw new $c_s_MatchError(x$1$4)
       }))($thiz, x70))));
       var resultB = ($p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmpst_syntax_Protocol__Z($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$(), x69) ? $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x70, environment) : $m_s_package$().s_package$__f_Nil);
       return resultA.appendedAll__sc_IterableOnce__sci_List(resultB)
     };
     if ((x51 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$6 = $as_Lmpst_syntax_Protocol$Parallel(x51);
-      var x65 = x$1$6.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x66 = x$1$6.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      var this$18 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x65, environment);
+      var x$1$5 = $as_Lmpst_syntax_Protocol$Parallel(x51);
+      var x65 = x$1$5.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x66 = x$1$5.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var this$17 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x65, environment);
       var p$1 = new $c_sjsr_AnonFunction1(((this$3$1) => ((x$1$3$1) => {
-        var x$1$7 = $as_T2(x$1$3$1);
-        return ((x$1$7 !== null) && ($as_Lmpst_syntax_Protocol(x$1$7.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$7.T2__f__2), true))
+        var x$1$6 = $as_T2(x$1$3$1);
+        return ((x$1$6 !== null) && ($as_Lmpst_syntax_Protocol(x$1$6.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$6.T2__f__2), true))
       }))($thiz));
-      var resultA$2 = $as_sci_List($ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this$18, p$1).map__F1__O(new $c_sjsr_AnonFunction1(((this$4$1, protocolB$4) => ((x$1$4$1) => {
-        var x$1$8 = $as_T2(x$1$4$1);
-        if ((x$1$8 !== null)) {
-          var nextActionA$3 = $as_Lmpst_syntax_Protocol(x$1$8.T2__f__1);
-          var nextProtocolA$3 = $as_Lmpst_syntax_Protocol(x$1$8.T2__f__2);
-          var this$21 = $m_Lmpst_utility_StructuralCongruence$();
+      var resultA$2 = $as_sci_List($ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this$17, p$1).map__F1__O(new $c_sjsr_AnonFunction1(((this$4$1, protocolB$4) => ((x$1$4$1) => {
+        var x$1$7 = $as_T2(x$1$4$1);
+        if ((x$1$7 !== null)) {
+          var nextActionA$3 = $as_Lmpst_syntax_Protocol(x$1$7.T2__f__1);
+          var nextProtocolA$3 = $as_Lmpst_syntax_Protocol(x$1$7.T2__f__2);
+          var this$20 = $m_Lmpst_utility_StructuralCongruence$();
           var protocol$2 = new $c_Lmpst_syntax_Protocol$Parallel(nextProtocolA$3, protocolB$4);
-          var y$3 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$21, protocol$2);
+          var y$3 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$20, protocol$2);
           return new $c_T2(nextActionA$3, y$3)
         };
-        throw new $c_s_MatchError(x$1$8)
+        throw new $c_s_MatchError(x$1$7)
       }))($thiz, x66))));
-      var this$23 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x66, environment);
+      var this$22 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x66, environment);
       var p$2 = new $c_sjsr_AnonFunction1(((this$5$1) => ((x$1$5$1) => {
-        var x$1$9 = $as_T2(x$1$5$1);
-        return ((x$1$9 !== null) && ($as_Lmpst_syntax_Protocol(x$1$9.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$9.T2__f__2), true))
+        var x$1$8 = $as_T2(x$1$5$1);
+        return ((x$1$8 !== null) && ($as_Lmpst_syntax_Protocol(x$1$8.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$8.T2__f__2), true))
       }))($thiz));
-      var resultB$2 = $as_sci_List($ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this$23, p$2).map__F1__O(new $c_sjsr_AnonFunction1(((this$6$1, protocolA$3) => ((x$1$6$1) => {
-        var x$1$10 = $as_T2(x$1$6$1);
-        if ((x$1$10 !== null)) {
-          var nextActionB$1 = $as_Lmpst_syntax_Protocol(x$1$10.T2__f__1);
-          var nextProtocolB$1 = $as_Lmpst_syntax_Protocol(x$1$10.T2__f__2);
-          var this$26 = $m_Lmpst_utility_StructuralCongruence$();
+      var resultB$2 = $as_sci_List($ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this$22, p$2).map__F1__O(new $c_sjsr_AnonFunction1(((this$6$1, protocolA$3) => ((x$1$6$1) => {
+        var x$1$9 = $as_T2(x$1$6$1);
+        if ((x$1$9 !== null)) {
+          var nextActionB$1 = $as_Lmpst_syntax_Protocol(x$1$9.T2__f__1);
+          var nextProtocolB$1 = $as_Lmpst_syntax_Protocol(x$1$9.T2__f__2);
+          var this$25 = $m_Lmpst_utility_StructuralCongruence$();
           var protocol$3 = new $c_Lmpst_syntax_Protocol$Parallel(protocolA$3, nextProtocolB$1);
-          var y$4 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$26, protocol$3);
+          var y$4 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$25, protocol$3);
           return new $c_T2(nextActionB$1, y$4)
         };
-        throw new $c_s_MatchError(x$1$10)
+        throw new $c_s_MatchError(x$1$9)
       }))($thiz, x65))));
       return resultA$2.appendedAll__sc_IterableOnce__sci_List(resultB$2)
     };
     if ((x51 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$11 = $as_Lmpst_syntax_Protocol$Choice(x51);
-      var x61 = x$1$11.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x62 = x$1$11.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      var this$29 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x61, environment);
+      var x$1$10 = $as_Lmpst_syntax_Protocol$Choice(x51);
+      var x61 = x$1$10.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x62 = x$1$10.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      var this$28 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x61, environment);
       var suffix = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x62, environment);
-      return this$29.appendedAll__sc_IterableOnce__sci_List(suffix)
+      return this$28.appendedAll__sc_IterableOnce__sci_List(suffix)
     };
     if ((x51 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$12 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x51);
-      var x58 = x$1$12.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      var x$1$11 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x51);
+      var x58 = x$1$11.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
       if ((x58 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
         throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("[" + protocol$tailLocal2) + "] is not guarded"))
       } else {
@@ -5760,22 +5751,22 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
       }
     };
     if ((x51 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$13 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x51);
-      var x54 = x$1$13.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-      var this$32 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x54, environment);
+      var x$1$12 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x51);
+      var x54 = x$1$12.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      var this$31 = $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_syntax_Protocol__sci_Map__sci_List($thiz, x54, environment);
       var p$3 = new $c_sjsr_AnonFunction1(((this$7$1) => ((x$1$7$1) => {
-        var x$1$14 = $as_T2(x$1$7$1);
-        return ((x$1$14 !== null) && ($as_Lmpst_syntax_Protocol(x$1$14.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$14.T2__f__2), true))
+        var x$1$13 = $as_T2(x$1$7$1);
+        return ((x$1$13 !== null) && ($as_Lmpst_syntax_Protocol(x$1$13.T2__f__1), $as_Lmpst_syntax_Protocol(x$1$13.T2__f__2), true))
       }))($thiz));
-      return $as_sci_List($ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this$32, p$3).map__F1__O(new $c_sjsr_AnonFunction1(((this$8$1, protocol$tailLocal2$2) => ((x$1$8$1) => {
-        var x$1$15 = $as_T2(x$1$8$1);
-        if ((x$1$15 !== null)) {
-          var nextActionA$5 = $as_Lmpst_syntax_Protocol(x$1$15.T2__f__1);
-          var nextProtocolA$5 = $as_Lmpst_syntax_Protocol(x$1$15.T2__f__2);
+      return $as_sci_List($ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this$31, p$3).map__F1__O(new $c_sjsr_AnonFunction1(((this$8$1, protocol$tailLocal2$2) => ((x$1$8$1) => {
+        var x$1$14 = $as_T2(x$1$8$1);
+        if ((x$1$14 !== null)) {
+          var nextActionA$5 = $as_Lmpst_syntax_Protocol(x$1$14.T2__f__1);
+          var nextProtocolA$5 = $as_Lmpst_syntax_Protocol(x$1$14.T2__f__2);
           var y$5 = new $c_Lmpst_syntax_Protocol$Sequence(nextProtocolA$5, protocol$tailLocal2$2);
           return new $c_T2(nextActionA$5, y$5)
         };
-        throw new $c_s_MatchError(x$1$15)
+        throw new $c_s_MatchError(x$1$14)
       }))($thiz, protocol$tailLocal2))))
     };
     throw new $c_s_MatchError(x51)
@@ -5822,7 +5813,7 @@ function $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextEntry__T
     if ((x$1$3 !== null)) {
       var nextAction$1 = $as_Lmpst_syntax_Protocol(x$1$3.T2__f__1);
       $as_Lmpst_syntax_Protocol(x$1$3.T2__f__2);
-      return $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__notBlocked$2__Lmpst_syntax_Protocol__sci_Map__Z(this$2$1, nextAction$1, pending$2)
+      return $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__notBlocked$1__Lmpst_syntax_Protocol__sci_Map__Z(this$2$1, nextAction$1, pending$2)
     };
     throw new $c_s_MatchError(x$1$3)
   }))($thiz, pending));
@@ -5832,44 +5823,46 @@ function $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextEntry__T
       var nextAction$2 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__1);
       var nextLocal$2 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__2);
       var self = localWithParticipant$2.T2__f__1;
-      var ev$9 = $as_T(self);
-      var _2 = new $c_T2(ev$9, nextLocal$2);
-      var _3 = $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextPending$2__Lmpst_syntax_Protocol__sci_Map__sci_Map(this$3$1, nextAction$2, pending$3);
+      var ev$8 = $as_T(self);
+      var _2 = new $c_T2(ev$8, nextLocal$2);
+      var _3 = $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextPending$1__Lmpst_syntax_Protocol__sci_Map__sci_Map(this$3$1, nextAction$2, pending$3);
       return new $c_T3(nextAction$2, _2, _3)
     };
     throw new $c_s_MatchError(x$1$4)
   }))($thiz, localWithParticipant, pending))))
 }
-function $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__notBlocked$2__Lmpst_syntax_Protocol__sci_Map__Z($thiz, action, pending) {
+function $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__notBlocked$1__Lmpst_syntax_Protocol__sci_Map__Z($thiz, action, pending) {
   if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
     return true
   };
-  if ((action instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Receive(action);
-    var x48 = x$1.Lmpst_syntax_Protocol$Receive__f_receiver;
-    var x49 = x$1.Lmpst_syntax_Protocol$Receive__f_sender;
-    var x50 = x$1.Lmpst_syntax_Protocol$Receive__f_label;
-    return $as_sc_LinearSeqOps(pending.getOrElse__O__F0__O(new $c_T2(x49, x48), new $c_sjsr_AnonFunction0(((this$4) => (() => $m_sci_Queue$EmptyQueue$()))($thiz)))).headOption__s_Option().contains__O__Z(x50)
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
+    var self = recvAction.Lmpst_syntax_Protocol$Recv__f_sender;
+    var y = recvAction.Lmpst_syntax_Protocol$Recv__f_receiver;
+    return $as_sc_LinearSeqOps(pending.getOrElse__O__F0__O(new $c_T2(self, y), new $c_sjsr_AnonFunction0(((this$3) => (() => $m_sci_Queue$EmptyQueue$()))($thiz)))).headOption__s_Option().contains__O__Z(recvAction.Lmpst_syntax_Protocol$Recv__f_label)
   };
   throw new $c_s_MatchError(action)
 }
-function $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextPending$2__Lmpst_syntax_Protocol__sci_Map__sci_Map($thiz, action, pending) {
+function $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextPending$1__Lmpst_syntax_Protocol__sci_Map__sci_Map($thiz, action, pending) {
   if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Send(action);
-    var x62 = x$1.Lmpst_syntax_Protocol$Send__f_sender;
-    var x63 = x$1.Lmpst_syntax_Protocol$Send__f_receiver;
-    var x64 = x$1.Lmpst_syntax_Protocol$Send__f_label;
-    var updatedQueue = $as_sci_Queue(pending.getOrElse__O__F0__O(new $c_T2(x62, x63), new $c_sjsr_AnonFunction0(((this$4) => (() => $m_sci_Queue$EmptyQueue$()))($thiz)))).enqueue__O__sci_Queue(x64);
-    var self = new $c_T2(x62, x63);
-    return $as_sci_Map(pending.updated__O__O__sci_MapOps(self, updatedQueue))
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(action);
+    var self = sendAction.Lmpst_syntax_Protocol$Send__f_sender;
+    var y = sendAction.Lmpst_syntax_Protocol$Send__f_receiver;
+    var updatedQueue = $as_sci_Queue(pending.getOrElse__O__F0__O(new $c_T2(self, y), new $c_sjsr_AnonFunction0(((this$3) => (() => $m_sci_Queue$EmptyQueue$()))($thiz)))).enqueue__O__sci_Queue(sendAction.Lmpst_syntax_Protocol$Send__f_label);
+    var self$1 = sendAction.Lmpst_syntax_Protocol$Send__f_sender;
+    var y$1 = sendAction.Lmpst_syntax_Protocol$Send__f_receiver;
+    var self$2 = new $c_T2(self$1, y$1);
+    return $as_sci_Map(pending.updated__O__O__sci_MapOps(self$2, updatedQueue))
   };
-  if ((action instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var x$1$1 = $as_Lmpst_syntax_Protocol$Receive(action);
-    var x56 = x$1$1.Lmpst_syntax_Protocol$Receive__f_receiver;
-    var x57 = x$1$1.Lmpst_syntax_Protocol$Receive__f_sender;
-    var updatedQueue$2 = $as_sci_Queue($as_sci_Queue(pending.getOrElse__O__F0__O(new $c_T2(x57, x56), new $c_sjsr_AnonFunction0(((this$2$1) => (() => $m_sci_Queue$EmptyQueue$()))($thiz)))).dequeue__T2().T2__f__2);
-    var self$1 = new $c_T2(x57, x56);
-    return $as_sci_Map(pending.updated__O__O__sci_MapOps(self$1, updatedQueue$2))
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
+    var self$3 = recvAction.Lmpst_syntax_Protocol$Recv__f_sender;
+    var y$2 = recvAction.Lmpst_syntax_Protocol$Recv__f_receiver;
+    var updatedQueue$2 = $as_sci_Queue($as_sci_Queue(pending.getOrElse__O__F0__O(new $c_T2(self$3, y$2), new $c_sjsr_AnonFunction0(((this$2$1) => (() => $m_sci_Queue$EmptyQueue$()))($thiz)))).dequeue__T2().T2__f__2);
+    var self$4 = recvAction.Lmpst_syntax_Protocol$Recv__f_sender;
+    var y$3 = recvAction.Lmpst_syntax_Protocol$Recv__f_receiver;
+    var self$5 = new $c_T2(self$4, y$3);
+    return $as_sci_Map(pending.updated__O__O__sci_MapOps(self$5, updatedQueue$2))
   };
   throw new $c_s_MatchError(action)
 }
@@ -5897,13 +5890,13 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.accepting__s
 $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.next__sci_Set__sci_Map__sci_Map__sci_Set = (function(localsWithParticipant, pending, environment) {
   return $as_sci_Set(localsWithParticipant.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$1, localsWithParticipant$2, pending$2, environment$2) => ((localWithParticipant) => {
     var localWithParticipant$1 = $as_T2(localWithParticipant);
-    return $as_sc_IterableOnce($p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextEntry__T2__sci_Map__sci_Map__sci_Set(this$1, localWithParticipant$1, pending$2, environment$2).map__F1__O(new $c_sjsr_AnonFunction1(((this$2, localsWithParticipant$3$2, localWithParticipant$2) => ((x$1) => {
+    return $as_sc_IterableOnce($p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextEntry__T2__sci_Map__sci_Map__sci_Set(this$1, localWithParticipant$1, pending$2, environment$2).map__F1__O(new $c_sjsr_AnonFunction1(((this$2, localsWithParticipant$1$2, localWithParticipant$2) => ((x$1) => {
       var x$1$1 = $as_T3(x$1);
       if ((x$1$1 !== null)) {
         var nextAction = $as_Lmpst_syntax_Protocol(x$1$1.T3__f__1);
         var nextLocalWithParticipant = $as_T2(x$1$1.T3__f__2);
         var nextPending = $as_sci_Map(x$1$1.T3__f__3);
-        var this$3 = localsWithParticipant$3$2.excl__O__sci_SetOps(localWithParticipant$2);
+        var this$3 = localsWithParticipant$1$2.excl__O__sci_SetOps(localWithParticipant$2);
         var _2 = this$3.incl__O__sci_SetOps(nextLocalWithParticipant);
         return new $c_T3(nextAction, _2, nextPending)
       };
@@ -5937,7 +5930,7 @@ function $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextEntry_
     if ((x$1$3 !== null)) {
       var nextAction$1 = $as_Lmpst_syntax_Protocol(x$1$3.T2__f__1);
       $as_Lmpst_syntax_Protocol(x$1$3.T2__f__2);
-      return $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__notBlocked$3__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Z(this$2$1, nextAction$1, pending$2)
+      return $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__notBlocked$2__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Z(this$2$1, nextAction$1, pending$2)
     };
     throw new $c_s_MatchError(x$1$3)
   }))($thiz, pending));
@@ -5947,46 +5940,33 @@ function $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextEntry_
       var nextAction$2 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__1);
       var nextLocal$2 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__2);
       var self = localWithParticipant$2.T2__f__1;
-      var ev$10 = $as_T(self);
-      var _2 = new $c_T2(ev$10, nextLocal$2);
-      var _3 = $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextPending$3__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Lmpst_utility_Multiset(this$3$1, nextAction$2, pending$3);
+      var ev$9 = $as_T(self);
+      var _2 = new $c_T2(ev$9, nextLocal$2);
+      var _3 = $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextPending$2__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Lmpst_utility_Multiset(this$3$1, nextAction$2, pending$3);
       return new $c_T3(nextAction$2, _2, _3)
     };
     throw new $c_s_MatchError(x$1$4)
   }))($thiz, localWithParticipant, pending))))
 }
-function $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__notBlocked$3__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Z($thiz, action, pending) {
+function $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__notBlocked$2__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Z($thiz, action, pending) {
   if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Send(action);
     return true
   };
-  if ((action instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var x$1$1 = $as_Lmpst_syntax_Protocol$Receive(action);
-    var x85 = x$1$1.Lmpst_syntax_Protocol$Receive__f_receiver;
-    var x86 = x$1$1.Lmpst_syntax_Protocol$Receive__f_sender;
-    var x87 = x$1$1.Lmpst_syntax_Protocol$Receive__f_label;
-    var x88 = x$1$1.Lmpst_syntax_Protocol$Receive__f_sort;
-    var elem = new $c_Lmpst_syntax_Protocol$Send(x86, x85, x87, x88);
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
+    var elem = $m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(recvAction);
     return pending.Lmpst_utility_Multiset__f_data.contains__O__Z(elem)
   };
   throw new $c_s_MatchError(action)
 }
-function $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextPending$3__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Lmpst_utility_Multiset($thiz, action, pending) {
+function $p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextPending$2__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Lmpst_utility_Multiset($thiz, action, pending) {
   if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Send(action);
-    var x104 = x$1.Lmpst_syntax_Protocol$Send__f_sender;
-    var x105 = x$1.Lmpst_syntax_Protocol$Send__f_receiver;
-    var x106 = x$1.Lmpst_syntax_Protocol$Send__f_label;
-    var x107 = x$1.Lmpst_syntax_Protocol$Send__f_sort;
-    return pending.$plus__O__Lmpst_utility_Multiset(new $c_Lmpst_syntax_Protocol$Send(x104, x105, x106, x107))
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(action);
+    return pending.$plus__O__Lmpst_utility_Multiset(sendAction)
   };
-  if ((action instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var x$1$1 = $as_Lmpst_syntax_Protocol$Receive(action);
-    var x98 = x$1$1.Lmpst_syntax_Protocol$Receive__f_receiver;
-    var x99 = x$1$1.Lmpst_syntax_Protocol$Receive__f_sender;
-    var x100 = x$1$1.Lmpst_syntax_Protocol$Receive__f_label;
-    var x101 = x$1$1.Lmpst_syntax_Protocol$Receive__f_sort;
-    return pending.$minus__O__Lmpst_utility_Multiset(new $c_Lmpst_syntax_Protocol$Send(x99, x98, x100, x101))
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
+    return pending.$minus__O__Lmpst_utility_Multiset($m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(recvAction))
   };
   throw new $c_s_MatchError(action)
 }
@@ -6014,13 +5994,13 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$.prototype.accepting_
 $c_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$.prototype.next__sci_Set__Lmpst_utility_Multiset__sci_Map__sci_Set = (function(localsWithParticipant, pending, environment) {
   return $as_sci_Set(localsWithParticipant.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$1, localsWithParticipant$2, pending$2, environment$2) => ((localWithParticipant) => {
     var localWithParticipant$1 = $as_T2(localWithParticipant);
-    return $as_sc_IterableOnce($p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextEntry__T2__Lmpst_utility_Multiset__sci_Map__sci_Set(this$1, localWithParticipant$1, pending$2, environment$2).map__F1__O(new $c_sjsr_AnonFunction1(((this$2, localsWithParticipant$5$2, localWithParticipant$2) => ((x$1) => {
+    return $as_sc_IterableOnce($p_Lmpst_operational\uff3fsemantic_Network$NetworkMultiset$__nextEntry__T2__Lmpst_utility_Multiset__sci_Map__sci_Set(this$1, localWithParticipant$1, pending$2, environment$2).map__F1__O(new $c_sjsr_AnonFunction1(((this$2, localsWithParticipant$3$2, localWithParticipant$2) => ((x$1) => {
       var x$1$1 = $as_T3(x$1);
       if ((x$1$1 !== null)) {
         var nextAction = $as_Lmpst_syntax_Protocol(x$1$1.T3__f__1);
         var nextLocalWithParticipant = $as_T2(x$1$1.T3__f__2);
         var nextPending = $as_Lmpst_utility_Multiset(x$1$1.T3__f__3);
-        var this$3 = localsWithParticipant$5$2.excl__O__sci_SetOps(localWithParticipant$2);
+        var this$3 = localsWithParticipant$3$2.excl__O__sci_SetOps(localWithParticipant$2);
         var _2 = this$3.incl__O__sci_SetOps(nextLocalWithParticipant);
         return new $c_T3(nextAction, _2, nextPending)
       };
@@ -6074,7 +6054,7 @@ function $p_Lmpst_operational\uff3fsemantic_SyncTraverse$__nextEntry__T2__sci_Se
 }
 function $p_Lmpst_operational\uff3fsemantic_SyncTraverse$__notBlocked$1__sci_Set__sci_Map__Lmpst_syntax_Protocol__sci_Set__s_Option__Z($thiz, remainingLocalsWithParticipant$1, environment$2, action, remainingLocalsWithParticipants, pendingReceive) {
   if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var send = $as_Lmpst_syntax_Protocol$Send(action);
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(action);
     return (pendingReceive.isEmpty__Z() && $as_sc_IterableOnceOps(remainingLocalsWithParticipant$1.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$1, environment$2$2) => ((x$1) => {
       var x$1$1 = $as_T2(x$1);
       if ((x$1$1 !== null)) {
@@ -6083,22 +6063,18 @@ function $p_Lmpst_operational\uff3fsemantic_SyncTraverse$__notBlocked$1__sci_Set
         return $m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(local, $as_sci_Map(environment$2$2.apply__O__O(participant)))
       };
       throw new $c_s_MatchError(x$1$1)
-    }))($thiz, environment$2)))).exists__F1__Z(new $c_sjsr_AnonFunction1(((this$2, send$2) => ((_$1) => {
+    }))($thiz, environment$2)))).exists__F1__Z(new $c_sjsr_AnonFunction1(((this$2, sendAction$2) => ((_$1) => {
       var _$1$1 = $as_T2(_$1);
       var x = _$1$1.T2__f__1;
-      var receiver = send$2.Lmpst_syntax_Protocol$Send__f_receiver;
-      var sender = send$2.Lmpst_syntax_Protocol$Send__f_sender;
-      var label = send$2.Lmpst_syntax_Protocol$Send__f_label;
-      var sort = send$2.Lmpst_syntax_Protocol$Send__f_sort;
-      var x$2 = new $c_Lmpst_syntax_Protocol$Receive(receiver, sender, label, sort);
-      return ((x !== null) && $dp_equals__O__Z(x, x$2))
-    }))($thiz, send))))
+      var x$2 = $m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(sendAction$2);
+      return ((x === null) ? (x$2 === null) : $dp_equals__O__Z(x, x$2))
+    }))($thiz, sendAction))))
   };
-  if ((action instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var receive = $as_Lmpst_syntax_Protocol$Receive(action);
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
     if ((!pendingReceive.isEmpty__Z())) {
       var x$2$1 = pendingReceive.get__O();
-      return ((receive === null) ? (x$2$1 === null) : receive.equals__O__Z(x$2$1))
+      return ((recvAction === null) ? (x$2$1 === null) : recvAction.equals__O__Z(x$2$1))
     } else {
       return false
     }
@@ -6107,15 +6083,11 @@ function $p_Lmpst_operational\uff3fsemantic_SyncTraverse$__notBlocked$1__sci_Set
 }
 function $p_Lmpst_operational\uff3fsemantic_SyncTraverse$__nextPendingReceive$1__Lmpst_syntax_Protocol__s_Option__s_Option($thiz, action, pendingReceive) {
   if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var send = $as_Lmpst_syntax_Protocol$Send(action);
-    var receiver = send.Lmpst_syntax_Protocol$Send__f_receiver;
-    var sender = send.Lmpst_syntax_Protocol$Send__f_sender;
-    var label = send.Lmpst_syntax_Protocol$Send__f_label;
-    var sort = send.Lmpst_syntax_Protocol$Send__f_sort;
-    var value = new $c_Lmpst_syntax_Protocol$Receive(receiver, sender, label, sort);
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(action);
+    var value = $as_Lmpst_syntax_Protocol$Recv($m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(sendAction));
     return new $c_s_Some(value)
   };
-  if ((action instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
     return $m_s_None$()
   };
   throw new $c_s_MatchError(action)
@@ -6181,7 +6153,7 @@ function $p_Lmpst_projection_FullMergeProjection$__fullMerge__Lmpst_syntax_Proto
         if ((x1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
           break matchAlts2
         };
-        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
           break matchAlts2
         };
         if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
@@ -6274,10 +6246,10 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
         var actionA = $as_Lmpst_syntax_Protocol(x$1$1.T2__f__1);
         var nextContinuationA = $as_Lmpst_syntax_Protocol(x$1$1.T2__f__2);
         if ((actionA instanceof $c_Lmpst_syntax_Protocol$Send)) {
-          var x67 = $as_Lmpst_syntax_Protocol$Send(actionA);
-          var x69 = x67.Lmpst_syntax_Protocol$Send__f_sender;
-          var x70 = x67.Lmpst_syntax_Protocol$Send__f_receiver;
-          if ((participant$1$2 === x69)) {
+          var x64 = $as_Lmpst_syntax_Protocol$Send(actionA);
+          var x66 = x64.Lmpst_syntax_Protocol$Send__f_sender;
+          var x67 = x64.Lmpst_syntax_Protocol$Send__f_receiver;
+          if ((participant$1$2 === x66)) {
             return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$4, environment$3$2, sendA$2) => ((continuationB) => {
               var continuationB$1 = $as_Lmpst_syntax_Protocol(continuationB);
               return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$1, environment$3$2).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$5, sendA$1$2) => ((x$1$2) => {
@@ -6285,8 +6257,8 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                 if ((x$1$3 !== null)) {
                   var actionB = $as_Lmpst_syntax_Protocol(x$1$3.T2__f__1);
                   $as_Lmpst_syntax_Protocol(x$1$3.T2__f__2);
-                  if ((actionB instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-                    var receiveB = $as_Lmpst_syntax_Protocol$Receive(actionB);
+                  if ((actionB instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+                    var receiveB = $as_Lmpst_syntax_Protocol$Recv(actionB);
                     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$1$2) + "] with [") + receiveB) + "]"))
                   };
                   if ((actionB instanceof $c_Lmpst_syntax_Protocol$Send)) {
@@ -6299,9 +6271,9 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                 };
                 throw new $c_s_MatchError(x$1$3)
               }))(this$4, sendA$2))))
-            }))(this$2, environment$2$2, x67))))
+            }))(this$2, environment$2$2, x64))))
           };
-          if ((participant$1$2 === x70)) {
+          if ((participant$1$2 === x67)) {
             return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$2$1, environment$3$3, sendA$4) => ((continuationB$2) => {
               var continuationB$3 = $as_Lmpst_syntax_Protocol(continuationB$2);
               return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$3, environment$3$3).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$7, sendA$3$2) => ((x$1$4) => {
@@ -6309,8 +6281,8 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                 if ((x$1$5 !== null)) {
                   var actionB$1 = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__1);
                   var nextContinuationsB = $as_Lmpst_syntax_Protocol(x$1$5.T2__f__2);
-                  if ((actionB$1 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-                    var receiveB$1 = $as_Lmpst_syntax_Protocol$Receive(actionB$1);
+                  if ((actionB$1 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+                    var receiveB$1 = $as_Lmpst_syntax_Protocol$Recv(actionB$1);
                     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + sendA$3$2) + "] with [") + receiveB$1) + "]"))
                   };
                   if ((actionB$1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
@@ -6323,14 +6295,14 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                 };
                 throw new $c_s_MatchError(x$1$5)
               }))(this$2$1, sendA$4))))
-            }))(this$2, environment$2$2, x67))))
+            }))(this$2, environment$2$2, x64))))
           }
         };
-        if ((actionA instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-          var x55 = $as_Lmpst_syntax_Protocol$Receive(actionA);
-          var x57 = x55.Lmpst_syntax_Protocol$Receive__f_receiver;
-          var x58 = x55.Lmpst_syntax_Protocol$Receive__f_sender;
-          if ((participant$1$2 === x57)) {
+        if ((actionA instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+          var x54 = $as_Lmpst_syntax_Protocol$Recv(actionA);
+          var x56 = x54.Lmpst_syntax_Protocol$Recv__f_receiver;
+          var x57 = x54.Lmpst_syntax_Protocol$Recv__f_sender;
+          if ((participant$1$2 === x56)) {
             return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$3$1, environment$3$4, nextContinuationA$2, receiveA$2) => ((continuationB$3$1) => {
               var continuationB$4 = $as_Lmpst_syntax_Protocol(continuationB$3$1);
               return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationB$4, environment$3$4).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$10, nextContinuationA$1$2, receiveA$1$2) => ((x$1$6) => {
@@ -6342,9 +6314,9 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                     var sendB$2 = $as_Lmpst_syntax_Protocol$Send(actionB$2);
                     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$1$2) + "] with [") + sendB$2) + "]"))
                   };
-                  if ((actionB$2 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-                    var receiveB$2 = $as_Lmpst_syntax_Protocol$Receive(actionB$2);
-                    if (((((receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_receiver === receiveB$2.Lmpst_syntax_Protocol$Receive__f_receiver) && (receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_sender === receiveB$2.Lmpst_syntax_Protocol$Receive__f_sender)) && (receiveA$1$2.Lmpst_syntax_Protocol$Receive__f_label === receiveB$2.Lmpst_syntax_Protocol$Receive__f_label)) && ((nextContinuationA$1$2 === null) ? (nextContinuationB$1 === null) : nextContinuationA$1$2.equals__O__Z(nextContinuationB$1)))) {
+                  if ((actionB$2 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+                    var receiveB$2 = $as_Lmpst_syntax_Protocol$Recv(actionB$2);
+                    if (((((receiveA$1$2.Lmpst_syntax_Protocol$Recv__f_receiver === receiveB$2.Lmpst_syntax_Protocol$Recv__f_receiver) && (receiveA$1$2.Lmpst_syntax_Protocol$Recv__f_sender === receiveB$2.Lmpst_syntax_Protocol$Recv__f_sender)) && (receiveA$1$2.Lmpst_syntax_Protocol$Recv__f_label === receiveB$2.Lmpst_syntax_Protocol$Recv__f_label)) && ((nextContinuationA$1$2 === null) ? (nextContinuationB$1 === null) : nextContinuationA$1$2.equals__O__Z(nextContinuationB$1)))) {
                       throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$1$2) + "] with [") + receiveB$2) + "]"))
                     }
                   };
@@ -6352,9 +6324,9 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                 };
                 throw new $c_s_MatchError(x$1$7)
               }))(this$3$1, nextContinuationA$2, receiveA$2))))
-            }))(this$2, environment$2$2, nextContinuationA, x55))))
+            }))(this$2, environment$2$2, nextContinuationA, x54))))
           };
-          if ((participant$1$2 === x58)) {
+          if ((participant$1$2 === x57)) {
             return $as_sci_Set(continuationsB$1$2.flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$4$1, environment$3$5, receiveA$4) => ((continuationA$2) => {
               var continuationA$3 = $as_Lmpst_syntax_Protocol(continuationA$2);
               return $as_sc_IterableOnce($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set(continuationA$3, environment$3$5).flatMap__F1__O(new $c_sjsr_AnonFunction1(((this$12, receiveA$3$2) => ((x$1$8) => {
@@ -6366,9 +6338,9 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                     var sendB$3 = $as_Lmpst_syntax_Protocol$Send(actionB$3);
                     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + receiveA$3$2) + "] with [") + sendB$3) + "]"))
                   };
-                  if ((actionB$3 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-                    var receiveB$3 = $as_Lmpst_syntax_Protocol$Receive(actionB$3);
-                    if ((((receiveA$3$2.Lmpst_syntax_Protocol$Receive__f_sender !== receiveB$3.Lmpst_syntax_Protocol$Receive__f_sender) || (receiveA$3$2.Lmpst_syntax_Protocol$Receive__f_receiver !== receiveB$3.Lmpst_syntax_Protocol$Receive__f_receiver)) || (receiveA$3$2.Lmpst_syntax_Protocol$Receive__f_label !== receiveB$3.Lmpst_syntax_Protocol$Receive__f_label))) {
+                  if ((actionB$3 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+                    var receiveB$3 = $as_Lmpst_syntax_Protocol$Recv(actionB$3);
+                    if ((((receiveA$3$2.Lmpst_syntax_Protocol$Recv__f_sender !== receiveB$3.Lmpst_syntax_Protocol$Recv__f_sender) || (receiveA$3$2.Lmpst_syntax_Protocol$Recv__f_receiver !== receiveB$3.Lmpst_syntax_Protocol$Recv__f_receiver)) || (receiveA$3$2.Lmpst_syntax_Protocol$Recv__f_label !== receiveB$3.Lmpst_syntax_Protocol$Recv__f_label))) {
                       throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), ((("[Full Merge] - could not merge [" + receiveA$3$2) + "] with [") + receiveB$3))
                     }
                   };
@@ -6376,7 +6348,7 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                 };
                 throw new $c_s_MatchError(x$1$9)
               }))(this$4$1, receiveA$4))))
-            }))(this$2, environment$2$2, x55))))
+            }))(this$2, environment$2$2, x54))))
           }
         };
         return $m_sci_Set$EmptySet$()
@@ -6431,7 +6403,7 @@ function $p_Lmpst_projection_PlainMergeProjection$__plainMerge__Lmpst_syntax_Pro
         if ((x1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
           break matchAlts2
         };
-        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
           break matchAlts2
         };
         if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
@@ -6556,24 +6528,22 @@ function $m_Lmpst_projection_PlainMergeProjection$() {
 }
 function $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, global, participant) {
   if ((global instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Interaction(global);
-    var x39 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
-    var x40 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
-    var x41 = x$1.Lmpst_syntax_Protocol$Interaction__f_label;
-    var x42 = x$1.Lmpst_syntax_Protocol$Interaction__f_sort;
-    if ((participant === x39)) {
-      if ((participant !== x40)) {
-        var value = new $c_Lmpst_syntax_Protocol$Send(participant, x40, x41, x42);
-        return new $c_s_Some(value)
-      }
+    var x27 = $as_Lmpst_syntax_Protocol$Interaction(global);
+    if (((x27.Lmpst_syntax_Protocol$Interaction__f_sender === participant) && (x27.Lmpst_syntax_Protocol$Interaction__f_receiver !== participant))) {
+      var sender = x27.Lmpst_syntax_Protocol$Interaction__f_sender;
+      var receiver = x27.Lmpst_syntax_Protocol$Interaction__f_receiver;
+      var label = x27.Lmpst_syntax_Protocol$Interaction__f_label;
+      var value = new $c_Lmpst_syntax_Protocol$Send(sender, receiver, label);
+      return new $c_s_Some(value)
     };
-    if ((participant === x40)) {
-      if ((participant !== x39)) {
-        var value$1 = new $c_Lmpst_syntax_Protocol$Receive(participant, x39, x41, x42);
-        return new $c_s_Some(value$1)
-      }
+    if (((x27.Lmpst_syntax_Protocol$Interaction__f_sender !== participant) && (x27.Lmpst_syntax_Protocol$Interaction__f_receiver === participant))) {
+      var receiver$1 = x27.Lmpst_syntax_Protocol$Interaction__f_receiver;
+      var sender$1 = x27.Lmpst_syntax_Protocol$Interaction__f_sender;
+      var label$1 = x27.Lmpst_syntax_Protocol$Interaction__f_label;
+      var value$1 = new $c_Lmpst_syntax_Protocol$Recv(receiver$1, sender$1, label$1);
+      return new $c_s_Some(value$1)
     };
-    if (((participant !== x39) && (participant !== x40))) {
+    if (((x27.Lmpst_syntax_Protocol$Interaction__f_sender !== participant) && (x27.Lmpst_syntax_Protocol$Interaction__f_receiver !== participant))) {
       var value$2 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
       return new $c_s_Some(value$2)
     }
@@ -6592,86 +6562,86 @@ function $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Proto
     return new $c_s_Some(global)
   };
   if ((global instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-    var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(global);
-    var x22 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-    var x23 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-    var this$9 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x22, participant);
-    if (this$9.isEmpty__Z()) {
+    var x$1 = $as_Lmpst_syntax_Protocol$Sequence(global);
+    var x22 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+    var x23 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+    var this$8 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x22, participant);
+    if (this$8.isEmpty__Z()) {
       return $m_s_None$()
     } else {
-      var arg1 = this$9.get__O();
+      var arg1 = this$8.get__O();
       var localA = $as_Lmpst_syntax_Protocol(arg1);
-      var this$10 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x23, participant);
-      if (this$10.isEmpty__Z()) {
+      var this$9 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x23, participant);
+      if (this$9.isEmpty__Z()) {
         return $m_s_None$()
       } else {
-        var arg1$1 = this$10.get__O();
+        var arg1$1 = this$9.get__O();
         var localB = $as_Lmpst_syntax_Protocol(arg1$1);
         return new $c_s_Some(new $c_Lmpst_syntax_Protocol$Sequence(localA, localB))
       }
     }
   };
   if ((global instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-    var x$1$2 = $as_Lmpst_syntax_Protocol$Parallel(global);
-    var x18 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-    var x19 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-    var this$13 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x18, participant);
-    if (this$13.isEmpty__Z()) {
+    var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(global);
+    var x18 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+    var x19 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+    var this$12 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x18, participant);
+    if (this$12.isEmpty__Z()) {
       return $m_s_None$()
     } else {
-      var arg1$2 = this$13.get__O();
+      var arg1$2 = this$12.get__O();
       var localA$1 = $as_Lmpst_syntax_Protocol(arg1$2);
-      var this$14 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x19, participant);
-      if (this$14.isEmpty__Z()) {
+      var this$13 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x19, participant);
+      if (this$13.isEmpty__Z()) {
         return $m_s_None$()
       } else {
-        var arg1$3 = this$14.get__O();
+        var arg1$3 = this$13.get__O();
         var localB$1 = $as_Lmpst_syntax_Protocol(arg1$3);
         return new $c_s_Some(new $c_Lmpst_syntax_Protocol$Parallel(localA$1, localB$1))
       }
     }
   };
   if ((global instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-    var x$1$3 = $as_Lmpst_syntax_Protocol$Choice(global);
-    var x14 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolA;
-    var x15 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolB;
-    var this$17 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x14, participant);
-    if (this$17.isEmpty__Z()) {
+    var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(global);
+    var x14 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
+    var x15 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
+    var this$16 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x14, participant);
+    if (this$16.isEmpty__Z()) {
       return $m_s_None$()
     } else {
-      var arg1$4 = this$17.get__O();
+      var arg1$4 = this$16.get__O();
       var localA$2 = $as_Lmpst_syntax_Protocol(arg1$4);
-      var this$18 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x15, participant);
-      if (this$18.isEmpty__Z()) {
+      var this$17 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x15, participant);
+      if (this$17.isEmpty__Z()) {
         return $m_s_None$()
       } else {
-        var arg1$5 = this$18.get__O();
+        var arg1$5 = this$17.get__O();
         var localB$2 = $as_Lmpst_syntax_Protocol(arg1$5);
         return new $c_s_Some(new $c_Lmpst_syntax_Protocol$Choice(localA$2, localB$2))
       }
     }
   };
   if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-    var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(global);
-    var x10 = x$1$4.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
-    var x11 = x$1$4.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-    var this$21 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x11, participant);
-    if (this$21.isEmpty__Z()) {
+    var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(global);
+    var x10 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
+    var x11 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+    var this$20 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x11, participant);
+    if (this$20.isEmpty__Z()) {
       return $m_s_None$()
     } else {
-      var arg1$6 = this$21.get__O();
+      var arg1$6 = this$20.get__O();
       var localB$3 = $as_Lmpst_syntax_Protocol(arg1$6);
       return new $c_s_Some(($m_Lmpst_syntax_Protocol$().getParticipants__Lmpst_syntax_Protocol__sci_Set(localB$3).contains__O__Z(participant) ? new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(x10, localB$3) : $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()))
     }
   };
   if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-    var x$1$5 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(global);
-    var x7 = x$1$5.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-    var this$24 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x7, participant);
-    if (this$24.isEmpty__Z()) {
+    var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(global);
+    var x7 = x$1$4.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+    var this$23 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option($thiz, x7, participant);
+    if (this$23.isEmpty__Z()) {
       return $m_s_None$()
     } else {
-      var arg1$7 = this$24.get__O();
+      var arg1$7 = this$23.get__O();
       var localA$3 = $as_Lmpst_syntax_Protocol(arg1$7);
       return new $c_s_Some(($m_Lmpst_syntax_Protocol$().getParticipants__Lmpst_syntax_Protocol__sci_Set(localA$3).contains__O__Z(participant) ? new $c_Lmpst_syntax_Protocol$RecursionKleeneStar(localA$3) : $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()))
     }
@@ -6729,7 +6699,7 @@ function $p_Lmpst_utility_Environment$__protocolEnvironment__Lmpst_syntax_Protoc
         if ((x4 instanceof $c_Lmpst_syntax_Protocol$Send)) {
           break matchAlts2
         };
-        if ((x4 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+        if ((x4 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
           break matchAlts2
         };
         if ((x4 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
@@ -6839,69 +6809,71 @@ function $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol_
   var protocol$tailLocal1 = protocol;
   while (true) {
     var x1 = protocol$tailLocal1;
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Interaction(x1);
-      return protocol$tailLocal1
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$Send(x1);
-      return protocol$tailLocal1
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Receive(x1);
-      return protocol$tailLocal1
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
-      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionCall(x1);
-      return protocol$tailLocal1
-    };
-    var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-    if (((x === null) ? (x1 === null) : x.equals__O__Z(x1))) {
+    matchAlts1: {
+      matchAlts2: {
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
+          break matchAlts2
+        };
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+          break matchAlts2
+        };
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+          break matchAlts2
+        };
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+          break matchAlts2
+        };
+        var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+        if (((x === null) ? (x1 === null) : x.equals__O__Z(x1))) {
+          break matchAlts2
+        };
+        break matchAlts1
+      };
       return protocol$tailLocal1
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$4 = $as_Lmpst_syntax_Protocol$Sequence(x1);
-      var x70 = x$1$4.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x71 = x$1$4.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x1);
+      var x70 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x71 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
       if ((x70 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-        var x$1$5 = $as_Lmpst_syntax_Protocol$Sequence(x70);
-        var x74 = x$1$5.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-        var x75 = x$1$5.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+        var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(x70);
+        var x74 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+        var x75 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
         var protocolB = new $c_Lmpst_syntax_Protocol$Sequence(x75, x71);
         protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Sequence(x74, protocolB);
         continue
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$6 = $as_Lmpst_syntax_Protocol$Parallel(x1);
-      var x62 = x$1$6.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x63 = x$1$6.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Parallel(x1);
+      var x62 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x63 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolB;
       if ((x62 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-        var x$1$7 = $as_Lmpst_syntax_Protocol$Parallel(x62);
-        var x66 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-        var x67 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+        var x$1$3 = $as_Lmpst_syntax_Protocol$Parallel(x62);
+        var x66 = x$1$3.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+        var x67 = x$1$3.Lmpst_syntax_Protocol$Parallel__f_protocolB;
         var protocolB$1 = new $c_Lmpst_syntax_Protocol$Parallel(x67, x63);
         protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Parallel(x66, protocolB$1);
         continue
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$8 = $as_Lmpst_syntax_Protocol$Choice(x1);
-      var x54 = x$1$8.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x55 = x$1$8.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      var x$1$4 = $as_Lmpst_syntax_Protocol$Choice(x1);
+      var x54 = x$1$4.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x55 = x$1$4.Lmpst_syntax_Protocol$Choice__f_protocolB;
       if ((x54 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-        var x$1$9 = $as_Lmpst_syntax_Protocol$Choice(x54);
-        var x58 = x$1$9.Lmpst_syntax_Protocol$Choice__f_protocolA;
-        var x59 = x$1$9.Lmpst_syntax_Protocol$Choice__f_protocolB;
+        var x$1$5 = $as_Lmpst_syntax_Protocol$Choice(x54);
+        var x58 = x$1$5.Lmpst_syntax_Protocol$Choice__f_protocolA;
+        var x59 = x$1$5.Lmpst_syntax_Protocol$Choice__f_protocolB;
         var protocolB$2 = new $c_Lmpst_syntax_Protocol$Choice(x59, x55);
         protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Choice(x58, protocolB$2);
         continue
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$10 = $as_Lmpst_syntax_Protocol$Sequence(x1);
-      var x50 = x$1$10.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x51 = x$1$10.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var x$1$6 = $as_Lmpst_syntax_Protocol$Sequence(x1);
+      var x50 = x$1$6.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x51 = x$1$6.Lmpst_syntax_Protocol$Sequence__f_protocolB;
       var x$3 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
       if (((x$3 === null) ? (x51 === null) : x$3.equals__O__Z(x51))) {
         protocol$tailLocal1 = x50;
@@ -6914,9 +6886,9 @@ function $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol_
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$11 = $as_Lmpst_syntax_Protocol$Parallel(x1);
-      var x42 = x$1$11.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x43 = x$1$11.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var x$1$7 = $as_Lmpst_syntax_Protocol$Parallel(x1);
+      var x42 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x43 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolB;
       var x$7 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
       if (((x$7 === null) ? (x43 === null) : x$7.equals__O__Z(x43))) {
         protocol$tailLocal1 = x42;
@@ -6929,9 +6901,9 @@ function $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol_
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$12 = $as_Lmpst_syntax_Protocol$Choice(x1);
-      var x34 = x$1$12.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x35 = x$1$12.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      var x$1$8 = $as_Lmpst_syntax_Protocol$Choice(x1);
+      var x34 = x$1$8.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x35 = x$1$8.Lmpst_syntax_Protocol$Choice__f_protocolB;
       var x$11 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
       if (((x$11 === null) ? (x35 === null) : x$11.equals__O__Z(x35))) {
         protocol$tailLocal1 = x34;
@@ -6944,55 +6916,55 @@ function $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol_
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$13 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
-      var x27 = x$1$13.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      var x$1$9 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
+      var x27 = x$1$9.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
       var x$15 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
       if (((x$15 === null) ? (x27 === null) : x$15.equals__O__Z(x27))) {
         return $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$14 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
-      var x23 = x$1$14.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      var x$1$10 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
+      var x23 = x$1$10.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
       var x$17 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
       if (((x$17 === null) ? (x23 === null) : x$17.equals__O__Z(x23))) {
         return $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()
       }
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$15 = $as_Lmpst_syntax_Protocol$Sequence(x1);
-      var x19 = x$1$15.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x20 = x$1$15.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var x$1$11 = $as_Lmpst_syntax_Protocol$Sequence(x1);
+      var x19 = x$1$11.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x20 = x$1$11.Lmpst_syntax_Protocol$Sequence__f_protocolB;
       var protocolA = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x19);
       var protocolB$3 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x20);
       return new $c_Lmpst_syntax_Protocol$Sequence(protocolA, protocolB$3)
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$16 = $as_Lmpst_syntax_Protocol$Parallel(x1);
-      var x15 = x$1$16.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x16 = x$1$16.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var x$1$12 = $as_Lmpst_syntax_Protocol$Parallel(x1);
+      var x15 = x$1$12.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x16 = x$1$12.Lmpst_syntax_Protocol$Parallel__f_protocolB;
       var protocolA$1 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x15);
       var protocolB$4 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x16);
       return new $c_Lmpst_syntax_Protocol$Parallel(protocolA$1, protocolB$4)
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$17 = $as_Lmpst_syntax_Protocol$Choice(x1);
-      var x11 = x$1$17.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x12 = x$1$17.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      var x$1$13 = $as_Lmpst_syntax_Protocol$Choice(x1);
+      var x11 = x$1$13.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x12 = x$1$13.Lmpst_syntax_Protocol$Choice__f_protocolB;
       var protocolA$2 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x11);
       var protocolB$5 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x12);
       return new $c_Lmpst_syntax_Protocol$Choice(protocolA$2, protocolB$5)
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$18 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
-      var x7 = x$1$18.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
-      var x8 = x$1$18.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      var x$1$14 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
+      var x7 = x$1$14.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
+      var x8 = x$1$14.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
       var protocolB$6 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x8);
       return new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(x7, protocolB$6)
     };
     if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$19 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
-      var x4 = x$1$19.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      var x$1$15 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
+      var x4 = x$1$15.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
       var protocolA$3 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x4);
       return new $c_Lmpst_syntax_Protocol$RecursionKleeneStar(protocolA$3)
     };
@@ -7221,17 +7193,17 @@ function $p_Lmpst_wellformedness_WellBranched$__nextActions$1__Lmpst_syntax_Prot
   }))($thiz))))
 }
 function $p_Lmpst_wellformedness_WellBranched$__uniqueSelector$1__sci_Set__T($thiz, actions) {
-  var x37 = $as_sc_IterableOnceOps(actions.collect__s_PartialFunction__O(new $c_Lmpst_wellformedness_WellBranched$$anon$1())).toList__sci_List();
+  var x27 = $as_sc_IterableOnceOps(actions.collect__s_PartialFunction__O(new $c_Lmpst_wellformedness_WellBranched$$anon$1())).toList__sci_List();
   var x = $m_s_package$().s_package$__f_Nil;
-  if (((x === null) ? (x37 === null) : x.equals__O__Z(x37))) {
+  if (((x === null) ? (x27 === null) : x.equals__O__Z(x27))) {
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("no selector found in [" + actions) + "]"))
   };
-  if ((x37 instanceof $c_sci_$colon$colon)) {
-    var x38 = $as_sci_$colon$colon(x37);
-    var x40 = x38.sci_$colon$colon__f_next;
-    var selector = $as_T(x38.sci_$colon$colon__f_head);
+  if ((x27 instanceof $c_sci_$colon$colon)) {
+    var x28 = $as_sci_$colon$colon(x27);
+    var x30 = x28.sci_$colon$colon__f_next;
+    var selector = $as_T(x28.sci_$colon$colon__f_head);
     var x$3 = $m_s_package$().s_package$__f_Nil;
-    if (((x$3 === null) ? (x40 === null) : x$3.equals__O__Z(x40))) {
+    if (((x$3 === null) ? (x30 === null) : x$3.equals__O__Z(x30))) {
       return selector
     }
   };
@@ -7253,33 +7225,33 @@ function $p_Lmpst_wellformedness_WellBranched$__receivesInReceive$2__Lmpst_synta
         return $as_Lmpst_syntax_Protocol(_$2$1.T2__f__1)
       }))(this$2$1)))).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((this$2$2, selector$1$2) => ((x$1$2$1) => {
         var x$1$4 = $as_Lmpst_syntax_Protocol(x$1$2$1);
-        if ((x$1$4 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-          var x$1$5 = $as_Lmpst_syntax_Protocol$Receive(x$1$4);
-          var x62 = x$1$5.Lmpst_syntax_Protocol$Receive__f_sender;
-          if ((selector$1$2 === x62)) {
+        if ((x$1$4 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+          var x$1$5 = $as_Lmpst_syntax_Protocol$Recv(x$1$4);
+          var x42 = x$1$5.Lmpst_syntax_Protocol$Recv__f_sender;
+          if ((selector$1$2 === x42)) {
             return true
           }
         };
         return false
       }))(this$2$1, selector$2))).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((this$3$1, selector$1$3, receivesInSend$1$2, participant$2) => ((x$1$3$1) => {
         var x$1$6 = $as_Lmpst_syntax_Protocol(x$1$3$1);
-        if ((x$1$6 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-          var x$1$7 = $as_Lmpst_syntax_Protocol$Receive(x$1$6);
-          var x69 = x$1$7.Lmpst_syntax_Protocol$Receive__f_sender;
-          var x70 = x$1$7.Lmpst_syntax_Protocol$Receive__f_label;
-          if ((selector$1$3 === x69)) {
-            return receivesInSend$1$2.contains__O__Z(new $c_T2(participant$2, x70))
+        if ((x$1$6 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+          var x$1$7 = $as_Lmpst_syntax_Protocol$Recv(x$1$6);
+          var x48 = x$1$7.Lmpst_syntax_Protocol$Recv__f_sender;
+          var x49 = x$1$7.Lmpst_syntax_Protocol$Recv__f_label;
+          if ((selector$1$3 === x48)) {
+            return receivesInSend$1$2.contains__O__Z(new $c_T2(participant$2, x49))
           }
         };
         throw new $c_s_MatchError(x$1$6)
       }))(this$2$1, selector$2, receivesInSend$2, participant$1))).map__F1__O(new $c_sjsr_AnonFunction1(((this$4$1, selector$1$4, participant$3) => ((x$1$4$1) => {
         var x$1$8 = $as_Lmpst_syntax_Protocol(x$1$4$1);
-        if ((x$1$8 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-          var x$1$9 = $as_Lmpst_syntax_Protocol$Receive(x$1$8);
-          var x76 = x$1$9.Lmpst_syntax_Protocol$Receive__f_sender;
-          var x77 = x$1$9.Lmpst_syntax_Protocol$Receive__f_label;
-          if ((selector$1$4 === x76)) {
-            return new $c_T2(participant$3, x77)
+        if ((x$1$8 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+          var x$1$9 = $as_Lmpst_syntax_Protocol$Recv(x$1$8);
+          var x54 = x$1$9.Lmpst_syntax_Protocol$Recv__f_sender;
+          var x55 = x$1$9.Lmpst_syntax_Protocol$Recv__f_label;
+          if ((selector$1$4 === x54)) {
+            return new $c_T2(participant$3, x55)
           }
         };
         throw new $c_s_MatchError(x$1$8)
@@ -7302,9 +7274,9 @@ function $p_Lmpst_wellformedness_WellBranched$__readilyReceived$1__sci_Set__sci_
   }))($thiz, receivesInReceive, selector)))
 }
 function $p_Lmpst_wellformedness_WellBranched$__noAmbiguity$1__sci_Set__sci_Set__Z($thiz, receivesInReceiveA, receivesInReceiveB) {
-  var x85 = $as_sci_Set(receivesInReceiveA.intersect__sc_Set__sc_SetOps(receivesInReceiveB));
-  if ((!x85.isEmpty__Z())) {
-    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("[" + x85) + "] are ambiguous in both branches"))
+  var x62 = $as_sci_Set(receivesInReceiveA.intersect__sc_Set__sc_SetOps(receivesInReceiveB));
+  if ((!x62.isEmpty__Z())) {
+    throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("[" + x62) + "] are ambiguous in both branches"))
   };
   return true
 }
@@ -7444,13 +7416,14 @@ function $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_
   while (true) {
     var x23 = branch$tailLocal1;
     if ((x23 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Interaction(x23);
-      var x46 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
-      var x47 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
-      var x48 = x$1.Lmpst_syntax_Protocol$Interaction__f_label;
-      var this$3 = $m_s_Predef$().s_Predef$__f_Set;
-      var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T3.getArrayOf().constr)([new $c_T3(x46, x47, x48)]));
-      return this$3.from__sc_IterableOnce__sci_Set(elems)
+      var interaction = $as_Lmpst_syntax_Protocol$Interaction(x23);
+      var this$2 = $m_s_Predef$().s_Predef$__f_Set;
+      var $$x1 = $m_sr_ScalaRunTime$();
+      var _1 = interaction.Lmpst_syntax_Protocol$Interaction__f_sender;
+      var _2 = interaction.Lmpst_syntax_Protocol$Interaction__f_receiver;
+      var _3 = interaction.Lmpst_syntax_Protocol$Interaction__f_label;
+      var elems = $$x1.wrapRefArray__AO__sci_ArraySeq(new ($d_T3.getArrayOf().constr)([new $c_T3(_1, _2, _3)]));
+      return this$2.from__sc_IterableOnce__sci_Set(elems)
     };
     matchAlts3: {
       matchAlts4: {
@@ -7466,38 +7439,38 @@ function $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_
       return $m_sci_Set$EmptySet$()
     };
     if ((x23 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(x23);
-      var x41 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x42 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      var this$6 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x41);
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x23);
+      var x41 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x42 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var this$5 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x41);
       var that = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x42);
-      return $as_sci_Set(this$6.concat__sc_IterableOnce__sc_SetOps(that))
+      return $as_sci_Set(this$5.concat__sc_IterableOnce__sc_SetOps(that))
     };
     if ((x23 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Parallel(x23);
-      var x37 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x38 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      var this$8 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x37);
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x23);
+      var x37 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x38 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var this$7 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x37);
       var that$1 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x38);
-      return $as_sci_Set(this$8.concat__sc_IterableOnce__sc_SetOps(that$1))
+      return $as_sci_Set(this$7.concat__sc_IterableOnce__sc_SetOps(that$1))
     };
     if ((x23 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$3 = $as_Lmpst_syntax_Protocol$Choice(x23);
-      var x33 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x34 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      var this$10 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x33);
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x23);
+      var x33 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x34 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      var this$9 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x33);
       var that$2 = $p_Lmpst_wellformedness_WellChanneled$__communications$1__Lmpst_syntax_Protocol__sci_Set($thiz, x34);
-      return $as_sci_Set(this$10.concat__sc_IterableOnce__sc_SetOps(that$2))
+      return $as_sci_Set(this$9.concat__sc_IterableOnce__sc_SetOps(that$2))
     };
     if ((x23 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x23);
-      var x30 = x$1$4.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x23);
+      var x30 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
       branch$tailLocal1 = x30;
       continue
     };
     if ((x23 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$5 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x23);
-      var x26 = x$1$5.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x23);
+      var x26 = x$1$4.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
       branch$tailLocal1 = x26;
       continue
     };
@@ -17836,46 +17809,34 @@ function $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers
   return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("(", $thiz).$tilde$greater__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$less$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(")", this$2)))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__interaction__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("->", this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(":", this$3)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$4) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$4)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$5) => (() => $p_Lmpst_syntax_Parser$__sort__s_util_parsing_combinator_Parsers$Parser(this$5).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$7) => (() => {
-    var v = $m_s_None$();
-    return $f_s_util_parsing_combinator_Parsers__success__O__s_util_parsing_combinator_Parsers$Parser(this$7, v)
-  }))(this$5)))))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$6$1) => ((x$1) => {
+  return $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("->", this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(":", this$3)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$4) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$4)))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$5) => ((x$1) => {
     var x$1$1 = $as_s_util_parsing_combinator_Parsers$$tilde(x$1);
     if ((x$1$1 !== null)) {
-      this$6$1.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-      var x134 = $as_s_util_parsing_combinator_Parsers$$tilde(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__1);
-      if ((x134 !== null)) {
-        this$6$1.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-        var x137 = $as_s_util_parsing_combinator_Parsers$$tilde(x134.s_util_parsing_combinator_Parsers$$tilde__f__1);
-        if ((x137 !== null)) {
-          this$6$1.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-          var x140 = $as_s_util_parsing_combinator_Parsers$$tilde(x137.s_util_parsing_combinator_Parsers$$tilde__f__1);
-          if ((x140 !== null)) {
-            this$6$1.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-            var x143 = $as_s_util_parsing_combinator_Parsers$$tilde(x140.s_util_parsing_combinator_Parsers$$tilde__f__1);
-            if ((x143 !== null)) {
-              this$6$1.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-              var sender = $as_T(x143.s_util_parsing_combinator_Parsers$$tilde__f__1);
-              if ((x143.s_util_parsing_combinator_Parsers$$tilde__f__2 === "->")) {
-                var receiver = $as_T(x140.s_util_parsing_combinator_Parsers$$tilde__f__2);
-                if ((x137.s_util_parsing_combinator_Parsers$$tilde__f__2 === ":")) {
-                  var label = $as_T(x134.s_util_parsing_combinator_Parsers$$tilde__f__2);
-                  var sort = $as_s_Option(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
-                  var sort$1 = $as_T((sort.isEmpty__Z() ? "void" : sort.get__O()));
-                  return new $c_Lmpst_syntax_Protocol$Interaction(sender, receiver, label, sort$1)
-                }
-              };
-              throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "bad syntax on interaction")
-            }
+      this$5.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
+      var x131 = $as_s_util_parsing_combinator_Parsers$$tilde(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__1);
+      if ((x131 !== null)) {
+        this$5.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
+        var x134 = $as_s_util_parsing_combinator_Parsers$$tilde(x131.s_util_parsing_combinator_Parsers$$tilde__f__1);
+        if ((x134 !== null)) {
+          this$5.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
+          var x137 = $as_s_util_parsing_combinator_Parsers$$tilde(x134.s_util_parsing_combinator_Parsers$$tilde__f__1);
+          if ((x137 !== null)) {
+            this$5.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
+            var sender = $as_T(x137.s_util_parsing_combinator_Parsers$$tilde__f__1);
+            if ((x137.s_util_parsing_combinator_Parsers$$tilde__f__2 === "->")) {
+              var receiver = $as_T(x134.s_util_parsing_combinator_Parsers$$tilde__f__2);
+              if ((x131.s_util_parsing_combinator_Parsers$$tilde__f__2 === ":")) {
+                var label = $as_T(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
+                return new $c_Lmpst_syntax_Protocol$Interaction(sender, receiver, label)
+              }
+            };
+            throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "bad syntax on interaction")
           }
         }
       }
     };
     throw new $c_s_MatchError(x$1$1)
   }))($thiz)))
-}
-function $p_Lmpst_syntax_Parser$__sort__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("<", $thiz).$tilde$greater__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$less$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(">", this$2)))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__skip__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("skip", $thiz).$up$up$up__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()))($thiz)))
@@ -17928,18 +17889,18 @@ $c_Lmpst_syntax_Parser$.prototype.$tilde__s_util_parsing_combinator_Parsers$$til
 });
 $c_Lmpst_syntax_Parser$.prototype.apply__T__Lmpst_syntax_Protocol = (function(input) {
   var p = $p_Lmpst_syntax_Parser$__session__s_util_parsing_combinator_Parsers$Parser(this);
-  var x148 = $f_s_util_parsing_combinator_RegexParsers__parseAll__s_util_parsing_combinator_Parsers$Parser__jl_CharSequence__s_util_parsing_combinator_Parsers$ParseResult(this, p, input);
-  if (((x148 instanceof $c_s_util_parsing_combinator_Parsers$Success) && ($as_s_util_parsing_combinator_Parsers$Success(x148).s_util_parsing_combinator_Parsers$Success__f_$outer === this))) {
+  var x142 = $f_s_util_parsing_combinator_RegexParsers__parseAll__s_util_parsing_combinator_Parsers$Parser__jl_CharSequence__s_util_parsing_combinator_Parsers$ParseResult(this, p, input);
+  if (((x142 instanceof $c_s_util_parsing_combinator_Parsers$Success) && ($as_s_util_parsing_combinator_Parsers$Success(x142).s_util_parsing_combinator_Parsers$Success__f_$outer === this))) {
     this.Success__s_util_parsing_combinator_Parsers$Success$();
-    var x$1 = $as_s_util_parsing_combinator_Parsers$Success(x148);
-    var x152 = $as_Lmpst_syntax_Protocol(x$1.s_util_parsing_combinator_Parsers$Success__f_result);
-    return x152
+    var x$1 = $as_s_util_parsing_combinator_Parsers$Success(x142);
+    var x146 = $as_Lmpst_syntax_Protocol(x$1.s_util_parsing_combinator_Parsers$Success__f_result);
+    return x146
   };
-  if (((x148 instanceof $c_s_util_parsing_combinator_Parsers$NoSuccess) && ($as_s_util_parsing_combinator_Parsers$NoSuccess(x148).s_util_parsing_combinator_Parsers$NoSuccess__f_$outer === this))) {
-    var failure = $as_s_util_parsing_combinator_Parsers$NoSuccess(x148);
+  if (((x142 instanceof $c_s_util_parsing_combinator_Parsers$NoSuccess) && ($as_s_util_parsing_combinator_Parsers$NoSuccess(x142).s_util_parsing_combinator_Parsers$NoSuccess__f_$outer === this))) {
+    var failure = $as_s_util_parsing_combinator_Parsers$NoSuccess(x142);
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("parsing failed with msg=[" + failure.s_util_parsing_combinator_Parsers$Failure__f_msg) + "] and next=[") + failure.s_util_parsing_combinator_Parsers$Failure__f_next) + "]\n"))
   };
-  throw new $c_s_MatchError(x148)
+  throw new $c_s_MatchError(x142)
 });
 var $d_Lmpst_syntax_Parser$ = new $TypeData().initClass({
   Lmpst_syntax_Parser$: 0
@@ -17976,17 +17937,17 @@ $h_Lmpst_syntax_Protocol$.prototype = $c_Lmpst_syntax_Protocol$.prototype;
 $c_Lmpst_syntax_Protocol$.prototype.isGlobal__Lmpst_syntax_Protocol__Z = (function(protocol) {
   var protocol$tailLocal1 = protocol;
   while (true) {
-    var x79 = protocol$tailLocal1;
+    var x76 = protocol$tailLocal1;
     matchAlts3: {
       matchAlts4: {
-        if ((x79 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
+        if ((x76 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
           break matchAlts4
         };
-        if ((x79 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+        if ((x76 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
           break matchAlts4
         };
         var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-        if (((x === null) ? (x79 === null) : x.equals__O__Z(x79))) {
+        if (((x === null) ? (x76 === null) : x.equals__O__Z(x76))) {
           break matchAlts4
         };
         break matchAlts3
@@ -17995,133 +17956,149 @@ $c_Lmpst_syntax_Protocol$.prototype.isGlobal__Lmpst_syntax_Protocol__Z = (functi
     };
     matchAlts1: {
       matchAlts2: {
-        if ((x79 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+        if ((x76 instanceof $c_Lmpst_syntax_Protocol$Send)) {
           break matchAlts2
         };
-        if ((x79 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+        if ((x76 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
           break matchAlts2
         };
         break matchAlts1
       };
       return false
     };
-    if ((x79 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x79);
-      var x97 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x98 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      if (this.isGlobal__Lmpst_syntax_Protocol__Z(x97)) {
-        protocol$tailLocal1 = x98;
+    if ((x76 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x76);
+      var x94 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x95 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      if (this.isGlobal__Lmpst_syntax_Protocol__Z(x94)) {
+        protocol$tailLocal1 = x95;
         continue
       } else {
         return false
       }
     };
-    if ((x79 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x79);
-      var x93 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x94 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      if (this.isGlobal__Lmpst_syntax_Protocol__Z(x93)) {
-        protocol$tailLocal1 = x94;
+    if ((x76 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x76);
+      var x90 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x91 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      if (this.isGlobal__Lmpst_syntax_Protocol__Z(x90)) {
+        protocol$tailLocal1 = x91;
         continue
       } else {
         return false
       }
     };
-    if ((x79 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x79);
-      var x89 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x90 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      if (this.isGlobal__Lmpst_syntax_Protocol__Z(x89)) {
-        protocol$tailLocal1 = x90;
+    if ((x76 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x76);
+      var x86 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x87 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      if (this.isGlobal__Lmpst_syntax_Protocol__Z(x86)) {
+        protocol$tailLocal1 = x87;
         continue
       } else {
         return false
       }
     };
-    if ((x79 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x79);
-      var x86 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-      protocol$tailLocal1 = x86;
+    if ((x76 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x76);
+      var x83 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      protocol$tailLocal1 = x83;
       continue
     };
-    if ((x79 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x79);
-      var x82 = x$1$4.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-      protocol$tailLocal1 = x82;
+    if ((x76 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+      var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x76);
+      var x79 = x$1$4.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      protocol$tailLocal1 = x79;
       continue
     };
-    throw new $c_s_MatchError(x79)
+    throw new $c_s_MatchError(x76)
   }
+});
+$c_Lmpst_syntax_Protocol$.prototype.matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol = (function(action) {
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(action);
+    var receiver = sendAction.Lmpst_syntax_Protocol$Send__f_receiver;
+    var sender = sendAction.Lmpst_syntax_Protocol$Send__f_sender;
+    var label = sendAction.Lmpst_syntax_Protocol$Send__f_label;
+    return new $c_Lmpst_syntax_Protocol$Recv(receiver, sender, label)
+  };
+  if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
+    var sender$1 = recvAction.Lmpst_syntax_Protocol$Recv__f_sender;
+    var receiver$1 = recvAction.Lmpst_syntax_Protocol$Recv__f_receiver;
+    var label$1 = recvAction.Lmpst_syntax_Protocol$Recv__f_label;
+    return new $c_Lmpst_syntax_Protocol$Send(sender$1, receiver$1, label$1)
+  };
+  throw new $c_s_MatchError(action)
 });
 $c_Lmpst_syntax_Protocol$.prototype.getParticipants__Lmpst_syntax_Protocol__sci_Set = (function(protocol) {
   var protocol$tailLocal2 = protocol;
   while (true) {
     var x103 = protocol$tailLocal2;
     if ((x103 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Interaction(x103);
-      var x140 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
-      var x141 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
-      var this$2 = $m_s_Predef$().s_Predef$__f_Set;
-      var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([x140, x141]));
-      return this$2.from__sc_IterableOnce__sci_Set(elems)
+      var interaction = $as_Lmpst_syntax_Protocol$Interaction(x103);
+      var this$1 = $m_s_Predef$().s_Predef$__f_Set;
+      var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([interaction.Lmpst_syntax_Protocol$Interaction__f_sender, interaction.Lmpst_syntax_Protocol$Interaction__f_receiver]));
+      return this$1.from__sc_IterableOnce__sci_Set(elems)
     };
     if ((x103 instanceof $c_Lmpst_syntax_Protocol$Send)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$Send(x103);
-      var x134 = x$1$1.Lmpst_syntax_Protocol$Send__f_sender;
-      var x135 = x$1$1.Lmpst_syntax_Protocol$Send__f_receiver;
-      var this$4 = $m_s_Predef$().s_Predef$__f_Set;
-      var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([x134, x135]));
-      return this$4.from__sc_IterableOnce__sci_Set(elems$1)
+      var sendAction = $as_Lmpst_syntax_Protocol$Send(x103);
+      var this$2 = $m_s_Predef$().s_Predef$__f_Set;
+      var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([sendAction.Lmpst_syntax_Protocol$Send__f_sender, sendAction.Lmpst_syntax_Protocol$Send__f_receiver]));
+      return this$2.from__sc_IterableOnce__sci_Set(elems$1)
     };
-    if ((x103 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Receive(x103);
-      var x128 = x$1$2.Lmpst_syntax_Protocol$Receive__f_receiver;
-      var x129 = x$1$2.Lmpst_syntax_Protocol$Receive__f_sender;
-      var this$6 = $m_s_Predef$().s_Predef$__f_Set;
-      var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([x129, x128]));
-      return this$6.from__sc_IterableOnce__sci_Set(elems$2)
+    if ((x103 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+      var recvAction = $as_Lmpst_syntax_Protocol$Recv(x103);
+      var this$3 = $m_s_Predef$().s_Predef$__f_Set;
+      var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([recvAction.Lmpst_syntax_Protocol$Recv__f_sender, recvAction.Lmpst_syntax_Protocol$Recv__f_receiver]));
+      return this$3.from__sc_IterableOnce__sci_Set(elems$2)
     };
-    if ((x103 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
-      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionCall(x103);
-      return $m_sci_Set$EmptySet$()
-    };
-    var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-    if (((x === null) ? (x103 === null) : x.equals__O__Z(x103))) {
+    matchAlts5: {
+      matchAlts6: {
+        if ((x103 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+          break matchAlts6
+        };
+        var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+        if (((x === null) ? (x103 === null) : x.equals__O__Z(x103))) {
+          break matchAlts6
+        };
+        break matchAlts5
+      };
       return $m_sci_Set$EmptySet$()
     };
     if ((x103 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$4 = $as_Lmpst_syntax_Protocol$Sequence(x103);
-      var x121 = x$1$4.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x122 = x$1$4.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      var this$11 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x121);
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x103);
+      var x121 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x122 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var this$6 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x121);
       var that = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x122);
-      return $as_sci_Set(this$11.concat__sc_IterableOnce__sc_SetOps(that))
+      return $as_sci_Set(this$6.concat__sc_IterableOnce__sc_SetOps(that))
     };
     if ((x103 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$5 = $as_Lmpst_syntax_Protocol$Parallel(x103);
-      var x117 = x$1$5.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x118 = x$1$5.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      var this$13 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x117);
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x103);
+      var x117 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x118 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var this$8 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x117);
       var that$1 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x118);
-      return $as_sci_Set(this$13.concat__sc_IterableOnce__sc_SetOps(that$1))
+      return $as_sci_Set(this$8.concat__sc_IterableOnce__sc_SetOps(that$1))
     };
     if ((x103 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$6 = $as_Lmpst_syntax_Protocol$Choice(x103);
-      var x113 = x$1$6.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x114 = x$1$6.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      var this$15 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x113);
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x103);
+      var x113 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x114 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      var this$10 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x113);
       var that$2 = this.getParticipants__Lmpst_syntax_Protocol__sci_Set(x114);
-      return $as_sci_Set(this$15.concat__sc_IterableOnce__sc_SetOps(that$2))
+      return $as_sci_Set(this$10.concat__sc_IterableOnce__sc_SetOps(that$2))
     };
     if ((x103 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$7 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x103);
-      var x110 = x$1$7.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x103);
+      var x110 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
       protocol$tailLocal2 = x110;
       continue
     };
     if ((x103 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$8 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x103);
-      var x106 = x$1$8.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x103);
+      var x106 = x$1$4.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
       protocol$tailLocal2 = x106;
       continue
     };
@@ -18131,209 +18108,209 @@ $c_Lmpst_syntax_Protocol$.prototype.getParticipants__Lmpst_syntax_Protocol__sci_
 $c_Lmpst_syntax_Protocol$.prototype.hasParallel__Lmpst_syntax_Protocol__Z = (function(protocol) {
   var protocol$tailLocal3 = protocol;
   while (true) {
-    var x144 = protocol$tailLocal3;
-    matchAlts5: {
-      matchAlts6: {
-        if ((x144 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-          break matchAlts6
-        };
-        if ((x144 instanceof $c_Lmpst_syntax_Protocol$Send)) {
-          break matchAlts6
-        };
-        if ((x144 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-          break matchAlts6
-        };
-        if ((x144 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
-          break matchAlts6
-        };
-        var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-        if (((x === null) ? (x144 === null) : x.equals__O__Z(x144))) {
-          break matchAlts6
-        };
-        break matchAlts5
-      };
-      return false
-    };
-    if ((x144 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      return true
-    };
-    if ((x144 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x144);
-      var x158 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x159 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      if (this.hasParallel__Lmpst_syntax_Protocol__Z(x158)) {
-        return true
-      } else {
-        protocol$tailLocal3 = x159;
-        continue
-      }
-    };
-    if ((x144 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$Choice(x144);
-      var x154 = x$1$1.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x155 = x$1$1.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      if (this.hasParallel__Lmpst_syntax_Protocol__Z(x154)) {
-        return true
-      } else {
-        protocol$tailLocal3 = x155;
-        continue
-      }
-    };
-    if ((x144 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x144);
-      var x151 = x$1$2.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-      protocol$tailLocal3 = x151;
-      continue
-    };
-    if ((x144 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x144);
-      var x147 = x$1$3.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-      protocol$tailLocal3 = x147;
-      continue
-    };
-    throw new $c_s_MatchError(x144)
-  }
-});
-$c_Lmpst_syntax_Protocol$.prototype.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z = (function(protocol) {
-  var protocol$tailLocal4 = protocol;
-  while (true) {
-    var x165 = protocol$tailLocal4;
+    var x127 = protocol$tailLocal3;
     matchAlts7: {
       matchAlts8: {
-        if ((x165 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
+        if ((x127 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
           break matchAlts8
         };
-        if ((x165 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+        if ((x127 instanceof $c_Lmpst_syntax_Protocol$Send)) {
           break matchAlts8
         };
-        if ((x165 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+        if ((x127 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
           break matchAlts8
         };
-        if ((x165 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+        if ((x127 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
           break matchAlts8
         };
         var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-        if (((x === null) ? (x165 === null) : x.equals__O__Z(x165))) {
+        if (((x === null) ? (x127 === null) : x.equals__O__Z(x127))) {
           break matchAlts8
         };
         break matchAlts7
       };
       return false
     };
-    if ((x165 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+    if ((x127 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
       return true
     };
-    if ((x165 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x165);
-      var x180 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x181 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      if (this.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z(x180)) {
+    if ((x127 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x127);
+      var x141 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x142 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      if (this.hasParallel__Lmpst_syntax_Protocol__Z(x141)) {
         return true
       } else {
-        protocol$tailLocal4 = x181;
+        protocol$tailLocal3 = x142;
         continue
       }
     };
-    if ((x165 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x165);
-      var x176 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x177 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      if (this.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z(x176)) {
+    if ((x127 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Choice(x127);
+      var x137 = x$1$1.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x138 = x$1$1.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      if (this.hasParallel__Lmpst_syntax_Protocol__Z(x137)) {
         return true
       } else {
-        protocol$tailLocal4 = x177;
+        protocol$tailLocal3 = x138;
         continue
       }
     };
-    if ((x165 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x165);
-      var x172 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x173 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      if (this.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z(x172)) {
-        return true
-      } else {
-        protocol$tailLocal4 = x173;
-        continue
-      }
-    };
-    if ((x165 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x165);
-      var x169 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-      protocol$tailLocal4 = x169;
+    if ((x127 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+      var x$1$2 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x127);
+      var x134 = x$1$2.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      protocol$tailLocal3 = x134;
       continue
     };
-    throw new $c_s_MatchError(x165)
+    if ((x127 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x127);
+      var x130 = x$1$3.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      protocol$tailLocal3 = x130;
+      continue
+    };
+    throw new $c_s_MatchError(x127)
   }
 });
-$c_Lmpst_syntax_Protocol$.prototype.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z = (function(protocol) {
-  var protocol$tailLocal5 = protocol;
+$c_Lmpst_syntax_Protocol$.prototype.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z = (function(protocol) {
+  var protocol$tailLocal4 = protocol;
   while (true) {
-    var x187 = protocol$tailLocal5;
+    var x148 = protocol$tailLocal4;
     matchAlts9: {
       matchAlts10: {
-        if ((x187 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
+        if ((x148 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
           break matchAlts10
         };
-        if ((x187 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+        if ((x148 instanceof $c_Lmpst_syntax_Protocol$Send)) {
           break matchAlts10
         };
-        if ((x187 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
+        if ((x148 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
           break matchAlts10
         };
-        if ((x187 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+        if ((x148 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
           break matchAlts10
         };
         var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-        if (((x === null) ? (x187 === null) : x.equals__O__Z(x187))) {
+        if (((x === null) ? (x148 === null) : x.equals__O__Z(x148))) {
           break matchAlts10
         };
         break matchAlts9
       };
       return false
     };
-    if ((x187 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+    if ((x148 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
       return true
     };
-    if ((x187 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x187);
-      var x201 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x202 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      if (this.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z(x201)) {
+    if ((x148 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x148);
+      var x163 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x164 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      if (this.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z(x163)) {
         return true
       } else {
-        protocol$tailLocal5 = x202;
+        protocol$tailLocal4 = x164;
         continue
       }
     };
-    if ((x187 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x187);
-      var x197 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x198 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      if (this.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z(x197)) {
+    if ((x148 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x148);
+      var x159 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x160 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      if (this.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z(x159)) {
         return true
       } else {
-        protocol$tailLocal5 = x198;
+        protocol$tailLocal4 = x160;
         continue
       }
     };
-    if ((x187 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x187);
-      var x193 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x194 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      if (this.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z(x193)) {
+    if ((x148 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x148);
+      var x155 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x156 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      if (this.hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z(x155)) {
         return true
       } else {
-        protocol$tailLocal5 = x194;
+        protocol$tailLocal4 = x156;
         continue
       }
     };
-    if ((x187 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x187);
-      var x190 = x$1$3.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-      protocol$tailLocal5 = x190;
+    if ((x148 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x148);
+      var x152 = x$1$3.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      protocol$tailLocal4 = x152;
       continue
     };
-    throw new $c_s_MatchError(x187)
+    throw new $c_s_MatchError(x148)
+  }
+});
+$c_Lmpst_syntax_Protocol$.prototype.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z = (function(protocol) {
+  var protocol$tailLocal5 = protocol;
+  while (true) {
+    var x170 = protocol$tailLocal5;
+    matchAlts11: {
+      matchAlts12: {
+        if ((x170 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
+          break matchAlts12
+        };
+        if ((x170 instanceof $c_Lmpst_syntax_Protocol$Send)) {
+          break matchAlts12
+        };
+        if ((x170 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+          break matchAlts12
+        };
+        if ((x170 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+          break matchAlts12
+        };
+        var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+        if (((x === null) ? (x170 === null) : x.equals__O__Z(x170))) {
+          break matchAlts12
+        };
+        break matchAlts11
+      };
+      return false
+    };
+    if ((x170 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+      return true
+    };
+    if ((x170 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x170);
+      var x184 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x185 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      if (this.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z(x184)) {
+        return true
+      } else {
+        protocol$tailLocal5 = x185;
+        continue
+      }
+    };
+    if ((x170 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x170);
+      var x180 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x181 = x$1$1.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      if (this.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z(x180)) {
+        return true
+      } else {
+        protocol$tailLocal5 = x181;
+        continue
+      }
+    };
+    if ((x170 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x170);
+      var x176 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x177 = x$1$2.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      if (this.hasFixedPointRecursion__Lmpst_syntax_Protocol__Z(x176)) {
+        return true
+      } else {
+        protocol$tailLocal5 = x177;
+        continue
+      }
+    };
+    if ((x170 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x170);
+      var x173 = x$1$3.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      protocol$tailLocal5 = x173;
+      continue
+    };
+    throw new $c_s_MatchError(x170)
   }
 });
 var $d_Lmpst_syntax_Protocol$ = new $TypeData().initClass({
@@ -25538,23 +25515,23 @@ $c_Lmpst_syntax_Protocol.prototype.productIterator__sc_Iterator = (function() {
 $c_Lmpst_syntax_Protocol.prototype.toString__T = (function() {
   if ((this instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
     var x$1 = $as_Lmpst_syntax_Protocol$Interaction(this);
-    var x38 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
-    var x39 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
-    var x40 = x$1.Lmpst_syntax_Protocol$Interaction__f_label;
-    return ((((x38 + ">") + x39) + ":") + x40)
+    var x36 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
+    var x37 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
+    var x38 = x$1.Lmpst_syntax_Protocol$Interaction__f_label;
+    return ((((x36 + ">") + x37) + ":") + x38)
   };
   if ((this instanceof $c_Lmpst_syntax_Protocol$Send)) {
     var x$1$1 = $as_Lmpst_syntax_Protocol$Send(this);
-    var x32 = x$1$1.Lmpst_syntax_Protocol$Send__f_sender;
-    var x33 = x$1$1.Lmpst_syntax_Protocol$Send__f_receiver;
-    var x34 = x$1$1.Lmpst_syntax_Protocol$Send__f_label;
-    return (((("" + x32) + x33) + "!") + x34)
+    var x31 = x$1$1.Lmpst_syntax_Protocol$Send__f_sender;
+    var x32 = x$1$1.Lmpst_syntax_Protocol$Send__f_receiver;
+    var x33 = x$1$1.Lmpst_syntax_Protocol$Send__f_label;
+    return (((("" + x31) + x32) + "!") + x33)
   };
-  if ((this instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var x$1$2 = $as_Lmpst_syntax_Protocol$Receive(this);
-    var x26 = x$1$2.Lmpst_syntax_Protocol$Receive__f_receiver;
-    var x27 = x$1$2.Lmpst_syntax_Protocol$Receive__f_sender;
-    var x28 = x$1$2.Lmpst_syntax_Protocol$Receive__f_label;
+  if ((this instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var x$1$2 = $as_Lmpst_syntax_Protocol$Recv(this);
+    var x26 = x$1$2.Lmpst_syntax_Protocol$Recv__f_receiver;
+    var x27 = x$1$2.Lmpst_syntax_Protocol$Recv__f_sender;
+    var x28 = x$1$2.Lmpst_syntax_Protocol$Recv__f_label;
     return (((("" + x26) + x27) + "?") + x28)
   };
   if ((this instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
@@ -25618,18 +25595,12 @@ function $h_Lmpst_wellformedness_WellBranched$$anon$1() {
 }
 $h_Lmpst_wellformedness_WellBranched$$anon$1.prototype = $c_Lmpst_wellformedness_WellBranched$$anon$1.prototype;
 $c_Lmpst_wellformedness_WellBranched$$anon$1.prototype.isDefinedAt__Lmpst_syntax_Protocol__Z = (function(x) {
-  if ((x instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Send(x);
-    return true
-  } else {
-    return false
-  }
+  return ((x instanceof $c_Lmpst_syntax_Protocol$Send) && ($as_Lmpst_syntax_Protocol$Send(x), true))
 });
 $c_Lmpst_wellformedness_WellBranched$$anon$1.prototype.applyOrElse__Lmpst_syntax_Protocol__F1__O = (function(x, default$1) {
   if ((x instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Send(x);
-    var x33 = x$1.Lmpst_syntax_Protocol$Send__f_sender;
-    return x33
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(x);
+    return sendAction.Lmpst_syntax_Protocol$Send__f_sender
   } else {
     return default$1.apply__O__O(x)
   }
@@ -25663,19 +25634,14 @@ function $h_Lmpst_wellformedness_WellBranched$$anon$2() {
 }
 $h_Lmpst_wellformedness_WellBranched$$anon$2.prototype = $c_Lmpst_wellformedness_WellBranched$$anon$2.prototype;
 $c_Lmpst_wellformedness_WellBranched$$anon$2.prototype.isDefinedAt__Lmpst_syntax_Protocol__Z = (function(x) {
-  if ((x instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Send(x);
-    return true
-  } else {
-    return false
-  }
+  return ((x instanceof $c_Lmpst_syntax_Protocol$Send) && ($as_Lmpst_syntax_Protocol$Send(x), true))
 });
 $c_Lmpst_wellformedness_WellBranched$$anon$2.prototype.applyOrElse__Lmpst_syntax_Protocol__F1__O = (function(x, default$1) {
   if ((x instanceof $c_Lmpst_syntax_Protocol$Send)) {
-    var x$1 = $as_Lmpst_syntax_Protocol$Send(x);
-    var x52 = x$1.Lmpst_syntax_Protocol$Send__f_receiver;
-    var x53 = x$1.Lmpst_syntax_Protocol$Send__f_label;
-    return new $c_T2(x52, x53)
+    var sendAction = $as_Lmpst_syntax_Protocol$Send(x);
+    var self = sendAction.Lmpst_syntax_Protocol$Send__f_receiver;
+    var y = sendAction.Lmpst_syntax_Protocol$Send__f_label;
+    return new $c_T2(self, y)
   } else {
     return default$1.apply__O__O(x)
   }
@@ -31030,15 +30996,13 @@ var $d_Lmpst_syntax_Protocol$Choice = new $TypeData().initClass({
 });
 $c_Lmpst_syntax_Protocol$Choice.prototype.$classData = $d_Lmpst_syntax_Protocol$Choice;
 /** @constructor */
-function $c_Lmpst_syntax_Protocol$Interaction(sender, receiver, label, sort) {
+function $c_Lmpst_syntax_Protocol$Interaction(sender, receiver, label) {
   this.Lmpst_syntax_Protocol$Interaction__f_sender = null;
   this.Lmpst_syntax_Protocol$Interaction__f_receiver = null;
   this.Lmpst_syntax_Protocol$Interaction__f_label = null;
-  this.Lmpst_syntax_Protocol$Interaction__f_sort = null;
   this.Lmpst_syntax_Protocol$Interaction__f_sender = sender;
   this.Lmpst_syntax_Protocol$Interaction__f_receiver = receiver;
-  this.Lmpst_syntax_Protocol$Interaction__f_label = label;
-  this.Lmpst_syntax_Protocol$Interaction__f_sort = sort
+  this.Lmpst_syntax_Protocol$Interaction__f_label = label
 }
 $c_Lmpst_syntax_Protocol$Interaction.prototype = new $h_Lmpst_syntax_Protocol();
 $c_Lmpst_syntax_Protocol$Interaction.prototype.constructor = $c_Lmpst_syntax_Protocol$Interaction;
@@ -31056,13 +31020,13 @@ $c_Lmpst_syntax_Protocol$Interaction.prototype.equals__O__Z = (function(x$0) {
     return true
   } else if ((x$0 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
     var x$0$2 = $as_Lmpst_syntax_Protocol$Interaction(x$0);
-    return ((((this.Lmpst_syntax_Protocol$Interaction__f_sender === x$0$2.Lmpst_syntax_Protocol$Interaction__f_sender) && (this.Lmpst_syntax_Protocol$Interaction__f_receiver === x$0$2.Lmpst_syntax_Protocol$Interaction__f_receiver)) && (this.Lmpst_syntax_Protocol$Interaction__f_label === x$0$2.Lmpst_syntax_Protocol$Interaction__f_label)) && (this.Lmpst_syntax_Protocol$Interaction__f_sort === x$0$2.Lmpst_syntax_Protocol$Interaction__f_sort))
+    return (((this.Lmpst_syntax_Protocol$Interaction__f_sender === x$0$2.Lmpst_syntax_Protocol$Interaction__f_sender) && (this.Lmpst_syntax_Protocol$Interaction__f_receiver === x$0$2.Lmpst_syntax_Protocol$Interaction__f_receiver)) && (this.Lmpst_syntax_Protocol$Interaction__f_label === x$0$2.Lmpst_syntax_Protocol$Interaction__f_label))
   } else {
     return false
   }
 });
 $c_Lmpst_syntax_Protocol$Interaction.prototype.productArity__I = (function() {
-  return 4
+  return 3
 });
 $c_Lmpst_syntax_Protocol$Interaction.prototype.productPrefix__T = (function() {
   return "Interaction"
@@ -31079,10 +31043,6 @@ $c_Lmpst_syntax_Protocol$Interaction.prototype.productElement__I__O = (function(
     }
     case 2: {
       return this.Lmpst_syntax_Protocol$Interaction__f_label;
-      break
-    }
-    case 3: {
-      return this.Lmpst_syntax_Protocol$Interaction__f_sort;
       break
     }
     default: {
@@ -31183,88 +31143,6 @@ var $d_Lmpst_syntax_Protocol$Parallel = new $TypeData().initClass({
   s_reflect_Enum: 1
 });
 $c_Lmpst_syntax_Protocol$Parallel.prototype.$classData = $d_Lmpst_syntax_Protocol$Parallel;
-/** @constructor */
-function $c_Lmpst_syntax_Protocol$Receive(receiver, sender, label, sort) {
-  this.Lmpst_syntax_Protocol$Receive__f_receiver = null;
-  this.Lmpst_syntax_Protocol$Receive__f_sender = null;
-  this.Lmpst_syntax_Protocol$Receive__f_label = null;
-  this.Lmpst_syntax_Protocol$Receive__f_sort = null;
-  this.Lmpst_syntax_Protocol$Receive__f_receiver = receiver;
-  this.Lmpst_syntax_Protocol$Receive__f_sender = sender;
-  this.Lmpst_syntax_Protocol$Receive__f_label = label;
-  this.Lmpst_syntax_Protocol$Receive__f_sort = sort
-}
-$c_Lmpst_syntax_Protocol$Receive.prototype = new $h_Lmpst_syntax_Protocol();
-$c_Lmpst_syntax_Protocol$Receive.prototype.constructor = $c_Lmpst_syntax_Protocol$Receive;
-/** @constructor */
-function $h_Lmpst_syntax_Protocol$Receive() {
-  /*<skip>*/
-}
-$h_Lmpst_syntax_Protocol$Receive.prototype = $c_Lmpst_syntax_Protocol$Receive.prototype;
-$c_Lmpst_syntax_Protocol$Receive.prototype.hashCode__I = (function() {
-  var this$2 = $m_s_util_hashing_MurmurHash3$();
-  return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
-});
-$c_Lmpst_syntax_Protocol$Receive.prototype.equals__O__Z = (function(x$0) {
-  if ((this === x$0)) {
-    return true
-  } else if ((x$0 instanceof $c_Lmpst_syntax_Protocol$Receive)) {
-    var x$0$2 = $as_Lmpst_syntax_Protocol$Receive(x$0);
-    return ((((this.Lmpst_syntax_Protocol$Receive__f_receiver === x$0$2.Lmpst_syntax_Protocol$Receive__f_receiver) && (this.Lmpst_syntax_Protocol$Receive__f_sender === x$0$2.Lmpst_syntax_Protocol$Receive__f_sender)) && (this.Lmpst_syntax_Protocol$Receive__f_label === x$0$2.Lmpst_syntax_Protocol$Receive__f_label)) && (this.Lmpst_syntax_Protocol$Receive__f_sort === x$0$2.Lmpst_syntax_Protocol$Receive__f_sort))
-  } else {
-    return false
-  }
-});
-$c_Lmpst_syntax_Protocol$Receive.prototype.productArity__I = (function() {
-  return 4
-});
-$c_Lmpst_syntax_Protocol$Receive.prototype.productPrefix__T = (function() {
-  return "Receive"
-});
-$c_Lmpst_syntax_Protocol$Receive.prototype.productElement__I__O = (function(n) {
-  switch (n) {
-    case 0: {
-      return this.Lmpst_syntax_Protocol$Receive__f_receiver;
-      break
-    }
-    case 1: {
-      return this.Lmpst_syntax_Protocol$Receive__f_sender;
-      break
-    }
-    case 2: {
-      return this.Lmpst_syntax_Protocol$Receive__f_label;
-      break
-    }
-    case 3: {
-      return this.Lmpst_syntax_Protocol$Receive__f_sort;
-      break
-    }
-    default: {
-      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
-    }
-  }
-});
-function $as_Lmpst_syntax_Protocol$Receive(obj) {
-  return (((obj instanceof $c_Lmpst_syntax_Protocol$Receive) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.syntax.Protocol$Receive"))
-}
-function $isArrayOf_Lmpst_syntax_Protocol$Receive(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmpst_syntax_Protocol$Receive)))
-}
-function $asArrayOf_Lmpst_syntax_Protocol$Receive(obj, depth) {
-  return (($isArrayOf_Lmpst_syntax_Protocol$Receive(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmpst.syntax.Protocol$Receive;", depth))
-}
-var $d_Lmpst_syntax_Protocol$Receive = new $TypeData().initClass({
-  Lmpst_syntax_Protocol$Receive: 0
-}, false, "mpst.syntax.Protocol$Receive", {
-  Lmpst_syntax_Protocol$Receive: 1,
-  Lmpst_syntax_Protocol: 1,
-  O: 1,
-  s_Equals: 1,
-  s_Product: 1,
-  Ljava_io_Serializable: 1,
-  s_reflect_Enum: 1
-});
-$c_Lmpst_syntax_Protocol$Receive.prototype.$classData = $d_Lmpst_syntax_Protocol$Receive;
 /** @constructor */
 function $c_Lmpst_syntax_Protocol$RecursionCall(variable) {
   this.Lmpst_syntax_Protocol$RecursionCall__f_variable = null;
@@ -31456,15 +31334,89 @@ var $d_Lmpst_syntax_Protocol$RecursionKleeneStar = new $TypeData().initClass({
 });
 $c_Lmpst_syntax_Protocol$RecursionKleeneStar.prototype.$classData = $d_Lmpst_syntax_Protocol$RecursionKleeneStar;
 /** @constructor */
-function $c_Lmpst_syntax_Protocol$Send(sender, receiver, label, sort) {
+function $c_Lmpst_syntax_Protocol$Recv(receiver, sender, label) {
+  this.Lmpst_syntax_Protocol$Recv__f_receiver = null;
+  this.Lmpst_syntax_Protocol$Recv__f_sender = null;
+  this.Lmpst_syntax_Protocol$Recv__f_label = null;
+  this.Lmpst_syntax_Protocol$Recv__f_receiver = receiver;
+  this.Lmpst_syntax_Protocol$Recv__f_sender = sender;
+  this.Lmpst_syntax_Protocol$Recv__f_label = label
+}
+$c_Lmpst_syntax_Protocol$Recv.prototype = new $h_Lmpst_syntax_Protocol();
+$c_Lmpst_syntax_Protocol$Recv.prototype.constructor = $c_Lmpst_syntax_Protocol$Recv;
+/** @constructor */
+function $h_Lmpst_syntax_Protocol$Recv() {
+  /*<skip>*/
+}
+$h_Lmpst_syntax_Protocol$Recv.prototype = $c_Lmpst_syntax_Protocol$Recv.prototype;
+$c_Lmpst_syntax_Protocol$Recv.prototype.hashCode__I = (function() {
+  var this$2 = $m_s_util_hashing_MurmurHash3$();
+  return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+});
+$c_Lmpst_syntax_Protocol$Recv.prototype.equals__O__Z = (function(x$0) {
+  if ((this === x$0)) {
+    return true
+  } else if ((x$0 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
+    var x$0$2 = $as_Lmpst_syntax_Protocol$Recv(x$0);
+    return (((this.Lmpst_syntax_Protocol$Recv__f_receiver === x$0$2.Lmpst_syntax_Protocol$Recv__f_receiver) && (this.Lmpst_syntax_Protocol$Recv__f_sender === x$0$2.Lmpst_syntax_Protocol$Recv__f_sender)) && (this.Lmpst_syntax_Protocol$Recv__f_label === x$0$2.Lmpst_syntax_Protocol$Recv__f_label))
+  } else {
+    return false
+  }
+});
+$c_Lmpst_syntax_Protocol$Recv.prototype.productArity__I = (function() {
+  return 3
+});
+$c_Lmpst_syntax_Protocol$Recv.prototype.productPrefix__T = (function() {
+  return "Recv"
+});
+$c_Lmpst_syntax_Protocol$Recv.prototype.productElement__I__O = (function(n) {
+  switch (n) {
+    case 0: {
+      return this.Lmpst_syntax_Protocol$Recv__f_receiver;
+      break
+    }
+    case 1: {
+      return this.Lmpst_syntax_Protocol$Recv__f_sender;
+      break
+    }
+    case 2: {
+      return this.Lmpst_syntax_Protocol$Recv__f_label;
+      break
+    }
+    default: {
+      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
+    }
+  }
+});
+function $as_Lmpst_syntax_Protocol$Recv(obj) {
+  return (((obj instanceof $c_Lmpst_syntax_Protocol$Recv) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.syntax.Protocol$Recv"))
+}
+function $isArrayOf_Lmpst_syntax_Protocol$Recv(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmpst_syntax_Protocol$Recv)))
+}
+function $asArrayOf_Lmpst_syntax_Protocol$Recv(obj, depth) {
+  return (($isArrayOf_Lmpst_syntax_Protocol$Recv(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmpst.syntax.Protocol$Recv;", depth))
+}
+var $d_Lmpst_syntax_Protocol$Recv = new $TypeData().initClass({
+  Lmpst_syntax_Protocol$Recv: 0
+}, false, "mpst.syntax.Protocol$Recv", {
+  Lmpst_syntax_Protocol$Recv: 1,
+  Lmpst_syntax_Protocol: 1,
+  O: 1,
+  s_Equals: 1,
+  s_Product: 1,
+  Ljava_io_Serializable: 1,
+  s_reflect_Enum: 1
+});
+$c_Lmpst_syntax_Protocol$Recv.prototype.$classData = $d_Lmpst_syntax_Protocol$Recv;
+/** @constructor */
+function $c_Lmpst_syntax_Protocol$Send(sender, receiver, label) {
   this.Lmpst_syntax_Protocol$Send__f_sender = null;
   this.Lmpst_syntax_Protocol$Send__f_receiver = null;
   this.Lmpst_syntax_Protocol$Send__f_label = null;
-  this.Lmpst_syntax_Protocol$Send__f_sort = null;
   this.Lmpst_syntax_Protocol$Send__f_sender = sender;
   this.Lmpst_syntax_Protocol$Send__f_receiver = receiver;
-  this.Lmpst_syntax_Protocol$Send__f_label = label;
-  this.Lmpst_syntax_Protocol$Send__f_sort = sort
+  this.Lmpst_syntax_Protocol$Send__f_label = label
 }
 $c_Lmpst_syntax_Protocol$Send.prototype = new $h_Lmpst_syntax_Protocol();
 $c_Lmpst_syntax_Protocol$Send.prototype.constructor = $c_Lmpst_syntax_Protocol$Send;
@@ -31482,13 +31434,13 @@ $c_Lmpst_syntax_Protocol$Send.prototype.equals__O__Z = (function(x$0) {
     return true
   } else if ((x$0 instanceof $c_Lmpst_syntax_Protocol$Send)) {
     var x$0$2 = $as_Lmpst_syntax_Protocol$Send(x$0);
-    return ((((this.Lmpst_syntax_Protocol$Send__f_sender === x$0$2.Lmpst_syntax_Protocol$Send__f_sender) && (this.Lmpst_syntax_Protocol$Send__f_receiver === x$0$2.Lmpst_syntax_Protocol$Send__f_receiver)) && (this.Lmpst_syntax_Protocol$Send__f_label === x$0$2.Lmpst_syntax_Protocol$Send__f_label)) && (this.Lmpst_syntax_Protocol$Send__f_sort === x$0$2.Lmpst_syntax_Protocol$Send__f_sort))
+    return (((this.Lmpst_syntax_Protocol$Send__f_sender === x$0$2.Lmpst_syntax_Protocol$Send__f_sender) && (this.Lmpst_syntax_Protocol$Send__f_receiver === x$0$2.Lmpst_syntax_Protocol$Send__f_receiver)) && (this.Lmpst_syntax_Protocol$Send__f_label === x$0$2.Lmpst_syntax_Protocol$Send__f_label))
   } else {
     return false
   }
 });
 $c_Lmpst_syntax_Protocol$Send.prototype.productArity__I = (function() {
-  return 4
+  return 3
 });
 $c_Lmpst_syntax_Protocol$Send.prototype.productPrefix__T = (function() {
   return "Send"
@@ -31505,10 +31457,6 @@ $c_Lmpst_syntax_Protocol$Send.prototype.productElement__I__O = (function(n) {
     }
     case 2: {
       return this.Lmpst_syntax_Protocol$Send__f_label;
-      break
-    }
-    case 3: {
-      return this.Lmpst_syntax_Protocol$Send__f_sort;
       break
     }
     default: {

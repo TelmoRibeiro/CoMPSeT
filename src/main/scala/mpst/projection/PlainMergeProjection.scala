@@ -13,7 +13,7 @@ object PlainMergeProjection:
   end projectionWithParticipant
 
   private def plainMerge(local: Local)(using participants: Set[Participant])(using environment: SingleEnvironment): Boolean = local match
-    case _: Send | _: Receive | _: RecursionCall | Skip => true
+    case _: Send | _: Recv | _: RecursionCall | Skip => true
     case Sequence(localA, localB) =>
       plainMerge(localA) && plainMerge(localB)
     case Parallel(localA, localB) =>
@@ -32,8 +32,8 @@ object PlainMergeProjection:
     val participantsB = next(localB).flatMap((action, _) => getParticipants(action))
     val continuationsA = next(localA).map(_._2)
     val continuationsB = next(localB).map(_._2)
-    if !(participantsA union participantsB).contains(`participant`) && (continuationsA union continuationsB).size > 1 then
-      throw RuntimeException(s"[Plain Merge] - projection undefined for [${`participant`}] in [${Choice(localA, localB)}]")
+    if !(participantsA union participantsB).contains(participant) && (continuationsA union continuationsB).size > 1 then
+      throw RuntimeException(s"[Plain Merge] - projection undefined for [$participant] in [${Choice(localA, localB)}]")
     true
   end plainMergeAuxiliary
 end PlainMergeProjection

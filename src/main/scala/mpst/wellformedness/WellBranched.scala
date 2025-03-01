@@ -33,13 +33,11 @@ object WellBranched:
   end wellBranched
 
   private def wellBranchedAuxiliary(globalA: Global, globalB: Global)(using environment: SingleEnvironment): Boolean =
-    def nextActions(global: Global)(using environment: SingleEnvironment): Set[Action] =
-      MPSTSemantic.next(global).map(_._1)
-    end nextActions
+    def nextActions(global: Global)(using environment: SingleEnvironment): Set[Action] = MPSTSemantic.next(global).map(_._1)
 
     def uniqueSelector(actions: Set[Action]): Participant =
       actions.collect {
-        case Send(selector, _, _, _) => selector
+        case sendAction: Send => sendAction.sender
       }.toList match
         case Nil => throw RuntimeException(s"no selector found in [$actions]")
         case selector :: Nil => selector
@@ -48,13 +46,13 @@ object WellBranched:
 
     def receivesInSend(actions: Set[Action]): Set[(Participant, Label)] =
       actions.collect {
-        case Send(_, receiver, label, _) => receiver -> label
+        case sendAction: Send => sendAction.receiver -> sendAction.label
       }
     end receivesInSend
 
     def receivesInReceive(global: Global, selector: Participant, receivesInSend: Set[(Participant, Label)])(using environment: SingleEnvironment): Set[(Participant, Label)] =
       for participant -> local <- StandardProjection.projectionWithParticipant(global)
-          Receive(_, `selector`, label, _) <- MPSTSemantic.next(local).map(_._1) if receivesInSend.contains(participant -> label)
+          Recv(_, `selector`, label) <- MPSTSemantic.next(local).map(_._1) if receivesInSend.contains(participant -> label)
       yield participant -> label
     end receivesInReceive
 

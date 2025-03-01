@@ -3,21 +3,21 @@ package mpst.frontend
 import mpst.syntax.Protocol.*
 
 object MessageSequenceChart:
-  private def interaction2Mermaid(sender: Participant, receiver: Participant, label: Label): String =
-    s"""$sender ->> $receiver :$label\n"""
-  end interaction2Mermaid
-
   private def noteLeftOfAll(note: String)(using participants: Seq[Participant]): String =
     s"""note left of ${participants.head}: $note"""
   end noteLeftOfAll
 
+  private def interaction2Mermaid(sender: Participant, receiver: Participant, label: Label): String =
+    s"""$sender ->> $receiver :$label\n"""
+  end interaction2Mermaid
+
   private def toMermaid(global: Global)(using participants: Seq[Participant]): String = global match
-    case Interaction(sender, receiver, label, _) =>
-      s"${interaction2Mermaid(sender, receiver, label)}"
-    case Send(sender, receiver, label, _) =>
-      s"${interaction2Mermaid(sender, receiver, label)}"
-    case Receive(receiver, sender, label, _) =>
-      s"${interaction2Mermaid(sender, receiver, label)}"
+    case interaction: Interaction =>
+      s"${interaction2Mermaid(interaction.sender, interaction.receiver, interaction.label)}"
+    case sendAction: Send =>
+      s"${interaction2Mermaid(sendAction.sender, sendAction.receiver, sendAction.label)}"
+    case recvAction: Recv =>
+      s"${interaction2Mermaid(recvAction.sender, recvAction.receiver, recvAction.label)}"
     case RecursionCall(variable) =>
       s"${noteLeftOfAll(s"goto $variable")}"
     case Sequence(globalA, globalB) =>

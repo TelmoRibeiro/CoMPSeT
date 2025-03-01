@@ -8,7 +8,7 @@ import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.projection.{PlainMergeProjection, FullMergeProjection}
 import mpst.syntax.Parser
 import mpst.syntax.Protocol
-import mpst.syntax.Protocol.{Receive, Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasKleeneStarRecursion, hasParallel, toString}
+import mpst.syntax.Protocol.{Recv, Action, Global, Local, Participant, Variable, hasFixedPointRecursion, hasKleeneStarRecursion, hasParallel, toString}
 import mpst.utility.Environment.{Environment, SingleEnvironment, globalEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.*
@@ -253,7 +253,7 @@ object CaosConfigurator extends Configurator[Global]:
         allChecksLocals(initialState._1)
         initialState,
         SyncTraverseWrapper,
-        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map{
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map{
           case participant -> local => s"$participant: $local"
         }.mkString("\n"),
         _.toString,
@@ -307,7 +307,7 @@ object CaosConfigurator extends Configurator[Global]:
         allChecksLocals(initialState._1)
         initialState,
         SyncTraverseWrapper,
-        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
       ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
@@ -352,7 +352,7 @@ object CaosConfigurator extends Configurator[Global]:
         NetworkCausal,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
-        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
@@ -367,7 +367,7 @@ object CaosConfigurator extends Configurator[Global]:
         NetworkMultiset,
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
         (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
-        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Receive], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {

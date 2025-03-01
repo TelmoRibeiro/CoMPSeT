@@ -31,7 +31,7 @@ object Environment:
   end localsEnvironment
 
   private def protocolEnvironment(protocol: Protocol)(using environment: SingleEnvironment): SingleEnvironment = protocol match
-    case _: Interaction | _: Send | _: Receive | _: RecursionCall | Skip => environment
+    case _: Interaction | _: Send | _: Recv | _: RecursionCall | Skip => environment
     case Sequence(protocolA, protocolB) =>
       protocolEnvironment(protocolB)(using protocolEnvironment(protocolA))
     case Parallel(protocolA, protocolB) =>

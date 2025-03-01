@@ -5,15 +5,6 @@ import mpst.syntax.Protocol.*
 import scala.util.matching.Regex
 import scala.util.parsing.combinator.RegexParsers
 
-/* @ telmo
-  IDEA:
-    => [[Parser]] is responsible for parsing the input [[String]] representing a session into [[Protocol]].
-    => note that it handles it in a similar fashion to "Choreo".
-  ISSUES:
-    => None
-  REVIEWED:
-    => AFFIRMATIVE
-*/
 
 object Parser extends RegexParsers:
   override val whiteSpace: Regex = "( |\t|\r|\f|\n|//.*)+".r
@@ -82,13 +73,11 @@ object Parser extends RegexParsers:
 
   private def parentheses: Parser[Global] = "(" ~> globalType <~ ")"
 
-  private def interaction: Parser[Global] = identifier ~ "->" ~ identifier ~ ":" ~ identifier ~ opt(sort) ^^ {
-    case sender ~ "->" ~ receiver ~ ":" ~ label ~ sort => Interaction(sender, receiver, label, sort.getOrElse("void"))
-    case _ ~ _ ~ _ ~ _ ~ _ ~ _ => throw RuntimeException("bad syntax on interaction")
+  private def interaction: Parser[Global] = identifier ~ "->" ~ identifier ~ ":" ~ identifier ^^ {
+    case sender ~ "->" ~ receiver ~ ":" ~ label => Interaction(sender, receiver, label)
+    case _ ~ _ ~ _ ~ _ ~ _ => throw RuntimeException("bad syntax on interaction")
   }
   end interaction
-
-  private def sort: Parser[String] = "<" ~> identifier <~ ">"
 
   private def skip: Parser[Global] = "skip" ^^^ Skip
 

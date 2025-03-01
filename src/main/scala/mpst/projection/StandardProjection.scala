@@ -4,14 +4,6 @@ import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
 import mpst.utility.StructuralCongruence
 
-/* @ telmo
-  IDEA:
-    => replicate the projections of VGI
-  ISSUES:
-    => None
-  REVIEWED:
-    => AFFIRMATIVE
-*/
 
 object StandardProjection:
   def projectionWithParticipant(global: Global): Set[(Participant, Local)] =
@@ -22,9 +14,9 @@ object StandardProjection:
   end projectionWithParticipant
 
   private def projection(global: Global)(using participant: Participant): Option[Local] = global match
-    case Interaction(`participant`, receiver, label, sort) if `participant` != receiver => Some(Send(participant, receiver, label, sort))
-    case Interaction(sender, `participant`, label, sort)   if `participant` != sender   => Some(Receive(participant, sender, label, sort))
-    case Interaction(sender, receiver, label, sort)        if `participant` != sender && `participant` != receiver => Some(Skip)
+    case interaction: Interaction if interaction.sender == participant && interaction.receiver != participant => Some(Send(interaction.sender, interaction.receiver, interaction.label))
+    case interaction: Interaction if interaction.sender != participant && interaction.receiver == participant => Some(Recv(interaction.receiver, interaction.sender, interaction.label))
+    case interaction: Interaction if interaction.sender != participant && interaction.receiver != participant => Some(Skip)
     case _ : RecursionCall | Skip => Some(global)
     case Sequence(globalA, globalB) =>
       for localA <- projection(globalA)
