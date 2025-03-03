@@ -46,7 +46,7 @@ This document describes how to run and recompile the tool:
 
 12. New global types and settings can be experimented upon by tweaking with `Session` and `Settings` respectively (and confirming it).
 
-    In this case, to remove errors provided by the previous sessions reload both `Settings` and `Session`.
+    In this case, to remove errors provided by the previous sessions fix the issue and reload (through the reload button) the according widget (either `Settings` or `Session`).
 
 ## Recompiling the tool
 
@@ -97,7 +97,7 @@ This document describes how to run and recompile the tool:
 
 10. New global types and settings can be experimented upon by tweaking with `Session` and `Settings` respectively (and confirming it).
 
-    In this case, to remove errors provided by the previous sessions reload both `Settings` and `Session`.
+    In this case, to remove errors provided by the previous sessions fix the issue and reload (through the reload button) the according widget (either `Settings` or `Session`).
 
 
 -------------------------
@@ -135,7 +135,7 @@ This document describes how to run and recompile the tool:
 
 10. New global types and settings can be experimented upon by tweaking with `Session` and `Settings` respectively (and confirming it).
 
-    In this case, to remove errors provided by the previous sessions reload both `Settings` and `Session`.
+    In this case, to remove errors provided by the previous sessions fix the issue and reload (through the reload button) the according widget (either `Settings` or `Session`).
 
 
 ## Recompiling the tool
