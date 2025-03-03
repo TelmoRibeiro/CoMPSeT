@@ -24,14 +24,6 @@ import scala.collection.immutable.Queue
 import scala.language.implicitConversions
 import caos.frontend.Site.{getSetting, setSetting}
 
-/* @ telmo
-  IDEA:
-    => instantiate CAOS.Configurator
-  ISSUES:
-    => None
-  REVIEWED:
-    => AFFIRMATIVE
-*/
 
 object CaosConfigurator extends Configurator[Global]:
   override val name: String =

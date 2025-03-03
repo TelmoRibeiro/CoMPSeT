@@ -105,7 +105,7 @@ This document describes how to run and recompile the tool:
 
 ## Running the tool
 
-1. Open `compset-bin/index.html` in a web browser supporting `JavaScript`.
+1. Open `/compset-src/lib/caos/tool/index.html` in a web browser supporting `JavaScript`.
 
    left panels provide the input interface. It consists of an input form to write new global types (`Session`), checkboxes to modify semantical properties (`Settings`), and buttons to load existing examples (`Examples`). By default, the `master-workers - v1` example is loaded. The right panels provide the output interface.
 

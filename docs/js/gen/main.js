@@ -1317,7 +1317,7 @@ function $p_Lcaos_frontend_Site$__initialiseContainers__V($thiz) {
 function $c_Lcaos_frontend_Site$() {
   this.Lcaos_frontend_Site$__f_leftColumn = null;
   this.Lcaos_frontend_Site$__f_rightColumn = null;
-  this.Lcaos_frontend_Site$__f_errorArea = null;
+  this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea = null;
   this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$descriptionArea = null;
   this.Lcaos_frontend_Site$__f_toReload = null;
   this.Lcaos_frontend_Site$__f_lastConfig = null;
@@ -1391,7 +1391,7 @@ $c_Lcaos_frontend_Site$.prototype.caos$frontend$Site$$$renderWidgets__V = (funct
         var y = config$2$2.parser__F1().apply__O__O(kv$1.T2__f__2);
         return new $c_T2(ev$1, y)
       }))(this$2$1, config$1$2))))
-    }))(this$6$1, config$2)), this$6$1.Lcaos_frontend_Site$__f_errorArea, config$2.documentation__Lcaos_frontend_Documentation());
+    }))(this$6$1, config$2)), this$6$1.Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea, config$2.documentation__Lcaos_frontend_Documentation());
     w.init__Lcaos_frontend_widgets_DomElem__Z__V((($as_Lcaos_frontend_widgets_WidgetInfo(wc$3.T2__f__2).location__I() === 0) ? this$6$1.Lcaos_frontend_Site$__f_rightColumn : this$6$1.Lcaos_frontend_Site$__f_leftColumn), $as_Lcaos_frontend_widgets_WidgetInfo(wc$3.T2__f__2).expanded__Z());
     return w
   }))(this, config, code))));
@@ -1464,7 +1464,7 @@ $c_Lcaos_frontend_Site$.prototype.initSite__Lcaos_frontend_Configurator__V = (fu
     var $$x3 = x7
   };
   this.Lcaos_frontend_Site$__f_mainExample = $$x3;
-  this.Lcaos_frontend_Site$__f_errorArea = new $c_Lcaos_frontend_widgets_OutputArea();
+  this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea = new $c_Lcaos_frontend_widgets_OutputArea();
   this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$descriptionArea = new $c_Lcaos_frontend_widgets_OutputArea();
   var ex = this.Lcaos_frontend_Site$__f_mainExample;
   var value$1 = new $c_Lcaos_frontend_Site$$anon$1(config, ex);
@@ -1474,7 +1474,7 @@ $c_Lcaos_frontend_Site$.prototype.initSite__Lcaos_frontend_Configurator__V = (fu
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "codeWidget is undefined")
   };
   $as_Lcaos_frontend_widgets_CodeWidget(this$12.get__O()).init__Lcaos_frontend_widgets_DomElem__Z__V(this.Lcaos_frontend_Site$__f_leftColumn, true);
-  this.Lcaos_frontend_Site$__f_errorArea.init__Lcaos_frontend_widgets_DomElem__V(this.Lcaos_frontend_Site$__f_leftColumn);
+  this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea.init__Lcaos_frontend_widgets_DomElem__V(this.Lcaos_frontend_Site$__f_leftColumn);
   var value$2 = new $c_Lcaos_frontend_Site$$anon$2(config);
   this.Lcaos_frontend_Site$__f_settingWidget = new $c_s_Some(value$2);
   var this$14 = this.Lcaos_frontend_Site$__f_settingWidget;
@@ -1522,7 +1522,7 @@ $c_Lcaos_frontend_Site$.prototype.initSite__Lcaos_frontend_Configurator__V = (fu
   }
 });
 $c_Lcaos_frontend_Site$.prototype.caos$frontend$Site$$$globalReload__V = (function() {
-  var this$1 = this.Lcaos_frontend_Site$__f_errorArea;
+  var this$1 = this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea;
   this$1.Lcaos_frontend_widgets_OutputArea__f_outputs.text__T__Lcaos_frontend_widgets_DomNode("");
   var this$2 = this.Lcaos_frontend_Site$__f_toReload;
   var these = this$2;
@@ -17090,6 +17090,8 @@ function $h_Lcaos_frontend_Site$$anon$2() {
 }
 $h_Lcaos_frontend_Site$$anon$2.prototype = $c_Lcaos_frontend_Site$$anon$2.prototype;
 $c_Lcaos_frontend_Site$$anon$2.prototype.partialReload__V = (function() {
+  var this$1 = $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea;
+  this$1.Lcaos_frontend_widgets_OutputArea__f_outputs.text__T__Lcaos_frontend_widgets_DomNode("");
   this.update__V();
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("rightbar").innerHTML = "";
   $m_Lcaos_frontend_Site$().caos$frontend$Site$$$renderWidgets__V()
@@ -17097,6 +17099,8 @@ $c_Lcaos_frontend_Site$$anon$2.prototype.partialReload__V = (function() {
 $c_Lcaos_frontend_Site$$anon$2.prototype.reload__V = (function() {
   var this$1 = $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$descriptionArea;
   this$1.Lcaos_frontend_widgets_OutputArea__f_outputs.text__T__Lcaos_frontend_widgets_DomNode("");
+  var this$2 = $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea;
+  this$2.Lcaos_frontend_widgets_OutputArea__f_outputs.text__T__Lcaos_frontend_widgets_DomNode("");
   this.update__V();
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("rightbar").innerHTML = "";
   $m_Lcaos_frontend_Site$().caos$frontend$Site$$$renderWidgets__V()
