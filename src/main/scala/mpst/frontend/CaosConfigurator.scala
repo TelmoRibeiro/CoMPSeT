@@ -35,7 +35,9 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled"))
+  private val semantics: Setting = ("Plain" || "Full") && ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
+  override val setting: Setting = ("Semantics A" -> semantics) && ("Semantics B" -> semantics)
+  println(setting)
 
   private val VeryGentleIntroMPST: Setting = setting
     .setAllChecked("Configuration.Merge.Full")
