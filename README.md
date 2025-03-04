@@ -12,7 +12,7 @@ This document describes how to run and recompile the tool:
 
 ## Running the tool
 
-1. Import `compset.ova` in [VirtualBox](https://www.virtualbox.org/).
+1. Import `compset.ova` to the [VirtualBox](https://www.virtualbox.org/).
 
 2. Login using the following credentials: "compset" (username) and "compset" (password).
 
