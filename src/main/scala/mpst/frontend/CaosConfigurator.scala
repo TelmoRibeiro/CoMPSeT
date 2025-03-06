@@ -37,32 +37,32 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled"))
 
-  private val VeryGentleIntroMPST: Setting = setting
-    .setAllChecked("Configuration.Merge.Full")
-    .setAllChecked("Configuration.Comm Model.Sync")
-    .setAllChecked("Configuration.Recursion.Fixed Point")
-    .setAllChecked("Configuration.Extra Requirements.Well Branched")
+  private val VeryGentleIntroMPST: Setting = setting.deepCopy
+    .setCheckedPath("Configuration.Merge.Full", true)
+    .setCheckedPath("Configuration.Comm Model.Sync", true)
+    .setCheckedPath("Configuration.Recursion.Fixed Point", true)
+    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
 
-  private val GentleIntroMPAsyncST: Setting = setting
-    .setAllChecked("Configuration.Merge.Plain")
-    .setAllChecked("Configuration.Comm Model.Async (Causal)")
-    .setAllChecked("Configuration.Recursion.Fixed Point")
-    .setAllChecked("Configuration.Extra Requirements.Well Branched")
+  private val GentleIntroMPAsyncST: Setting = setting.deepCopy
+    .setCheckedPath("Configuration.Merge.Plain", true)
+    .setCheckedPath("Configuration.Comm Model.Async (Causal)", true)
+    .setCheckedPath("Configuration.Recursion.Fixed Point", true)
+    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
 
-  private val APIGenInScala3: Setting = setting
-    .setAllChecked("Configuration.Merge.Plain")
-    .setAllChecked("Configuration.Comm Model.Async (Causal)")
-    .setAllChecked("Configuration.Parallel")
-    .setAllChecked("Configuration.Extra Requirements.Well Branched")
-    .setAllChecked("Configuration.Extra Requirements.Well Channeled")
+  private val APIGenInScala3: Setting = setting.deepCopy
+    .setCheckedPath("Configuration.Merge.Plain", true)
+    .setCheckedPath("Configuration.Comm Model.Async (Causal)", true)
+    .setCheckedPath("Configuration.Parallel", true)
+    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
+    .setCheckedPath("Configuration.Extra Requirements.Well Channeled", true)
 
-  private val ST4MP: Setting = setting
-    .setAllChecked("Configuration.Merge.Plain")
-    .setAllChecked("Configuration.Comm Model.Async (Causal)")
-    .setAllChecked("Configuration.Parallel")
-    .setAllChecked("Configuration.Recursion.Kleene Star")
-    .setAllChecked("Configuration.Extra Requirements.Well Branched")
-    .setAllChecked("Configuration.Extra Requirements.Well Channeled")
+  private val ST4MP: Setting = setting.deepCopy
+    .setCheckedPath("Configuration.Merge.Plain", true)
+    .setCheckedPath("Configuration.Comm Model.Async (Causal)", true)
+    .setCheckedPath("Configuration.Parallel", true)
+    .setCheckedPath("Configuration.Recursion.Kleene Star", true)
+    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
+    .setCheckedPath("Configuration.Extra Requirements.Well Channeled", true)
 
   private val simpleDelegation: String = "m->w:TaskA || m->w:TaskB"
 
@@ -161,7 +161,7 @@ object CaosConfigurator extends Configurator[Global]:
     "simple task delegation (APIGenInScala3 vs Non-Causal Async.)"
       -> simpleDelegation
       -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
-      -> APIGenInScala3.setAllChecked("Configuration.Comm Model.Async (Non-Causal)"),
+      -> APIGenInScala3.setCheckedPath("Configuration.Comm Model.Async (Non-Causal)", true),
 
     "master-worker - fixed point recursion (ST4MP) | recursion fail"
       -> recursiveMasterWorker
