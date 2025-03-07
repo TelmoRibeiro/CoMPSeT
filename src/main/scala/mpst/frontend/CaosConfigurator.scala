@@ -35,39 +35,41 @@ object CaosConfigurator extends Configurator[Global]:
   override val parser: String => Global =
     (input: String) => Parser(input)
 
-  /*
-    private def mkSemantics: Setting = "Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
-    override val setting: Setting = Setting("Semantics", List("Semantics A" -> mkSemantics, "Semantics B" -> mkSemantics), options = List("allowAll"))
-  */
+  private def mkSemantics: Setting = "Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
+  override val setting: Setting = "Semantics" -> mkSemantics
 
-  override val setting: Setting = "Configuration" -> ("Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled"))
+  private val semanticsA: String = "Semantics"
 
-  private val VeryGentleIntroMPST: Setting = setting
-    .setCheckedPath("Configuration.Merge.Full", true)
-    .setCheckedPath("Configuration.Comm Model.Sync", true)
-    .setCheckedPath("Configuration.Recursion.Fixed Point", true)
-    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
+  private def mkVeryGentleIntroMPST(setting: Setting, prefix: String): Setting = setting
+    .setCheckedPath(s"$prefix.Merge.Full", true)
+    .setCheckedPath(s"$prefix.Comm Model.Sync", true)
+    .setCheckedPath(s"$prefix.Recursion.Fixed Point", true)
+    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
+  end mkVeryGentleIntroMPST
 
-  private val GentleIntroMPAsyncST: Setting = setting
-    .setCheckedPath("Configuration.Merge.Plain", true)
-    .setCheckedPath("Configuration.Comm Model.Async (Causal)", true)
-    .setCheckedPath("Configuration.Recursion.Fixed Point", true)
-    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
+  private def mkGentleIntroMPAsyncST(setting: Setting, prefix: String): Setting = setting
+    .setCheckedPath(s"$prefix.Merge.Plain", true)
+    .setCheckedPath(s"$prefix.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$prefix.Recursion.Fixed Point", true)
+    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
+  end mkGentleIntroMPAsyncST
 
-  private val APIGenInScala3: Setting = setting
-    .setCheckedPath("Configuration.Merge.Plain", true)
-    .setCheckedPath("Configuration.Comm Model.Async (Causal)", true)
-    .setCheckedPath("Configuration.Parallel", true)
-    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
-    .setCheckedPath("Configuration.Extra Requirements.Well Channeled", true)
+  private def mkAPIGenInScala3(setting: Setting, prefix: String): Setting = setting
+    .setCheckedPath(s"$prefix.Merge.Plain", true)
+    .setCheckedPath(s"$prefix.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$prefix.Parallel", true)
+    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
+    .setCheckedPath(s"$prefix.Extra Requirements.Well Channeled", true)
+  end mkAPIGenInScala3
 
-  private val ST4MP: Setting = setting
-    .setCheckedPath("Configuration.Merge.Plain", true)
-    .setCheckedPath("Configuration.Comm Model.Async (Causal)", true)
-    .setCheckedPath("Configuration.Parallel", true)
-    .setCheckedPath("Configuration.Recursion.Kleene Star", true)
-    .setCheckedPath("Configuration.Extra Requirements.Well Branched", true)
-    .setCheckedPath("Configuration.Extra Requirements.Well Channeled", true)
+  private def mkST4MP(setting: Setting, prefix: String): Setting = setting
+    .setCheckedPath(s"$prefix.Merge.Plain", true)
+    .setCheckedPath(s"$prefix.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$prefix.Parallel", true)
+    .setCheckedPath(s"$prefix.Recursion.Kleene Star", true)
+    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
+    .setCheckedPath(s"$prefix.Extra Requirements.Well Channeled", true)
+  end mkST4MP
 
   private val simpleDelegation: String = "m->w:TaskA || m->w:TaskB"
 
@@ -126,57 +128,57 @@ object CaosConfigurator extends Configurator[Global]:
     "APIGenInScala3 settings"
       -> mwv0
       -> "APIGenInScala3 settings (placeholder protocol)"
-      -> APIGenInScala3,
+      -> mkAPIGenInScala3(setting, semanticsA),
 
     "ST4MP settings"
       -> mwv0
       -> "ST4MP settings (placeholder protocol)"
-      -> ST4MP,
+      -> mkST4MP(setting, semanticsA),
 
     "VeryGentleIntroMPST settings"
       -> mwv0
       -> "VeryGentleIntroMPST settings (placeholder protocol)"
-      -> VeryGentleIntroMPST,
+      -> mkVeryGentleIntroMPST(setting, semanticsA),
 
     "GentleIntroMPAsyncST settings"
       -> mwv0
       -> "GentleIntroMPAsyncST settings (placeholder protocol)"
-      -> GentleIntroMPAsyncST,
+      -> mkGentleIntroMPAsyncST(setting, semanticsA),
 
     "master-workers - v1 (APIGenInScala3)"
       -> mwv1
       -> "master-workers-v1 under the APIGenInScala3 settings"
-      -> APIGenInScala3,
+      -> mkAPIGenInScala3(setting, semanticsA),
 
     "master-workers - v2 (ST4MP)"
       -> mwv2
       -> "master-workers-v2 under the ST4MP settings"
-      -> ST4MP,
+      -> mkST4MP(setting, semanticsA),
 
     "simple branching - v1 (GentleIntroMPAsyncST)"
       -> simpleBranchingV1
       -> "simple branching - v1 under the GentleIntroMPAsyncST"
-      -> GentleIntroMPAsyncST,
+      -> mkGentleIntroMPAsyncST(setting, semanticsA),
 
     "simple branching - v2 (VeryGentleIntroMPST)"
       -> simpleBranchingV2
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
-      -> VeryGentleIntroMPST,
+      -> mkVeryGentleIntroMPST(setting, semanticsA),
 
     "simple task delegation (APIGenInScala3 vs Non-Causal Async.)"
       -> simpleDelegation
       -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
-      -> APIGenInScala3.setCheckedPath("Configuration.Comm Model.Async (Non-Causal)", true),
+      -> mkAPIGenInScala3(setting,semanticsA).setCheckedPath("Semantics.Comm Model.Async (Non-Causal)", true),
 
     "master-worker - fixed point recursion (ST4MP) | recursion fail"
       -> recursiveMasterWorker
       -> "failed recursion for the master-worker - fixed point recursion under ST4MP settings"
-      -> ST4MP,
+      -> mkST4MP(setting, semanticsA),
 
     "master-workers - v2 (GentleIntroMPAsyncST) | parallel fail"
       -> mwv2
       -> "failed parallel for the master-workers - v2 under GentleIntroMPAsyncST settings"
-      -> GentleIntroMPAsyncST,
+      -> mkGentleIntroMPAsyncST(setting, semanticsA),
   )
 
   extension [K, V](map: Map[K, V])
@@ -203,9 +205,9 @@ object CaosConfigurator extends Configurator[Global]:
   end checkLocals
 
   private def allChecksLocals(localsWithParticipant: Set[(Participant, Local)]): Unit =
-    checkLocals(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom("Configuration").exists(_.name == "Parallel"), "Parallel")
-    checkLocals(localsWithParticipant, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
-    checkLocals(localsWithParticipant, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Configuration.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+    checkLocals(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom("Semantics").exists(_.name == "Parallel"), "Parallel")
+    checkLocals(localsWithParticipant, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Semantics.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
+    checkLocals(localsWithParticipant, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Semantics.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
   end allChecksLocals
 
   override val widgets: Seq[(String, WidgetInfo[Global])] = List(
@@ -217,14 +219,14 @@ object CaosConfigurator extends Configurator[Global]:
 
     "Locals"
       -> view((global: Global) =>
-        localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
+        localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global).map{ case participant -> local => s"$participant -> $local" }.mkString("\n"),
         Code("java")
-      ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
+      ).setRender(getSetting.allActiveFrom("Semantics").exists(_.name == "Merge")),
 
     "Local Automata"
       -> viewMerms((global: Global) =>
         val environment = localsEnvironment(global)
-        localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global).map{ case participant -> local =>
+        localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global).map{ case participant -> local =>
           val lts = caos.sos.SOS.toMermaid(
             MPSTSemanticWrapper,
             local -> environment(participant),
@@ -235,12 +237,12 @@ object CaosConfigurator extends Configurator[Global]:
           )
           participant -> lts
         }.toList
-      ).setRender(getSetting.allActiveFrom("Configuration").exists(_.name == "Merge")),
+      ).setRender(getSetting.allActiveFrom("Semantics").exists(_.name == "Merge")),
 
 
     "Local Compositional Automata - Synchronous"
       -> lts((global: Global) =>
-        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -254,11 +256,11 @@ object CaosConfigurator extends Configurator[Global]:
           case participant -> local => s"$participant: $local"
         }.mkString("\n"),
         _.toString,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync")),
 
     "Local Compositional Automata - Asynchronous (Causal)"
       -> lts((global: Global) =>
-        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -272,11 +274,11 @@ object CaosConfigurator extends Configurator[Global]:
           case participant -> local => s"$participant: $local"
         }.mkString("\n"),
         _.toString,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Local Compositional Automata - Asynchronous (Non-Causal)"
       -> lts((global: Global) =>
-        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -290,11 +292,11 @@ object CaosConfigurator extends Configurator[Global]:
           case participant -> local => s"$participant: $local"
         }.mkString("\n"),
         _.toString,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Step-by-Step - Synchronous"
       -> steps((global: Global) =>
-        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -307,11 +309,11 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync")),
 
     "Step-by-Step Asynchronous (Causal)"
       -> steps((global: Global) =>
-        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -324,11 +326,11 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Step-by-Step Asynchronous (Non-Causal)"
       -> steps((global: Global) =>
-        val initialStateOption = getSetting.allActiveLeavesFrom("Configuration.Merge") match
+        val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
           case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
             Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
           case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -341,14 +343,14 @@ object CaosConfigurator extends Configurator[Global]:
         (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Sync vs Async (Causal) - Bisimulation"
       -> compareBranchBisim(
         SyncTraverseWrapper,
         NetworkCausal,
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), None, localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Map.empty, localsEnvironment(global)),
         (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
@@ -356,14 +358,14 @@ object CaosConfigurator extends Configurator[Global]:
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
         maxDepth = 100,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Sync vs Async (Non-Causal) - Bisimulation"
       -> compareBranchBisim(
         SyncTraverseWrapper,
         NetworkMultiset,
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), None, localsEnvironment(global)),
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), None, localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Multiset(), localsEnvironment(global)),
         (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local "
         }.mkString("\n"),
@@ -371,14 +373,14 @@ object CaosConfigurator extends Configurator[Global]:
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
         maxDepth = 100,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Async (Causal) vs Async (Non-Causal) - Bisimulation"
       -> compareBranchBisim(
         NetworkCausal,
         NetworkMultiset,
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Map.empty, localsEnvironment(global)),
-        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Configuration.Merge"))(using global), Multiset(), localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Map.empty, localsEnvironment(global)),
+        (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Multiset(), localsEnvironment(global)),
         (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
@@ -386,35 +388,21 @@ object CaosConfigurator extends Configurator[Global]:
           case (participant, local) => s"$participant: $local"
         }.mkString("\n"),
         maxDepth = 100,
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom("Configuration.Comm Model").exists(_.name == "Async (Non-Causal)")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Well Channeled"
       -> check((global: Global) =>
         if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Channeled")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Extra Requirements").exists(_.name == "Well Channeled")),
 
     "Well Branched"
       -> check((global: Global) =>
         if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
-      ).setRender(getSetting.allActiveLeavesFrom("Configuration.Extra Requirements").exists(_.name == "Well Branched")),
+      ).setRender(getSetting.allActiveLeavesFrom("Semantics.Extra Requirements").exists(_.name == "Well Branched")),
 
     "Well Bounded"
       -> check((global: Global) =>
         if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
-      )
-
-    /*
-    "Dynamic Setting Test"
-      -> check((global: Global) => Site.getSetting match
-        case Some(setting) if
-          setting.getChecked("Configuration.Comm Model").getOrElse(false) &&
-          setting.getChecked("Configuration.Interleaving").getOrElse(false) &&
-          setting.resolvePath("Configuration.New Option").isEmpty =>
-          Site.setSetting("Configuration" -> (setting && "New Option"))
-          Seq()
-        case _ =>
-          Seq()
       ),
-    */
   )
 end CaosConfigurator
