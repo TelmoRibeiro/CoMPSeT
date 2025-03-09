@@ -45,9 +45,9 @@ case class Widgets(prefix: String):
   end checkLocals
 
   private def allChecksLocals(localsWithParticipant: Set[(Participant, Local)]): Unit =
-    checkLocals(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom("Semantics").exists(_.name == "Parallel"), "Parallel")
-    checkLocals(localsWithParticipant, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom("Semantics.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
-    checkLocals(localsWithParticipant, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom("Semantics.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+    checkLocals(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom(prefix).exists(_.name == "Parallel"), "Parallel")
+    checkLocals(localsWithParticipant, hasKleeneStarRecursion, !getSetting.allActiveLeavesFrom(s"$prefix.Recursion").exists(_.name == "Kleene Star"), "Recursion Kleene Star")
+    checkLocals(localsWithParticipant, hasFixedPointRecursion, !getSetting.allActiveLeavesFrom(s"$prefix.Recursion").exists(_.name == "Fixed Point"), "Recursion Fixed Point")
   end allChecksLocals
 
   val widgets: Seq[(String, WidgetInfo[Global])] = List(
@@ -59,14 +59,14 @@ case class Widgets(prefix: String):
 
     "Locals"
       -> view((global: Global) =>
-      localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global).map { case participant -> local => s"$participant -> $local" }.mkString("\n"),
+      localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global).map { case participant -> local => s"$participant -> $local" }.mkString("\n"),
       Code("java")
-    ).setRender(getSetting.allActiveFrom("Semantics").exists(_.name == "Merge")),
+    ).setRender(getSetting.allActiveFrom(prefix).exists(_.name == "Merge")),
 
     "Local Automata"
       -> viewMerms((global: Global) =>
       val environment = localsEnvironment(global)
-      localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global).map { case participant -> local =>
+      localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global).map { case participant -> local =>
         val lts = caos.sos.SOS.toMermaid(
           MPSTSemanticWrapper,
           local -> environment(participant),
@@ -77,12 +77,12 @@ case class Widgets(prefix: String):
         )
         participant -> lts
       }.toList
-    ).setRender(getSetting.allActiveFrom("Semantics").exists(_.name == "Merge")),
+    ).setRender(getSetting.allActiveFrom(prefix).exists(_.name == "Merge")),
 
 
     "Local Compositional Automata - Synchronous"
       -> lts((global: Global) =>
-      val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
+      val initialStateOption = getSetting.allActiveLeavesFrom(s"$prefix.Merge") match
         case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
           Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
         case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -96,11 +96,11 @@ case class Widgets(prefix: String):
         case participant -> local => s"$participant: $local"
       }.mkString("\n"),
       _.toString,
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Sync")),
 
     "Local Compositional Automata - Asynchronous (Causal)"
       -> lts((global: Global) =>
-      val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
+      val initialStateOption = getSetting.allActiveLeavesFrom(s"$prefix.Merge") match
         case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
           Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
         case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -114,11 +114,11 @@ case class Widgets(prefix: String):
         case participant -> local => s"$participant: $local"
       }.mkString("\n"),
       _.toString,
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Local Compositional Automata - Asynchronous (Non-Causal)"
       -> lts((global: Global) =>
-      val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
+      val initialStateOption = getSetting.allActiveLeavesFrom(s"$prefix.Merge") match
         case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
           Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
         case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -132,11 +132,11 @@ case class Widgets(prefix: String):
         case participant -> local => s"$participant: $local"
       }.mkString("\n"),
       _.toString,
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Step-by-Step - Synchronous"
       -> steps((global: Global) =>
-      val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
+      val initialStateOption = getSetting.allActiveLeavesFrom(s"$prefix.Merge") match
         case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
           Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
         case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -149,11 +149,11 @@ case class Widgets(prefix: String):
       (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
         case (participant, local) => s"$participant: $local "
       }.mkString("\n"),
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Sync")),
 
     "Step-by-Step Asynchronous (Causal)"
       -> steps((global: Global) =>
-      val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
+      val initialStateOption = getSetting.allActiveLeavesFrom(s"$prefix.Merge") match
         case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
           Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
         case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -166,11 +166,11 @@ case class Widgets(prefix: String):
       (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
         case (participant, local) => s"$participant: $local "
       }.mkString("\n"),
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Step-by-Step Asynchronous (Non-Causal)"
       -> steps((global: Global) =>
-      val initialStateOption = getSetting.allActiveLeavesFrom("Semantics.Merge") match
+      val initialStateOption = getSetting.allActiveLeavesFrom(s"$prefix.Merge") match
         case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
           Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
         case enabledMerge if enabledMerge.exists(_.name == "Full") =>
@@ -183,14 +183,14 @@ case class Widgets(prefix: String):
       (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
         case (participant, local) => s"$participant: $local "
       }.mkString("\n"),
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Sync vs Async (Causal) - Bisimulation"
       -> compareBranchBisim(
       SyncTraverseWrapper,
       NetworkCausal,
-      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), None, localsEnvironment(global)),
-      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Map.empty, localsEnvironment(global)),
+      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global), None, localsEnvironment(global)),
+      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global), Map.empty, localsEnvironment(global)),
       (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
         case (participant, local) => s"$participant: $local "
       }.mkString("\n"),
@@ -198,14 +198,14 @@ case class Widgets(prefix: String):
         case (participant, local) => s"$participant: $local "
       }.mkString("\n"),
       maxDepth = 100,
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Causal)")),
 
     "Sync vs Async (Non-Causal) - Bisimulation"
       -> compareBranchBisim(
       SyncTraverseWrapper,
       NetworkMultiset,
-      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), None, localsEnvironment(global)),
-      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Multiset(), localsEnvironment(global)),
+      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global), None, localsEnvironment(global)),
+      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global), Multiset(), localsEnvironment(global)),
       (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
         case (participant, local) => s"$participant: $local "
       }.mkString("\n"),
@@ -213,14 +213,14 @@ case class Widgets(prefix: String):
         case (participant, local) => s"$participant: $local"
       }.mkString("\n"),
       maxDepth = 100,
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Sync") && getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Async (Causal) vs Async (Non-Causal) - Bisimulation"
       -> compareBranchBisim(
       NetworkCausal,
       NetworkMultiset,
-      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Map.empty, localsEnvironment(global)),
-      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom("Semantics.Merge"))(using global), Multiset(), localsEnvironment(global)),
+      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global), Map.empty, localsEnvironment(global)),
+      (global: Global) => (localsWithParticipant(getSetting.allActiveLeavesFrom(s"$prefix.Merge"))(using global), Multiset(), localsEnvironment(global)),
       (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
         case (participant, local) => s"$participant: $local"
       }.mkString("\n"),
@@ -228,17 +228,17 @@ case class Widgets(prefix: String):
         case (participant, local) => s"$participant: $local"
       }.mkString("\n"),
       maxDepth = 100,
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom("Semantics.Comm Model").exists(_.name == "Async (Non-Causal)")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Causal)") && getSetting.allActiveLeavesFrom(s"$prefix.Comm Model").exists(_.name == "Async (Non-Causal)")),
 
     "Well Channeled"
       -> check((global: Global) =>
       if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Extra Requirements").exists(_.name == "Well Channeled")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Extra Requirements").exists(_.name == "Well Channeled")),
 
     "Well Branched"
       -> check((global: Global) =>
       if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
-    ).setRender(getSetting.allActiveLeavesFrom("Semantics.Extra Requirements").exists(_.name == "Well Branched")),
+    ).setRender(getSetting.allActiveLeavesFrom(s"$prefix.Extra Requirements").exists(_.name == "Well Branched")),
 
     "Well Bounded"
       -> check((global: Global) =>
