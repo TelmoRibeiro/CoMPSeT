@@ -47,7 +47,7 @@ object Network:
   end NetworkCausal
 
 
-  object NetworkMultiset:
+  object NetworkNonCausal:
     def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
       localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
     end accepting
@@ -76,5 +76,5 @@ object Network:
         if notBlocked(nextAction, pending)
       yield (nextAction, localWithParticipant._1 -> nextLocal, nextPending(nextAction, pending))
     end nextEntry
-  end NetworkMultiset
+  end NetworkNonCausal
 end Network

@@ -3,36 +3,36 @@ package mpst.frontend
 import caos.frontend.Configurator.Example
 import caos.frontend.Setting
 
-case class Examples(setting: Setting, prefix: String):
+case class Examples(setting: Setting, root: String):
   private def mkVeryGentleIntroMPST: Setting = setting
-    .setCheckedPath(s"$prefix.Merge.Full", true)
-    .setCheckedPath(s"$prefix.Comm Model.Sync", true)
-    .setCheckedPath(s"$prefix.Recursion.Fixed Point", true)
-    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
+    .setCheckedPath(s"$root.Merge.Full", true)
+    .setCheckedPath(s"$root.Comm Model.Sync", true)
+    .setCheckedPath(s"$root.Recursion.Fixed Point", true)
+    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkVeryGentleIntroMPST
 
   private def mkGentleIntroMPAsyncST: Setting = setting
-    .setCheckedPath(s"$prefix.Merge.Plain", true)
-    .setCheckedPath(s"$prefix.Comm Model.Async (Causal)", true)
-    .setCheckedPath(s"$prefix.Recursion.Fixed Point", true)
-    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
+    .setCheckedPath(s"$root.Merge.Plain", true)
+    .setCheckedPath(s"$root.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$root.Recursion.Fixed Point", true)
+    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkGentleIntroMPAsyncST
 
   private def mkAPIGenInScala3: Setting = setting
-    .setCheckedPath(s"$prefix.Merge.Plain", true)
-    .setCheckedPath(s"$prefix.Comm Model.Async (Causal)", true)
-    .setCheckedPath(s"$prefix.Parallel", true)
-    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
-    .setCheckedPath(s"$prefix.Extra Requirements.Well Channeled", true)
+    .setCheckedPath(s"$root.Merge.Plain", true)
+    .setCheckedPath(s"$root.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$root.Parallel", true)
+    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
+    .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
   end mkAPIGenInScala3
 
   private def mkST4MP: Setting = setting
-    .setCheckedPath(s"$prefix.Merge.Plain", true)
-    .setCheckedPath(s"$prefix.Comm Model.Async (Causal)", true)
-    .setCheckedPath(s"$prefix.Parallel", true)
-    .setCheckedPath(s"$prefix.Recursion.Kleene Star", true)
-    .setCheckedPath(s"$prefix.Extra Requirements.Well Branched", true)
-    .setCheckedPath(s"$prefix.Extra Requirements.Well Channeled", true)
+    .setCheckedPath(s"$root.Merge.Plain", true)
+    .setCheckedPath(s"$root.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$root.Parallel", true)
+    .setCheckedPath(s"$root.Recursion.Kleene Star", true)
+    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
+    .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
   end mkST4MP
 
   private val simpleDelegation: String = "m->w:TaskA || m->w:TaskB"
@@ -132,7 +132,7 @@ case class Examples(setting: Setting, prefix: String):
     "simple task delegation (APIGenInScala3 vs Non-Causal Async.)"
       -> simpleDelegation
       -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
-      -> mkAPIGenInScala3.setCheckedPath(s"$prefix.Comm Model.Async (Non-Causal)", true),
+      -> mkAPIGenInScala3.setCheckedPath(s"$root.Comm Model.Async (Non-Causal)", true),
 
     "master-worker - fixed point recursion (ST4MP) | recursion fail"
       -> recursiveMasterWorker

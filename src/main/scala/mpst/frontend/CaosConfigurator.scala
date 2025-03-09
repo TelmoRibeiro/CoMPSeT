@@ -17,13 +17,15 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val parser: String => Global = (input: String) => Parser(input)
 
+  private val root = "Semantics"
+
   private def mkSemantics: Setting =
     "Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
   end mkSemantics
-  
-  override val setting: Setting = "Semantics" -> mkSemantics
 
-  override val examples: Seq[Example] = Examples(setting, "Semantics").examples
+  override val setting: Setting = root -> mkSemantics
 
-  override val widgets: Seq[(String, WidgetInfo[Global])] = Widgets("Semantics").widgets
+  override val examples: Seq[Example] = Examples(setting, root).examples
+
+  override val widgets: Seq[(String, WidgetInfo[Global])] = Widgets(root).widgets
 end CaosConfigurator

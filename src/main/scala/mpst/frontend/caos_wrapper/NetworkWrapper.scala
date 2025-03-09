@@ -32,12 +32,12 @@ object NetworkWrapper:
   
   private type NonCausalState = (Set[(Participant, Local)], Multiset[Action], Environment)
 
-  object NetworkMultiset extends SOS[Action, NonCausalState]:
-    override def accepting(state: NonCausalState): Boolean = Network.NetworkMultiset.accepting(state._1)
+  object NetworkNonCausal extends SOS[Action, NonCausalState]:
+    override def accepting(state: NonCausalState): Boolean = Network.NetworkNonCausal.accepting(state._1)
 
     override def next[A >: Action](state: NonCausalState): Set[(A, NonCausalState)] =
-      for (nextAction, nextLocalsWithParticipant, nextPending) <- Network.NetworkMultiset.next(state._1, state._2)(using state._3) yield
+      for (nextAction, nextLocalsWithParticipant, nextPending) <- Network.NetworkNonCausal.next(state._1, state._2)(using state._3) yield
         nextAction -> (nextLocalsWithParticipant, nextPending, state._3)
     end next
-  end NetworkMultiset
+  end NetworkNonCausal
 end NetworkWrapper
