@@ -2,14 +2,14 @@ package mpst.projection
 
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-import mpst.utility.StructuralCongruence
+import mpst.utility.Simplifier
 
 
 object StandardProjection:
   def projectionWithParticipant(global: Global): Set[(Participant, Local)] =
     for participant <- getParticipants(global) yield
       projection(global)(using participant) match
-        case Some(local) => participant -> StructuralCongruence(local)
+        case Some(local) => participant -> Simplifier(local)
         case _ => throw RuntimeException(s"projection undefined for [$participant] in [$global]\n")
   end projectionWithParticipant
 
