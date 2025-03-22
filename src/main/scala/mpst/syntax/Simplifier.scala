@@ -1,7 +1,8 @@
-package mpst.utility
+package mpst.syntax
 
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
+
 import scala.annotation.tailrec
 
 

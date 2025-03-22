@@ -1,9 +1,8 @@
 package mpst.operational_semantic
 
-import mpst.syntax.Protocol
+import mpst.syntax.{Protocol, Simplifier}
 import mpst.syntax.Protocol.*
 import mpst.utility.Environment.SingleEnvironment
-import mpst.utility.Simplifier
 
 import caos.sos.SOS
 import caos.sos.SOS._

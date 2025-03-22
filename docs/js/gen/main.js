@@ -1646,7 +1646,7 @@ function $m_Lcaos_frontend_widgets_DomNode$() {
   return $n_Lcaos_frontend_widgets_DomNode$
 }
 function $p_Lcaos_frontend_widgets_ExampleWidget$__fix__T__T($thiz, unfixedString) {
-  return $f_T__replaceAll__T__T__T($f_T__replaceAll__T__T__T(unfixedString, "module", "\u00a7MODL;"), "@", "\u00a7AT;")
+  return $f_T__replaceAll__T__T__T($f_T__replaceAll__T__T__T($f_T__replaceAll__T__T__T(unfixedString, "\\\\n", "\u00a7NL;"), "module", "\u00a7MODL;"), "@", "\u00a7AT;")
 }
 function $p_Lcaos_frontend_widgets_ExampleWidget$__unfix__T__T($thiz, fixedString) {
   return $f_T__replaceAll__T__T__T($f_T__replaceAll__T__T__T(fixedString, "\u00a7MODL;", "module"), "\u00a7AT;", "@")
@@ -5530,88 +5530,88 @@ $c_ju_regex_PatternCompiler$CompiledCharClass.prototype.$classData = $d_ju_regex
 function $s_Lmpst_frontend_Main__main__AT__V(args) {
   $m_Lcaos_frontend_Site$().initSite__Lcaos_frontend_Configurator__V($m_Lmpst_frontend_CaosConfigurator$())
 }
-function $p_Lmpst_frontend_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, note, participants) {
+function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, note, participants) {
   return ((("note left of " + participants.head__O()) + ": ") + note)
 }
-function $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sender, receiver, label) {
+function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sender, receiver, label) {
   return (((((sender + " ->> ") + receiver) + " :") + label) + "\n")
 }
-function $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, global, participants) {
+function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, global, participants) {
   if ((global instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
     var interaction = $as_Lmpst_syntax_Protocol$Interaction(global);
-    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, interaction.Lmpst_syntax_Protocol$Interaction__f_sender, interaction.Lmpst_syntax_Protocol$Interaction__f_receiver, interaction.Lmpst_syntax_Protocol$Interaction__f_label))
+    return ("" + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, interaction.Lmpst_syntax_Protocol$Interaction__f_sender, interaction.Lmpst_syntax_Protocol$Interaction__f_receiver, interaction.Lmpst_syntax_Protocol$Interaction__f_label))
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Send)) {
     var sendAction = $as_Lmpst_syntax_Protocol$Send(global);
-    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sendAction.Lmpst_syntax_Protocol$Send__f_sender, sendAction.Lmpst_syntax_Protocol$Send__f_receiver, sendAction.Lmpst_syntax_Protocol$Send__f_label))
+    return ("" + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sendAction.Lmpst_syntax_Protocol$Send__f_sender, sendAction.Lmpst_syntax_Protocol$Send__f_receiver, sendAction.Lmpst_syntax_Protocol$Send__f_label))
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Recv)) {
     var recvAction = $as_Lmpst_syntax_Protocol$Recv(global);
-    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, recvAction.Lmpst_syntax_Protocol$Recv__f_sender, recvAction.Lmpst_syntax_Protocol$Recv__f_receiver, recvAction.Lmpst_syntax_Protocol$Recv__f_label))
+    return ("" + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, recvAction.Lmpst_syntax_Protocol$Recv__f_sender, recvAction.Lmpst_syntax_Protocol$Recv__f_receiver, recvAction.Lmpst_syntax_Protocol$Recv__f_label))
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
     var x$1 = $as_Lmpst_syntax_Protocol$RecursionCall(global);
     var x23 = x$1.Lmpst_syntax_Protocol$RecursionCall__f_variable;
-    return ("" + $p_Lmpst_frontend_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("goto " + x23), participants))
+    return ("" + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("goto " + x23), participants))
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
     var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(global);
     var x19 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
     var x20 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-    var x = ((("  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x19, participants)) + "\r\n         |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x20, participants));
+    var x = ((("  " + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x19, participants)) + "\r\n         |  ") + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x20, participants));
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
     var x$1$2 = $as_Lmpst_syntax_Protocol$Parallel(global);
     var x15 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolA;
     var x16 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-    var x$2 = (((("par\r\n         |  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x15, participants)) + "\r\n         |and\r\n         |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x16, participants)) + "\r\n         |end");
+    var x$2 = (((("par\r\n         |  " + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x15, participants)) + "\r\n         |and\r\n         |  ") + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x16, participants)) + "\r\n         |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$2, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Choice)) {
     var x$1$3 = $as_Lmpst_syntax_Protocol$Choice(global);
     var x11 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolA;
     var x12 = x$1$3.Lmpst_syntax_Protocol$Choice__f_protocolB;
-    var x$3 = (((("alt\r\n         |  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x11, participants)) + "\r\n         |else\r\n         |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x12, participants)) + "\r\n         |end");
+    var x$3 = (((("alt\r\n         |  " + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x11, participants)) + "\r\n         |else\r\n         |  ") + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x12, participants)) + "\r\n         |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$3, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
     var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(global);
     var x7 = x$1$4.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
     var x8 = x$1$4.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-    var x$4 = (((("|rect rgb(50,200,200)\r\n          |  " + $p_Lmpst_frontend_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("Label " + x7), participants)) + "\r\n          |  ") + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x8, participants)) + "\r\n          |end");
+    var x$4 = (((("|rect rgb(50,200,200)\r\n          |  " + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("Label " + x7), participants)) + "\r\n          |  ") + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x8, participants)) + "\r\n          |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$4, 124)
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
     var x$1$5 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(global);
     var x4 = x$1$5.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-    var x$5 = (("loop\r\n         |  " + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x4, participants)) + "\r\n         |end");
+    var x$5 = (("loop\r\n         |  " + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x4, participants)) + "\r\n         |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$5, 124)
   } else {
     return ""
   }
 }
 /** @constructor */
-function $c_Lmpst_frontend_MessageSequenceChart$() {
+function $c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$() {
   /*<skip>*/
 }
-$c_Lmpst_frontend_MessageSequenceChart$.prototype = new $h_O();
-$c_Lmpst_frontend_MessageSequenceChart$.prototype.constructor = $c_Lmpst_frontend_MessageSequenceChart$;
+$c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$.prototype = new $h_O();
+$c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$.prototype.constructor = $c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$;
 /** @constructor */
-function $h_Lmpst_frontend_MessageSequenceChart$() {
+function $h_Lmpst_frontend_auxiliary_view_MessageSequenceChart$() {
   /*<skip>*/
 }
-$h_Lmpst_frontend_MessageSequenceChart$.prototype = $c_Lmpst_frontend_MessageSequenceChart$.prototype;
-$c_Lmpst_frontend_MessageSequenceChart$.prototype.apply__Lmpst_syntax_Protocol__T = (function(global) {
+$h_Lmpst_frontend_auxiliary_view_MessageSequenceChart$.prototype = $c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$.prototype;
+$c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$.prototype.apply__Lmpst_syntax_Protocol__T = (function(global) {
   var this$1 = $m_Lmpst_syntax_Protocol$().getParticipants__Lmpst_syntax_Protocol__sci_Set(global);
-  var x = (("\r\n       |sequenceDiagram\r\n       |" + $p_Lmpst_frontend_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T(this, global, $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$1))) + "\r\n       |");
+  var x = (("\r\n       |sequenceDiagram\r\n       |" + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T(this, global, $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$1))) + "\r\n       |");
   return $m_sc_StringOps$().stripMargin$extension__T__C__T(x, 124)
 });
-var $d_Lmpst_frontend_MessageSequenceChart$ = new $TypeData().initClass({
-  Lmpst_frontend_MessageSequenceChart$: 0
-}, false, "mpst.frontend.MessageSequenceChart$", {
-  Lmpst_frontend_MessageSequenceChart$: 1,
+var $d_Lmpst_frontend_auxiliary_view_MessageSequenceChart$ = new $TypeData().initClass({
+  Lmpst_frontend_auxiliary_view_MessageSequenceChart$: 0
+}, false, "mpst.frontend.auxiliary.view.MessageSequenceChart$", {
+  Lmpst_frontend_auxiliary_view_MessageSequenceChart$: 1,
   O: 1
 });
-$c_Lmpst_frontend_MessageSequenceChart$.prototype.$classData = $d_Lmpst_frontend_MessageSequenceChart$;
-var $n_Lmpst_frontend_MessageSequenceChart$;
-function $m_Lmpst_frontend_MessageSequenceChart$() {
-  if ((!$n_Lmpst_frontend_MessageSequenceChart$)) {
-    $n_Lmpst_frontend_MessageSequenceChart$ = new $c_Lmpst_frontend_MessageSequenceChart$()
+$c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$.prototype.$classData = $d_Lmpst_frontend_auxiliary_view_MessageSequenceChart$;
+var $n_Lmpst_frontend_auxiliary_view_MessageSequenceChart$;
+function $m_Lmpst_frontend_auxiliary_view_MessageSequenceChart$() {
+  if ((!$n_Lmpst_frontend_auxiliary_view_MessageSequenceChart$)) {
+    $n_Lmpst_frontend_auxiliary_view_MessageSequenceChart$ = new $c_Lmpst_frontend_auxiliary_view_MessageSequenceChart$()
   };
-  return $n_Lmpst_frontend_MessageSequenceChart$
+  return $n_Lmpst_frontend_auxiliary_view_MessageSequenceChart$
 }
 function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmpst_syntax_Protocol__Z($thiz, protocol) {
   var protocol$tailLocal1 = protocol;
@@ -5732,9 +5732,9 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
         if ((x$1$4 !== null)) {
           var nextActionA$1 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__1);
           var nextProtocolA$1 = $as_Lmpst_syntax_Protocol(x$1$4.T2__f__2);
-          var this$14 = $m_Lmpst_utility_StructuralCongruence$();
+          var this$14 = $m_Lmpst_syntax_Simplifier$();
           var protocol$1 = new $c_Lmpst_syntax_Protocol$Sequence(nextProtocolA$1, protocolB$2);
-          var y$2 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$14, protocol$1);
+          var y$2 = $p_Lmpst_syntax_Simplifier$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$14, protocol$1);
           return new $c_T2(nextActionA$1, y$2)
         };
         throw new $c_s_MatchError(x$1$4)
@@ -5756,9 +5756,9 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
         if ((x$1$7 !== null)) {
           var nextActionA$3 = $as_Lmpst_syntax_Protocol(x$1$7.T2__f__1);
           var nextProtocolA$3 = $as_Lmpst_syntax_Protocol(x$1$7.T2__f__2);
-          var this$20 = $m_Lmpst_utility_StructuralCongruence$();
+          var this$20 = $m_Lmpst_syntax_Simplifier$();
           var protocol$2 = new $c_Lmpst_syntax_Protocol$Parallel(nextProtocolA$3, protocolB$4);
-          var y$3 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$20, protocol$2);
+          var y$3 = $p_Lmpst_syntax_Simplifier$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$20, protocol$2);
           return new $c_T2(nextActionA$3, y$3)
         };
         throw new $c_s_MatchError(x$1$7)
@@ -5773,9 +5773,9 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
         if ((x$1$9 !== null)) {
           var nextActionB$1 = $as_Lmpst_syntax_Protocol(x$1$9.T2__f__1);
           var nextProtocolB$1 = $as_Lmpst_syntax_Protocol(x$1$9.T2__f__2);
-          var this$25 = $m_Lmpst_utility_StructuralCongruence$();
+          var this$25 = $m_Lmpst_syntax_Simplifier$();
           var protocol$3 = new $c_Lmpst_syntax_Protocol$Parallel(protocolA$3, nextProtocolB$1);
-          var y$4 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$25, protocol$3);
+          var y$4 = $p_Lmpst_syntax_Simplifier$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$25, protocol$3);
           return new $c_T2(nextActionB$1, y$4)
         };
         throw new $c_s_MatchError(x$1$9)
@@ -5813,9 +5813,9 @@ function $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__nextAuxiliary__Lmpst_
         if ((x$1$14 !== null)) {
           var nextActionA$5 = $as_Lmpst_syntax_Protocol(x$1$14.T2__f__1);
           var nextProtocolA$5 = $as_Lmpst_syntax_Protocol(x$1$14.T2__f__2);
-          var this$34 = $m_Lmpst_utility_StructuralCongruence$();
+          var this$34 = $m_Lmpst_syntax_Simplifier$();
           var protocol$4 = new $c_Lmpst_syntax_Protocol$Sequence(nextProtocolA$5, protocol$tailLocal2$2);
-          var y$5 = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$34, protocol$4);
+          var y$5 = $p_Lmpst_syntax_Simplifier$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$34, protocol$4);
           return new $c_T2(nextActionA$5, y$5)
         };
         throw new $c_s_MatchError(x$1$14)
@@ -6006,19 +6006,19 @@ function $p_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$__notBlocke
   };
   if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
     var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
-    var elem = $m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(recvAction);
-    return pending.Lmpst_utility_Multiset__f_data.contains__O__Z(elem)
+    var element = $m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(recvAction);
+    return pending.Lmpst_utility_Multiset__f_data.contains__O__Z(element)
   };
   throw new $c_s_MatchError(action)
 }
 function $p_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$__nextPending$2__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Lmpst_utility_Multiset($thiz, action, pending) {
   if ((action instanceof $c_Lmpst_syntax_Protocol$Send)) {
     var sendAction = $as_Lmpst_syntax_Protocol$Send(action);
-    return pending.$plus__O__Lmpst_utility_Multiset(sendAction)
+    return pending.add__O__Lmpst_utility_Multiset(sendAction)
   };
   if ((action instanceof $c_Lmpst_syntax_Protocol$Recv)) {
     var recvAction = $as_Lmpst_syntax_Protocol$Recv(action);
-    return pending.$minus__O__Lmpst_utility_Multiset($m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(recvAction))
+    return pending.sub__O__Lmpst_utility_Multiset($m_Lmpst_syntax_Protocol$().matchingAction__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(recvAction))
   };
   throw new $c_s_MatchError(action)
 }
@@ -6717,8 +6717,8 @@ $c_Lmpst_projection_StandardProjection$.prototype.projectionWithParticipant__Lmp
     var x1 = $p_Lmpst_projection_StandardProjection$__projection__Lmpst_syntax_Protocol__T__s_Option(this$1, global$2, participant$1);
     if ((x1 instanceof $c_s_Some)) {
       var local = $as_Lmpst_syntax_Protocol($as_s_Some(x1).s_Some__f_value);
-      var this$3 = $m_Lmpst_utility_StructuralCongruence$();
-      var y = $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$3, local);
+      var this$3 = $m_Lmpst_syntax_Simplifier$();
+      var y = $p_Lmpst_syntax_Simplifier$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol(this$3, local);
       return new $c_T2(participant$1, y)
     };
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("projection undefined for [" + participant$1) + "] in [") + global$2) + "]\n"))
@@ -6737,6 +6737,200 @@ function $m_Lmpst_projection_StandardProjection$() {
     $n_Lmpst_projection_StandardProjection$ = new $c_Lmpst_projection_StandardProjection$()
   };
   return $n_Lmpst_projection_StandardProjection$
+}
+function $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, protocol) {
+  var protocol$tailLocal1 = protocol;
+  while (true) {
+    var x1 = protocol$tailLocal1;
+    matchAlts1: {
+      matchAlts2: {
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
+          break matchAlts2
+        };
+        if (((x1 instanceof $c_Lmpst_syntax_Protocol$Send) || (x1 instanceof $c_Lmpst_syntax_Protocol$Recv))) {
+          break matchAlts2
+        };
+        if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+          break matchAlts2
+        };
+        var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+        if (((x === null) ? (x1 === null) : x.equals__O__Z(x1))) {
+          break matchAlts2
+        };
+        break matchAlts1
+      };
+      return protocol$tailLocal1
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x1);
+      var x66 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x67 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      if ((x66 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+        var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(x66);
+        var x70 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+        var x71 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+        var protocolB = new $c_Lmpst_syntax_Protocol$Sequence(x71, x67);
+        protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Sequence(x70, protocolB);
+        continue
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Parallel(x1);
+      var x58 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x59 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      if ((x58 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+        var x$1$3 = $as_Lmpst_syntax_Protocol$Parallel(x58);
+        var x62 = x$1$3.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+        var x63 = x$1$3.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+        var protocolB$1 = new $c_Lmpst_syntax_Protocol$Parallel(x63, x59);
+        protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Parallel(x62, protocolB$1);
+        continue
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$4 = $as_Lmpst_syntax_Protocol$Choice(x1);
+      var x50 = x$1$4.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x51 = x$1$4.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      if ((x50 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+        var x$1$5 = $as_Lmpst_syntax_Protocol$Choice(x50);
+        var x54 = x$1$5.Lmpst_syntax_Protocol$Choice__f_protocolA;
+        var x55 = x$1$5.Lmpst_syntax_Protocol$Choice__f_protocolB;
+        var protocolB$2 = new $c_Lmpst_syntax_Protocol$Choice(x55, x51);
+        protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Choice(x54, protocolB$2);
+        continue
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1$6 = $as_Lmpst_syntax_Protocol$Sequence(x1);
+      var x46 = x$1$6.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x47 = x$1$6.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var x$3 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+      if (((x$3 === null) ? (x47 === null) : x$3.equals__O__Z(x47))) {
+        protocol$tailLocal1 = x46;
+        continue
+      };
+      var x$5 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+      if (((x$5 === null) ? (x46 === null) : x$5.equals__O__Z(x46))) {
+        protocol$tailLocal1 = x47;
+        continue
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+      var x$1$7 = $as_Lmpst_syntax_Protocol$Parallel(x1);
+      var x38 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x39 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var x$7 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+      if (((x$7 === null) ? (x39 === null) : x$7.equals__O__Z(x39))) {
+        protocol$tailLocal1 = x38;
+        continue
+      };
+      var x$9 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+      if (((x$9 === null) ? (x38 === null) : x$9.equals__O__Z(x38))) {
+        protocol$tailLocal1 = x39;
+        continue
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+      var x$1$8 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
+      var x31 = x$1$8.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      var x$11 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+      if (((x$11 === null) ? (x31 === null) : x$11.equals__O__Z(x31))) {
+        return $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+      var x$1$9 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
+      var x27 = x$1$9.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      var x$13 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+      if (((x$13 === null) ? (x27 === null) : x$13.equals__O__Z(x27))) {
+        return $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$10 = $as_Lmpst_syntax_Protocol$Choice(x1);
+      var x23 = x$1$10.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x24 = x$1$10.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      if (((x23 === null) ? (x24 === null) : x23.equals__O__Z(x24))) {
+        protocol$tailLocal1 = x23;
+        continue
+      }
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1$11 = $as_Lmpst_syntax_Protocol$Sequence(x1);
+      var x19 = x$1$11.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var x20 = x$1$11.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      var protocolA = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x19);
+      var protocolB$3 = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x20);
+      return new $c_Lmpst_syntax_Protocol$Sequence(protocolA, protocolB$3)
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+      var x$1$12 = $as_Lmpst_syntax_Protocol$Parallel(x1);
+      var x15 = x$1$12.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var x16 = x$1$12.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      var protocolA$1 = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x15);
+      var protocolB$4 = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x16);
+      return new $c_Lmpst_syntax_Protocol$Parallel(protocolA$1, protocolB$4)
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$13 = $as_Lmpst_syntax_Protocol$Choice(x1);
+      var x11 = x$1$13.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var x12 = x$1$13.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      var protocolA$2 = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x11);
+      var protocolB$5 = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x12);
+      return new $c_Lmpst_syntax_Protocol$Choice(protocolA$2, protocolB$5)
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+      var x$1$14 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
+      var x7 = x$1$14.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
+      var x8 = x$1$14.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      var protocolB$6 = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x8);
+      return new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(x7, protocolB$6)
+    };
+    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+      var x$1$15 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
+      var x4 = x$1$15.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      var protocolA$3 = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x4);
+      return new $c_Lmpst_syntax_Protocol$RecursionKleeneStar(protocolA$3)
+    };
+    throw new $c_s_MatchError(x1)
+  }
+}
+function $p_Lmpst_syntax_Simplifier$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, protocol) {
+  var protocol$tailLocal2 = protocol;
+  while (true) {
+    var simplifiedProtocol = $p_Lmpst_syntax_Simplifier$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, protocol$tailLocal2);
+    var x$2 = protocol$tailLocal2;
+    if (((simplifiedProtocol === null) ? (x$2 === null) : simplifiedProtocol.equals__O__Z(x$2))) {
+      return protocol$tailLocal2
+    } else {
+      protocol$tailLocal2 = simplifiedProtocol
+    }
+  }
+}
+/** @constructor */
+function $c_Lmpst_syntax_Simplifier$() {
+  /*<skip>*/
+}
+$c_Lmpst_syntax_Simplifier$.prototype = new $h_O();
+$c_Lmpst_syntax_Simplifier$.prototype.constructor = $c_Lmpst_syntax_Simplifier$;
+/** @constructor */
+function $h_Lmpst_syntax_Simplifier$() {
+  /*<skip>*/
+}
+$h_Lmpst_syntax_Simplifier$.prototype = $c_Lmpst_syntax_Simplifier$.prototype;
+var $d_Lmpst_syntax_Simplifier$ = new $TypeData().initClass({
+  Lmpst_syntax_Simplifier$: 0
+}, false, "mpst.syntax.Simplifier$", {
+  Lmpst_syntax_Simplifier$: 1,
+  O: 1
+});
+$c_Lmpst_syntax_Simplifier$.prototype.$classData = $d_Lmpst_syntax_Simplifier$;
+var $n_Lmpst_syntax_Simplifier$;
+function $m_Lmpst_syntax_Simplifier$() {
+  if ((!$n_Lmpst_syntax_Simplifier$)) {
+    $n_Lmpst_syntax_Simplifier$ = new $c_Lmpst_syntax_Simplifier$()
+  };
+  return $n_Lmpst_syntax_Simplifier$
 }
 function $p_Lmpst_utility_Environment$__protocolEnvironment__Lmpst_syntax_Protocol__sci_Map__sci_Map($thiz, protocol, environment) {
   var environment$tailLocal1 = environment;
@@ -6853,209 +7047,6 @@ function $m_Lmpst_utility_Environment$() {
     $n_Lmpst_utility_Environment$ = new $c_Lmpst_utility_Environment$()
   };
   return $n_Lmpst_utility_Environment$
-}
-function $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, protocol) {
-  var protocol$tailLocal1 = protocol;
-  while (true) {
-    var x1 = protocol$tailLocal1;
-    matchAlts1: {
-      matchAlts2: {
-        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
-          break matchAlts2
-        };
-        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Send)) {
-          break matchAlts2
-        };
-        if ((x1 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
-          break matchAlts2
-        };
-        if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
-          break matchAlts2
-        };
-        var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-        if (((x === null) ? (x1 === null) : x.equals__O__Z(x1))) {
-          break matchAlts2
-        };
-        break matchAlts1
-      };
-      return protocol$tailLocal1
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x1);
-      var x70 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x71 = x$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      if ((x70 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-        var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(x70);
-        var x74 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-        var x75 = x$1$1.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-        var protocolB = new $c_Lmpst_syntax_Protocol$Sequence(x75, x71);
-        protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Sequence(x74, protocolB);
-        continue
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$2 = $as_Lmpst_syntax_Protocol$Parallel(x1);
-      var x62 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x63 = x$1$2.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      if ((x62 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-        var x$1$3 = $as_Lmpst_syntax_Protocol$Parallel(x62);
-        var x66 = x$1$3.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-        var x67 = x$1$3.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-        var protocolB$1 = new $c_Lmpst_syntax_Protocol$Parallel(x67, x63);
-        protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Parallel(x66, protocolB$1);
-        continue
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$4 = $as_Lmpst_syntax_Protocol$Choice(x1);
-      var x54 = x$1$4.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x55 = x$1$4.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      if ((x54 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-        var x$1$5 = $as_Lmpst_syntax_Protocol$Choice(x54);
-        var x58 = x$1$5.Lmpst_syntax_Protocol$Choice__f_protocolA;
-        var x59 = x$1$5.Lmpst_syntax_Protocol$Choice__f_protocolB;
-        var protocolB$2 = new $c_Lmpst_syntax_Protocol$Choice(x59, x55);
-        protocol$tailLocal1 = new $c_Lmpst_syntax_Protocol$Choice(x58, protocolB$2);
-        continue
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$6 = $as_Lmpst_syntax_Protocol$Sequence(x1);
-      var x50 = x$1$6.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x51 = x$1$6.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      var x$3 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$3 === null) ? (x51 === null) : x$3.equals__O__Z(x51))) {
-        protocol$tailLocal1 = x50;
-        continue
-      };
-      var x$5 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$5 === null) ? (x50 === null) : x$5.equals__O__Z(x50))) {
-        protocol$tailLocal1 = x51;
-        continue
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$7 = $as_Lmpst_syntax_Protocol$Parallel(x1);
-      var x42 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x43 = x$1$7.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      var x$7 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$7 === null) ? (x43 === null) : x$7.equals__O__Z(x43))) {
-        protocol$tailLocal1 = x42;
-        continue
-      };
-      var x$9 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$9 === null) ? (x42 === null) : x$9.equals__O__Z(x42))) {
-        protocol$tailLocal1 = x43;
-        continue
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$8 = $as_Lmpst_syntax_Protocol$Choice(x1);
-      var x34 = x$1$8.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x35 = x$1$8.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      var x$11 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$11 === null) ? (x35 === null) : x$11.equals__O__Z(x35))) {
-        protocol$tailLocal1 = x34;
-        continue
-      };
-      var x$13 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$13 === null) ? (x34 === null) : x$13.equals__O__Z(x34))) {
-        protocol$tailLocal1 = x35;
-        continue
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$9 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
-      var x27 = x$1$9.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-      var x$15 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$15 === null) ? (x27 === null) : x$15.equals__O__Z(x27))) {
-        return $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$10 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
-      var x23 = x$1$10.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-      var x$17 = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
-      if (((x$17 === null) ? (x23 === null) : x$17.equals__O__Z(x23))) {
-        return $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()
-      }
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
-      var x$1$11 = $as_Lmpst_syntax_Protocol$Sequence(x1);
-      var x19 = x$1$11.Lmpst_syntax_Protocol$Sequence__f_protocolA;
-      var x20 = x$1$11.Lmpst_syntax_Protocol$Sequence__f_protocolB;
-      var protocolA = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x19);
-      var protocolB$3 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x20);
-      return new $c_Lmpst_syntax_Protocol$Sequence(protocolA, protocolB$3)
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
-      var x$1$12 = $as_Lmpst_syntax_Protocol$Parallel(x1);
-      var x15 = x$1$12.Lmpst_syntax_Protocol$Parallel__f_protocolA;
-      var x16 = x$1$12.Lmpst_syntax_Protocol$Parallel__f_protocolB;
-      var protocolA$1 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x15);
-      var protocolB$4 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x16);
-      return new $c_Lmpst_syntax_Protocol$Parallel(protocolA$1, protocolB$4)
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
-      var x$1$13 = $as_Lmpst_syntax_Protocol$Choice(x1);
-      var x11 = x$1$13.Lmpst_syntax_Protocol$Choice__f_protocolA;
-      var x12 = x$1$13.Lmpst_syntax_Protocol$Choice__f_protocolB;
-      var protocolA$2 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x11);
-      var protocolB$5 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x12);
-      return new $c_Lmpst_syntax_Protocol$Choice(protocolA$2, protocolB$5)
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
-      var x$1$14 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x1);
-      var x7 = x$1$14.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
-      var x8 = x$1$14.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-      var protocolB$6 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x8);
-      return new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(x7, protocolB$6)
-    };
-    if ((x1 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
-      var x$1$15 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x1);
-      var x4 = x$1$15.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
-      var protocolA$3 = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, x4);
-      return new $c_Lmpst_syntax_Protocol$RecursionKleeneStar(protocolA$3)
-    };
-    throw new $c_s_MatchError(x1)
-  }
-}
-function $p_Lmpst_utility_StructuralCongruence$__run__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, protocol) {
-  var protocol$tailLocal2 = protocol;
-  while (true) {
-    var congruentProtocol = $p_Lmpst_utility_StructuralCongruence$__runOnce__Lmpst_syntax_Protocol__Lmpst_syntax_Protocol($thiz, protocol$tailLocal2);
-    var x$2 = protocol$tailLocal2;
-    if (((congruentProtocol === null) ? (x$2 === null) : congruentProtocol.equals__O__Z(x$2))) {
-      return protocol$tailLocal2
-    } else {
-      protocol$tailLocal2 = congruentProtocol
-    }
-  }
-}
-/** @constructor */
-function $c_Lmpst_utility_StructuralCongruence$() {
-  /*<skip>*/
-}
-$c_Lmpst_utility_StructuralCongruence$.prototype = new $h_O();
-$c_Lmpst_utility_StructuralCongruence$.prototype.constructor = $c_Lmpst_utility_StructuralCongruence$;
-/** @constructor */
-function $h_Lmpst_utility_StructuralCongruence$() {
-  /*<skip>*/
-}
-$h_Lmpst_utility_StructuralCongruence$.prototype = $c_Lmpst_utility_StructuralCongruence$.prototype;
-var $d_Lmpst_utility_StructuralCongruence$ = new $TypeData().initClass({
-  Lmpst_utility_StructuralCongruence$: 0
-}, false, "mpst.utility.StructuralCongruence$", {
-  Lmpst_utility_StructuralCongruence$: 1,
-  O: 1
-});
-$c_Lmpst_utility_StructuralCongruence$.prototype.$classData = $d_Lmpst_utility_StructuralCongruence$;
-var $n_Lmpst_utility_StructuralCongruence$;
-function $m_Lmpst_utility_StructuralCongruence$() {
-  if ((!$n_Lmpst_utility_StructuralCongruence$)) {
-    $n_Lmpst_utility_StructuralCongruence$ = new $c_Lmpst_utility_StructuralCongruence$()
-  };
-  return $n_Lmpst_utility_StructuralCongruence$
 }
 function $p_Lmpst_wellformedness_WellBounded$__getBoundedVariables__Lmpst_syntax_Protocol__sci_Set__sci_Set($thiz, global, boundedVariables) {
   var boundedVariables$tailLocal1 = boundedVariables;
@@ -8284,9 +8275,6 @@ $c_sc_StringOps$.prototype.drop$extension__T__I__T = (function(this$, n) {
   var $$x1 = $m_sc_StringOps$();
   var y = $uI(this$.length);
   return $$x1.slice$extension__T__I__I__T(this$, ((n < y) ? n : y), $uI(this$.length))
-});
-$c_sc_StringOps$.prototype.dropRight$extension__T__I__T = (function(this$, n) {
-  return $m_sc_StringOps$().take$extension__T__I__T(this$, (($uI(this$.length) - ((n > 0) ? n : 0)) | 0))
 });
 var $d_sc_StringOps$ = new $TypeData().initClass({
   sc_StringOps$: 0
@@ -14319,8 +14307,8 @@ function $c_Lmpst_frontend_CaosConfigurator$() {
   var options = y.Lcaos_frontend_Setting__f_options;
   this.Lmpst_frontend_CaosConfigurator$__f_setting = new $c_Lcaos_frontend_Setting("Semantics", children, checked, options);
   var setting = this.Lmpst_frontend_CaosConfigurator$__f_setting;
-  this.Lmpst_frontend_CaosConfigurator$__f_examples = new $c_Lmpst_frontend_Examples(setting, "Semantics").Lmpst_frontend_Examples__f_examples;
-  this.Lmpst_frontend_CaosConfigurator$__f_widgets = new $c_Lmpst_frontend_Widgets("Semantics").Lmpst_frontend_Widgets__f_widgets
+  this.Lmpst_frontend_CaosConfigurator$__f_examples = new $c_Lmpst_frontend_auxiliary_Examples(setting, "Semantics").Lmpst_frontend_auxiliary_Examples__f_examples;
+  this.Lmpst_frontend_CaosConfigurator$__f_widgets = new $c_Lmpst_frontend_auxiliary_Widgets("Semantics").Lmpst_frontend_auxiliary_Widgets__f_widgets
 }
 $c_Lmpst_frontend_CaosConfigurator$.prototype = new $h_O();
 $c_Lmpst_frontend_CaosConfigurator$.prototype.constructor = $c_Lmpst_frontend_CaosConfigurator$;
@@ -14381,17 +14369,17 @@ function $m_Lmpst_frontend_CaosConfigurator$() {
   return $n_Lmpst_frontend_CaosConfigurator$
 }
 /** @constructor */
-function $c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$() {
+function $c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$() {
   /*<skip>*/
 }
-$c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype = new $h_O();
-$c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.constructor = $c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$;
+$c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype = new $h_O();
+$c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.constructor = $c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$;
 /** @constructor */
-function $h_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$() {
+function $h_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$() {
   /*<skip>*/
 }
-$h_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype = $c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype;
-$c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.next__T2__sci_Set = (function(state) {
+$h_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype = $c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype;
+$c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.next__T2__sci_Set = (function(state) {
   if ((state !== null)) {
     var protocol = $as_Lmpst_syntax_Protocol(state.T2__f__1);
     var environment = $as_sci_Map(state.T2__f__2);
@@ -14413,41 +14401,41 @@ $c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.
   };
   throw new $c_s_MatchError(state)
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.accepting__O__Z = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.accepting__O__Z = (function(s) {
   var state = $as_T2(s);
   var protocol = $as_Lmpst_syntax_Protocol(state.T2__f__1);
   return $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmpst_syntax_Protocol__Z($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$(), protocol)
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.next__O__sci_Set = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.next__O__sci_Set = (function(s) {
   return this.next__T2__sci_Set($as_T2(s))
 });
-var $d_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$ = new $TypeData().initClass({
-  Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$: 0
-}, false, "mpst.frontend.caos_wrapper.MPSTEnvironmentWrapper$MPSTSemanticWrapper$", {
-  Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$: 1,
+var $d_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$ = new $TypeData().initClass({
+  Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$: 0
+}, false, "mpst.frontend.auxiliary.wrappers.MPSTEnvironmentWrapper$MPSTSemanticWrapper$", {
+  Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$: 1,
   O: 1,
   Lcaos_sos_SOS: 1
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.$classData = $d_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$;
-var $n_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$;
-function $m_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$() {
-  if ((!$n_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$)) {
-    $n_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$ = new $c_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$()
+$c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$.prototype.$classData = $d_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$;
+var $n_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$;
+function $m_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$() {
+  if ((!$n_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$)) {
+    $n_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$ = new $c_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$()
   };
-  return $n_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$
+  return $n_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$
 }
 /** @constructor */
-function $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$() {
+function $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$() {
   /*<skip>*/
 }
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype = new $h_O();
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype.constructor = $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$;
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype = new $h_O();
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.constructor = $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$;
 /** @constructor */
-function $h_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$() {
+function $h_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$() {
   /*<skip>*/
 }
-$h_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype = $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype;
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype.next__T3__sci_Set = (function(state) {
+$h_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype = $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype;
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.next__T3__sci_Set = (function(state) {
   var this$2 = $m_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$().next__sci_Set__sci_Map__sci_Map__sci_Set($as_sci_Set(state.T3__f__1), $as_sci_Map(state.T3__f__2), $as_sci_Map(state.T3__f__3));
   var p = new $c_sjsr_AnonFunction1(((this$1) => ((x$1) => {
     var x$1$1 = $as_T3(x$1);
@@ -14466,40 +14454,40 @@ $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype.next
     throw new $c_s_MatchError(x$1$3)
   }))(this, state))))
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype.accepting__O__Z = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.accepting__O__Z = (function(s) {
   var state = $as_T3(s);
   return $m_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$().accepting__sci_Set__Z($as_sci_Set(state.T3__f__1))
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype.next__O__sci_Set = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.next__O__sci_Set = (function(s) {
   return this.next__T3__sci_Set($as_T3(s))
 });
-var $d_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$ = new $TypeData().initClass({
-  Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$: 0
-}, false, "mpst.frontend.caos_wrapper.NetworkWrapper$NetworkCausal$", {
-  Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$: 1,
+var $d_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$ = new $TypeData().initClass({
+  Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$: 0
+}, false, "mpst.frontend.auxiliary.wrappers.NetworkWrapper$NetworkCausal$", {
+  Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$: 1,
   O: 1,
   Lcaos_sos_SOS: 1
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$.prototype.$classData = $d_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$;
-var $n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$;
-function $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$() {
-  if ((!$n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$)) {
-    $n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$ = new $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$()
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.$classData = $d_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$;
+var $n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$;
+function $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$() {
+  if ((!$n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$)) {
+    $n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$ = new $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$()
   };
-  return $n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$
+  return $n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$
 }
 /** @constructor */
-function $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$() {
+function $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$() {
   /*<skip>*/
 }
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype = new $h_O();
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype.constructor = $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$;
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype = new $h_O();
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.constructor = $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$;
 /** @constructor */
-function $h_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$() {
+function $h_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$() {
   /*<skip>*/
 }
-$h_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype = $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype;
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype.next__T3__sci_Set = (function(state) {
+$h_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype = $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype;
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.next__T3__sci_Set = (function(state) {
   var this$2 = $m_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$().next__sci_Set__Lmpst_utility_Multiset__sci_Map__sci_Set($as_sci_Set(state.T3__f__1), $as_Lmpst_utility_Multiset(state.T3__f__2), $as_sci_Map(state.T3__f__3));
   var p = new $c_sjsr_AnonFunction1(((this$1) => ((x$1) => {
     var x$1$1 = $as_T3(x$1);
@@ -14518,40 +14506,40 @@ $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype.n
     throw new $c_s_MatchError(x$1$3)
   }))(this, state))))
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype.accepting__O__Z = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.accepting__O__Z = (function(s) {
   var state = $as_T3(s);
   return $m_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$().accepting__sci_Set__Z($as_sci_Set(state.T3__f__1))
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype.next__O__sci_Set = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.next__O__sci_Set = (function(s) {
   return this.next__T3__sci_Set($as_T3(s))
 });
-var $d_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$ = new $TypeData().initClass({
-  Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$: 0
-}, false, "mpst.frontend.caos_wrapper.NetworkWrapper$NetworkNonCausal$", {
-  Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$: 1,
+var $d_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$ = new $TypeData().initClass({
+  Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$: 0
+}, false, "mpst.frontend.auxiliary.wrappers.NetworkWrapper$NetworkNonCausal$", {
+  Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$: 1,
   O: 1,
   Lcaos_sos_SOS: 1
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$.prototype.$classData = $d_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$;
-var $n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$;
-function $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$() {
-  if ((!$n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$)) {
-    $n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$ = new $c_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$()
+$c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.$classData = $d_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$;
+var $n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$;
+function $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$() {
+  if ((!$n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$)) {
+    $n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$ = new $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$()
   };
-  return $n_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$
+  return $n_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$
 }
 /** @constructor */
-function $c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$() {
+function $c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$() {
   /*<skip>*/
 }
-$c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype = new $h_O();
-$c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.constructor = $c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$;
+$c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype = new $h_O();
+$c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.constructor = $c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$;
 /** @constructor */
-function $h_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$() {
+function $h_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$() {
   /*<skip>*/
 }
-$h_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype = $c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype;
-$c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.next__T3__sci_Set = (function(state) {
+$h_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype = $c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype;
+$c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.next__T3__sci_Set = (function(state) {
   var this$2 = $m_Lmpst_operational\uff3fsemantic_SyncTraverse$().next__sci_Set__s_Option__sci_Map__sci_Set($as_sci_Set(state.T3__f__1), $as_s_Option(state.T3__f__2), $as_sci_Map(state.T3__f__3));
   var p = new $c_sjsr_AnonFunction1(((this$1) => ((x$1) => {
     var x$1$1 = $as_T3(x$1);
@@ -14570,27 +14558,27 @@ $c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.
     throw new $c_s_MatchError(x$1$3)
   }))(this, state))))
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.accepting__O__Z = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.accepting__O__Z = (function(s) {
   var state = $as_T3(s);
   return $m_Lmpst_operational\uff3fsemantic_SyncTraverse$().accepting__sci_Set__Z($as_sci_Set(state.T3__f__1))
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.next__O__sci_Set = (function(s) {
+$c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.next__O__sci_Set = (function(s) {
   return this.next__T3__sci_Set($as_T3(s))
 });
-var $d_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$ = new $TypeData().initClass({
-  Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$: 0
-}, false, "mpst.frontend.caos_wrapper.SyncEnvironmentWrapper$SyncTraverseWrapper$", {
-  Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$: 1,
+var $d_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$ = new $TypeData().initClass({
+  Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$: 0
+}, false, "mpst.frontend.auxiliary.wrappers.SyncEnvironmentWrapper$SyncTraverseWrapper$", {
+  Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$: 1,
   O: 1,
   Lcaos_sos_SOS: 1
 });
-$c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.$classData = $d_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$;
-var $n_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$;
-function $m_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$() {
-  if ((!$n_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$)) {
-    $n_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$ = new $c_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$()
+$c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.$classData = $d_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$;
+var $n_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$;
+function $m_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$() {
+  if ((!$n_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$)) {
+    $n_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$ = new $c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$()
   };
-  return $n_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$
+  return $n_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$
 }
 function $p_RTLong$__toUnsignedString__I__I__T($thiz, lo, hi) {
   if ((((-2097152) & hi) === 0)) {
@@ -17086,20 +17074,20 @@ var $d_ju_Collections$UnmodifiableIterator = new $TypeData().initClass({
 $c_ju_Collections$UnmodifiableIterator.prototype.$classData = $d_ju_Collections$UnmodifiableIterator;
 function $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser($thiz) {
   var groupNames = $m_sci_Nil$();
-  var r = $ct_s_util_matching_Regex__T__sci_Seq__(new $c_s_util_matching_Regex(), "[a-zA-Z0-9_]+", groupNames);
+  var r = $ct_s_util_matching_Regex__T__sci_Seq__(new $c_s_util_matching_Regex(), "[\\w_\\-]+", groupNames);
   return new $c_s_util_parsing_combinator_RegexParsers$$anon$2(r, $thiz)
 }
 function $p_Lmpst_syntax_Parser$__session__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser($thiz).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => {
     var v = $m_s_None$();
     return $f_s_util_parsing_combinator_Parsers__success__O__s_util_parsing_combinator_Parsers$Parser(this$2, v)
-  }))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$2$1) => ((globalTypeSyntax) => {
-    var globalTypeSyntax$1 = $as_s_Option(globalTypeSyntax);
-    return $as_Lmpst_syntax_Protocol((globalTypeSyntax$1.isEmpty__Z() ? $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol() : globalTypeSyntax$1.get__O()))
+  }))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$2$1) => ((globalTypeOption) => {
+    var globalTypeOption$1 = $as_s_Option(globalTypeOption);
+    return $as_Lmpst_syntax_Protocol((globalTypeOption$1.isEmpty__Z() ? $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol() : globalTypeOption$1.get__O()))
   }))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__maybeInterleaving__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__choice__s_util_parsing_combinator_Parsers$Parser(this$1).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => {
+  return $p_Lmpst_syntax_Parser$__maybeParallel__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__choice__s_util_parsing_combinator_Parsers$Parser(this$1).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => {
     var v = $m_s_None$();
     return $f_s_util_parsing_combinator_Parsers__success__O__s_util_parsing_combinator_Parsers$Parser(this$3, v)
   }))(this$1)))))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$2$1) => ((x$1) => {
@@ -17109,8 +17097,8 @@ function $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$
       var x6 = $as_Lmpst_syntax_Protocol(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__1);
       var x7 = $as_s_Option(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
       if ((x7 instanceof $c_s_Some)) {
-        var choiceSyntax = $as_F1($as_s_Some(x7).s_Some__f_value);
-        return $as_Lmpst_syntax_Protocol(choiceSyntax.apply__O__O(x6))
+        var choice = $as_F1($as_s_Some(x7).s_Some__f_value);
+        return $as_Lmpst_syntax_Protocol(choice.apply__O__O(x6))
       };
       var x$2 = $m_s_None$();
       if ((x$2 === x7)) {
@@ -17121,7 +17109,7 @@ function $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$
   }))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__choice__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("+", $thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__maybeInterleaving__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__choice__s_util_parsing_combinator_Parsers$Parser(this$2).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$4) => (() => {
+  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("+", $thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__maybeParallel__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__choice__s_util_parsing_combinator_Parsers$Parser(this$2).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$4) => (() => {
     var v = $m_s_None$();
     return $f_s_util_parsing_combinator_Parsers__success__O__s_util_parsing_combinator_Parsers$Parser(this$4, v)
   }))(this$2)))))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$3$1) => ((x$1) => {
@@ -17135,17 +17123,17 @@ function $p_Lmpst_syntax_Parser$__choice__s_util_parsing_combinator_Parsers$Pars
         var x30 = $as_Lmpst_syntax_Protocol(x24.s_util_parsing_combinator_Parsers$$tilde__f__2);
         if ((x24.s_util_parsing_combinator_Parsers$$tilde__f__1 === "+")) {
           if ((x25 instanceof $c_s_Some)) {
-            var choiceSyntax = $as_F1($as_s_Some(x25).s_Some__f_value);
-            return new $c_sjsr_AnonFunction1(((this$7, maybeParallelSyntax$2, choiceSyntax$2) => ((globalSyntax) => {
-              var globalSyntax$1 = $as_Lmpst_syntax_Protocol(globalSyntax);
-              return $as_Lmpst_syntax_Protocol(choiceSyntax$2.apply__O__O(new $c_Lmpst_syntax_Protocol$Choice(globalSyntax$1, maybeParallelSyntax$2)))
-            }))(this$3$1, x30, choiceSyntax))
+            var choice = $as_F1($as_s_Some(x25).s_Some__f_value);
+            return new $c_sjsr_AnonFunction1(((this$7, maybeParallel$2, choice$2) => ((global) => {
+              var global$1 = $as_Lmpst_syntax_Protocol(global);
+              return $as_Lmpst_syntax_Protocol(choice$2.apply__O__O(new $c_Lmpst_syntax_Protocol$Choice(global$1, maybeParallel$2)))
+            }))(this$3$1, x30, choice))
           };
           var x$2 = $m_s_None$();
           if ((x$2 === x25)) {
-            return new $c_sjsr_AnonFunction1(((this$2$1, maybeParallelSyntax$4) => ((globalSyntax$2) => {
-              var globalSyntax$3 = $as_Lmpst_syntax_Protocol(globalSyntax$2);
-              return new $c_Lmpst_syntax_Protocol$Choice(globalSyntax$3, maybeParallelSyntax$4)
+            return new $c_sjsr_AnonFunction1(((this$2$1, maybeParallel$4) => ((global$2) => {
+              var global$3 = $as_Lmpst_syntax_Protocol(global$2);
+              return new $c_Lmpst_syntax_Protocol$Choice(global$3, maybeParallel$4)
             }))(this$3$1, x30))
           }
         };
@@ -17155,8 +17143,8 @@ function $p_Lmpst_syntax_Parser$__choice__s_util_parsing_combinator_Parsers$Pars
     throw new $c_s_MatchError(x$1$1)
   }))($thiz)))
 }
-function $p_Lmpst_syntax_Parser$__maybeInterleaving__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__maybeSequence__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__interleaving__s_util_parsing_combinator_Parsers$Parser(this$1).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => {
+function $p_Lmpst_syntax_Parser$__maybeParallel__s_util_parsing_combinator_Parsers$Parser($thiz) {
+  return $p_Lmpst_syntax_Parser$__maybeSequence__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__parallel__s_util_parsing_combinator_Parsers$Parser(this$1).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => {
     var v = $m_s_None$();
     return $f_s_util_parsing_combinator_Parsers__success__O__s_util_parsing_combinator_Parsers$Parser(this$3, v)
   }))(this$1)))))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$2$1) => ((x$1) => {
@@ -17166,8 +17154,8 @@ function $p_Lmpst_syntax_Parser$__maybeInterleaving__s_util_parsing_combinator_P
       var x36 = $as_Lmpst_syntax_Protocol(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__1);
       var x37 = $as_s_Option(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
       if ((x37 instanceof $c_s_Some)) {
-        var parallelSyntax = $as_F1($as_s_Some(x37).s_Some__f_value);
-        return $as_Lmpst_syntax_Protocol(parallelSyntax.apply__O__O(x36))
+        var parallel = $as_F1($as_s_Some(x37).s_Some__f_value);
+        return $as_Lmpst_syntax_Protocol(parallel.apply__O__O(x36))
       };
       var x$2 = $m_s_None$();
       if ((x$2 === x37)) {
@@ -17177,8 +17165,8 @@ function $p_Lmpst_syntax_Parser$__maybeInterleaving__s_util_parsing_combinator_P
     throw new $c_s_MatchError(x$1$1)
   }))($thiz)))
 }
-function $p_Lmpst_syntax_Parser$__interleaving__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("||", $thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__maybeSequence__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__interleaving__s_util_parsing_combinator_Parsers$Parser(this$2).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$4) => (() => {
+function $p_Lmpst_syntax_Parser$__parallel__s_util_parsing_combinator_Parsers$Parser($thiz) {
+  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("||", $thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__maybeSequence__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__parallel__s_util_parsing_combinator_Parsers$Parser(this$2).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$4) => (() => {
     var v = $m_s_None$();
     return $f_s_util_parsing_combinator_Parsers__success__O__s_util_parsing_combinator_Parsers$Parser(this$4, v)
   }))(this$2)))))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$3$1) => ((x$1) => {
@@ -17192,17 +17180,17 @@ function $p_Lmpst_syntax_Parser$__interleaving__s_util_parsing_combinator_Parser
         var x60 = $as_Lmpst_syntax_Protocol(x54.s_util_parsing_combinator_Parsers$$tilde__f__2);
         if ((x54.s_util_parsing_combinator_Parsers$$tilde__f__1 === "||")) {
           if ((x55 instanceof $c_s_Some)) {
-            var parallelSyntax = $as_F1($as_s_Some(x55).s_Some__f_value);
-            return new $c_sjsr_AnonFunction1(((this$7, maybeSequenceSyntax$2, parallelSyntax$2) => ((globalSyntax) => {
-              var globalSyntax$1 = $as_Lmpst_syntax_Protocol(globalSyntax);
-              return $as_Lmpst_syntax_Protocol(parallelSyntax$2.apply__O__O(new $c_Lmpst_syntax_Protocol$Parallel(globalSyntax$1, maybeSequenceSyntax$2)))
-            }))(this$3$1, x60, parallelSyntax))
+            var parallel = $as_F1($as_s_Some(x55).s_Some__f_value);
+            return new $c_sjsr_AnonFunction1(((this$7, maybeSequence$2, parallel$2) => ((global) => {
+              var global$1 = $as_Lmpst_syntax_Protocol(global);
+              return $as_Lmpst_syntax_Protocol(parallel$2.apply__O__O(new $c_Lmpst_syntax_Protocol$Parallel(global$1, maybeSequence$2)))
+            }))(this$3$1, x60, parallel))
           };
           var x$2 = $m_s_None$();
           if ((x$2 === x55)) {
-            return new $c_sjsr_AnonFunction1(((this$2$1, maybeSequenceSyntax$4) => ((globalSyntax$2) => {
-              var globalSyntax$3 = $as_Lmpst_syntax_Protocol(globalSyntax$2);
-              return new $c_Lmpst_syntax_Protocol$Parallel(globalSyntax$3, maybeSequenceSyntax$4)
+            return new $c_sjsr_AnonFunction1(((this$2$1, maybeSequence$4) => ((global$2) => {
+              var global$3 = $as_Lmpst_syntax_Protocol(global$2);
+              return new $c_Lmpst_syntax_Protocol$Parallel(global$3, maybeSequence$4)
             }))(this$3$1, x60))
           }
         };
@@ -17223,8 +17211,8 @@ function $p_Lmpst_syntax_Parser$__maybeSequence__s_util_parsing_combinator_Parse
       var x66 = $as_Lmpst_syntax_Protocol(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__1);
       var x67 = $as_s_Option(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
       if ((x67 instanceof $c_s_Some)) {
-        var sequenceSyntax = $as_F1($as_s_Some(x67).s_Some__f_value);
-        return $as_Lmpst_syntax_Protocol(sequenceSyntax.apply__O__O(x66))
+        var sequence = $as_F1($as_s_Some(x67).s_Some__f_value);
+        return $as_Lmpst_syntax_Protocol(sequence.apply__O__O(x66))
       };
       var x$2 = $m_s_None$();
       if ((x$2 === x67)) {
@@ -17249,17 +17237,17 @@ function $p_Lmpst_syntax_Parser$__sequence__s_util_parsing_combinator_Parsers$Pa
         var x90 = $as_Lmpst_syntax_Protocol(x84.s_util_parsing_combinator_Parsers$$tilde__f__2);
         if ((x84.s_util_parsing_combinator_Parsers$$tilde__f__1 === ";")) {
           if ((x85 instanceof $c_s_Some)) {
-            var sequenceSyntax = $as_F1($as_s_Some(x85).s_Some__f_value);
-            return new $c_sjsr_AnonFunction1(((this$7, atomGlobalTypeSyntax$2, sequenceSyntax$2) => ((globalSyntax) => {
-              var globalSyntax$1 = $as_Lmpst_syntax_Protocol(globalSyntax);
-              return $as_Lmpst_syntax_Protocol(sequenceSyntax$2.apply__O__O(new $c_Lmpst_syntax_Protocol$Sequence(globalSyntax$1, atomGlobalTypeSyntax$2)))
-            }))(this$3$1, x90, sequenceSyntax))
+            var sequence = $as_F1($as_s_Some(x85).s_Some__f_value);
+            return new $c_sjsr_AnonFunction1(((this$7, atomGlobalType$2, sequence$2) => ((global) => {
+              var global$1 = $as_Lmpst_syntax_Protocol(global);
+              return $as_Lmpst_syntax_Protocol(sequence$2.apply__O__O(new $c_Lmpst_syntax_Protocol$Sequence(global$1, atomGlobalType$2)))
+            }))(this$3$1, x90, sequence))
           };
           var x$2 = $m_s_None$();
           if ((x$2 === x85)) {
-            return new $c_sjsr_AnonFunction1(((this$2$1, atomGlobalTypeSyntax$4) => ((globalSyntax$2) => {
-              var globalSyntax$3 = $as_Lmpst_syntax_Protocol(globalSyntax$2);
-              return new $c_Lmpst_syntax_Protocol$Sequence(globalSyntax$3, atomGlobalTypeSyntax$4)
+            return new $c_sjsr_AnonFunction1(((this$2$1, atomGlobalType$4) => ((global$2) => {
+              var global$3 = $as_Lmpst_syntax_Protocol(global$2);
+              return new $c_Lmpst_syntax_Protocol$Sequence(global$3, atomGlobalType$4)
             }))(this$3$1, x90))
           }
         };
@@ -17270,7 +17258,7 @@ function $p_Lmpst_syntax_Parser$__sequence__s_util_parsing_combinator_Parsers$Pa
   }))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__atomGlobalType__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__literal__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__recursionCall__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz)))
+  return $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__recursionKleeneStar__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__recursionCall__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => $p_Lmpst_syntax_Parser$__literal__s_util_parsing_combinator_Parsers$Parser(this$3)))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("def", $thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("in", this$2)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser(this$3)))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$4) => ((x$1) => {
@@ -17286,8 +17274,8 @@ function $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator
           if ((x105.s_util_parsing_combinator_Parsers$$tilde__f__1 === "def")) {
             var recursionVariable = $as_T(x105.s_util_parsing_combinator_Parsers$$tilde__f__2);
             if ((x102.s_util_parsing_combinator_Parsers$$tilde__f__2 === "in")) {
-              var globalSyntax = $as_Lmpst_syntax_Protocol(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
-              return new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(recursionVariable, globalSyntax)
+              var global = $as_Lmpst_syntax_Protocol(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
+              return new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(recursionVariable, global)
             }
           };
           throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "bad syntax on recursionFixedPoint")
@@ -17304,7 +17292,7 @@ function $p_Lmpst_syntax_Parser$__recursionCall__s_util_parsing_combinator_Parse
   }))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__literal__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__recursionKleeneStar__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__interaction__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => $p_Lmpst_syntax_Parser$__skip__s_util_parsing_combinator_Parsers$Parser(this$3)))($thiz)))
+  return $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__interaction__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__skip__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__recursionKleeneStar__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("*", this$1)))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$2) => ((x$1) => {
@@ -17866,9 +17854,8 @@ $c_Lmpst_utility_Multiset$.prototype.toString__T = (function() {
   return "Multiset"
 });
 $c_Lmpst_utility_Multiset$.prototype.apply__Lmpst_utility_Multiset = (function() {
-  var this$1 = $m_s_Predef$().s_Predef$__f_Map;
-  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([]));
-  return new $c_Lmpst_utility_Multiset(this$1.from__sc_IterableOnce__sci_Map(elems))
+  var data = $m_sci_Map$EmptyMap$();
+  return new $c_Lmpst_utility_Multiset(data)
 });
 var $d_Lmpst_utility_Multiset$ = new $TypeData().initClass({
   Lmpst_utility_Multiset$: 0
@@ -22784,25 +22771,25 @@ var $d_jl_StringBuilder = new $TypeData().initClass({
 $c_jl_StringBuilder.prototype.$classData = $d_jl_StringBuilder;
 class $c_jl_VirtualMachineError extends $c_jl_Error {
 }
-function $p_Lmpst_frontend_Examples__mkVeryGentleIntroMPST__Lcaos_frontend_Setting($thiz) {
-  return $thiz.Lmpst_frontend_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Merge.Full"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Comm Model.Sync"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Recursion.Fixed Point"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Extra Requirements.Well Branched"), true)
+function $p_Lmpst_frontend_auxiliary_Examples__mkVeryGentleIntroMPST__Lcaos_frontend_Setting($thiz) {
+  return $thiz.Lmpst_frontend_auxiliary_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Merge.Full"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Comm Model.Sync"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Recursion.Fixed Point"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Extra Requirements.Well Branched"), true)
 }
-function $p_Lmpst_frontend_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting($thiz) {
-  return $thiz.Lmpst_frontend_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Merge.Plain"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Comm Model.Async (Causal)"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Recursion.Fixed Point"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Extra Requirements.Well Branched"), true)
+function $p_Lmpst_frontend_auxiliary_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting($thiz) {
+  return $thiz.Lmpst_frontend_auxiliary_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Merge.Plain"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Comm Model.Async (Causal)"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Recursion.Fixed Point"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Extra Requirements.Well Branched"), true)
 }
-function $p_Lmpst_frontend_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting($thiz) {
-  return $thiz.Lmpst_frontend_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Merge.Plain"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Comm Model.Async (Causal)"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Parallel"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Extra Requirements.Well Branched"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Extra Requirements.Well Channeled"), true)
+function $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting($thiz) {
+  return $thiz.Lmpst_frontend_auxiliary_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Merge.Plain"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Comm Model.Async (Causal)"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Parallel"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Extra Requirements.Well Branched"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Extra Requirements.Well Channeled"), true)
 }
-function $p_Lmpst_frontend_Examples__mkST4MP__Lcaos_frontend_Setting($thiz) {
-  return $thiz.Lmpst_frontend_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Merge.Plain"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Comm Model.Async (Causal)"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Parallel"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Recursion.Kleene Star"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Extra Requirements.Well Branched"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_Examples__f_root + ".Extra Requirements.Well Channeled"), true)
+function $p_Lmpst_frontend_auxiliary_Examples__mkST4MP__Lcaos_frontend_Setting($thiz) {
+  return $thiz.Lmpst_frontend_auxiliary_Examples__f_setting.setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Merge.Plain"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Comm Model.Async (Causal)"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Parallel"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Recursion.Kleene Star"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Extra Requirements.Well Branched"), true).setCheckedPath__T__Z__Lcaos_frontend_Setting(($thiz.Lmpst_frontend_auxiliary_Examples__f_root + ".Extra Requirements.Well Channeled"), true)
 }
 /** @constructor */
-function $c_Lmpst_frontend_Examples(setting, root) {
-  this.Lmpst_frontend_Examples__f_setting = null;
-  this.Lmpst_frontend_Examples__f_root = null;
-  this.Lmpst_frontend_Examples__f_examples = null;
-  this.Lmpst_frontend_Examples__f_setting = setting;
-  this.Lmpst_frontend_Examples__f_root = root;
+function $c_Lmpst_frontend_auxiliary_Examples(setting, root) {
+  this.Lmpst_frontend_auxiliary_Examples__f_setting = null;
+  this.Lmpst_frontend_auxiliary_Examples__f_root = null;
+  this.Lmpst_frontend_auxiliary_Examples__f_examples = null;
+  this.Lmpst_frontend_auxiliary_Examples__f_setting = setting;
+  this.Lmpst_frontend_auxiliary_Examples__f_root = root;
   $m_s_package$();
   var $$x18 = $m_sr_ScalaRunTime$();
   var setting$1 = new $c_s_Some(setting);
@@ -22819,64 +22806,64 @@ function $c_Lmpst_frontend_Examples(setting, root) {
   var $$x12 = new $c_Lcaos_frontend_Configurator$Example("(wA->wB:TaskA ; wB->m:DoneA)\n\t+\n(wA->wB:TaskB ; wB->m:DoneB)", "simple branching - v2", "a simple branching protocol - full-merge (no settings)", setting$6);
   var setting$7 = new $c_s_Some(setting);
   var $$x11 = new $c_Lcaos_frontend_Configurator$Example("def X in (\n\tm->w:Work ; w->m:Done ; X + m->w:Quit\n)", "master-worker - fixed point recursion", "sequentialized master-worker with fixed point recursion (no settings)", setting$7);
-  var y = $p_Lmpst_frontend_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this);
+  var y = $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this);
   var setting$8 = new $c_s_Some(y);
   var $$x10 = new $c_Lcaos_frontend_Configurator$Example("m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done", "APIGenInScala3 settings", "APIGenInScala3 settings (placeholder protocol)", setting$8);
-  var y$1 = $p_Lmpst_frontend_Examples__mkST4MP__Lcaos_frontend_Setting(this);
+  var y$1 = $p_Lmpst_frontend_auxiliary_Examples__mkST4MP__Lcaos_frontend_Setting(this);
   var setting$9 = new $c_s_Some(y$1);
   var $$x9 = new $c_Lcaos_frontend_Configurator$Example("m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done", "ST4MP settings", "ST4MP settings (placeholder protocol)", setting$9);
-  var y$2 = $p_Lmpst_frontend_Examples__mkVeryGentleIntroMPST__Lcaos_frontend_Setting(this);
+  var y$2 = $p_Lmpst_frontend_auxiliary_Examples__mkVeryGentleIntroMPST__Lcaos_frontend_Setting(this);
   var setting$10 = new $c_s_Some(y$2);
   var $$x8 = new $c_Lcaos_frontend_Configurator$Example("m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done", "VeryGentleIntroMPST settings", "VeryGentleIntroMPST settings (placeholder protocol)", setting$10);
-  var y$3 = $p_Lmpst_frontend_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
+  var y$3 = $p_Lmpst_frontend_auxiliary_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
   var setting$11 = new $c_s_Some(y$3);
   var $$x7 = new $c_Lcaos_frontend_Configurator$Example("m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done", "GentleIntroMPAsyncST settings", "GentleIntroMPAsyncST settings (placeholder protocol)", setting$11);
-  var y$4 = $p_Lmpst_frontend_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this);
+  var y$4 = $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this);
   var setting$12 = new $c_s_Some(y$4);
   var $$x6 = new $c_Lcaos_frontend_Configurator$Example("m->wA:Work ; m->wB:Work ;\n(wA->m:Done || wB->m:Done)", "master-workers - v1 (APIGenInScala3)", "master-workers-v1 under the APIGenInScala3 settings", setting$12);
-  var y$5 = $p_Lmpst_frontend_Examples__mkST4MP__Lcaos_frontend_Setting(this);
+  var y$5 = $p_Lmpst_frontend_auxiliary_Examples__mkST4MP__Lcaos_frontend_Setting(this);
   var setting$13 = new $c_s_Some(y$5);
   var $$x5 = new $c_Lcaos_frontend_Configurator$Example("(\n\tm->wA:Work ; m->wB:Work ;\n\t(wA->m:Done || wB->m:Done)\n)*", "master-workers - v2 (ST4MP)", "master-workers-v2 under the ST4MP settings", setting$13);
-  var y$6 = $p_Lmpst_frontend_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
+  var y$6 = $p_Lmpst_frontend_auxiliary_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
   var setting$14 = new $c_s_Some(y$6);
   var $$x4 = new $c_Lcaos_frontend_Configurator$Example("(wA->wB:TaskA ; wB->m:DoneA)\n\t+\n(wA->wB:TaskB ; wB->m:DoneA)", "simple branching - v1 (GentleIntroMPAsyncST)", "simple branching - v1 under the GentleIntroMPAsyncST", setting$14);
-  var y$7 = $p_Lmpst_frontend_Examples__mkVeryGentleIntroMPST__Lcaos_frontend_Setting(this);
+  var y$7 = $p_Lmpst_frontend_auxiliary_Examples__mkVeryGentleIntroMPST__Lcaos_frontend_Setting(this);
   var setting$15 = new $c_s_Some(y$7);
   var $$x3 = new $c_Lcaos_frontend_Configurator$Example("(wA->wB:TaskA ; wB->m:DoneA)\n\t+\n(wA->wB:TaskB ; wB->m:DoneB)", "simple branching - v2 (VeryGentleIntroMPST)", "simple branching - v2 under the VeryGentleIntroMPST settings", setting$15);
-  var y$8 = $p_Lmpst_frontend_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this).setCheckedPath__T__Z__Lcaos_frontend_Setting((root + ".Comm Model.Async (Non-Causal)"), true);
+  var y$8 = $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this).setCheckedPath__T__Z__Lcaos_frontend_Setting((root + ".Comm Model.Async (Non-Causal)"), true);
   var setting$16 = new $c_s_Some(y$8);
   var $$x2 = new $c_Lcaos_frontend_Configurator$Example("m->w:TaskA || m->w:TaskB", "simple task delegation (APIGenInScala3 vs Non-Causal Async.)", "simple delegation under the APIGenInScala3 settings vs non-causal async. communication", setting$16);
-  var y$9 = $p_Lmpst_frontend_Examples__mkST4MP__Lcaos_frontend_Setting(this);
+  var y$9 = $p_Lmpst_frontend_auxiliary_Examples__mkST4MP__Lcaos_frontend_Setting(this);
   var setting$17 = new $c_s_Some(y$9);
   var $$x1 = new $c_Lcaos_frontend_Configurator$Example("def X in (\n\tm->w:Work ; w->m:Done ; X + m->w:Quit\n)", "master-worker - fixed point recursion (ST4MP) | recursion fail", "failed recursion for the master-worker - fixed point recursion under ST4MP settings", setting$17);
-  var y$10 = $p_Lmpst_frontend_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
+  var y$10 = $p_Lmpst_frontend_auxiliary_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
   var setting$18 = new $c_s_Some(y$10);
   var elems = $$x18.wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([$$x17, $$x16, $$x15, $$x14, $$x13, $$x12, $$x11, $$x10, $$x9, $$x8, $$x7, $$x6, $$x5, $$x4, $$x3, $$x2, $$x1, new $c_Lcaos_frontend_Configurator$Example("(\n\tm->wA:Work ; m->wB:Work ;\n\t(wA->m:Done || wB->m:Done)\n)*", "master-workers - v2 (GentleIntroMPAsyncST) | parallel fail", "failed parallel for the master-workers - v2 under GentleIntroMPAsyncST settings", setting$18)]));
-  this.Lmpst_frontend_Examples__f_examples = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)
+  this.Lmpst_frontend_auxiliary_Examples__f_examples = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)
 }
-$c_Lmpst_frontend_Examples.prototype = new $h_O();
-$c_Lmpst_frontend_Examples.prototype.constructor = $c_Lmpst_frontend_Examples;
+$c_Lmpst_frontend_auxiliary_Examples.prototype = new $h_O();
+$c_Lmpst_frontend_auxiliary_Examples.prototype.constructor = $c_Lmpst_frontend_auxiliary_Examples;
 /** @constructor */
-function $h_Lmpst_frontend_Examples() {
+function $h_Lmpst_frontend_auxiliary_Examples() {
   /*<skip>*/
 }
-$h_Lmpst_frontend_Examples.prototype = $c_Lmpst_frontend_Examples.prototype;
-$c_Lmpst_frontend_Examples.prototype.productIterator__sc_Iterator = (function() {
+$h_Lmpst_frontend_auxiliary_Examples.prototype = $c_Lmpst_frontend_auxiliary_Examples.prototype;
+$c_Lmpst_frontend_auxiliary_Examples.prototype.productIterator__sc_Iterator = (function() {
   return new $c_s_Product$$anon$1(this)
 });
-$c_Lmpst_frontend_Examples.prototype.hashCode__I = (function() {
+$c_Lmpst_frontend_auxiliary_Examples.prototype.hashCode__I = (function() {
   var this$2 = $m_s_util_hashing_MurmurHash3$();
   return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
 });
-$c_Lmpst_frontend_Examples.prototype.equals__O__Z = (function(x$0) {
+$c_Lmpst_frontend_auxiliary_Examples.prototype.equals__O__Z = (function(x$0) {
   if ((this === x$0)) {
     return true
-  } else if ((x$0 instanceof $c_Lmpst_frontend_Examples)) {
-    var x$0$2 = $as_Lmpst_frontend_Examples(x$0);
-    var x = this.Lmpst_frontend_Examples__f_setting;
-    var x$2 = x$0$2.Lmpst_frontend_Examples__f_setting;
+  } else if ((x$0 instanceof $c_Lmpst_frontend_auxiliary_Examples)) {
+    var x$0$2 = $as_Lmpst_frontend_auxiliary_Examples(x$0);
+    var x = this.Lmpst_frontend_auxiliary_Examples__f_setting;
+    var x$2 = x$0$2.Lmpst_frontend_auxiliary_Examples__f_setting;
     if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
-      return (this.Lmpst_frontend_Examples__f_root === x$0$2.Lmpst_frontend_Examples__f_root)
+      return (this.Lmpst_frontend_auxiliary_Examples__f_root === x$0$2.Lmpst_frontend_auxiliary_Examples__f_root)
     } else {
       return false
     }
@@ -22884,44 +22871,44 @@ $c_Lmpst_frontend_Examples.prototype.equals__O__Z = (function(x$0) {
     return false
   }
 });
-$c_Lmpst_frontend_Examples.prototype.toString__T = (function() {
+$c_Lmpst_frontend_auxiliary_Examples.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
 });
-$c_Lmpst_frontend_Examples.prototype.productArity__I = (function() {
+$c_Lmpst_frontend_auxiliary_Examples.prototype.productArity__I = (function() {
   return 2
 });
-$c_Lmpst_frontend_Examples.prototype.productPrefix__T = (function() {
+$c_Lmpst_frontend_auxiliary_Examples.prototype.productPrefix__T = (function() {
   return "Examples"
 });
-$c_Lmpst_frontend_Examples.prototype.productElement__I__O = (function(n) {
+$c_Lmpst_frontend_auxiliary_Examples.prototype.productElement__I__O = (function(n) {
   if ((n === 0)) {
-    return this.Lmpst_frontend_Examples__f_setting
+    return this.Lmpst_frontend_auxiliary_Examples__f_setting
   };
   if ((n === 1)) {
-    return this.Lmpst_frontend_Examples__f_root
+    return this.Lmpst_frontend_auxiliary_Examples__f_root
   };
   throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
 });
-function $as_Lmpst_frontend_Examples(obj) {
-  return (((obj instanceof $c_Lmpst_frontend_Examples) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.frontend.Examples"))
+function $as_Lmpst_frontend_auxiliary_Examples(obj) {
+  return (((obj instanceof $c_Lmpst_frontend_auxiliary_Examples) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.frontend.auxiliary.Examples"))
 }
-function $isArrayOf_Lmpst_frontend_Examples(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmpst_frontend_Examples)))
+function $isArrayOf_Lmpst_frontend_auxiliary_Examples(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmpst_frontend_auxiliary_Examples)))
 }
-function $asArrayOf_Lmpst_frontend_Examples(obj, depth) {
-  return (($isArrayOf_Lmpst_frontend_Examples(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmpst.frontend.Examples;", depth))
+function $asArrayOf_Lmpst_frontend_auxiliary_Examples(obj, depth) {
+  return (($isArrayOf_Lmpst_frontend_auxiliary_Examples(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmpst.frontend.auxiliary.Examples;", depth))
 }
-var $d_Lmpst_frontend_Examples = new $TypeData().initClass({
-  Lmpst_frontend_Examples: 0
-}, false, "mpst.frontend.Examples", {
-  Lmpst_frontend_Examples: 1,
+var $d_Lmpst_frontend_auxiliary_Examples = new $TypeData().initClass({
+  Lmpst_frontend_auxiliary_Examples: 0
+}, false, "mpst.frontend.auxiliary.Examples", {
+  Lmpst_frontend_auxiliary_Examples: 1,
   O: 1,
   s_Equals: 1,
   s_Product: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lmpst_frontend_Examples.prototype.$classData = $d_Lmpst_frontend_Examples;
-function $p_Lmpst_frontend_Widgets__toPrettyPrint__sci_Map__T($thiz, map) {
+$c_Lmpst_frontend_auxiliary_Examples.prototype.$classData = $d_Lmpst_frontend_auxiliary_Examples;
+function $p_Lmpst_frontend_auxiliary_Widgets__toPrettyPrint__sci_Map__T($thiz, map) {
   var this$1 = $as_sc_IterableOnceOps(map.map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     if ((x$1$1 !== null)) {
@@ -22933,7 +22920,7 @@ function $p_Lmpst_frontend_Widgets__toPrettyPrint__sci_Map__T($thiz, map) {
   }))));
   return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$1, "", "\n", "")
 }
-function $p_Lmpst_frontend_Widgets__localsWithParticipant__sci_Set__Lmpst_syntax_Protocol__sci_Set($thiz, enabledMerge, global) {
+function $p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__sci_Set__Lmpst_syntax_Protocol__sci_Set($thiz, enabledMerge, global) {
   if (enabledMerge.exists__F1__Z(new $c_sjsr_AnonFunction1(((_$33) => {
     var _$33$1 = $as_Lcaos_frontend_Setting(_$33);
     return (_$33$1.Lcaos_frontend_Setting__f_name === "Plain")
@@ -22953,13 +22940,13 @@ function $p_Lmpst_frontend_Widgets__localsWithParticipant__sci_Set__Lmpst_syntax
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "Merge - some option must be enabled")
   };
   var localsWithParticipant = $as_sci_Set(localsWithParticipantOption.get__O());
-  $p_Lmpst_frontend_Widgets__allChecksLocals__sci_Set__V($thiz, localsWithParticipant);
+  $p_Lmpst_frontend_auxiliary_Widgets__allChecksLocals__sci_Set__V($thiz, localsWithParticipant);
   return localsWithParticipant
 }
-function $p_Lmpst_frontend_Widgets__localsWithParticipant$default$1__sci_Set($thiz) {
-  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_Widgets__f_root + ".Merge"))
+function $p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant$default$1__sci_Set($thiz) {
+  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_auxiliary_Widgets__f_root + ".Merge"))
 }
-function $p_Lmpst_frontend_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3($thiz, enabledMerge, global) {
+function $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3($thiz, enabledMerge, global) {
   if (enabledMerge.exists__F1__Z(new $c_sjsr_AnonFunction1(((_$35) => {
     var _$35$1 = $as_Lcaos_frontend_Setting(_$35);
     return (_$35$1.Lcaos_frontend_Setting__f_name === "Plain")
@@ -22985,13 +22972,13 @@ function $p_Lmpst_frontend_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Prot
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "Merge - some option must be enabled")
   };
   var initialState = $as_T3(initialStateOption.get__O());
-  $p_Lmpst_frontend_Widgets__allChecksLocals__sci_Set__V($thiz, $as_sci_Set(initialState.T3__f__1));
+  $p_Lmpst_frontend_auxiliary_Widgets__allChecksLocals__sci_Set__V($thiz, $as_sci_Set(initialState.T3__f__1));
   return initialState
 }
-function $p_Lmpst_frontend_Widgets__initialStateSync$default$1__sci_Set($thiz) {
-  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_Widgets__f_root + ".Merge"))
+function $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync$default$1__sci_Set($thiz) {
+  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_auxiliary_Widgets__f_root + ".Merge"))
 }
-function $p_Lmpst_frontend_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3($thiz, enabledMerge, global) {
+function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3($thiz, enabledMerge, global) {
   if (enabledMerge.exists__F1__Z(new $c_sjsr_AnonFunction1(((_$37) => {
     var _$37$1 = $as_Lcaos_frontend_Setting(_$37);
     return (_$37$1.Lcaos_frontend_Setting__f_name === "Plain")
@@ -23017,13 +23004,13 @@ function $p_Lmpst_frontend_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_P
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "Merge - some option must be enabled")
   };
   var initialState = $as_T3(initialStateOption.get__O());
-  $p_Lmpst_frontend_Widgets__allChecksLocals__sci_Set__V($thiz, $as_sci_Set(initialState.T3__f__1));
+  $p_Lmpst_frontend_auxiliary_Widgets__allChecksLocals__sci_Set__V($thiz, $as_sci_Set(initialState.T3__f__1));
   return initialState
 }
-function $p_Lmpst_frontend_Widgets__initialStateAsyncCS$default$1__sci_Set($thiz) {
-  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_Widgets__f_root + ".Merge"))
+function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS$default$1__sci_Set($thiz) {
+  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_auxiliary_Widgets__f_root + ".Merge"))
 }
-function $p_Lmpst_frontend_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3($thiz, enabledMerge, global) {
+function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3($thiz, enabledMerge, global) {
   if (enabledMerge.exists__F1__Z(new $c_sjsr_AnonFunction1(((_$39) => {
     var _$39$1 = $as_Lcaos_frontend_Setting(_$39);
     return (_$39$1.Lcaos_frontend_Setting__f_name === "Plain")
@@ -23049,36 +23036,36 @@ function $p_Lmpst_frontend_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_
     throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "Merge - some option must be enabled")
   };
   var initialState = $as_T3(initialStateOption.get__O());
-  $p_Lmpst_frontend_Widgets__allChecksLocals__sci_Set__V($thiz, $as_sci_Set(initialState.T3__f__1));
+  $p_Lmpst_frontend_auxiliary_Widgets__allChecksLocals__sci_Set__V($thiz, $as_sci_Set(initialState.T3__f__1));
   return initialState
 }
-function $p_Lmpst_frontend_Widgets__initialStateAsyncNCS$default$1__sci_Set($thiz) {
-  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_Widgets__f_root + ".Merge"))
+function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS$default$1__sci_Set($thiz) {
+  return $m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(($thiz.Lmpst_frontend_auxiliary_Widgets__f_root + ".Merge"))
 }
-function $p_Lmpst_frontend_Widgets__allChecksLocals__sci_Set__V($thiz, localsWithParticipant) {
-  $p_Lmpst_frontend_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, new $c_sjsr_AnonFunction1(((protocol) => {
+function $p_Lmpst_frontend_auxiliary_Widgets__allChecksLocals__sci_Set__V($thiz, localsWithParticipant) {
+  $p_Lmpst_frontend_auxiliary_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, new $c_sjsr_AnonFunction1(((protocol) => {
     var protocol$1 = $as_Lmpst_syntax_Protocol(protocol);
     return $m_Lmpst_syntax_Protocol$().hasParallel__Lmpst_syntax_Protocol__Z(protocol$1)
-  })), new $c_sjsr_AnonFunction0(((this$1) => (() => (!$m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(this$1.Lmpst_frontend_Widgets__f_root).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$41) => {
+  })), new $c_sjsr_AnonFunction0(((this$1) => (() => (!$m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set(this$1.Lmpst_frontend_auxiliary_Widgets__f_root).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$41) => {
     var _$41$1 = $as_Lcaos_frontend_Setting(_$41);
     return (_$41$1.Lcaos_frontend_Setting__f_name === "Parallel")
   }))))))($thiz)), "Parallel");
-  $p_Lmpst_frontend_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, new $c_sjsr_AnonFunction1(((protocol$2) => {
+  $p_Lmpst_frontend_auxiliary_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, new $c_sjsr_AnonFunction1(((protocol$2) => {
     var protocol$3 = $as_Lmpst_syntax_Protocol(protocol$2);
     return $m_Lmpst_syntax_Protocol$().hasKleeneStarRecursion__Lmpst_syntax_Protocol__Z(protocol$3)
-  })), new $c_sjsr_AnonFunction0(((this$2) => (() => (!$m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set((this$2.Lmpst_frontend_Widgets__f_root + ".Recursion")).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$42) => {
+  })), new $c_sjsr_AnonFunction0(((this$2) => (() => (!$m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set((this$2.Lmpst_frontend_auxiliary_Widgets__f_root + ".Recursion")).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$42) => {
     var _$42$1 = $as_Lcaos_frontend_Setting(_$42);
     return (_$42$1.Lcaos_frontend_Setting__f_name === "Kleene Star")
   }))))))($thiz)), "Recursion Kleene Star");
-  $p_Lmpst_frontend_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, new $c_sjsr_AnonFunction1(((protocol$3$1) => {
+  $p_Lmpst_frontend_auxiliary_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, new $c_sjsr_AnonFunction1(((protocol$3$1) => {
     var protocol$4 = $as_Lmpst_syntax_Protocol(protocol$3$1);
     return $m_Lmpst_syntax_Protocol$().hasFixedPointRecursion__Lmpst_syntax_Protocol__Z(protocol$4)
-  })), new $c_sjsr_AnonFunction0(((this$3) => (() => (!$m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set((this$3.Lmpst_frontend_Widgets__f_root + ".Recursion")).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$43) => {
+  })), new $c_sjsr_AnonFunction0(((this$3) => (() => (!$m_Lcaos_frontend_Site$().getSetting__Lcaos_frontend_Setting().allActiveLeavesFrom__T__sci_Set((this$3.Lmpst_frontend_auxiliary_Widgets__f_root + ".Recursion")).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$43) => {
     var _$43$1 = $as_Lcaos_frontend_Setting(_$43);
     return (_$43$1.Lcaos_frontend_Setting__f_name === "Fixed Point")
   }))))))($thiz)), "Recursion Fixed Point")
 }
-function $p_Lmpst_frontend_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, localCondition, settingCondition, prefix) {
+function $p_Lmpst_frontend_auxiliary_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, localsWithParticipant, localCondition, settingCondition, prefix) {
   localsWithParticipant.foreach__F1__V(new $c_sjsr_AnonFunction1(((localCondition$2, settingCondition$2, prefix$2) => ((x$1) => {
     var x$1$1 = $as_T2(x$1);
     if ((x$1$1 !== null)) {
@@ -23091,15 +23078,15 @@ function $p_Lmpst_frontend_Widgets__checkLocals__sci_Set__F1__F0__T__V($thiz, lo
   }))(localCondition, settingCondition, prefix)))
 }
 /** @constructor */
-function $c_Lmpst_frontend_Widgets(root) {
-  this.Lmpst_frontend_Widgets__f_root = null;
-  this.Lmpst_frontend_Widgets__f_widgets = null;
-  this.Lmpst_frontend_Widgets__f_root = root;
+function $c_Lmpst_frontend_auxiliary_Widgets(root) {
+  this.Lmpst_frontend_auxiliary_Widgets__f_root = null;
+  this.Lmpst_frontend_auxiliary_Widgets__f_widgets = null;
+  this.Lmpst_frontend_auxiliary_Widgets__f_root = root;
   $m_s_package$();
   var $$x18 = $m_sr_ScalaRunTime$();
   var y = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
     var global$1 = $as_Lmpst_syntax_Protocol(global);
-    return $m_Lmpst_frontend_MessageSequenceChart$().apply__Lmpst_syntax_Protocol__T(global$1)
+    return $m_Lmpst_frontend_auxiliary_view_MessageSequenceChart$().apply__Lmpst_syntax_Protocol__T(global$1)
   })), $m_Lcaos_view_Mermaid$());
   var $$x17 = new $c_T2("Message Sequence Chart", y);
   var y$1 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global$2) => {
@@ -23109,7 +23096,7 @@ function $c_Lmpst_frontend_Widgets(root) {
   var $$x16 = new $c_T2("Global", y$1);
   var this$10 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$7) => ((global$3$1) => {
     var global$4 = $as_Lmpst_syntax_Protocol(global$3$1);
-    var this$8 = $as_sc_IterableOnceOps($p_Lmpst_frontend_Widgets__localsWithParticipant__sci_Set__Lmpst_syntax_Protocol__sci_Set(this$7, $p_Lmpst_frontend_Widgets__localsWithParticipant$default$1__sci_Set(this$7), global$4).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
+    var this$8 = $as_sc_IterableOnceOps($p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__sci_Set__Lmpst_syntax_Protocol__sci_Set(this$7, $p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant$default$1__sci_Set(this$7), global$4).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
       var x$1$1 = $as_T2(x$1);
       if ((x$1$1 !== null)) {
         var participant = $as_T(x$1$1.T2__f__1);
@@ -23129,17 +23116,17 @@ function $c_Lmpst_frontend_Widgets(root) {
   var this$19 = $m_Lcaos_frontend_Configurator$().viewMerms__F1__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$2$1) => ((global$4$1) => {
     var global$5 = $as_Lmpst_syntax_Protocol(global$4$1);
     var environment = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global$5);
-    return $as_sc_IterableOnceOps($p_Lmpst_frontend_Widgets__localsWithParticipant__sci_Set__Lmpst_syntax_Protocol__sci_Set(this$2$1, $p_Lmpst_frontend_Widgets__localsWithParticipant$default$1__sci_Set(this$2$1), global$5).map__F1__O(new $c_sjsr_AnonFunction1(((this$13, environment$2) => ((x$1$2) => {
+    return $as_sc_IterableOnceOps($p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__sci_Set__Lmpst_syntax_Protocol__sci_Set(this$2$1, $p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant$default$1__sci_Set(this$2$1), global$5).map__F1__O(new $c_sjsr_AnonFunction1(((this$13, environment$2) => ((x$1$2) => {
       var x$1$3 = $as_T2(x$1$2);
       if ((x$1$3 !== null)) {
         var participant$1 = $as_T(x$1$3.T2__f__1);
         var local$1 = $as_Lmpst_syntax_Protocol(x$1$3.T2__f__2);
         var $$x13 = $m_Lcaos_sos_SOS$();
-        var $$x12 = $m_Lmpst_frontend_caos\uff3fwrapper_MPSTEnvironmentWrapper$MPSTSemanticWrapper$();
+        var $$x12 = $m_Lmpst_frontend_auxiliary_wrappers_MPSTEnvironmentWrapper$MPSTSemanticWrapper$();
         var y$3 = environment$2.apply__O__O(participant$1);
         var lts = $$x13.toMermaid__Lcaos_sos_SOS__O__F1__F1__I__T($$x12, new $c_T2(local$1, y$3), new $c_sjsr_AnonFunction1(((this$16) => ((x$1$2$1) => {
           var x$1$4 = $as_T2(x$1$2$1);
-          return $p_Lmpst_frontend_Widgets__toPrettyPrint__sci_Map__T(this$16, $as_sci_Map(x$1$4.T2__f__2))
+          return $p_Lmpst_frontend_auxiliary_Widgets__toPrettyPrint__sci_Map__T(this$16, $as_sci_Map(x$1$4.T2__f__2))
         }))(this$13)), new $c_sjsr_AnonFunction1(((_$2) => {
           var _$2$1 = $as_Lmpst_syntax_Protocol(_$2);
           return _$2$1.toString__T()
@@ -23157,8 +23144,8 @@ function $c_Lmpst_frontend_Widgets(root) {
   var $$x14 = new $c_T2("Local Automata", y$4);
   var this$25 = $m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$3$1) => ((global$5$1) => {
     var global$6 = $as_Lmpst_syntax_Protocol(global$5$1);
-    return $p_Lmpst_frontend_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$3$1, $p_Lmpst_frontend_Widgets__initialStateSync$default$1__sci_Set(this$3$1), global$6)
-  }))(this)), $m_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$(), new $c_sjsr_AnonFunction1(((x$1$5) => {
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$3$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync$default$1__sci_Set(this$3$1), global$6)
+  }))(this)), $m_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$(), new $c_sjsr_AnonFunction1(((x$1$5) => {
     var x$1$6 = $as_T3(x$1$5);
     var this$22 = $as_sci_Set(x$1$6.T3__f__1);
     var this$23 = $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$22);
@@ -23189,8 +23176,8 @@ function $c_Lmpst_frontend_Widgets(root) {
   var $$x11 = new $c_T2("Local Compositional Automata - Synchronous", y$5);
   var this$31 = $m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$4$1) => ((global$6$1) => {
     var global$7 = $as_Lmpst_syntax_Protocol(global$6$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$4$1, $p_Lmpst_frontend_Widgets__initialStateAsyncCS$default$1__sci_Set(this$4$1), global$7)
-  }))(this)), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$(), new $c_sjsr_AnonFunction1(((x$1$2$3) => {
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$4$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS$default$1__sci_Set(this$4$1), global$7)
+  }))(this)), $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$(), new $c_sjsr_AnonFunction1(((x$1$2$3) => {
     var x$1$8 = $as_T3(x$1$2$3);
     var this$28 = $as_sci_Set(x$1$8.T3__f__1);
     var this$29 = $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$28);
@@ -23221,8 +23208,8 @@ function $c_Lmpst_frontend_Widgets(root) {
   var $$x10 = new $c_T2("Local Compositional Automata - Asynchronous (Causal)", y$6);
   var this$37 = $m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$5$1) => ((global$7$1) => {
     var global$8 = $as_Lmpst_syntax_Protocol(global$7$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$5$1, $p_Lmpst_frontend_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$5$1), global$8)
-  }))(this)), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((x$1$3$1) => {
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$5$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$5$1), global$8)
+  }))(this)), $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((x$1$3$1) => {
     var x$1$10 = $as_T3(x$1$3$1);
     var this$34 = $as_sci_Set(x$1$10.T3__f__1);
     var this$35 = $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$34);
@@ -23253,8 +23240,8 @@ function $c_Lmpst_frontend_Widgets(root) {
   var $$x9 = new $c_T2("Local Compositional Automata - Asynchronous (Non-Causal)", y$7);
   var this$44 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$6$1) => ((global$8$1) => {
     var global$9 = $as_Lmpst_syntax_Protocol(global$8$1);
-    return $p_Lmpst_frontend_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$6$1, $p_Lmpst_frontend_Widgets__initialStateSync$default$1__sci_Set(this$6$1), global$9)
-  }))(this)), $m_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$(), new $c_sjsr_AnonFunction1(((x$1$4$1) => {
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$6$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync$default$1__sci_Set(this$6$1), global$9)
+  }))(this)), $m_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$(), new $c_sjsr_AnonFunction1(((x$1$4$1) => {
     var x$1$12 = $as_T3(x$1$4$1);
     var this$40 = $as_sci_Set(x$1$12.T3__f__1);
     var this$41 = $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$40);
@@ -23282,8 +23269,8 @@ function $c_Lmpst_frontend_Widgets(root) {
   var $$x8 = new $c_T2("Step-by-Step - Synchronous", y$8);
   var this$51 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$7$1) => ((global$9$1) => {
     var global$10 = $as_Lmpst_syntax_Protocol(global$9$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$7$1, $p_Lmpst_frontend_Widgets__initialStateAsyncCS$default$1__sci_Set(this$7$1), global$10)
-  }))(this)), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$(), new $c_sjsr_AnonFunction1(((x$1$5$1) => {
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$7$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS$default$1__sci_Set(this$7$1), global$10)
+  }))(this)), $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$(), new $c_sjsr_AnonFunction1(((x$1$5$1) => {
     var x$1$14 = $as_T3(x$1$5$1);
     var this$47 = $as_sci_Set(x$1$14.T3__f__1);
     var this$48 = $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$47);
@@ -23311,8 +23298,8 @@ function $c_Lmpst_frontend_Widgets(root) {
   var $$x7 = new $c_T2("Step-by-Step Asynchronous (Causal)", y$9);
   var this$58 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((this$8$1) => ((global$10$1) => {
     var global$11 = $as_Lmpst_syntax_Protocol(global$10$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$8$1, $p_Lmpst_frontend_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$8$1), global$11)
-  }))(this)), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((x$1$6$1) => {
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$8$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$8$1), global$11)
+  }))(this)), $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((x$1$6$1) => {
     var x$1$16 = $as_T3(x$1$6$1);
     var this$54 = $as_sci_Set(x$1$16.T3__f__1);
     var this$55 = $m_sci_Seq$().from__sc_IterableOnce__sci_Seq(this$54);
@@ -23338,12 +23325,12 @@ function $c_Lmpst_frontend_Widgets(root) {
   })))))(root));
   var y$10 = $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$58, condition$7);
   var $$x6 = new $c_T2("Step-by-Step Asynchronous (Non-Causal)", y$10);
-  var this$67 = $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($m_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$(), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$(), new $c_sjsr_AnonFunction1(((this$9$1) => ((global$11$1) => {
+  var this$67 = $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($m_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$(), $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$(), new $c_sjsr_AnonFunction1(((this$9$1) => ((global$11$1) => {
     var global$12 = $as_Lmpst_syntax_Protocol(global$11$1);
-    return $p_Lmpst_frontend_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$9$1, $p_Lmpst_frontend_Widgets__initialStateSync$default$1__sci_Set(this$9$1), global$12)
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$9$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync$default$1__sci_Set(this$9$1), global$12)
   }))(this)), new $c_sjsr_AnonFunction1(((this$10$1) => ((global$12$1) => {
     var global$13 = $as_Lmpst_syntax_Protocol(global$12$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$10$1, $p_Lmpst_frontend_Widgets__initialStateAsyncCS$default$1__sci_Set(this$10$1), global$13)
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$10$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS$default$1__sci_Set(this$10$1), global$13)
   }))(this)), new $c_sjsr_AnonFunction1(((x$1$7$1) => {
     var x$1$18 = $as_T3(x$1$7$1);
     var this$61 = $as_sci_Set(x$1$18.T3__f__1);
@@ -23392,12 +23379,12 @@ function $c_Lmpst_frontend_Widgets(root) {
   }))))))(root));
   var y$11 = $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$67, condition$8);
   var $$x5 = new $c_T2("Bisimulation - Sync vs Async (Causal)", y$11);
-  var this$76 = $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($m_Lmpst_frontend_caos\uff3fwrapper_SyncEnvironmentWrapper$SyncTraverseWrapper$(), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((this$11$1) => ((global$13$1) => {
+  var this$76 = $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($m_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$(), $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((this$11$1) => ((global$13$1) => {
     var global$14 = $as_Lmpst_syntax_Protocol(global$13$1);
-    return $p_Lmpst_frontend_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$11$1, $p_Lmpst_frontend_Widgets__initialStateSync$default$1__sci_Set(this$11$1), global$14)
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__sci_Set__Lmpst_syntax_Protocol__T3(this$11$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync$default$1__sci_Set(this$11$1), global$14)
   }))(this)), new $c_sjsr_AnonFunction1(((this$12$1) => ((global$14$1) => {
     var global$15 = $as_Lmpst_syntax_Protocol(global$14$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$12$1, $p_Lmpst_frontend_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$12$1), global$15)
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$12$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$12$1), global$15)
   }))(this)), new $c_sjsr_AnonFunction1(((x$1$9$1) => {
     var x$1$22 = $as_T3(x$1$9$1);
     var this$70 = $as_sci_Set(x$1$22.T3__f__1);
@@ -23446,12 +23433,12 @@ function $c_Lmpst_frontend_Widgets(root) {
   }))))))(root));
   var y$12 = $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$76, condition$9);
   var $$x4 = new $c_T2("Bisimulation - Sync vs Async (Non-Causal)", y$12);
-  var this$85 = $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkCausal$(), $m_Lmpst_frontend_caos\uff3fwrapper_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((this$13$1) => ((global$15$1) => {
+  var this$85 = $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$(), $m_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$(), new $c_sjsr_AnonFunction1(((this$13$1) => ((global$15$1) => {
     var global$16 = $as_Lmpst_syntax_Protocol(global$15$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$13$1, $p_Lmpst_frontend_Widgets__initialStateAsyncCS$default$1__sci_Set(this$13$1), global$16)
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__sci_Set__Lmpst_syntax_Protocol__T3(this$13$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS$default$1__sci_Set(this$13$1), global$16)
   }))(this)), new $c_sjsr_AnonFunction1(((this$14$1) => ((global$16$1) => {
     var global$17 = $as_Lmpst_syntax_Protocol(global$16$1);
-    return $p_Lmpst_frontend_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$14$1, $p_Lmpst_frontend_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$14$1), global$17)
+    return $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__sci_Set__Lmpst_syntax_Protocol__T3(this$14$1, $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS$default$1__sci_Set(this$14$1), global$17)
   }))(this)), new $c_sjsr_AnonFunction1(((x$1$11$1) => {
     var x$1$26 = $as_T3(x$1$11$1);
     var this$79 = $as_sci_Set(x$1$26.T3__f__1);
@@ -23533,66 +23520,66 @@ function $c_Lmpst_frontend_Widgets(root) {
   }));
   var y$16 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a$2);
   var elems = $$x18.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x17, $$x16, $$x15, $$x14, $$x11, $$x10, $$x9, $$x8, $$x7, $$x6, $$x5, $$x4, $$x3, $$x2, $$x1, new $c_T2("Well Bounded", y$16)]));
-  this.Lmpst_frontend_Widgets__f_widgets = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)
+  this.Lmpst_frontend_auxiliary_Widgets__f_widgets = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)
 }
-$c_Lmpst_frontend_Widgets.prototype = new $h_O();
-$c_Lmpst_frontend_Widgets.prototype.constructor = $c_Lmpst_frontend_Widgets;
+$c_Lmpst_frontend_auxiliary_Widgets.prototype = new $h_O();
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.constructor = $c_Lmpst_frontend_auxiliary_Widgets;
 /** @constructor */
-function $h_Lmpst_frontend_Widgets() {
+function $h_Lmpst_frontend_auxiliary_Widgets() {
   /*<skip>*/
 }
-$h_Lmpst_frontend_Widgets.prototype = $c_Lmpst_frontend_Widgets.prototype;
-$c_Lmpst_frontend_Widgets.prototype.productIterator__sc_Iterator = (function() {
+$h_Lmpst_frontend_auxiliary_Widgets.prototype = $c_Lmpst_frontend_auxiliary_Widgets.prototype;
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.productIterator__sc_Iterator = (function() {
   return new $c_s_Product$$anon$1(this)
 });
-$c_Lmpst_frontend_Widgets.prototype.hashCode__I = (function() {
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.hashCode__I = (function() {
   var this$2 = $m_s_util_hashing_MurmurHash3$();
   return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
 });
-$c_Lmpst_frontend_Widgets.prototype.equals__O__Z = (function(x$0) {
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.equals__O__Z = (function(x$0) {
   if ((this === x$0)) {
     return true
-  } else if ((x$0 instanceof $c_Lmpst_frontend_Widgets)) {
-    var x$0$2 = $as_Lmpst_frontend_Widgets(x$0);
-    return (this.Lmpst_frontend_Widgets__f_root === x$0$2.Lmpst_frontend_Widgets__f_root)
+  } else if ((x$0 instanceof $c_Lmpst_frontend_auxiliary_Widgets)) {
+    var x$0$2 = $as_Lmpst_frontend_auxiliary_Widgets(x$0);
+    return (this.Lmpst_frontend_auxiliary_Widgets__f_root === x$0$2.Lmpst_frontend_auxiliary_Widgets__f_root)
   } else {
     return false
   }
 });
-$c_Lmpst_frontend_Widgets.prototype.toString__T = (function() {
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
 });
-$c_Lmpst_frontend_Widgets.prototype.productArity__I = (function() {
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.productArity__I = (function() {
   return 1
 });
-$c_Lmpst_frontend_Widgets.prototype.productPrefix__T = (function() {
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.productPrefix__T = (function() {
   return "Widgets"
 });
-$c_Lmpst_frontend_Widgets.prototype.productElement__I__O = (function(n) {
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.productElement__I__O = (function(n) {
   if ((n === 0)) {
-    return this.Lmpst_frontend_Widgets__f_root
+    return this.Lmpst_frontend_auxiliary_Widgets__f_root
   };
   throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
 });
-function $as_Lmpst_frontend_Widgets(obj) {
-  return (((obj instanceof $c_Lmpst_frontend_Widgets) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.frontend.Widgets"))
+function $as_Lmpst_frontend_auxiliary_Widgets(obj) {
+  return (((obj instanceof $c_Lmpst_frontend_auxiliary_Widgets) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.frontend.auxiliary.Widgets"))
 }
-function $isArrayOf_Lmpst_frontend_Widgets(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmpst_frontend_Widgets)))
+function $isArrayOf_Lmpst_frontend_auxiliary_Widgets(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmpst_frontend_auxiliary_Widgets)))
 }
-function $asArrayOf_Lmpst_frontend_Widgets(obj, depth) {
-  return (($isArrayOf_Lmpst_frontend_Widgets(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmpst.frontend.Widgets;", depth))
+function $asArrayOf_Lmpst_frontend_auxiliary_Widgets(obj, depth) {
+  return (($isArrayOf_Lmpst_frontend_auxiliary_Widgets(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmpst.frontend.auxiliary.Widgets;", depth))
 }
-var $d_Lmpst_frontend_Widgets = new $TypeData().initClass({
-  Lmpst_frontend_Widgets: 0
-}, false, "mpst.frontend.Widgets", {
-  Lmpst_frontend_Widgets: 1,
+var $d_Lmpst_frontend_auxiliary_Widgets = new $TypeData().initClass({
+  Lmpst_frontend_auxiliary_Widgets: 0
+}, false, "mpst.frontend.auxiliary.Widgets", {
+  Lmpst_frontend_auxiliary_Widgets: 1,
   O: 1,
   s_Equals: 1,
   s_Product: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lmpst_frontend_Widgets.prototype.$classData = $d_Lmpst_frontend_Widgets;
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.$classData = $d_Lmpst_frontend_auxiliary_Widgets;
 /** @constructor */
 function $c_Lmpst_utility_Multiset(data) {
   this.Lmpst_utility_Multiset__f_data = null;
@@ -23637,35 +23624,44 @@ $c_Lmpst_utility_Multiset.prototype.productElement__I__O = (function(n) {
   throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
 });
 $c_Lmpst_utility_Multiset.prototype.toString__T = (function() {
-  var $$x2 = $m_sc_StringOps$();
-  var this$2 = $as_sc_IterableOnceOps(this.Lmpst_utility_Multiset__f_data.map__F1__O(new $c_sjsr_AnonFunction1(((e) => {
-    var e$1 = $as_T2(e);
-    var $$x1 = $m_sc_StringOps$();
-    var x = ($dp_toString__T(e$1.T2__f__1) + ",");
-    return $$x1.$times$extension__T__I__T(x, $uI(e$1.T2__f__2))
+  var this$2 = $as_sc_IterableOnceOps(this.Lmpst_utility_Multiset__f_data.flatMap__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
+    var x$1$1 = $as_T2(x$1);
+    if ((x$1$1 !== null)) {
+      var element = x$1$1.T2__f__1;
+      var count = $uI(x$1$1.T2__f__2);
+      $m_s_package$();
+      var b = new $c_scm_ListBuffer();
+      var i = 0;
+      while ((i < count)) {
+        var elem = $dp_toString__T(element);
+        b.addOne__O__scm_ListBuffer(elem);
+        i = ((1 + i) | 0)
+      };
+      return b.toList__sci_List()
+    };
+    throw new $c_s_MatchError(x$1$1)
   }))));
-  var x$1 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$2, "", "", "");
-  return $$x2.dropRight$extension__T__I__T(x$1, 1)
+  return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$2, "", ", ", "")
 });
-$c_Lmpst_utility_Multiset.prototype.$plus__O__Lmpst_utility_Multiset = (function(act) {
+$c_Lmpst_utility_Multiset.prototype.add__O__Lmpst_utility_Multiset = (function(element) {
+  var newCount = ((1 + $uI(this.Lmpst_utility_Multiset__f_data.getOrElse__O__F0__O(element, new $c_sjsr_AnonFunction0((() => 0))))) | 0);
   var this$3 = this.Lmpst_utility_Multiset__f_data;
-  var y = ((1 + $uI(this.Lmpst_utility_Multiset__f_data.getOrElse__O__F0__O(act, new $c_sjsr_AnonFunction0((() => 0))))) | 0);
-  var data = $as_sci_Map(this$3.updated__O__O__sci_MapOps(act, y));
+  var data = $as_sci_Map(this$3.updated__O__O__sci_MapOps(element, newCount));
   return new $c_Lmpst_utility_Multiset(data)
 });
-$c_Lmpst_utility_Multiset.prototype.$minus__O__Lmpst_utility_Multiset = (function(act) {
-  var x14 = this.Lmpst_utility_Multiset__f_data.get__O__s_Option(act);
-  if ((x14 instanceof $c_s_Some)) {
-    var v = $uI($as_s_Some(x14).s_Some__f_value);
-    if ((v > 1)) {
+$c_Lmpst_utility_Multiset.prototype.sub__O__Lmpst_utility_Multiset = (function(element) {
+  var x8 = this.Lmpst_utility_Multiset__f_data.get__O__s_Option(element);
+  if ((x8 instanceof $c_s_Some)) {
+    var count = $uI($as_s_Some(x8).s_Some__f_value);
+    if ((count > 1)) {
+      var newCount = (((-1) + count) | 0);
       var this$3 = this.Lmpst_utility_Multiset__f_data;
-      var y = (((-1) + v) | 0);
-      var data = $as_sci_Map(this$3.updated__O__O__sci_MapOps(act, y));
+      var data = $as_sci_Map(this$3.updated__O__O__sci_MapOps(element, newCount));
       return new $c_Lmpst_utility_Multiset(data)
     }
   };
   var this$5 = this.Lmpst_utility_Multiset__f_data;
-  var data$1 = $as_sci_Map(this$5.removed__O__sci_MapOps(act));
+  var data$1 = $as_sci_Map(this$5.removed__O__sci_MapOps(element));
   return new $c_Lmpst_utility_Multiset(data$1)
 });
 function $as_Lmpst_utility_Multiset(obj) {

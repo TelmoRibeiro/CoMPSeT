@@ -1,8 +1,7 @@
 package mpst.projection
 
-import mpst.syntax.Protocol
+import mpst.syntax.{Protocol, Simplifier}
 import mpst.syntax.Protocol.*
-import mpst.utility.Simplifier
 
 
 object StandardProjection:
