@@ -1,4 +1,4 @@
-package mpst.frontend
+package mpst.frontend.auxiliary
 
 import caos.frontend.Configurator.Example
 import caos.frontend.Setting

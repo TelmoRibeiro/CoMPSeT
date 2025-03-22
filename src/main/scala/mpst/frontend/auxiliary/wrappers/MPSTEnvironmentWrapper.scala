@@ -1,10 +1,9 @@
-package mpst.frontend.caos_wrapper
+package mpst.frontend.auxiliary.wrappers
 
+import caos.sos.SOS
 import mpst.operational_semantic.MPSTSemantic
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
-
-import caos.sos.SOS
 
 /* @ telmo
  IDEA:

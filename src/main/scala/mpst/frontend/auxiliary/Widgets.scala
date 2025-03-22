@@ -1,4 +1,4 @@
-package mpst.frontend
+package mpst.frontend.auxiliary
 
 import caos.frontend.Configurator.*
 import caos.frontend.Setting
@@ -7,14 +7,14 @@ import caos.frontend.Site.{getSetting, setSetting}
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS.toMermaid
 import caos.view.{Code, Mermaid}
-
-import mpst.frontend.MessageSequenceChart.*
-import mpst.frontend.caos_wrapper.MPSTEnvironmentWrapper.MPSTSemanticWrapper
-import mpst.frontend.caos_wrapper.NetworkWrapper.{NetworkCausal, NetworkNonCausal}
-import mpst.frontend.caos_wrapper.SyncEnvironmentWrapper.SyncTraverseWrapper
+import mpst.frontend.auxiliary.view.MessageSequenceChart
+import mpst.frontend.auxiliary.view.MessageSequenceChart.*
+import mpst.frontend.auxiliary.wrappers.MPSTEnvironmentWrapper.MPSTSemanticWrapper
+import mpst.frontend.auxiliary.wrappers.NetworkWrapper.{NetworkCausal, NetworkNonCausal}
+import mpst.frontend.auxiliary.wrappers.SyncEnvironmentWrapper.SyncTraverseWrapper
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
-import mpst.projection.{PlainMergeProjection, FullMergeProjection}
-import mpst.syntax.Protocol.{Recv, Action, Global, Local, Participant, hasFixedPointRecursion, hasKleeneStarRecursion, hasParallel, toString}
+import mpst.projection.{FullMergeProjection, PlainMergeProjection}
+import mpst.syntax.Protocol.*
 import mpst.utility.Environment.{Environment, SingleEnvironment, localsEnvironment}
 import mpst.utility.Multiset
 import mpst.wellformedness.{WellBounded, WellBranched, WellChanneled}

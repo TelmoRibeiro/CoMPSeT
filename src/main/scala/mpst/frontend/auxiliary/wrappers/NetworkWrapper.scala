@@ -1,12 +1,11 @@
-package mpst.frontend.caos_wrapper
+package mpst.frontend.auxiliary.wrappers
 
+import caos.sos.SOS
 import mpst.operational_semantic.Network
 import mpst.operational_semantic.Network.NetworkCausal.ChannelQueue
 import mpst.syntax.Protocol.*
 import mpst.utility.Environment.Environment
 import mpst.utility.Multiset
-
-import caos.sos.SOS
 
 /* @ telmo
   IDEA:

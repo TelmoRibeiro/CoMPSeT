@@ -1,9 +1,9 @@
-package mpst.frontend.caos_wrapper
+package mpst.frontend.auxiliary.wrappers
 
+import caos.sos.SOS
 import mpst.operational_semantic.SyncTraverse
 import mpst.syntax.Protocol.{Action, Local, Participant, Recv}
 import mpst.utility.Environment.Environment
-import caos.sos.SOS
 
 /* @ telmo
  IDEA:

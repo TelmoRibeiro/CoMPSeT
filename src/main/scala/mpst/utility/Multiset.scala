@@ -17,13 +17,13 @@ case class Multiset[A](data: Map[A, Int] = Map.empty):
     data.contains(element)
   end contains
 
-  @targetName("+")
+  @targetName("add")
   def +(element: A): Multiset[A] =
     val newCount = data.getOrElse(element, 0) + 1
     Multiset(data + (element -> newCount))
   end +
 
-  @targetName("++")
+  @targetName("concat")
   def ++(multisetB: Multiset[A]): Multiset[A] =
     Multiset(
       (data.keySet ++ multisetB.data.keySet).map ( element =>
@@ -34,7 +34,7 @@ case class Multiset[A](data: Map[A, Int] = Map.empty):
     )
   end ++
 
-  @targetName("-")
+  @targetName("sub")
   def -(element: A): Multiset[A] =
     data.get(element) match
       case Some(count) if count > 1 =>
@@ -44,7 +44,7 @@ case class Multiset[A](data: Map[A, Int] = Map.empty):
         Multiset(data - element)
   end -
 
-  @targetName("--")
+  @targetName("exclude")
   def --(multisetB: Multiset[A]): Multiset[A] =
     val entriesA = data.map { case elementA -> countA =>
       val newCountA = countA - multisetB.data.getOrElse(elementA, 0)

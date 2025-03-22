@@ -1,4 +1,4 @@
-package mpst.frontend
+package mpst.frontend.auxiliary.view
 
 import mpst.syntax.Protocol.*
 
