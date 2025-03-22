@@ -13,8 +13,10 @@ object Parser extends RegexParsers:
     true
   end skipWhitespace
 
+  private val reservedKeywords: Set[String] = Set("skip", "def", "in")
+
   private def identifier: Parser[String] =
-    """[\w_\-]+""".r
+    """[\w_]+""".r.withFilter(!reservedKeywords.contains(_))
   end identifier
 
   private def session: Parser[Global] =
@@ -63,8 +65,14 @@ object Parser extends RegexParsers:
   end sequence
 
   private def atomGlobalType: Parser[Global] =
-    recursionFixedPoint | recursionKleeneStar | recursionCall | literal
+    recursionKleeneStar | recursionFixedPoint | literal
   end atomGlobalType
+
+  private def recursionKleeneStar: Parser[Global] = parentheses ~ "*" ^^ {
+    case globalType ~ "*" => RecursionKleeneStar(globalType)
+    case _ ~ _ => throw RuntimeException("bad syntax on recursionKleeneStar")
+  }
+  end recursionKleeneStar
 
   private def recursionFixedPoint: Parser[Global] = "def" ~ identifier ~ "in" ~ globalType ^^ {
     case "def" ~ recursionVariable ~ "in" ~ global => RecursionFixedPoint(recursionVariable, global)
@@ -72,24 +80,17 @@ object Parser extends RegexParsers:
   }
   end recursionFixedPoint
 
-  private def recursionCall: Parser[Global] = identifier ^^ {
-    recursionVariable => RecursionCall(recursionVariable)
-  }
-  end recursionCall
-
   private def literal: Parser[Global] =
-    parentheses | interaction | skip
+    parentheses | skip | interaction | recursionCall
   end literal
-
-  private def recursionKleeneStar: Parser[Global] = parentheses ~ "*" ^^ {
-    case globalType ~ "*" => RecursionKleeneStar(globalType)
-    case _ ~ _ => throw RuntimeException("bad syntax on recursionKleeneStar")  
-  }
-  end recursionKleeneStar
 
   private def parentheses: Parser[Global] =
     "(" ~> globalType <~ ")"
   end parentheses
+
+  private def skip: Parser[Global] =
+    "skip" ^^^ Skip
+  end skip
 
   private def interaction: Parser[Global] = identifier ~ "->" ~ identifier ~ ":" ~ identifier ^^ {
     case sender ~ "->" ~ receiver ~ ":" ~ label => Interaction(sender, receiver, label)
@@ -97,9 +98,10 @@ object Parser extends RegexParsers:
   }
   end interaction
 
-  private def skip: Parser[Global] =
-    "skip" ^^^ Skip
-  end skip
+  private def recursionCall: Parser[Global] = identifier ^^ {
+    recursionVariable => RecursionCall(recursionVariable)
+  }
+  end recursionCall
 
   def apply(input: String): Global = parseAll(session, input) match
     case Success(global, _) => global

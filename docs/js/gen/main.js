@@ -16021,6 +16021,9 @@ $c_s_util_parsing_combinator_Parsers$NoSuccess.prototype.map__F1__s_util_parsing
 $c_s_util_parsing_combinator_Parsers$NoSuccess.prototype.flatMapWithNext__F1__s_util_parsing_combinator_Parsers$ParseResult = (function(f) {
   return this
 });
+$c_s_util_parsing_combinator_Parsers$NoSuccess.prototype.filterWithError__F1__F1__s_util_parsing_input_Reader__s_util_parsing_combinator_Parsers$ParseResult = (function(p, error, position) {
+  return this
+});
 function $as_s_util_parsing_combinator_Parsers$NoSuccess(obj) {
   return (((obj instanceof $c_s_util_parsing_combinator_Parsers$NoSuccess) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.util.parsing.combinator.Parsers$NoSuccess"))
 }
@@ -16072,6 +16075,14 @@ $c_s_util_parsing_combinator_Parsers$Parser.prototype.map__F1__s_util_parsing_co
     return this$1.apply__s_util_parsing_input_Reader__s_util_parsing_combinator_Parsers$ParseResult(in$2).map__F1__s_util_parsing_combinator_Parsers$ParseResult(f$2)
   }))(this, f));
   return new $c_s_util_parsing_combinator_Parsers$$anon$1(f$1, this$2)
+});
+$c_s_util_parsing_combinator_Parsers$Parser.prototype.withFilter__F1__s_util_parsing_combinator_Parsers$Parser = (function(p) {
+  var this$2 = this.s_util_parsing_combinator_Parsers$Parser__f_$outer;
+  var f = new $c_sjsr_AnonFunction1(((this$1, p$2) => ((in$1) => {
+    var in$2 = $as_s_util_parsing_input_Reader(in$1);
+    return this$1.apply__s_util_parsing_input_Reader__s_util_parsing_combinator_Parsers$ParseResult(in$2).filterWithError__F1__F1__s_util_parsing_input_Reader__s_util_parsing_combinator_Parsers$ParseResult(p$2, new $c_sjsr_AnonFunction1(((_$1) => ("Input doesn't match filter: " + _$1))), in$2)
+  }))(this, p));
+  return new $c_s_util_parsing_combinator_Parsers$$anon$1(f, this$2)
 });
 $c_s_util_parsing_combinator_Parsers$Parser.prototype.append__F0__s_util_parsing_combinator_Parsers$Parser = (function(p0) {
   var p$lzy1 = new $c_sr_LazyRef();
@@ -17074,8 +17085,11 @@ var $d_ju_Collections$UnmodifiableIterator = new $TypeData().initClass({
 $c_ju_Collections$UnmodifiableIterator.prototype.$classData = $d_ju_Collections$UnmodifiableIterator;
 function $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser($thiz) {
   var groupNames = $m_sci_Nil$();
-  var r = $ct_s_util_matching_Regex__T__sci_Seq__(new $c_s_util_matching_Regex(), "[\\w_\\-]+", groupNames);
-  return new $c_s_util_parsing_combinator_RegexParsers$$anon$2(r, $thiz)
+  var r = $ct_s_util_matching_Regex__T__sci_Seq__(new $c_s_util_matching_Regex(), "[\\w_]+", groupNames);
+  return new $c_s_util_parsing_combinator_RegexParsers$$anon$2(r, $thiz).withFilter__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$4) => ((_$1) => {
+    var _$1$1 = $as_T(_$1);
+    return (!this$4.Lmpst_syntax_Parser$__f_reservedKeywords.contains__O__Z(_$1$1))
+  }))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__session__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser($thiz).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((x) => new $c_s_Some(x)))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => {
@@ -17258,41 +17272,7 @@ function $p_Lmpst_syntax_Parser$__sequence__s_util_parsing_combinator_Parsers$Pa
   }))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__atomGlobalType__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__recursionKleeneStar__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__recursionCall__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => $p_Lmpst_syntax_Parser$__literal__s_util_parsing_combinator_Parsers$Parser(this$3)))($thiz)))
-}
-function $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("def", $thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("in", this$2)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser(this$3)))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$4) => ((x$1) => {
-    var x$1$1 = $as_s_util_parsing_combinator_Parsers$$tilde(x$1);
-    if ((x$1$1 !== null)) {
-      this$4.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-      var x102 = $as_s_util_parsing_combinator_Parsers$$tilde(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__1);
-      if ((x102 !== null)) {
-        this$4.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-        var x105 = $as_s_util_parsing_combinator_Parsers$$tilde(x102.s_util_parsing_combinator_Parsers$$tilde__f__1);
-        if ((x105 !== null)) {
-          this$4.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
-          if ((x105.s_util_parsing_combinator_Parsers$$tilde__f__1 === "def")) {
-            var recursionVariable = $as_T(x105.s_util_parsing_combinator_Parsers$$tilde__f__2);
-            if ((x102.s_util_parsing_combinator_Parsers$$tilde__f__2 === "in")) {
-              var global = $as_Lmpst_syntax_Protocol(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
-              return new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(recursionVariable, global)
-            }
-          };
-          throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "bad syntax on recursionFixedPoint")
-        }
-      }
-    };
-    throw new $c_s_MatchError(x$1$1)
-  }))($thiz)))
-}
-function $p_Lmpst_syntax_Parser$__recursionCall__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser($thiz).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$1) => ((recursionVariable) => {
-    var recursionVariable$1 = $as_T(recursionVariable);
-    return new $c_Lmpst_syntax_Protocol$RecursionCall(recursionVariable$1)
-  }))($thiz)))
-}
-function $p_Lmpst_syntax_Parser$__literal__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__interaction__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__skip__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz)))
+  return $p_Lmpst_syntax_Parser$__recursionKleeneStar__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__literal__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__recursionKleeneStar__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("*", this$1)))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$2) => ((x$1) => {
@@ -17308,8 +17288,39 @@ function $p_Lmpst_syntax_Parser$__recursionKleeneStar__s_util_parsing_combinator
     throw new $c_s_MatchError(x$1$1)
   }))($thiz)))
 }
+function $p_Lmpst_syntax_Parser$__recursionFixedPoint__s_util_parsing_combinator_Parsers$Parser($thiz) {
+  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("def", $thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("in", this$2)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser(this$3)))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$4) => ((x$1) => {
+    var x$1$1 = $as_s_util_parsing_combinator_Parsers$$tilde(x$1);
+    if ((x$1$1 !== null)) {
+      this$4.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
+      var x109 = $as_s_util_parsing_combinator_Parsers$$tilde(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__1);
+      if ((x109 !== null)) {
+        this$4.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
+        var x112 = $as_s_util_parsing_combinator_Parsers$$tilde(x109.s_util_parsing_combinator_Parsers$$tilde__f__1);
+        if ((x112 !== null)) {
+          this$4.$tilde__s_util_parsing_combinator_Parsers$$tilde$();
+          if ((x112.s_util_parsing_combinator_Parsers$$tilde__f__1 === "def")) {
+            var recursionVariable = $as_T(x112.s_util_parsing_combinator_Parsers$$tilde__f__2);
+            if ((x109.s_util_parsing_combinator_Parsers$$tilde__f__2 === "in")) {
+              var global = $as_Lmpst_syntax_Protocol(x$1$1.s_util_parsing_combinator_Parsers$$tilde__f__2);
+              return new $c_Lmpst_syntax_Protocol$RecursionFixedPoint(recursionVariable, global)
+            }
+          };
+          throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), "bad syntax on recursionFixedPoint")
+        }
+      }
+    };
+    throw new $c_s_MatchError(x$1$1)
+  }))($thiz)))
+}
+function $p_Lmpst_syntax_Parser$__literal__s_util_parsing_combinator_Parsers$Parser($thiz) {
+  return $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers$Parser($thiz).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__skip__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__interaction__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz))).$bar__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => $p_Lmpst_syntax_Parser$__recursionCall__s_util_parsing_combinator_Parsers$Parser(this$3)))($thiz)))
+}
 function $p_Lmpst_syntax_Parser$__parentheses__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("(", $thiz).$tilde$greater__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $p_Lmpst_syntax_Parser$__globalType__s_util_parsing_combinator_Parsers$Parser(this$1)))($thiz))).$less$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(")", this$2)))($thiz)))
+}
+function $p_Lmpst_syntax_Parser$__skip__s_util_parsing_combinator_Parsers$Parser($thiz) {
+  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("skip", $thiz).$up$up$up__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()))($thiz)))
 }
 function $p_Lmpst_syntax_Parser$__interaction__s_util_parsing_combinator_Parsers$Parser($thiz) {
   return $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser($thiz).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1("->", this$1)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$2) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$2)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$3) => (() => new $c_s_util_parsing_combinator_RegexParsers$$anon$1(":", this$3)))($thiz))).$tilde__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$4) => (() => $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser(this$4)))($thiz))).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$5) => ((x$1) => {
@@ -17341,8 +17352,11 @@ function $p_Lmpst_syntax_Parser$__interaction__s_util_parsing_combinator_Parsers
     throw new $c_s_MatchError(x$1$1)
   }))($thiz)))
 }
-function $p_Lmpst_syntax_Parser$__skip__s_util_parsing_combinator_Parsers$Parser($thiz) {
-  return new $c_s_util_parsing_combinator_RegexParsers$$anon$1("skip", $thiz).$up$up$up__F0__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction0(((this$1) => (() => $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol()))($thiz)))
+function $p_Lmpst_syntax_Parser$__recursionCall__s_util_parsing_combinator_Parsers$Parser($thiz) {
+  return $p_Lmpst_syntax_Parser$__identifier__s_util_parsing_combinator_Parsers$Parser($thiz).$up$up__F1__s_util_parsing_combinator_Parsers$Parser(new $c_sjsr_AnonFunction1(((this$1) => ((recursionVariable) => {
+    var recursionVariable$1 = $as_T(recursionVariable);
+    return new $c_Lmpst_syntax_Protocol$RecursionCall(recursionVariable$1)
+  }))($thiz)))
 }
 /** @constructor */
 function $c_Lmpst_syntax_Parser$() {
@@ -17357,10 +17371,14 @@ function $c_Lmpst_syntax_Parser$() {
   this.Lmpst_syntax_Parser$__f_$tilde$lzy1 = null;
   this.Lmpst_syntax_Parser$__f_$tildebitmap$1 = false;
   this.Lmpst_syntax_Parser$__f_whiteSpace = null;
+  this.Lmpst_syntax_Parser$__f_reservedKeywords = null;
   $n_Lmpst_syntax_Parser$ = this;
   $f_s_util_parsing_combinator_RegexParsers__$init$__V(this);
   var groupNames = $m_sci_Nil$();
-  this.Lmpst_syntax_Parser$__f_whiteSpace = $ct_s_util_matching_Regex__T__sci_Seq__(new $c_s_util_matching_Regex(), "( |\t|\r|\f|\n|//.*)+", groupNames)
+  this.Lmpst_syntax_Parser$__f_whiteSpace = $ct_s_util_matching_Regex__T__sci_Seq__(new $c_s_util_matching_Regex(), "( |\t|\r|\f|\n|//.*)+", groupNames);
+  var this$4 = $m_s_Predef$().s_Predef$__f_Set;
+  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)(["skip", "def", "in"]));
+  this.Lmpst_syntax_Parser$__f_reservedKeywords = this$4.from__sc_IterableOnce__sci_Set(elems)
 }
 $c_Lmpst_syntax_Parser$.prototype = new $h_O();
 $c_Lmpst_syntax_Parser$.prototype.constructor = $c_Lmpst_syntax_Parser$;
@@ -26089,7 +26107,7 @@ $c_Lmpst_syntax_Protocol.prototype.toString__T = (function() {
     var x36 = x$1.Lmpst_syntax_Protocol$Interaction__f_sender;
     var x37 = x$1.Lmpst_syntax_Protocol$Interaction__f_receiver;
     var x38 = x$1.Lmpst_syntax_Protocol$Interaction__f_label;
-    return ((((x36 + ">") + x37) + ":") + x38)
+    return ((((x36 + "->") + x37) + ":") + x38)
   };
   if ((this instanceof $c_Lmpst_syntax_Protocol$Send)) {
     var x$1$1 = $as_Lmpst_syntax_Protocol$Send(this);
@@ -30738,6 +30756,9 @@ $c_s_util_parsing_combinator_Parsers$Success.prototype.flatMapWithNext__F1__s_ut
     return e
   };
   throw new $c_s_MatchError(x5)
+});
+$c_s_util_parsing_combinator_Parsers$Success.prototype.filterWithError__F1__F1__s_util_parsing_input_Reader__s_util_parsing_combinator_Parsers$ParseResult = (function(p, error, position) {
+  return $as_s_util_parsing_combinator_Parsers$ParseResult(($uZ(p.apply__O__O(this.s_util_parsing_combinator_Parsers$Success__f_result)) ? this : this.s_util_parsing_combinator_Parsers$Success__f_$outer.Failure__s_util_parsing_combinator_Parsers$Failure$().apply__T__s_util_parsing_input_Reader__s_util_parsing_combinator_Parsers$Failure($as_T(error.apply__O__O(this.s_util_parsing_combinator_Parsers$Success__f_result)), position)))
 });
 $c_s_util_parsing_combinator_Parsers$Success.prototype.append__F0__s_util_parsing_combinator_Parsers$ParseResult = (function(a) {
   return this

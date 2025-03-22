@@ -3,7 +3,7 @@ package mpst.syntax
 
 enum Protocol:
   override def toString: String = this match
-    case Interaction(sender, receiver, label) => s"$sender>$receiver:$label"
+    case Interaction(sender, receiver, label) => s"$sender->$receiver:$label"
     case Send(sender, receiver, label) => s"$sender$receiver!$label"
     case Recv(receiver, sender, label) => s"$receiver$sender?$label"
     case RecursionCall(variable) => s"$variable"
