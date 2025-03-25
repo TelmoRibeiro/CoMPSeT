@@ -52,7 +52,7 @@ object WellBranched:
 
     def receivesInReceive(global: Global, selector: Participant, receivesInSend: Set[(Participant, Label)])(using environment: SingleEnvironment): Set[(Participant, Label)] =
       for participant -> local <- StandardProjection.projectionWithParticipant(global)
-          Recv(_, `selector`, label) <- MPSTSemantic.next(local).map(_._1) if receivesInSend.contains(participant -> label)
+          case Recv(_, `selector`, label) <- MPSTSemantic.next(local).map(_._1) if receivesInSend.contains(participant -> label)
       yield participant -> label
     end receivesInReceive
 
