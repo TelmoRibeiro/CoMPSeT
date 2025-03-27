@@ -1,5 +1,5 @@
 val scala3Version = "3.3.5"
-// val scalaCheckVersion = "1.18.1"
+val scalaCheckVersion = "1.18.1"
 val scalaParserCombinatorsVersion = "2.1.0"
 val scalaJSVersion = "1.2.0"
 
@@ -21,6 +21,7 @@ lazy val root = project.in(file("."))
     Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
     Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
     libraryDependencies ++= Seq(
+        "org.scalacheck" %% "scalacheck" % scalaCheckVersion % Test,
         "org.scala-lang.modules" %%% "scala-parser-combinators" % scalaParserCombinatorsVersion,
         ("org.scala-js" %%% "scalajs-dom" % scalaJSVersion).cross(CrossVersion.for3Use2_13),
     ),
