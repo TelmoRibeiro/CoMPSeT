@@ -20,9 +20,11 @@ lazy val root = project.in(file("."))
     Compile / mainClass  := Some("mpst.frontend.Main"),
     Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
     Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "lib" / "caos" / "tool" / "js" / "gen",
+    Test / sourceDirectory := baseDirectory.value / "src" / "test" / "scala" / "mpst",
     libraryDependencies ++= Seq(
         "org.scalacheck" %% "scalacheck" % scalaCheckVersion % Test,
         "org.scala-lang.modules" %%% "scala-parser-combinators" % scalaParserCombinatorsVersion,
         ("org.scala-js" %%% "scalajs-dom" % scalaJSVersion).cross(CrossVersion.for3Use2_13),
     ),
   ).dependsOn(caos)
+  Test / testFrameworks += new TestFramework("org.scalacheck.ScalaCheckFramework")
