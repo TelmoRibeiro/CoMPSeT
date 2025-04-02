@@ -8,6 +8,8 @@ This document describes how to run and recompile the tool:
 - Using `compset-src` (supports running/recompiling, *outside* a virtual machine)
 
 --------------------
+# To Do: Add More Tests 
+
 # How to use `compset.ova`
 
 ## Running the tool
