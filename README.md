@@ -8,7 +8,8 @@ This document describes how to run and recompile the tool:
 - Using `compset-src` (supports running/recompiling, *outside* a virtual machine)
 
 --------------------
-# To Do: Add More Tests 
+# To Do: Add Tests
+# To Do: Condense Recursive States for Fixed Point
 
 # How to use `compset.ova`
 
