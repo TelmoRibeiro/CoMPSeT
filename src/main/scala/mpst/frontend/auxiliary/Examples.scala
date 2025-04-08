@@ -35,38 +35,38 @@ case class Examples(setting: Setting, root: String):
     .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
   end mkST4MP
 
-  private val simpleDelegation: String = "m->w:TaskA || m->w:TaskB"
+  private val simpleDelegation: String = "pA->pB:TaskA || pA->pB:TaskB"
 
-  private val simpleBranchingV1: String = "(wA->wB:TaskA ; wB->m:DoneA)\n\t+\n(wA->wB:TaskB ; wB->m:DoneA)"
+  private val simpleBranchingV1: String = "(pA->pB:TaskA ; pB->pC:TaskC)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskC)"
 
-  private val simpleBranchingV2: String = "(wA->wB:TaskA ; wB->m:DoneA)\n\t+\n(wA->wB:TaskB ; wB->m:DoneB)"
+  private val simpleBranchingV2: String = "(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)"
 
-  private val mwv0: String = "m->wA:Work ; m->wB:Work ;\nwA->m:Done ; wB->m:Done"
+  private val controllerWorkerV0: String = "c->wA:Work ; c->wB:Work ;\nwA->c:Done ; wB->c:Done"
 
-  private val mwv1: String = "m->wA:Work ; m->wB:Work ;\n(wA->m:Done || wB->m:Done)"
+  private val controllerWorkerV1: String = "c->wA:Work ; c->wB:Work ;\n(wA->c:Done || wB->c:Done)"
 
-  private val mwv2: String = "(\n\tm->wA:Work ; m->wB:Work ;\n\t(wA->m:Done || wB->m:Done)\n)*"
+  private val controllerWorkerV2: String = "(\n\tc->wA:Work ; c->wB:Work ;\n\t(wA->c:Done || wB->c:Done)\n)*"
 
-  private val recursiveMasterWorker: String = "def X in (\n\tm->w:Work ; w->m:Done ; X + m->w:Quit\n)"
+  private val recursiveControllerWorker: String = "def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit"
 
-  private val badWellBranched: String = "(m->wA:Work ; wA->m:Done)\n\t+\n(m->wB:Work ; wB->m:Done)"
+  private val badWellBranched: String = "(c->wA:Work ; wA->c:Done)\n\t+\n(c->wB:Work ; wB->c:Done)"
 
-  private val badWellChannelled: String = "(m->w:TaskA ; w->m:Done)\n\t||\n(m->w:TaskB ; w->m:Done)"
+  private val badWellChannelled: String = "(c->w:TaskA ; w->c:Done)\n\t||\n(c->w:TaskB ; w->c:Done)"
 
   val examples: Seq[Example] = List(
-    "master-workers - v1"
-      -> mwv1
-      -> "standard master-workers (no settings)"
+    "controller-workers - v1"
+      -> controllerWorkerV1
+      -> "standard controller-workers (no settings)"
       -> setting,
 
-    "master-workers - v0"
-      -> mwv0
-      -> "fully sequentialized master-workers (no settings)"
+    "controller-workers - v0"
+      -> controllerWorkerV0
+      -> "fully sequentialized controller-workers (no settings)"
       -> setting,
 
-    "master-workers - v2"
-      -> mwv2
-      -> "standard master-workers under kleene star recursion (no settings)"
+    "controller-workers - v2"
+      -> controllerWorkerV2
+      -> "standard controller-workers under kleene star recursion (no settings)"
       -> setting,
 
     "simple task delegation"
@@ -84,39 +84,39 @@ case class Examples(setting: Setting, root: String):
       -> "a simple branching protocol - full-merge (no settings)"
       -> setting,
 
-    "master-worker - fixed point recursion"
-      -> recursiveMasterWorker
-      -> "sequentialized master-worker with fixed point recursion (no settings)"
+    "controller-worker - fixed point recursion"
+      -> recursiveControllerWorker
+      -> "sequentialized controller-worker with fixed point recursion (no settings)"
       -> setting,
 
     "APIGenInScala3 settings"
-      -> mwv0
+      -> controllerWorkerV0
       -> "APIGenInScala3 settings (placeholder protocol)"
       -> mkAPIGenInScala3,
 
     "ST4MP settings"
-      -> mwv0
+      -> controllerWorkerV0
       -> "ST4MP settings (placeholder protocol)"
       -> mkST4MP,
 
     "VeryGentleIntroMPST settings"
-      -> mwv0
+      -> controllerWorkerV0
       -> "VeryGentleIntroMPST settings (placeholder protocol)"
       -> mkVeryGentleIntroMPST,
 
     "GentleIntroMPAsyncST settings"
-      -> mwv0
+      -> controllerWorkerV0
       -> "GentleIntroMPAsyncST settings (placeholder protocol)"
       -> mkGentleIntroMPAsyncST,
 
-    "master-workers - v1 (APIGenInScala3)"
-      -> mwv1
-      -> "master-workers-v1 under the APIGenInScala3 settings"
+    "controller-workers - v1 (APIGenInScala3)"
+      -> controllerWorkerV1
+      -> "controller-workers-v1 under the APIGenInScala3 settings"
       -> mkAPIGenInScala3,
 
-    "master-workers - v2 (ST4MP)"
-      -> mwv2
-      -> "master-workers-v2 under the ST4MP settings"
+    "controller-workers - v2 (ST4MP)"
+      -> controllerWorkerV2
+      -> "controller-workers-v2 under the ST4MP settings"
       -> mkST4MP,
 
     "simple branching - v1 (GentleIntroMPAsyncST)"
@@ -134,14 +134,14 @@ case class Examples(setting: Setting, root: String):
       -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
       -> mkAPIGenInScala3.setCheckedPath(s"$root.Comm Model.Async (Non-Causal)", true),
 
-    "master-worker - fixed point recursion (ST4MP) | recursion fail"
-      -> recursiveMasterWorker
-      -> "failed recursion for the master-worker - fixed point recursion under ST4MP settings"
+    "controller-worker - fixed point recursion (ST4MP) | recursion fail"
+      -> recursiveControllerWorker
+      -> "failed recursion for the controller-worker - fixed point recursion under ST4MP settings"
       -> mkST4MP,
 
-    "master-workers - v2 (GentleIntroMPAsyncST) | parallel fail"
-      -> mwv2
-      -> "failed parallel for the master-workers - v2 under GentleIntroMPAsyncST settings"
+    "controller-workers - v2 (GentleIntroMPAsyncST) | parallel fail"
+      -> controllerWorkerV2
+      -> "failed parallel for the controller-workers - v2 under GentleIntroMPAsyncST settings"
       -> mkGentleIntroMPAsyncST,
   )
 end Examples
