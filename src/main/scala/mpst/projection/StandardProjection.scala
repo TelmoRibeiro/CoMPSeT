@@ -2,7 +2,7 @@ package mpst.projection
 
 import mpst.syntax.{Protocol, Simplifier}
 import mpst.syntax.Protocol.*
-
+import mpst.utility.Environment.localsEnvironment
 
 object StandardProjection:
   def projectionWithParticipant(global: Global): Set[(Participant, Local)] =
@@ -37,4 +37,9 @@ object StandardProjection:
         if getParticipants(localA).contains(participant) then RecursionKleeneStar(localA) else Skip
     case _ => None
   end projection
+
+  private def unfold(global: Global, participant: Participant): Protocol = global match
+    case RecursionCall(variable) => localsEnvironment(global)(participant)(variable)
+    case _ => global
+  end unfold
 end StandardProjection

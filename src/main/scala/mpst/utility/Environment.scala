@@ -29,7 +29,7 @@ object Environment:
     case Choice  (protocolA, protocolB) =>
       protocolEnvironment(protocolA) ++ protocolEnvironment(protocolB)
     case RecursionFixedPoint(variable, protocolB) =>
-      protocolEnvironment(protocolB)(using environment + (variable -> protocolB))
+      protocolEnvironment(protocolB)(using environment + (variable -> protocol))
     case RecursionKleeneStar(protocolA) =>
       protocolEnvironment(protocolA)
   end protocolEnvironment

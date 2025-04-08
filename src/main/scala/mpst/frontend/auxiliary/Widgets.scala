@@ -2,13 +2,10 @@ package mpst.frontend.auxiliary
 
 import caos.frontend.Configurator.*
 import caos.frontend.Setting
-import caos.frontend.Setting.{allActiveFrom, allActiveLeavesFrom}
-import caos.frontend.Site.{getSetting, setSetting}
+import caos.frontend.Site.getSetting
 import caos.frontend.widgets.WidgetInfo
-import caos.sos.SOS.toMermaid
 import caos.view.{Code, Mermaid}
 import mpst.frontend.auxiliary.view.MessageSequenceChart
-import mpst.frontend.auxiliary.view.MessageSequenceChart.*
 import mpst.frontend.auxiliary.wrappers.MPSTEnvironmentWrapper.MPSTSemanticWrapper
 import mpst.frontend.auxiliary.wrappers.NetworkWrapper.{NetworkCausal, NetworkNonCausal}
 import mpst.frontend.auxiliary.wrappers.SyncEnvironmentWrapper.SyncTraverseWrapper
@@ -44,7 +41,7 @@ case class Widgets(root: String):
         val lts = caos.sos.SOS.toMermaid(
           MPSTSemanticWrapper,
           local -> environment(participant),
-          (local: Local, environment: SingleEnvironment) => environment.toPrettyPrint,
+          (local: Local, environment: SingleEnvironment) => local.toString,
           _.toString,
           100,
         )

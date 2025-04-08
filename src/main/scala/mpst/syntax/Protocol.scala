@@ -11,7 +11,7 @@ enum Protocol:
     case Sequence(protocolA, protocolB) => s"$protocolA ; $protocolB"
     case Parallel(protocolA, protocolB) => s"($protocolA || $protocolB)"
     case Choice  (protocolA, protocolB) => s"($protocolA + $protocolB)"
-    case RecursionFixedPoint(variable, protocolB) => s"def $variable in ($protocolB)"
+    case RecursionFixedPoint(variable, protocolB) => s"def $variable in $protocolB"
     case RecursionKleeneStar(protocolA) => s"($protocolA)*"
   end toString
 

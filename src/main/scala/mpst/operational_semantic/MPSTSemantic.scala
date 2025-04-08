@@ -4,10 +4,6 @@ import mpst.syntax.{Protocol, Simplifier}
 import mpst.syntax.Protocol.*
 import mpst.utility.Environment.SingleEnvironment
 
-import caos.sos.SOS
-import caos.sos.SOS._
-
-
 object MPSTSemantic:
   def accepting(protocol: Protocol): Boolean =
     MPSTSemantic.acceptAuxiliary(protocol)
@@ -28,25 +24,21 @@ object MPSTSemantic:
   end acceptAuxiliary
 
   private def nextAuxiliary(protocol: Protocol)(using environment: SingleEnvironment): List[(Action, Local)] = protocol match
-    case interaction: Interaction =>
-      List(Send(interaction.sender, interaction.receiver, interaction.label) -> Recv(interaction.receiver, interaction.sender, interaction.label))
-    case action: Action =>
-      List(action -> Skip)
-    case RecursionCall(variable) =>
-      nextAuxiliary(environment(variable))
-    case Skip =>
-      Nil
+    case interaction: Interaction => List(Send(interaction.sender, interaction.receiver, interaction.label) -> Recv(interaction.receiver, interaction.sender, interaction.label))
+    case action: Action           => List(action -> Skip)
+    case RecursionCall(variable)  => nextAuxiliary(environment(variable))
+    case Skip => Nil
     case Sequence(protocolA, protocolB) =>
       val nextA = nextAuxiliary(protocolA)
       val resultA = for nextActionA -> nextProtocolA <- nextA yield
-        nextActionA -> Simplifier(Sequence(nextProtocolA, protocolB))
+        nextActionA -> unfold(Simplifier(Sequence(nextProtocolA, protocolB)))
       val resultB = if accepting(protocolA) then nextAuxiliary(protocolB) else Nil
       resultA ++ resultB
     case Parallel(protocolA, protocolB) =>
       val resultA = for nextActionA -> nextProtocolA <- nextAuxiliary(protocolA) yield
-        nextActionA -> Simplifier(Parallel(nextProtocolA, protocolB))
+        nextActionA -> unfold(Simplifier(Parallel(nextProtocolA, protocolB)))
       val resultB = for nextActionB -> nextProtocolB <- nextAuxiliary(protocolB) yield
-        nextActionB -> Simplifier(Parallel(protocolA, nextProtocolB))
+        nextActionB -> unfold(Simplifier(Parallel(protocolA, nextProtocolB)))
       resultA ++ resultB
     case Choice(protocolA,protocolB) =>
       nextAuxiliary(protocolA) ++ nextAuxiliary(protocolB)
@@ -55,6 +47,11 @@ object MPSTSemantic:
       case _ => nextAuxiliary(protocolB)
     case RecursionKleeneStar(protocolA) =>
       for nextActionA -> nextProtocolA <- nextAuxiliary(protocolA) yield
-        nextActionA -> Simplifier(Sequence(nextProtocolA, protocol))
+        nextActionA -> unfold(Simplifier(Sequence(nextProtocolA, protocol)))
   end nextAuxiliary
+
+  private def unfold(protocol: Protocol)(using environment: SingleEnvironment): Protocol = protocol match
+    case RecursionCall(variable) => environment(variable)
+    case _ => protocol
+  end unfold
 end MPSTSemantic

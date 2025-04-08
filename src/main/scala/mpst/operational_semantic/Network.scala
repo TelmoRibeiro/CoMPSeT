@@ -36,8 +36,9 @@ object Network:
           val updatedQueue = pending.getOrElse(sendAction.sender -> sendAction.receiver, Queue.empty).enqueue(sendAction.label)
           pending + (sendAction.sender -> sendAction.receiver -> updatedQueue)
         case recvAction: Recv =>
-          val updatedQueue = pending.getOrElse(recvAction.sender -> recvAction.receiver, Queue.empty).dequeue._2
-          pending + (recvAction.sender -> recvAction.receiver -> updatedQueue)
+          val key = recvAction.sender -> recvAction.receiver
+          val updatedQueue = pending.getOrElse(key, Queue.empty).dequeue._2
+          if updatedQueue.isEmpty then pending - key else pending + (key -> updatedQueue)
       end nextPending
 
       for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1))
