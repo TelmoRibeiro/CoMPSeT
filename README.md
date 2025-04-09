@@ -9,7 +9,6 @@ This document describes how to run and recompile the tool:
 
 --------------------
 # To Do: Add Tests
-# To Do: Condense Recursive States for Fixed Point
 
 # How to use `compset.ova`
 
