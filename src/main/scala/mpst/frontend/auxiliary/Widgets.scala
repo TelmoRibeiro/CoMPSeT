@@ -30,7 +30,7 @@ case class Widgets(root: String):
 
     "Locals"
       -> view((global: Global) =>
-      localsWithParticipant()(using global).map { case participant -> local => s"$participant -> $local" }.mkString("\n"),
+      localsWithParticipant()(using global).map { case participant -> local => s"$participant: $local" }.mkString("\n"),
       Code("java")
     ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge")),
 

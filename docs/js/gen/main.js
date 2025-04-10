@@ -23050,7 +23050,7 @@ function $c_Lmpst_frontend_auxiliary_Examples(setting, root) {
   var setting$6 = new $c_s_Some(setting);
   var $x_12 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)", "simple branching - v2", "a simple branching protocol - full-merge (no settings)", setting$6);
   var setting$7 = new $c_s_Some(setting);
-  var $x_11 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit\n", "controller-worker - fixed point recursion", "sequentialized controller-worker with fixed point recursion (no settings)", setting$7);
+  var $x_11 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit", "controller-worker - fixed point recursion", "sequentialized controller-worker with fixed point recursion (no settings)", setting$7);
   var y = $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this);
   var setting$8 = new $c_s_Some(y);
   var $x_10 = new $c_Lcaos_frontend_Configurator$Example("c->wA:Work ; c->wB:Work ;\nwA->c:Done ; wB->c:Done", "APIGenInScala3 settings", "APIGenInScala3 settings (placeholder protocol)", setting$8);
@@ -23080,7 +23080,7 @@ function $c_Lmpst_frontend_auxiliary_Examples(setting, root) {
   var $x_2 = new $c_Lcaos_frontend_Configurator$Example("pA->pB:TaskA || pA->pB:TaskB", "simple task delegation (APIGenInScala3 vs Non-Causal Async.)", "simple delegation under the APIGenInScala3 settings vs non-causal async. communication", setting$16);
   var y$9 = $p_Lmpst_frontend_auxiliary_Examples__mkST4MP__Lcaos_frontend_Setting(this);
   var setting$17 = new $c_s_Some(y$9);
-  var $x_1 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit\n", "controller-worker - fixed point recursion (ST4MP) | recursion fail", "failed recursion for the controller-worker - fixed point recursion under ST4MP settings", setting$17);
+  var $x_1 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit", "controller-worker - fixed point recursion (ST4MP) | recursion fail", "failed recursion for the controller-worker - fixed point recursion under ST4MP settings", setting$17);
   var y$10 = $p_Lmpst_frontend_auxiliary_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
   var setting$18 = new $c_s_Some(y$10);
   var elems = $x_18.wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([$x_17, $x_16, $x_15, $x_14, $x_13, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_Lcaos_frontend_Configurator$Example("(\n\tc->wA:Work ; c->wB:Work ;\n\t(wA->c:Done || wB->c:Done)\n)*", "controller-workers - v2 (GentleIntroMPAsyncST) | parallel fail", "failed parallel for the controller-workers - v2 under GentleIntroMPAsyncST settings", setting$18)]));
@@ -23329,7 +23329,7 @@ function $c_Lmpst_frontend_auxiliary_Widgets(root) {
       if ((x$1$1 !== null)) {
         var participant = $as_T($n(x$1$1)._1__O());
         var local = $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O());
-        return ((participant + " -> ") + local);
+        return ((participant + ": ") + local);
       }
       throw new $c_s_MatchError(x$1$1);
     })))));
@@ -25964,23 +25964,21 @@ $c_Lmpst_syntax_Protocol.prototype.toString__T = (function() {
   }
   if ((this instanceof $c_Lmpst_syntax_Protocol$Send)) {
     var x$1$1 = $as_Lmpst_syntax_Protocol$Send(this);
-    var this$6 = $n(x$1$1);
-    var x31 = this$6.Lmpst_syntax_Protocol$Send__f_sender;
+    $n(x$1$1);
     var this$7 = $n(x$1$1);
     var x32 = this$7.Lmpst_syntax_Protocol$Send__f_receiver;
     var this$8 = $n(x$1$1);
     var x33 = this$8.Lmpst_syntax_Protocol$Send__f_label;
-    return (((("" + x31) + x32) + "!") + x33);
+    return ((x32 + "!") + x33);
   }
   if ((this instanceof $c_Lmpst_syntax_Protocol$Recv)) {
     var x$1$2 = $as_Lmpst_syntax_Protocol$Recv(this);
-    var this$10 = $n(x$1$2);
-    var x26 = this$10.Lmpst_syntax_Protocol$Recv__f_receiver;
+    $n(x$1$2);
     var this$11 = $n(x$1$2);
     var x27 = this$11.Lmpst_syntax_Protocol$Recv__f_sender;
     var this$12 = $n(x$1$2);
     var x28 = this$12.Lmpst_syntax_Protocol$Recv__f_label;
-    return (((("" + x26) + x27) + "?") + x28);
+    return ((x27 + "?") + x28);
   }
   if ((this instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
     var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionCall(this);
