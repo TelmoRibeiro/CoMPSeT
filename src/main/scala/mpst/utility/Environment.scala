@@ -22,15 +22,10 @@ object Environment:
 
   private def protocolEnvironment(protocol: Protocol)(using environment: SingleEnvironment): SingleEnvironment = protocol match
     case _: Interaction | _: Action | _: RecursionCall | Skip => environment
-    case Sequence(protocolA, protocolB) =>
-      protocolEnvironment(protocolB)(using protocolEnvironment(protocolA))
-    case Parallel(protocolA, protocolB) =>
-      protocolEnvironment(protocolA) ++ protocolEnvironment(protocolB)
-    case Choice  (protocolA, protocolB) =>
-      protocolEnvironment(protocolA) ++ protocolEnvironment(protocolB)
-    case RecursionFixedPoint(variable, protocolB) =>
-      protocolEnvironment(protocolB)(using environment + (variable -> protocol))
-    case RecursionKleeneStar(protocolA) =>
-      protocolEnvironment(protocolA)
+    case Sequence(protocolA, protocolB) => protocolEnvironment(protocolB)(using protocolEnvironment(protocolA))
+    case Parallel(protocolA, protocolB) => protocolEnvironment(protocolA) ++ protocolEnvironment(protocolB)
+    case Choice  (protocolA, protocolB) => protocolEnvironment(protocolA) ++ protocolEnvironment(protocolB)
+    case RecursionFixedPoint(variable, protocolB) => protocolEnvironment(protocolB)(using environment + (variable -> protocol))
+    case RecursionKleeneStar(protocolA)           => protocolEnvironment(protocolA)
   end protocolEnvironment
 end Environment

@@ -12,7 +12,7 @@ object WellChanneled:
     case Choice  (globalA, globalB) => isWellChanneled(globalA) && isWellChanneled(globalB)
     case RecursionFixedPoint(_, globalB) => isWellChanneled(globalB)
     case RecursionKleeneStar(globalA)    => isWellChanneled(globalA)
-    case _ => throw new RuntimeException(s"found unexpected [$global]\n")
+    case _ => throw new RuntimeException(mkUnexpectedConstructMessage(global))
   end isWellChanneled
 
   private def isWellChanneledAuxiliary(globalA: Global, globalB: Global): Boolean =
@@ -24,7 +24,7 @@ object WellChanneled:
       case Choice  (globalA, globalB) => communications(globalA) ++ communications(globalB)
       case RecursionFixedPoint(_,globalB) => communications(globalB)
       case RecursionKleeneStar(globalA)   => communications(globalA)
-      case _ => throw new RuntimeException(s"found unexpected [$branch]")
+      case _ => throw new RuntimeException(mkUnexpectedConstructMessage(branch))
     end communications
 
     val sharedCommunications = communications(globalA).intersect(communications(globalB))

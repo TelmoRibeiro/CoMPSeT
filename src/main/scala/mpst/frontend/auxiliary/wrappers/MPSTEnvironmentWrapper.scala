@@ -5,14 +5,6 @@ import mpst.operational_semantic.MPSTSemantic
 import mpst.syntax.Protocol
 import mpst.syntax.Protocol.*
 
-/* @ telmo
- IDEA:
-    => [[MPSTSemanticWrapper]] wraps the [[MPSTSemantic]] object to be used in [[CAOS]].
-  ISSUES:
-    => None
-  REVIEWED:
-    => AFFIRMATIVE
-*/
 
 object MPSTEnvironmentWrapper:
   private type StateWrapper = (Protocol, Map[Variable, Protocol])

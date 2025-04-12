@@ -7,14 +7,6 @@ import mpst.syntax.Protocol.*
 import mpst.utility.Environment.Environment
 import mpst.utility.Multiset
 
-/* @ telmo
-  IDEA:
-    => [[NetworkWrapper]] wraps the [[Network]] object to be used with [[CAOS]].
-  ISSUES:
-    => None
-  REVIEWED:
-    => AFFIRMATIVE
-*/
 
 object NetworkWrapper:
   private type CausalState = (Set[(Participant, Local)], ChannelQueue, Environment)

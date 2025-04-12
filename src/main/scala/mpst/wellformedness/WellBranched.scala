@@ -29,7 +29,7 @@ object WellBranched:
     case Choice  (globalA, globalB) => wellBranchedAuxiliary(globalA, globalB) && wellBranched(globalA) && wellBranched(globalB)
     case RecursionFixedPoint(_, globalB) => wellBranched(globalB)
     case RecursionKleeneStar(globalA)    => wellBranched(globalA)
-    case _ => throw RuntimeException(s"found unexpected [$global]")
+    case _ => throw RuntimeException(mkUnexpectedConstructMessage(global))
   end wellBranched
 
   private def wellBranchedAuxiliary(globalA: Global, globalB: Global)(using environment: SingleEnvironment): Boolean =
@@ -52,7 +52,7 @@ object WellBranched:
 
     def receivesInReceive(global: Global, selector: Participant, receivesInSend: Set[(Participant, Label)])(using environment: SingleEnvironment): Set[(Participant, Label)] =
       for participant -> local <- StandardProjection.projectionWithParticipant(global)
-          case Recv(_, `selector`, label) <- MPSTSemantic.next(local).map(_._1) if receivesInSend.contains(participant -> label)
+        case Recv(_, `selector`, label) <- MPSTSemantic.next(local).map(_._1) if receivesInSend.contains(participant -> label)
       yield participant -> label
     end receivesInReceive
 

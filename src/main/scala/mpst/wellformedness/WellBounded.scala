@@ -4,8 +4,7 @@ import mpst.syntax.Protocol.*
 
 object WellBounded:
   private def getBoundedVariables(global: Global)(using boundedVariables: Set[Variable]): Set[Variable] = global match
-    case _: Interaction | Skip =>
-      boundedVariables
+    case _: Interaction | Skip => boundedVariables
     case RecursionCall(variable) =>
       if   boundedVariables.contains(variable)
       then boundedVariables
@@ -24,7 +23,7 @@ object WellBounded:
       getBoundedVariables(globalB)(using boundedVariables + variable)
     case RecursionKleeneStar(globalA) =>
       getBoundedVariables(globalA)
-    case _ => throw RuntimeException(s"found unexpected [$global]")
+    case _ => throw RuntimeException(mkUnexpectedConstructMessage(global))
   end getBoundedVariables
 
   def apply(global: Global): Boolean =

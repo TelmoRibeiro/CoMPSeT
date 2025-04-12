@@ -5,14 +5,6 @@ import mpst.operational_semantic.SyncTraverse
 import mpst.syntax.Protocol.{Action, Local, Participant, Recv}
 import mpst.utility.Environment.Environment
 
-/* @ telmo
- IDEA:
-    => [[SyncTraverseWrapper]] wraps the [[SyncTraverse]] object to be used in [[CAOS]].
-  ISSUES:
-    => None
-  REVIEWED:
-    => AFFIRMATIVE
-*/
 
 object SyncEnvironmentWrapper:
   private type SyncState = (Set[(Participant, Local)], Option[Recv], Environment)

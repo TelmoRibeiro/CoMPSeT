@@ -3,7 +3,6 @@ package mpst.frontend
 import caos.frontend.Configurator
 import caos.frontend.Configurator.*
 import caos.frontend.Setting
-import caos.frontend.Setting.*
 import caos.frontend.widgets.WidgetInfo
 import mpst.frontend.auxiliary.{Examples, Widgets}
 import mpst.syntax.Parser

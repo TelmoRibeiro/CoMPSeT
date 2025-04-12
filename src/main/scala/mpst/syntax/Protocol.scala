@@ -15,7 +15,6 @@ enum Protocol:
     case RecursionKleeneStar(protocolA) => s"($protocolA)*"
   end toString
 
-  // constructs allowed by our syntax //
   case Interaction(sender: Protocol.Participant, receiver: Protocol.Participant, label: Protocol.Label)
   case Send(sender: Protocol.Participant, receiver: Protocol.Participant, label: Protocol.Label)
   case Recv(receiver: Protocol.Participant, sender: Protocol.Participant, label: Protocol.Label)
@@ -29,27 +28,34 @@ enum Protocol:
 end Protocol
 
 object Protocol:
-  // global & local Types //
   type Global = Protocol
   type Local  = Protocol
 
-  // internal types //
   type Participant = String
   type Label       = String
   type Variable    = String
 
-  // semantic types //
   type Action = Send | Recv
 
-  def isGlobal(protocol: Global): Boolean = protocol match
+  def isGlobal(global: Global): Boolean = global match
     case _: Interaction | _: RecursionCall | Skip => true
-    case _: Send | _: Recv => false
-    case Sequence(protocolA, protocolB) => isGlobal(protocolA) && isGlobal(protocolB)
-    case Parallel(protocolA, protocolB) => isGlobal(protocolA) && isGlobal(protocolB)
-    case Choice  (protocolA, protocolB) => isGlobal(protocolA) && isGlobal(protocolB)
-    case RecursionFixedPoint(_, protocolB) => isGlobal(protocolB)
-    case RecursionKleeneStar(protocolA)    => isGlobal(protocolA)
+    case _: Action => false
+    case Sequence(globalA, globalB) => isGlobal(globalA) && isGlobal(globalB)
+    case Parallel(globalA, globalB) => isGlobal(globalA) && isGlobal(globalB)
+    case Choice  (globalA, globalB) => isGlobal(globalA) && isGlobal(globalB)
+    case RecursionFixedPoint(_, globalB) => isGlobal(globalB)
+    case RecursionKleeneStar(globalA)    => isGlobal(globalA)
   end isGlobal
+
+  def isLocal(local: Local): Boolean = local match
+    case _: Interaction => false
+    case _: Action | _: RecursionCall | Skip => true
+    case Sequence(localA, localB) => isLocal(localA) && isLocal(localB)
+    case Parallel(localA, localB) => isLocal(localA) && isLocal(localB)
+    case Choice  (localA, localB) => isLocal(localA) && isLocal(localB)
+    case RecursionFixedPoint(_, localB) => isLocal(localB)
+    case RecursionKleeneStar(localA)    => isLocal(localA)
+  end isLocal
 
   def matchingAction(action: Action): Action = action match
     case sendAction: Send => Recv(sendAction.receiver, sendAction.sender, sendAction.label)
@@ -98,4 +104,8 @@ object Protocol:
   def hasRecursion(protocol: Protocol): Boolean =
     hasKleeneStarRecursion(protocol) || hasFixedPointRecursion(protocol)
   end hasRecursion
+
+  def mkUnexpectedConstructMessage(protocol: Protocol): String =
+    s"unexpected construct found in [$protocol]"
+  end mkUnexpectedConstructMessage
 end Protocol

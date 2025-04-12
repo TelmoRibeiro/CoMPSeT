@@ -1,7 +1,6 @@
 package mpst.projection
 
 import mpst.operational_semantic.MPSTSemantic.next
-import mpst.projection.StandardProjection
 import mpst.syntax.Protocol.*
 import mpst.utility.Environment.{SingleEnvironment, localsEnvironment}
 
@@ -13,18 +12,13 @@ object FullMergeProjection:
   end projectionWithParticipant
 
   private def fullMerge(local: Local)(using participants: Set[Participant])(using environment: SingleEnvironment): Boolean = local match
-    case _: Send | _: Recv | _: RecursionCall | Skip => true
-    case Sequence(localA, localB) =>
-      fullMerge(localA) && fullMerge(localB)
-    case Parallel(localA, localB) =>
-      fullMerge(localA) && fullMerge(localB)
-    case Choice(localA, localB) =>
-      participants.forall(participant => fullMergeAuxiliary(localA, localB)(using participant)) && fullMerge(localA) && fullMerge(localB)
-    case RecursionFixedPoint(_, localB) =>
-      fullMerge(localB)
-    case RecursionKleeneStar(localA) =>
-      fullMerge(localA)
-    case _ => throw RuntimeException(s"unexpected construct found in [$local]")
+    case _: Action | _: RecursionCall | Skip => true
+    case Sequence(localA, localB) => fullMerge(localA) && fullMerge(localB)
+    case Parallel(localA, localB) => fullMerge(localA) && fullMerge(localB)
+    case Choice  (localA, localB) => participants.forall(participant => fullMergeAuxiliary(localA, localB)(using participant)) && fullMerge(localA) && fullMerge(localB)
+    case RecursionFixedPoint(_, localB) => fullMerge(localB)
+    case RecursionKleeneStar(localA)    => fullMerge(localA)
+    case _ => throw RuntimeException(mkUnexpectedConstructMessage(local))
   end fullMerge
 
   private def fullMergeAuxiliary(localA: Local, localB: Local)(using participant: Participant)(using environment: SingleEnvironment): Boolean =

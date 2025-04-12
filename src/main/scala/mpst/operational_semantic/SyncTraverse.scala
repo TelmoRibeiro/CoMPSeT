@@ -1,6 +1,6 @@
 package mpst.operational_semantic
 
-import mpst.syntax.Protocol.{Action, Label, Local, Participant, Recv, Send, matchingAction}
+import mpst.syntax.Protocol.{Action, Local, Participant, Recv, Send, matchingAction}
 import mpst.utility.Environment.Environment
 
 
