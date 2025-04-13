@@ -26,7 +26,10 @@ object WellBranched:
     case _ : Interaction | _ : RecursionCall | Skip => true
     case Sequence(globalA, globalB) => wellBranched(globalA) && wellBranched(globalB)
     case Parallel(globalA, globalB) => wellBranched(globalA) && wellBranched(globalB)
-    case Choice  (globalA, globalB) => wellBranchedAuxiliary(globalA, globalB) && wellBranched(globalA) && wellBranched(globalB)
+    case Choice  (globalA, globalB) => globalA -> globalB match
+      case Skip -> _ => throw RuntimeException(s"unguarded skip found on a Choice")
+      case _ -> Skip => throw RuntimeException(s"unguarded skip found on a Choice")
+      case _ => wellBranchedAuxiliary(globalA, globalB) && wellBranched(globalA) && wellBranched(globalB)
     case RecursionFixedPoint(_, globalB) => wellBranched(globalB)
     case RecursionKleeneStar(globalA)    => wellBranched(globalA)
     case _ => throw RuntimeException(mkUnexpectedConstructMessage(global))
