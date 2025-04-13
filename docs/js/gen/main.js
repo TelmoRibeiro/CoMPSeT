@@ -6252,15 +6252,15 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.constructor 
 function $h_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$() {
 }
 $h_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype = $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype;
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.accepting__sci_Set__Z = (function(localsWithParticipant) {
-  return $n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.accepting__sci_Set__sci_Map__Z = (function(localsWithParticipant, pending) {
+  return ($n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     if ((x$1$1 !== null)) {
       var local = $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O());
       return $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmpst_syntax_Protocol__Z($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$(), local);
     }
     throw new $c_s_MatchError(x$1$1);
-  })));
+  }))) && $n(pending).isEmpty__Z());
 });
 $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.next__sci_Set__sci_Map__sci_Map__sci_Set = (function(localsWithParticipant, pending, environment) {
   return $as_sci_Set($n(localsWithParticipant).flatMap__F1__O(new $c_sjsr_AnonFunction1(((localWithParticipant) => {
@@ -6352,15 +6352,20 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.construct
 function $h_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$() {
 }
 $h_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype = $c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype;
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.accepting__sci_Set__Z = (function(localsWithParticipant) {
-  return $n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.accepting__sci_Set__Lmpst_utility_Multiset__Z = (function(localsWithParticipant, pending) {
+  if ($n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     if ((x$1$1 !== null)) {
       var local = $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O());
       return $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmpst_syntax_Protocol__Z($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$(), local);
     }
     throw new $c_s_MatchError(x$1$1);
-  })));
+  })))) {
+    var this$2 = $n(pending);
+    return $n(this$2.Lmpst_utility_Multiset__f_data).isEmpty__Z();
+  } else {
+    return false;
+  }
 });
 $c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.next__sci_Set__Lmpst_utility_Multiset__sci_Map__sci_Set = (function(localsWithParticipant, pending, environment) {
   return $as_sci_Set($n(localsWithParticipant).flatMap__F1__O(new $c_sjsr_AnonFunction1(((localWithParticipant) => {
@@ -6500,15 +6505,15 @@ $c_Lmpst_operational\uff3fsemantic_SyncTraverse$.prototype.constructor = $c_Lmps
 function $h_Lmpst_operational\uff3fsemantic_SyncTraverse$() {
 }
 $h_Lmpst_operational\uff3fsemantic_SyncTraverse$.prototype = $c_Lmpst_operational\uff3fsemantic_SyncTraverse$.prototype;
-$c_Lmpst_operational\uff3fsemantic_SyncTraverse$.prototype.accepting__sci_Set__Z = (function(localsWithParticipant) {
-  return $n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
+$c_Lmpst_operational\uff3fsemantic_SyncTraverse$.prototype.accepting__sci_Set__s_Option__Z = (function(localsWithParticipant, pendingReceive) {
+  return ($n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     if ((x$1$1 !== null)) {
       var local = $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O());
       return $p_Lmpst_operational\uff3fsemantic_MPSTSemantic$__acceptAuxiliary__Lmpst_syntax_Protocol__Z($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$(), local);
     }
     throw new $c_s_MatchError(x$1$1);
-  })));
+  }))) && $n(pendingReceive).isEmpty__Z());
 });
 $c_Lmpst_operational\uff3fsemantic_SyncTraverse$.prototype.next__sci_Set__s_Option__sci_Map__sci_Set = (function(localsWithParticipant, pendingReceive, environment) {
   return $as_sci_Set($n(localsWithParticipant).flatMap__F1__O(new $c_sjsr_AnonFunction1(((localWithParticipant) => {
@@ -14901,7 +14906,7 @@ $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.nex
 });
 $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.accepting__O__Z = (function(s) {
   var state = $as_T3(s);
-  return $m_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$().accepting__sci_Set__Z($as_sci_Set($n(state).T3__f__1));
+  return $m_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$().accepting__sci_Set__sci_Map__Z($as_sci_Set($n(state).T3__f__1), $as_sci_Map($n(state).T3__f__2));
 });
 $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkCausal$.prototype.next__O__sci_Set = (function(s) {
   return this.next__T3__sci_Set($as_T3(s));
@@ -14947,7 +14952,7 @@ $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.
 });
 $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.accepting__O__Z = (function(s) {
   var state = $as_T3(s);
-  return $m_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$().accepting__sci_Set__Z($as_sci_Set($n(state).T3__f__1));
+  return $m_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$().accepting__sci_Set__Lmpst_utility_Multiset__Z($as_sci_Set($n(state).T3__f__1), $as_Lmpst_utility_Multiset($n(state).T3__f__2));
 });
 $c_Lmpst_frontend_auxiliary_wrappers_NetworkWrapper$NetworkNonCausal$.prototype.next__O__sci_Set = (function(s) {
   return this.next__T3__sci_Set($as_T3(s));
@@ -14993,7 +14998,7 @@ $c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$
 });
 $c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.accepting__O__Z = (function(s) {
   var state = $as_T3(s);
-  return $m_Lmpst_operational\uff3fsemantic_SyncTraverse$().accepting__sci_Set__Z($as_sci_Set($n(state).T3__f__1));
+  return $m_Lmpst_operational\uff3fsemantic_SyncTraverse$().accepting__sci_Set__s_Option__Z($as_sci_Set($n(state).T3__f__1), $as_s_Option($n(state).T3__f__2));
 });
 $c_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$.prototype.next__O__sci_Set = (function(s) {
   return this.next__T3__sci_Set($as_T3(s));

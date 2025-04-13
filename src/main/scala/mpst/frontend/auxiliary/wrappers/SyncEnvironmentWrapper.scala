@@ -11,7 +11,7 @@ object SyncEnvironmentWrapper:
 
   object SyncTraverseWrapper extends SOS[Action, SyncState]:
     override def accepting(state: SyncState): Boolean =
-      SyncTraverse.accepting(state._1)
+      SyncTraverse.accepting(state._1, state._2)
     end accepting
 
     override def next[A >: Action](state: SyncState): Set[(A, SyncState)] =

@@ -11,8 +11,8 @@ object Network:
   object NetworkCausal:
     type ChannelQueue = Map[(Participant, Participant), Queue[Label]]
 
-    def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
-      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
+    def accepting(localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue): Boolean =
+      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) } && pending.isEmpty
     end accepting
 
     def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue)(using environment: Environment): Set[(A, Set[(Participant, Local)], ChannelQueue)] =
@@ -49,8 +49,8 @@ object Network:
 
 
   object NetworkNonCausal:
-    def accepting(localsWithParticipant: Set[(Participant, Local)]): Boolean =
-      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) }
+    def accepting(localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action]): Boolean =
+      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) } && pending.isEmpty
     end accepting
 
     def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action])(using environment: Environment): Set[(A, Set[(Participant, Local)], Multiset[Action])] =
