@@ -103,8 +103,21 @@ object Parser extends RegexParsers:
   }
   end recursionCall
 
+  private def hasSkipOnChoice(protocol: Protocol): Boolean = protocol match
+    case _: Interaction | _: Action | Skip | _: RecursionCall => false
+    case Sequence(protocolA, protocolB) => hasSkipOnChoice(protocolA) || hasSkipOnChoice(protocolB)
+    case Parallel(protocolA, protocolB) => hasSkipOnChoice(protocolA) || hasSkipOnChoice(protocolB)
+    case Choice  (protocolA, protocolB) => protocolA -> protocolB match
+      case Skip -> _ | _ -> Skip => throw RuntimeException(s"unguarded [Skip] on [Choice] is not yet supported")
+      case _ => hasSkipOnChoice(protocolA) || hasSkipOnChoice(protocolB)
+    case RecursionFixedPoint(_, protocolB) => hasSkipOnChoice(protocolB)
+    case RecursionKleeneStar(protocolA)    => hasSkipOnChoice(protocolA)
+  end hasSkipOnChoice
+
   def apply(input: String): Global = parseAll(session, input) match
-    case Success(global, _) => global
+    case Success(global, _) =>
+      hasSkipOnChoice(global)
+      global
     case failure: NoSuccess => throw new RuntimeException(s"parsing failed with msg=[${failure.msg}] and next=[${failure.next}]\n")
   end apply
 end Parser
