@@ -3,9 +3,9 @@ package mpst.frontend.auxiliary.view
 import mpst.syntax.Protocol.*
 
 object MessageSequenceChart:
-  private def noteLeftOfAll(note: String)(using participants: Seq[Participant]): String =
-    s"""note left of ${participants.head}: $note"""
-  end noteLeftOfAll
+  private def noteOverAll(note: String)(using participants: Seq[Participant]): String =
+    s"""note over ${participants.mkString(",")}: $note"""
+  end noteOverAll
 
   private def interaction2Mermaid(sender: Participant, receiver: Participant, label: Label): String =
     s"""$sender ->> $receiver :$label\n"""
@@ -19,7 +19,7 @@ object MessageSequenceChart:
     case recvAction: Recv =>
       s"${interaction2Mermaid(recvAction.sender, recvAction.receiver, recvAction.label)}"
     case RecursionCall(variable) =>
-      s"${noteLeftOfAll(s"goto $variable")}"
+      s"${noteOverAll(s"goto $variable")}"
     case Sequence(globalA, globalB) =>
       s"""  ${toMermaid(globalA)}
          |  ${toMermaid(globalB)}""".stripMargin
@@ -36,8 +36,8 @@ object MessageSequenceChart:
          |  ${toMermaid(globalB)}
          |end""".stripMargin
     case RecursionFixedPoint(variable, globalB) =>
-      s"""|rect rgb(50,200,200)
-          |  ${noteLeftOfAll(s"Label $variable")}
+      s"""|rect rgb(213,256,251)
+          |  ${noteOverAll(s"Label $variable")}
           |  ${toMermaid(globalB)}
           |end""".stripMargin
     case RecursionKleeneStar(globalA) =>

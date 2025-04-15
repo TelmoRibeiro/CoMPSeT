@@ -5851,8 +5851,9 @@ var $d_ju_regex_PatternCompiler$CompiledCharClass = new $TypeData().initClass($c
 function $s_Lmpst_frontend_Main__main__AT__V(args) {
   $m_Lcaos_frontend_Site$().initSite__Lcaos_frontend_Configurator__V($m_Lmpst_frontend_CaosConfigurator$());
 }
-function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, note, participants) {
-  return ((("note left of " + $n(participants).head__O()) + ": ") + note);
+function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteOverAll__T__sci_Seq__T($thiz, note, participants) {
+  var this$1 = $n(participants);
+  return ((("note over " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$1, "", ",", "")) + ": ") + note);
 }
 function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__interaction2Mermaid__T__T__T__T($thiz, sender, receiver, label) {
   return (((((sender + " ->> ") + receiver) + " :") + label) + "\n");
@@ -5871,7 +5872,7 @@ function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmps
     var x$1 = $as_Lmpst_syntax_Protocol$RecursionCall(global);
     var this$2 = $n(x$1);
     var x23 = this$2.Lmpst_syntax_Protocol$RecursionCall__f_variable;
-    return ("" + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("goto " + x23), participants));
+    return ("" + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteOverAll__T__sci_Seq__T($thiz, ("goto " + x23), participants));
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
     var x$1$1 = $as_Lmpst_syntax_Protocol$Sequence(global);
     var this$4 = $n(x$1$1);
@@ -5902,7 +5903,7 @@ function $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmps
     var x7 = this$19.Lmpst_syntax_Protocol$RecursionFixedPoint__f_variable;
     var this$20 = $n(x$1$4);
     var x8 = this$20.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
-    var x$4 = (((("|rect rgb(50,200,200)\r\n          |  " + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteLeftOfAll__T__sci_Seq__T($thiz, ("Label " + x7), participants)) + "\r\n          |  ") + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x8, participants)) + "\r\n          |end");
+    var x$4 = (((("|rect rgb(213,256,251)\r\n          |  " + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__noteOverAll__T__sci_Seq__T($thiz, ("Label " + x7), participants)) + "\r\n          |  ") + $p_Lmpst_frontend_auxiliary_view_MessageSequenceChart$__toMermaid__Lmpst_syntax_Protocol__sci_Seq__T($thiz, x8, participants)) + "\r\n          |end");
     return $m_sc_StringOps$().stripMargin$extension__T__C__T(x$4, 124);
   } else if ((global instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
     var x$1$5 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(global);
