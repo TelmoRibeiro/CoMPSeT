@@ -47,7 +47,7 @@ case class Examples(setting: Setting, root: String):
 
   private val controllerWorkerV2: String = "(\n\tc->wA:Work ; c->wB:Work ;\n\t(wA->c:Done || wB->c:Done)\n)*"
 
-  private val recursiveControllerWorker: String = "def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit"
+  private val recursiveControllerWorker: String = "def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit"
 
   private val badWellBranched: String = "(c->wA:Work ; wA->c:Done)\n\t+\n(c->wB:Work ; wB->c:Done)"
 

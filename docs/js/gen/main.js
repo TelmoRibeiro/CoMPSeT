@@ -2065,7 +2065,7 @@ function $p_Lcaos_frontend_widgets_Widget__drawButton__Lcaos_frontend_widgets_Do
       var x31 = $as_T($n($as_s_util_Right(x17)).s_util_Right__f_value);
       switch (x31) {
         case "upload": {
-          $m_Lcaos_frontend_widgets_Widget$().uploadSvg__Lcaos_frontend_widgets_DomElem__V(button);
+          $m_Lcaos_frontend_widgets_Widget$().caos$frontend$widgets$Widget$$$uploadSvg__Lcaos_frontend_widgets_DomElem__V(button);
           return (void 0);
           break;
         }
@@ -2080,7 +2080,7 @@ function $p_Lcaos_frontend_widgets_Widget__drawButton__Lcaos_frontend_widgets_Do
           break;
         }
         case "help": {
-          $m_Lcaos_frontend_widgets_Widget$().helpSvg__Lcaos_frontend_widgets_DomElem__V(button);
+          $m_Lcaos_frontend_widgets_Widget$().caos$frontend$widgets$Widget$$$helpSvg__Lcaos_frontend_widgets_DomElem__V(button);
           return (void 0);
           break;
         }
@@ -2257,13 +2257,13 @@ $c_Lcaos_frontend_widgets_Widget$.prototype.downloadSvg__Lcaos_frontend_widgets_
   $n($n($n(svg).append__T__Lcaos_frontend_widgets_DomElem("path")).attr__T__T__Lcaos_frontend_widgets_DomElem("d", "M0 0h24v24H0z")).attr__T__T__Lcaos_frontend_widgets_DomElem("fill", "none");
   $n($n(svg).append__T__Lcaos_frontend_widgets_DomElem("path")).attr__T__T__Lcaos_frontend_widgets_DomElem("d", "M 11 2 C 10.448 2 10 2.448 10 3 L 10 11 L 6 11 L 12 17 L 18 11 L 14 11 L 14 3 C 14 2.448 13.552 2 13 2 L 11 2 z M 2 20 L 2 22 L 22 22 L 22 20 L 2 20 z");
 });
-$c_Lcaos_frontend_widgets_Widget$.prototype.uploadSvg__Lcaos_frontend_widgets_DomElem__V = (function(block) {
+$c_Lcaos_frontend_widgets_Widget$.prototype.caos$frontend$widgets$Widget$$$uploadSvg__Lcaos_frontend_widgets_DomElem__V = (function(block) {
   var svg = $n($n($n($n($n($n(block).append__T__Lcaos_frontend_widgets_DomElem("svg")).attr__T__T__Lcaos_frontend_widgets_DomElem("xmlns", "http://www.w3.org/2000/svg")).attr__T__T__Lcaos_frontend_widgets_DomElem("width", "20")).attr__T__T__Lcaos_frontend_widgets_DomElem("height", "20")).attr__T__T__Lcaos_frontend_widgets_DomElem("viewBox", "0 0 24 24")).attr__T__T__Lcaos_frontend_widgets_DomElem("class", "svgIcon");
   $n(svg).style__T__T__Lcaos_frontend_widgets_DomElem("margin", "-3pt -2pt 0pt");
   $n($n($n(svg).append__T__Lcaos_frontend_widgets_DomElem("path")).attr__T__T__Lcaos_frontend_widgets_DomElem("d", "M0 0h24v24H0z")).attr__T__T__Lcaos_frontend_widgets_DomElem("fill", "none");
   $n($n(svg).append__T__Lcaos_frontend_widgets_DomElem("path")).attr__T__T__Lcaos_frontend_widgets_DomElem("d", "M 12 2 A 1 1 0 0 0 11.292969 2.2949219 L 6.1601562 7.1347656 A 0.5 0.5 0 0 0 6.1484375 7.1445312 L 6.1464844 7.1464844 A 0.5 0.5 0 0 0 6 7.5 A 0.5 0.5 0 0 0 6.5 8 L 10 8 L 10 16 C 10 16.552 10.448 17 11 17 L 12 17 L 13 17 C 13.552 17 14 16.552 14 16 L 14 8 L 17.5 8 A 0.5 0.5 0 0 0 18 7.5 A 0.5 0.5 0 0 0 17.853516 7.1464844 L 17.822266 7.1171875 L 12.716797 2.3027344 A 1 1 0 0 0 12.683594 2.2714844 A 1 1 0 0 0 12 2 z M 3 20 A 1.0001 1.0001 0 1 0 3 22 L 21 22 A 1.0001 1.0001 0 1 0 21 20 L 3 20 z");
 });
-$c_Lcaos_frontend_widgets_Widget$.prototype.helpSvg__Lcaos_frontend_widgets_DomElem__V = (function(block) {
+$c_Lcaos_frontend_widgets_Widget$.prototype.caos$frontend$widgets$Widget$$$helpSvg__Lcaos_frontend_widgets_DomElem__V = (function(block) {
   var svg = $n($n($n($n($n($n($n(block).append__T__Lcaos_frontend_widgets_DomElem("svg")).attr__T__T__Lcaos_frontend_widgets_DomElem("xmlns", "http://www.w3.org/2000/svg")).attr__T__T__Lcaos_frontend_widgets_DomElem("width", "20")).attr__T__T__Lcaos_frontend_widgets_DomElem("height", "20")).attr__T__T__Lcaos_frontend_widgets_DomElem("viewBox", "0 0 24 24")).attr__T__T__Lcaos_frontend_widgets_DomElem("fill", "none")).attr__T__T__Lcaos_frontend_widgets_DomElem("class", "svgIcon");
   $n($n($n($n(svg).append__T__Lcaos_frontend_widgets_DomElem("path")).attr__T__T__Lcaos_frontend_widgets_DomElem("d", "M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z")).attr__T__T__Lcaos_frontend_widgets_DomElem("stroke", "#b0b0b0")).attr__T__T__Lcaos_frontend_widgets_DomElem("stroke-width", "2");
   $n($n($n($n($n($n(svg).append__T__Lcaos_frontend_widgets_DomElem("path")).attr__T__T__Lcaos_frontend_widgets_DomElem("d", "M10.5 8.67709C10.8665 8.26188 11.4027 8 12 8C13.1046 8 14 8.89543 14 10C14 10.9337 13.3601 11.718 12.4949 11.9383C12.2273 12.0064 12 12.2239 12 12.5V12.5V13")).attr__T__T__Lcaos_frontend_widgets_DomElem("stroke", "#b0b0b0")).attr__T__T__Lcaos_frontend_widgets_DomElem("stroke-width", "2")).attr__T__T__Lcaos_frontend_widgets_DomElem("stroke-linecap", "round")).attr__T__T__Lcaos_frontend_widgets_DomElem("stroke-linejoin", "round");
@@ -23052,7 +23052,7 @@ function $c_Lmpst_frontend_auxiliary_Examples(setting, root) {
   var setting$6 = new $c_s_Some(setting);
   var $x_12 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)", "simple branching - v2", "a simple branching protocol - full-merge (no settings)", setting$6);
   var setting$7 = new $c_s_Some(setting);
-  var $x_11 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit", "controller-worker - fixed point recursion", "sequentialized controller-worker with fixed point recursion (no settings)", setting$7);
+  var $x_11 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit", "controller-worker - fixed point recursion", "sequentialized controller-worker with fixed point recursion (no settings)", setting$7);
   var y = $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__Lcaos_frontend_Setting(this);
   var setting$8 = new $c_s_Some(y);
   var $x_10 = new $c_Lcaos_frontend_Configurator$Example("c->wA:Work ; c->wB:Work ;\nwA->c:Done ; wB->c:Done", "APIGenInScala3 settings", "APIGenInScala3 settings (placeholder protocol)", setting$8);
@@ -23082,7 +23082,7 @@ function $c_Lmpst_frontend_auxiliary_Examples(setting, root) {
   var $x_2 = new $c_Lcaos_frontend_Configurator$Example("pA->pB:TaskA || pA->pB:TaskB", "simple task delegation (APIGenInScala3 vs Non-Causal Async.)", "simple delegation under the APIGenInScala3 settings vs non-causal async. communication", setting$16);
   var y$9 = $p_Lmpst_frontend_auxiliary_Examples__mkST4MP__Lcaos_frontend_Setting(this);
   var setting$17 = new $c_s_Some(y$9);
-  var $x_1 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X + c->w:Quit", "controller-worker - fixed point recursion (ST4MP) | recursion fail", "failed recursion for the controller-worker - fixed point recursion under ST4MP settings", setting$17);
+  var $x_1 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit", "controller-worker - fixed point recursion (ST4MP) | recursion fail", "failed recursion for the controller-worker - fixed point recursion under ST4MP settings", setting$17);
   var y$10 = $p_Lmpst_frontend_auxiliary_Examples__mkGentleIntroMPAsyncST__Lcaos_frontend_Setting(this);
   var setting$18 = new $c_s_Some(y$10);
   var elems = $x_18.wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([$x_17, $x_16, $x_15, $x_14, $x_13, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_Lcaos_frontend_Configurator$Example("(\n\tc->wA:Work ; c->wB:Work ;\n\t(wA->c:Done || wB->c:Done)\n)*", "controller-workers - v2 (GentleIntroMPAsyncST) | parallel fail", "failed parallel for the controller-workers - v2 under GentleIntroMPAsyncST settings", setting$18)]));
