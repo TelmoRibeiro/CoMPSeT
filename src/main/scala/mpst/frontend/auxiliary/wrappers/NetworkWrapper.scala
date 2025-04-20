@@ -9,7 +9,7 @@ import mpst.utility.Multiset
 
 
 object NetworkWrapper:
-  private type CausalState = (Set[(Participant, Local)], ChannelQueue, Environment)
+  type CausalState = (Set[(Participant, Local)], ChannelQueue, Environment)
 
   object NetworkCausal extends SOS[Action, CausalState]:
     override def accepting(state: CausalState): Boolean =
@@ -23,7 +23,7 @@ object NetworkWrapper:
   end NetworkCausal
 
   
-  private type NonCausalState = (Set[(Participant, Local)], Multiset[Action], Environment)
+  type NonCausalState = (Set[(Participant, Local)], Multiset[Action], Environment)
 
   object NetworkNonCausal extends SOS[Action, NonCausalState]:
     override def accepting(state: NonCausalState): Boolean =

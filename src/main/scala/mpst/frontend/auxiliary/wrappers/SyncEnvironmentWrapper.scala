@@ -7,7 +7,7 @@ import mpst.utility.Environment.Environment
 
 
 object SyncEnvironmentWrapper:
-  private type SyncState = (Set[(Participant, Local)], Option[Recv], Environment)
+  type SyncState = (Set[(Participant, Local)], Option[Recv], Environment)
 
   object SyncTraverseWrapper extends SOS[Action, SyncState]:
     override def accepting(state: SyncState): Boolean =
