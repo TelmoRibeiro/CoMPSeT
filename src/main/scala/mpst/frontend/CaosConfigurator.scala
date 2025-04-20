@@ -19,7 +19,7 @@ object CaosConfigurator extends Configurator[Global]:
   private val root = "Semantics"
 
   private def mkSemantics: Setting =
-    "Merge" -> ("Plain" || "Full") && "Comm Model" -> ("Sync" && "Async (Causal)" && "Async (Non-Causal)") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
+    "Merge" -> ("Plain" || "Full") && "Communication Model" -> ("Sync" && "Causal Async" && "Non-Causal Async") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
   end mkSemantics
 
   override val setting: Setting = root -> mkSemantics
