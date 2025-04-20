@@ -6,21 +6,21 @@ import caos.frontend.Setting
 case class Examples(setting: Setting, root: String):
   private def mkVeryGentleIntroMPST: Setting = setting
     .setCheckedPath(s"$root.Merge.Full", true)
-    .setCheckedPath(s"$root.Comm Model.Sync", true)
+    .setCheckedPath(s"$root.Communication Model.Sync", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkVeryGentleIntroMPST
 
   private def mkGentleIntroMPAsyncST: Setting = setting
     .setCheckedPath(s"$root.Merge.Plain", true)
-    .setCheckedPath(s"$root.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$root.Communication Model.Causal Async", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkGentleIntroMPAsyncST
 
   private def mkAPIGenInScala3: Setting = setting
     .setCheckedPath(s"$root.Merge.Plain", true)
-    .setCheckedPath(s"$root.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$root.Communication Model.Causal Async", true)
     .setCheckedPath(s"$root.Parallel", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
@@ -28,7 +28,7 @@ case class Examples(setting: Setting, root: String):
 
   private def mkST4MP: Setting = setting
     .setCheckedPath(s"$root.Merge.Plain", true)
-    .setCheckedPath(s"$root.Comm Model.Async (Causal)", true)
+    .setCheckedPath(s"$root.Communication Model.Causal Async", true)
     .setCheckedPath(s"$root.Parallel", true)
     .setCheckedPath(s"$root.Recursion.Kleene Star", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
@@ -132,7 +132,7 @@ case class Examples(setting: Setting, root: String):
     "simple task delegation (APIGenInScala3 vs Non-Causal Async.)"
       -> simpleDelegation
       -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
-      -> mkAPIGenInScala3.setCheckedPath(s"$root.Comm Model.Async (Non-Causal)", true),
+      -> mkAPIGenInScala3.setCheckedPath(s"$root.Communication Model.Non-Causal Async", true),
 
     "controller-worker - fixed point recursion (ST4MP) | recursion fail"
       -> recursiveControllerWorker
