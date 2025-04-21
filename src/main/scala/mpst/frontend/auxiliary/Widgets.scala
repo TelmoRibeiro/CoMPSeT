@@ -18,7 +18,7 @@ import mpst.utility.Multiset
 import mpst.wellformedness.{WellBounded, WellBranched, WellChanneled}
 
 
-case class Widgets(root: String):
+case class Widgets(rootA: String, rootB: String):
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{ case k -> v => s"$k -> $v" }.mkString("\n")
 
@@ -39,113 +39,135 @@ case class Widgets(root: String):
       check((global: Global) =>
         if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
       ),
-
-    "Well Channeled" ->
-      check((global: Global) =>
-        if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
-      ).setRender(enabledExtraRequirements.exists(_.name == "Well Channeled")),
-
-    "Well Branched" ->
-      check((global: Global) =>
-        if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
-      ).setRender(enabledExtraRequirements.exists(_.name == "Well Branched")),
-
-    "Locals" ->
-      view((global: Global) =>
-        localsWithParticipant(using global).map {
-          case participant -> local => s"$participant: $local"
-        }.mkString("\n"),
-        Code("java")
-      ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge")),
-
-    "Local Automata" ->
-      viewMerms((global: Global) =>
-        val environment: Environment = localsEnvironment(global)
-        localsWithParticipant(using global).map { case participant -> local =>
-          val lts: String = caos.sos.SOS.toMermaid(
-            MPSTSemanticWrapper,
-            local -> environment(participant),
-            (local: Local, environment: SingleEnvironment) => local.toString,
-            _.toString,
-            100,
-          )
-          participant -> lts
-        }.toList
-      ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge")),
-
-    "Local Compositional Automata" -> {
-      if enabledCommunicationModels.nonEmpty then
-        mkLocalCompositionalAutomata(
-          enabledCommunicationModels.head
-        )
-      else
-        check((global: Global) => Seq.empty)
-    },
-
-    "Step-by-Step" -> {
-      if enabledCommunicationModels.nonEmpty then
-        mkStepsBySteps(
-          enabledCommunicationModels.head
-        )
-      else
-        check((global: Global) => Seq.empty)
-    },
-
-    "Bisimulation" -> {
-      if enabledCommunicationModels.size == 2 then
-        mkBisimulation(
-          enabledCommunicationModels.toSeq.head,
-          enabledCommunicationModels.toSeq(1)
-        )
-      else
-        check((global: Global) => Seq.empty)
-    }
+  ) ++ mkWidgetsForAll(
+    "Semantics A: Well Channeled",
+    "Semantics B: Well Channeled",
+    mkWellChanneled,
+  ) ++ mkWidgetsForAll(
+    "Semantics A: Well Branched",
+    "Semantics B: Well Branched",
+    mkWellBranched,
+  ) ++ mkWidgetsForAll(
+    "Semantics A: Locals",
+    "Semantics B: Locals",
+    mkLocals,
+  ) ++ mkWidgetsForAll(
+    "Semantics A: Local Automata",
+    "Semantics B: Local Automata",
+    mkLocalAutomata,
+  ) ++ mkWidgetsForAll(
+    "Semantics A: Local Compositional Automata",
+    "Semantics B: Local Compositional Automata",
+    mkLocalCompositionalAutomata,
+  ) ++ mkWidgetsForAll(
+    "Semantics A: Step-by-Step",
+    "Semantics B: Step-by-Step",
+    mkStepsBySteps,
+  ) ++ mkWidgetsFromAll(
+    "Bisimulation",
+    mkBisimulation,
   )
 
-  private def mkLocalCompositionalAutomata(enabledCommunicationModel: Setting): WidgetInfo[Global] =
-    val (semantics, initialState, showState) = getArguments(enabledCommunicationModel)
-    lts(
-      initialState,
-      semantics,
-      showState,
-      _.toString,
-      100
-    )
+  private def mkWidgetsForAll(nameA: String, nameB: String, mkWidget: (root: String) => WidgetInfo[Global]): Seq[(String, WidgetInfo[Global])] = List(
+    nameA -> mkWidget(rootA),
+    nameB -> mkWidget(rootB),
+  )
+  end mkWidgetsForAll
+
+  private def mkWidgetsFromAll(name: String, mkWidget: (rootA: String, rooB: String) => WidgetInfo[Global]): Seq[(String, WidgetInfo[Global])] = List(
+    name -> mkWidget(rootA, rootB),
+  )
+  end mkWidgetsFromAll
+
+  private def mkWellChanneled(root: String): WidgetInfo[Global] =
+    check((global: Global) =>
+      if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
+    ).setRender(enabledExtraRequirements(root).exists(_.name == "Well Channeled"))
+  end mkWellChanneled
+
+  private def mkWellBranched(root: String): WidgetInfo[Global] =
+    check((global: Global) =>
+      if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
+    ).setRender(enabledExtraRequirements(root).exists(_.name == "Well Branched"))
+  end mkWellBranched
+
+  private def mkLocals(root: String): WidgetInfo[Global] =
+    view((global: Global) =>
+      localsWithParticipant(root)(using global).map {
+        case participant -> local => s"$participant: $local"
+      }.mkString("\n"),
+      Code("java")
+    ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge"))
+  end mkLocals
+
+  private def mkLocalAutomata(root: String): WidgetInfo[Global] =
+    viewMerms((global: Global) =>
+      val environment: Environment = localsEnvironment(global)
+      localsWithParticipant(root)(using global).map { case participant -> local =>
+        val lts: String = caos.sos.SOS.toMermaid(
+          MPSTSemanticWrapper,
+          local -> environment(participant),
+          (local: Local, environment: SingleEnvironment) => local.toString,
+          _.toString,
+          100,
+        )
+        participant -> lts
+      }.toList
+    ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge"))
+  end mkLocalAutomata
+
+  private def mkLocalCompositionalAutomata(root: String): WidgetInfo[Global] =
+    val eCM = enabledCommunicationModels(root)
+    if eCM.nonEmpty then
+      val (semantics, initialState, showState) = getArguments(root, eCM.head)
+      lts(
+        initialState,
+        semantics,
+        showState,
+        _.toString,
+        100
+      )
+    else
+      check((global: Global) => Seq.empty)
   end mkLocalCompositionalAutomata
 
-  private def mkStepsBySteps(enabledCommunicationModel: Setting): WidgetInfo[Global] =
-    val (semantics, initialState, showState) = getArguments(enabledCommunicationModel)
-    steps(
-      initialState,
-      semantics,
-      showState
-    )
+  private def mkStepsBySteps(root: String): WidgetInfo[Global] =
+    val eCM = enabledCommunicationModels(root)
+    if eCM.nonEmpty then
+      val (semantics, initialState, showState) = getArguments(root, eCM.head)
+      steps(
+        initialState,
+        semantics,
+        showState
+      )
+    else
+      check((global: Global) => Seq.empty)
   end mkStepsBySteps
 
-  private def mkBisimulation(enabledCommunicationModelA: Setting, enabledCommunicationModelB: Setting): WidgetInfo[Global] =
-    val (semanticsA, initialStateA, showStateA) = getArguments(enabledCommunicationModelA)
-    val (semanticsB, initialStateB, showStateB) = getArguments(enabledCommunicationModelB)
-    compareBranchBisim(
-      semanticsA,
-      semanticsB,
-      initialStateA,
-      initialStateB,
-      showStateA,
-      showStateB,
-      _.toString,
-      100,
-    )
+  private def mkBisimulation(rootA: String, rootB: String): WidgetInfo[Global] =
+    val eCMA = enabledCommunicationModels(rootA)
+    val eCMB = enabledCommunicationModels(rootB)
+    if eCMA.nonEmpty && eCMB.nonEmpty then
+      val (semanticsA, initialStateA, showStateA) = getArguments(rootA, eCMA.head)
+      val (semanticsB, initialStateB, showStateB) = getArguments(rootB, eCMB.head)
+      compareBranchBisim(
+        semanticsA,
+        semanticsB,
+        initialStateA,
+        initialStateB,
+        showStateA,
+        showStateB,
+        _.toString,
+        100,
+      )
+    else
+      check((global: Global) => Seq.empty)
   end mkBisimulation
-
-  private def enabledCommunicationModels: Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Communication Model")
-  private def enabledExtraRequirements:   Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Extra Requirements")
-  private def enabledMerges:              Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Merge")
-  private def enabledRecursions:          Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Recursion")
 
   private type State = SyncState | CausalState | NonCausalState
   private type Pending = Option[Recv] | ChannelQueue | Multiset[Action]
 
-  private def getArguments(enabledCommunicationModel: Setting): (SOS[Action, State], Global => State, State => String) =
+  private def getArguments(root: String, enabledCommunicationModel: Setting): (SOS[Action, State], Global => State, State => String) =
     def getShowState(state: State): String = state.asInstanceOf[(Set[(Participant, Local)], Pending, Environment)] match
       case (localsWithParticipant, pending, environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
         case participant -> local => s"$participant: $local"
@@ -155,74 +177,74 @@ case class Widgets(root: String):
     enabledCommunicationModel.name match
       case "Sync" => (
         SyncTraverseWrapper.asInstanceOf[SOS[Action, State]],
-        (global: Global) => initialStateSync(using global),
+        (global: Global) => initialStateSync(root)(using global),
         getShowState,
       )
       case "Causal Async" => (
         NetworkCausal.asInstanceOf[SOS[Action, State]],
-        (global: Global) => initialStateAsyncCS(using global),
+        (global: Global) => initialStateAsyncCS(root)(using global),
         getShowState,
       )
       case "Non-Causal Async" => (
         NetworkNonCausal.asInstanceOf[SOS[Action, State]],
-        (global: Global) => initialStateAsyncNCS(using global),
+        (global: Global) => initialStateAsyncNCS(root)(using global),
         getShowState,
       )
       case other => throw RuntimeException(s"unexpected communication model [$other] found")
   end getArguments
 
-  private def localsWithParticipant(using global: Global): Set[(Participant, Local)] =
-    val localsWithParticipantOption = enabledMerges match
+  private def localsWithParticipant(root: String)(using global: Global): Set[(Participant, Local)] =
+    val localsWithParticipantOption = enabledMerges(root) match
       case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
         Some(PlainMergeProjection.projectionWithParticipant(global))
       case enabledMerge if enabledMerge.exists(_.name == "Full") =>
         Some(FullMergeProjection.projectionWithParticipant(global))
       case _ => None
     val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
-    checkLocalsAgainstAllConditions(localsWithParticipant)
+    checkLocalsAgainstAllConditions(root, localsWithParticipant)
     localsWithParticipant
   end localsWithParticipant
 
-  private def initialStateSync(using global: Global): (Set[(Participant, Local)], Option[Recv], Environment) =
-    val initialStateOption = enabledMerges match
+  private def initialStateSync(root: String)(using global: Global): (Set[(Participant, Local)], Option[Recv], Environment) =
+    val initialStateOption = enabledMerges(root) match
       case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
       case enabledMerge if enabledMerge.exists(_.name == "Full") =>
         Some((FullMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
       case _ => None
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
-    checkLocalsAgainstAllConditions(initialState._1)
+    checkLocalsAgainstAllConditions(root, initialState._1)
     initialState
   end initialStateSync
 
-  private def initialStateAsyncCS(using global: Global): (Set[(Participant, Local)], ChannelQueue, Environment) =
-    val initialStateOption = enabledMerges match
+  private def initialStateAsyncCS(root: String)(using global: Global): (Set[(Participant, Local)], ChannelQueue, Environment) =
+    val initialStateOption = enabledMerges(root) match
       case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
       case enabledMerge if enabledMerge.exists(_.name == "Full") =>
         Some((FullMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
       case _ => None
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
-    checkLocalsAgainstAllConditions(initialState._1)
+    checkLocalsAgainstAllConditions(root, initialState._1)
     initialState
   end initialStateAsyncCS
 
-  private def initialStateAsyncNCS(using global: Global): (Set[(Participant, Local)], Multiset[Action], Environment) =
-    val initialStateOption = enabledMerges match
+  private def initialStateAsyncNCS(root: String)(using global: Global): (Set[(Participant, Local)], Multiset[Action], Environment) =
+    val initialStateOption = enabledMerges(root) match
       case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
       case enabledMerge if enabledMerge.exists(_.name == "Full") =>
         Some((FullMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
       case _ => None
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
-    checkLocalsAgainstAllConditions(initialState._1)
+    checkLocalsAgainstAllConditions(root, initialState._1)
     initialState
   end initialStateAsyncNCS
 
-  private def checkLocalsAgainstAllConditions(localsWithParticipant: Set[(Participant, Local)]): Unit =
+  private def checkLocalsAgainstAllConditions(root: String, localsWithParticipant: Set[(Participant, Local)]): Unit =
     checkLocalsAgainstCondition(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom(root).exists(_.name == "Parallel"), "Parallel")
-    checkLocalsAgainstCondition(localsWithParticipant, hasKleeneStarRecursion, !enabledRecursions.exists(_.name == "Kleene Star"), "Recursion Kleene Star")
-    checkLocalsAgainstCondition(localsWithParticipant, hasFixedPointRecursion, !enabledRecursions.exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+    checkLocalsAgainstCondition(localsWithParticipant, hasKleeneStarRecursion, !enabledRecursions(root).exists(_.name == "Kleene Star"), "Recursion Kleene Star")
+    checkLocalsAgainstCondition(localsWithParticipant, hasFixedPointRecursion, !enabledRecursions(root).exists(_.name == "Fixed Point"), "Recursion Fixed Point")
   end checkLocalsAgainstAllConditions
 
   private def checkLocalsAgainstCondition(localsWithParticipant: Set[(Participant, Local)], localCondition: Local => Boolean, settingCondition: => Boolean, prefix: String): Unit =
@@ -232,4 +254,9 @@ case class Widgets(root: String):
       case _ =>
     }
   end checkLocalsAgainstCondition
+
+  private def enabledCommunicationModels(root: String): Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Communication Model")
+  private def enabledExtraRequirements(root: String):   Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Extra Requirements")
+  private def enabledMerges(root: String):              Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Merge")
+  private def enabledRecursions(root: String):          Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Recursion")
 end Widgets

@@ -16,15 +16,27 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val parser: String => Global = (input: String) => Parser(input)
 
-  private val root = "Semantics"
+  private val root:  String = "Semantics"
+  private val rootA: String = "Semantics A"
+  private val rootB: String = "Semantics B"
 
   private def mkSemantics: Setting =
-    "Merge" -> ("Plain" || "Full") && "Communication Model" -> ("Sync" && "Causal Async" && "Non-Causal Async") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
+    "Merge" -> ("Plain" || "Full") && "Communication Model" -> ("Sync" || "Causal Async" || "Non-Causal Async") && "Recursion" -> ("Kleene Star" || "Fixed Point") && "Parallel" && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
   end mkSemantics
 
-  override val setting: Setting = root -> mkSemantics
+  override val setting: Setting = Setting(root, List(s"$rootA" -> mkSemantics, s"$rootB" -> mkSemantics), options = List("allowAll"))
 
-  override val examples: Seq[Example] = Examples(setting, root).examples
+  override val examples: Seq[Example] = Examples(setting, s"$root.$rootA", s"$root.$rootB").examples
 
-  override def widgets: Seq[(String, WidgetInfo[Global])] = Widgets(root).widgets
+  override def widgets: Seq[(String, WidgetInfo[Global])] =
+    val (semanticsA, semanticsB, others) = Widgets(s"$root.$rootA", s"$root.$rootB").widgets.foldLeft(
+      (List.empty[(String, WidgetInfo[Global])], List.empty[(String, WidgetInfo[Global])], List.empty[(String, WidgetInfo[Global])])
+    ) {
+      case ((sA, sB, o), widget @ (title, _)) =>
+        if      title.startsWith("Semantics A:") then (widget :: sA, sB, o)
+        else if title.startsWith("Semantics B:") then (sA, widget :: sB, o)
+        else    (sA, sB, widget :: o)
+    }
+    others.reverse ++ semanticsA.reverse ++ semanticsB.reverse
+  end widgets
 end CaosConfigurator

@@ -3,22 +3,22 @@ package mpst.frontend.auxiliary
 import caos.frontend.Configurator.Example
 import caos.frontend.Setting
 
-case class Examples(setting: Setting, root: String):
-  private def mkVeryGentleIntroMPST: Setting = setting
+case class Examples(setting: Setting, rootA: String, rootB: String):
+  private def mkVeryGentleIntroMPST(root: String): Setting = setting
     .setCheckedPath(s"$root.Merge.Full", true)
     .setCheckedPath(s"$root.Communication Model.Sync", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkVeryGentleIntroMPST
 
-  private def mkGentleIntroMPAsyncST: Setting = setting
+  private def mkGentleIntroMPAsyncST(root: String): Setting = setting
     .setCheckedPath(s"$root.Merge.Plain", true)
     .setCheckedPath(s"$root.Communication Model.Causal Async", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkGentleIntroMPAsyncST
 
-  private def mkAPIGenInScala3: Setting = setting
+  private def mkAPIGenInScala3(root: String): Setting = setting
     .setCheckedPath(s"$root.Merge.Plain", true)
     .setCheckedPath(s"$root.Communication Model.Causal Async", true)
     .setCheckedPath(s"$root.Parallel", true)
@@ -26,7 +26,7 @@ case class Examples(setting: Setting, root: String):
     .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
   end mkAPIGenInScala3
 
-  private def mkST4MP: Setting = setting
+  private def mkST4MP(root: String): Setting = setting
     .setCheckedPath(s"$root.Merge.Plain", true)
     .setCheckedPath(s"$root.Communication Model.Causal Async", true)
     .setCheckedPath(s"$root.Parallel", true)
@@ -92,56 +92,51 @@ case class Examples(setting: Setting, root: String):
     "APIGenInScala3 settings"
       -> controllerWorkerV0
       -> "APIGenInScala3 settings (placeholder protocol)"
-      -> mkAPIGenInScala3,
+      -> mkAPIGenInScala3(rootA),
 
     "ST4MP settings"
       -> controllerWorkerV0
       -> "ST4MP settings (placeholder protocol)"
-      -> mkST4MP,
+      -> mkST4MP(rootA),
 
     "VeryGentleIntroMPST settings"
       -> controllerWorkerV0
       -> "VeryGentleIntroMPST settings (placeholder protocol)"
-      -> mkVeryGentleIntroMPST,
+      -> mkVeryGentleIntroMPST(rootA),
 
     "GentleIntroMPAsyncST settings"
       -> controllerWorkerV0
       -> "GentleIntroMPAsyncST settings (placeholder protocol)"
-      -> mkGentleIntroMPAsyncST,
+      -> mkGentleIntroMPAsyncST(rootA),
 
     "controller-workers - v1 (APIGenInScala3)"
       -> controllerWorkerV1
       -> "controller-workers-v1 under the APIGenInScala3 settings"
-      -> mkAPIGenInScala3,
+      -> mkAPIGenInScala3(rootA),
 
     "controller-workers - v2 (ST4MP)"
       -> controllerWorkerV2
       -> "controller-workers-v2 under the ST4MP settings"
-      -> mkST4MP,
+      -> mkST4MP(rootA),
 
     "simple branching - v1 (GentleIntroMPAsyncST)"
       -> simpleBranchingV1
       -> "simple branching - v1 under the GentleIntroMPAsyncST"
-      -> mkGentleIntroMPAsyncST,
+      -> mkGentleIntroMPAsyncST(rootA),
 
     "simple branching - v2 (VeryGentleIntroMPST)"
       -> simpleBranchingV2
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
-      -> mkVeryGentleIntroMPST,
-
-    "simple task delegation (APIGenInScala3 vs Non-Causal Async.)"
-      -> simpleDelegation
-      -> "simple delegation under the APIGenInScala3 settings vs non-causal async. communication"
-      -> mkAPIGenInScala3.setCheckedPath(s"$root.Communication Model.Non-Causal Async", true),
+      -> mkVeryGentleIntroMPST(rootA),
 
     "controller-worker - fixed point recursion (ST4MP) | recursion fail"
       -> recursiveControllerWorker
       -> "failed recursion for the controller-worker - fixed point recursion under ST4MP settings"
-      -> mkST4MP,
+      -> mkST4MP(rootA),
 
     "controller-workers - v2 (GentleIntroMPAsyncST) | parallel fail"
       -> controllerWorkerV2
       -> "failed parallel for the controller-workers - v2 under GentleIntroMPAsyncST settings"
-      -> mkGentleIntroMPAsyncST,
+      -> mkGentleIntroMPAsyncST(rootA),
   )
 end Examples
