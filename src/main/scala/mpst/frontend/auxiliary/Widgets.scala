@@ -94,7 +94,7 @@ case class Widgets(rootA: String, rootB: String):
   private def mkLocals(root: String): WidgetInfo[Global] =
     view((global: Global) =>
       localsWithParticipant(root)(using global).map {
-        case participant -> local => s"$participant: $local"
+        case participant -> local => s"$participant: ${local.toSimpleString}"
       }.mkString("\n"),
       Code("java")
     ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge"))
@@ -107,8 +107,8 @@ case class Widgets(rootA: String, rootB: String):
         val lts: String = caos.sos.SOS.toMermaid(
           MPSTSemanticWrapper,
           local -> environment(participant),
-          (local: Local, environment: SingleEnvironment) => local.toString,
-          _.toString,
+          (local: Local, environment: SingleEnvironment) => local.toSimpleString,
+          _.toSimpleString,
           100,
         )
         participant -> lts

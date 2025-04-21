@@ -2,10 +2,23 @@ package mpst.syntax
 
 
 enum Protocol:
-  override def toString: String = this match
+  def toSimpleString: String = this match
     case Interaction(sender, receiver, label) => s"$sender->$receiver:$label"
     case Send(_, receiver, label) => s"$receiver!$label"
-    case Recv(_, sender, label) => s"$sender?$label"
+    case Recv(_, sender, label)   => s"$sender?$label"
+    case RecursionCall(variable) => s"$variable"
+    case Skip => s"skip"
+    case Sequence(protocolA, protocolB) => s"${protocolA.toSimpleString} ; ${protocolB.toSimpleString}"
+    case Parallel(protocolA, protocolB) => s"(${protocolA.toSimpleString} || ${protocolB.toSimpleString})"
+    case Choice  (protocolA, protocolB) => s"(${protocolA.toSimpleString} + ${protocolB.toSimpleString})"
+    case RecursionFixedPoint(variable, protocolB) => s"def $variable in ${protocolB.toSimpleString}"
+    case RecursionKleeneStar(protocolA) => s"(${protocolA.toSimpleString})*"
+  end toSimpleString
+
+  override def toString: String = this match
+    case Interaction(sender, receiver, label) => s"$sender->$receiver:$label"
+    case Send(sender, receiver, label) => s"$sender-$receiver!$label"
+    case Recv(receiver, sender, label) => s"$receiver-$sender?$label"
     case RecursionCall(variable) => s"$variable"
     case Skip => s"skip"
     case Sequence(protocolA, protocolB) => s"$protocolA ; $protocolB"
