@@ -26,5 +26,5 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val examples: Seq[Example] = Examples(setting, root).examples
 
-  override val widgets: Seq[(String, WidgetInfo[Global])] = Widgets(root).widgets
+  override def widgets: Seq[(String, WidgetInfo[Global])] = Widgets(root).widgets
 end CaosConfigurator

@@ -2,7 +2,7 @@ package mpst.frontend.auxiliary
 
 import caos.frontend.Configurator.*
 import caos.frontend.Setting
-import caos.frontend.Site.{getSetting, initSite}
+import caos.frontend.Site.getSetting
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS
 import caos.view.{Code, Mermaid}
@@ -22,22 +22,7 @@ case class Widgets(root: String):
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{ case k -> v => s"$k -> $v" }.mkString("\n")
 
-  val widgets: Seq[(String, WidgetInfo[Global])] = List(
-    "Well Channeled" ->
-      check((global: Global) =>
-        if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
-      ).setRender(enabledExtraRequirements.exists(_.name == "Well Channeled")),
-
-    "Well Branched" ->
-      check((global: Global) =>
-        if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
-      ).setRender(enabledExtraRequirements.exists(_.name == "Well Branched")),
-
-    "Well Bounded" ->
-      check((global: Global) =>
-        if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
-      ),
-
+  def widgets: Seq[(String, WidgetInfo[Global])] = List(
     "Message Sequence Chart" ->
       view(
         MessageSequenceChart.apply,
@@ -49,6 +34,21 @@ case class Widgets(root: String):
         s"${global.toString}",
         Code("java")
       ),
+
+    "Well Bounded" ->
+      check((global: Global) =>
+        if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
+      ),
+
+    "Well Channeled" ->
+      check((global: Global) =>
+        if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
+      ).setRender(enabledExtraRequirements.exists(_.name == "Well Channeled")),
+
+    "Well Branched" ->
+      check((global: Global) =>
+        if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
+      ).setRender(enabledExtraRequirements.exists(_.name == "Well Branched")),
 
     "Locals" ->
       view((global: Global) =>
@@ -73,99 +73,69 @@ case class Widgets(root: String):
         }.toList
       ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge")),
 
-    "Local Compositional Automata - Sync" ->
-      lts(
-        syncArguments._2,
-        syncArguments._1,
-        syncArguments._3,
-        _.toString,
-        100,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Sync")),
+    "Local Compositional Automata" -> {
+      if enabledCommunicationModels.nonEmpty then
+        mkLocalCompositionalAutomata(
+          enabledCommunicationModels.head
+        )
+      else
+        check((global: Global) => Seq.empty)
+    },
 
-    "Local Compositional Automata - Causal Async" ->
-      lts(
-        causalAsyncArguments._2,
-        causalAsyncArguments._1,
-        causalAsyncArguments._3,
-        _.toString,
-        100,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Causal Async")),
+    "Step-by-Step" -> {
+      if enabledCommunicationModels.nonEmpty then
+        mkStepsBySteps(
+          enabledCommunicationModels.head
+        )
+      else
+        check((global: Global) => Seq.empty)
+    },
 
-    "Local Compositional Automata - Non-Causal Async" ->
-      lts(
-        nonCausalAsyncArguments._2,
-        nonCausalAsyncArguments._1,
-        nonCausalAsyncArguments._3,
-        _.toString,
-        100,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Non-Causal Async")),
-
-    "Step-by-Step - Sync" ->
-      steps(
-        syncArguments._2,
-        syncArguments._1,
-        syncArguments._3,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Sync")),
-
-    "Step-by-Step - Causal Async" ->
-      steps(
-        causalAsyncArguments._2,
-        causalAsyncArguments._1,
-        causalAsyncArguments._3,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Causal Async")),
-
-    "Step-by-Step - Non-Causal Async" ->
-      steps(
-        nonCausalAsyncArguments._2,
-        nonCausalAsyncArguments._1,
-        nonCausalAsyncArguments._3,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Non-Causal Async")),
-
-    "Bisimulation - Sync vs Causal Async" ->
-      compareBranchBisim(
-        SyncTraverseWrapper,
-        NetworkCausal,
-        (global: Global) => initialStateSync(using global),
-        (global: Global) => initialStateAsyncCS(using global),
-        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-        maxDepth = 100,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Sync") && enabledCommunicationModels.exists(_.name == "Causal Async")),
-
-    "Bisimulation - Sync vs Non-Causal Async" ->
-      compareBranchBisim(
-        SyncTraverseWrapper,
-        NetworkNonCausal,
-        (global: Global) => initialStateSync(using global),
-        (global: Global) => initialStateAsyncNCS(using global),
-        (localsWithParticipant: Set[(Participant, Local)], pendingReceive: Option[Recv], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
-          case (participant, local) => s"$participant: $local "
-        }.mkString("\n"),
-        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
-          case (participant, local) => s"$participant: $local"
-        }.mkString("\n"),
-        maxDepth = 100,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Sync") && enabledCommunicationModels.exists(_.name == "Non-Causal Async")),
-
-    "Bisimulation - Causal Async vs Non-Causal Async" ->
-      compareBranchBisim(
-        NetworkCausal,
-        NetworkNonCausal,
-        (global: Global) => initialStateAsyncCS(using global),
-        (global: Global) => initialStateAsyncNCS(using global),
-        (localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue, environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
-          case (participant, local) => s"$participant: $local"
-        }.mkString("\n"),
-        (localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action], environment: Environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
-          case (participant, local) => s"$participant: $local"
-        }.mkString("\n"),
-        maxDepth = 100,
-      ).setRender(enabledCommunicationModels.exists(_.name == "Causal Async") && enabledCommunicationModels.exists(_.name == "Non-Causal Async")),
+    "Bisimulation" -> {
+      if enabledCommunicationModels.size == 2 then
+        mkBisimulation(
+          enabledCommunicationModels.toSeq.head,
+          enabledCommunicationModels.toSeq(1)
+        )
+      else
+        check((global: Global) => Seq.empty)
+    }
   )
+
+  private def mkLocalCompositionalAutomata(enabledCommunicationModel: Setting): WidgetInfo[Global] =
+    val (semantics, initialState, showState) = getArguments(enabledCommunicationModel)
+    lts(
+      initialState,
+      semantics,
+      showState,
+      _.toString,
+      100
+    )
+  end mkLocalCompositionalAutomata
+
+  private def mkStepsBySteps(enabledCommunicationModel: Setting): WidgetInfo[Global] =
+    val (semantics, initialState, showState) = getArguments(enabledCommunicationModel)
+    steps(
+      initialState,
+      semantics,
+      showState
+    )
+  end mkStepsBySteps
+
+  private def mkBisimulation(enabledCommunicationModelA: Setting, enabledCommunicationModelB: Setting): WidgetInfo[Global] =
+    val (semanticsA, initialStateA, showStateA) = getArguments(enabledCommunicationModelA)
+    val (semanticsB, initialStateB, showStateB) = getArguments(enabledCommunicationModelB)
+    compareBranchBisim(
+      semanticsA,
+      semanticsB,
+      initialStateA,
+      initialStateB,
+      showStateA,
+      showStateB,
+      _.toString,
+      100,
+    )
+  end mkBisimulation
 
   private def enabledCommunicationModels: Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Communication Model")
   private def enabledExtraRequirements:   Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Extra Requirements")
@@ -175,31 +145,31 @@ case class Widgets(root: String):
   private type State = SyncState | CausalState | NonCausalState
   private type Pending = Option[Recv] | ChannelQueue | Multiset[Action]
 
-  private def getShowState(state: State): String = state.asInstanceOf[(Set[(Participant, Local)], Pending, Environment)] match
-    case (localsWithParticipant, pending, environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
-      case participant -> local => s"$participant: $local"
-    }.mkString("\n")
-  end getShowState
+  private def getArguments(enabledCommunicationModel: Setting): (SOS[Action, State], Global => State, State => String) =
+    def getShowState(state: State): String = state.asInstanceOf[(Set[(Participant, Local)], Pending, Environment)] match
+      case (localsWithParticipant, pending, environment) => localsWithParticipant.toSeq.sortBy(_._1).map {
+        case participant -> local => s"$participant: $local"
+      }.mkString("\n")
+    end getShowState
 
-  private def syncArguments: (SOS[Action, State], Global => State, State => String) = (
-    SyncTraverseWrapper.asInstanceOf[SOS[Action, State]],
-    (global: Global) => initialStateSync(using global),
-    getShowState,
-  )
-  end syncArguments
-
-  private def causalAsyncArguments: (SOS[Action, State], Global => State, State => String) = (
-    NetworkCausal.asInstanceOf[SOS[Action, State]],
-    (global: Global) => initialStateAsyncCS(using global),
-    getShowState,
-  )
-  end causalAsyncArguments
-
-  private def nonCausalAsyncArguments: (SOS[Action, State], Global => State, State => String) = (
-    NetworkNonCausal.asInstanceOf[SOS[Action, State]],
-    (global: Global) => initialStateAsyncNCS(using global),
-    getShowState,
-  )
+    enabledCommunicationModel.name match
+      case "Sync" => (
+        SyncTraverseWrapper.asInstanceOf[SOS[Action, State]],
+        (global: Global) => initialStateSync(using global),
+        getShowState,
+      )
+      case "Causal Async" => (
+        NetworkCausal.asInstanceOf[SOS[Action, State]],
+        (global: Global) => initialStateAsyncCS(using global),
+        getShowState,
+      )
+      case "Non-Causal Async" => (
+        NetworkNonCausal.asInstanceOf[SOS[Action, State]],
+        (global: Global) => initialStateAsyncNCS(using global),
+        getShowState,
+      )
+      case other => throw RuntimeException(s"unexpected communication model [$other] found")
+  end getArguments
 
   private def localsWithParticipant(using global: Global): Set[(Participant, Local)] =
     val localsWithParticipantOption = enabledMerges match
