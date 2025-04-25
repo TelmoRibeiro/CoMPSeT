@@ -1270,8 +1270,8 @@ function $p_Lcaos_frontend_Site$__renderWidgets__V($thiz) {
   var code = $p_Lcaos_frontend_Site$__getCodeWidget__Lcaos_frontend_widgets_CodeWidget($thiz);
   var boxes = $as_sc_Iterable($n($n($n(config).widgets__sc_Iterable()).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((wc) => {
     var wc$1 = $as_T2(wc);
-    var this$1 = $n($as_Lcaos_frontend_widgets_WidgetInfo($n(wc$1)._2__O()));
-    return $uZ($n(this$1.caos$frontend$widgets$WidgetInfo$$render__F0()).apply__O());
+    var this$1 = $n($as_s_Option($n(wc$1)._2__O()));
+    return (!this$1.isEmpty__Z());
   })))).map__F1__O(new $c_sjsr_AnonFunction1(((wc$2) => {
     var wc$3 = $as_T2(wc$2);
     var w = $p_Lcaos_frontend_Site$__mkWidget__T2__F0__F0__Lcaos_frontend_widgets_OutputArea__Lcaos_frontend_Documentation__Lcaos_frontend_widgets_Widget($m_Lcaos_frontend_Site$(), wc$3, new $c_sjsr_AnonFunction0((() => $n(code).get__O())), new $c_sjsr_AnonFunction0((() => $as_sci_Seq($n($n($p_Lcaos_frontend_Site$__getExamplesWidget__Lcaos_frontend_widgets_ExampleWidget($m_Lcaos_frontend_Site$())).get__sci_Seq()).map__F1__O(new $c_sjsr_AnonFunction1(((kv) => {
@@ -1281,7 +1281,7 @@ function $p_Lcaos_frontend_Site$__renderWidgets__V($thiz) {
       var y = $n($n(config).parser__F1()).apply__O__O($n(kv$1)._2__O());
       return new $c_T2(ev$2, y);
     })))))), $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$errorArea, $n(config).documentation__Lcaos_frontend_Documentation());
-    $n(w).init__Lcaos_frontend_widgets_DomElem__Z__V((($n($as_Lcaos_frontend_widgets_WidgetInfo($n(wc$3)._2__O())).location__I() === 0) ? $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_rightColumn : $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_leftColumn), $n($as_Lcaos_frontend_widgets_WidgetInfo($n(wc$3)._2__O())).expanded__Z());
+    $n(w).init__Lcaos_frontend_widgets_DomElem__Z__V((($n($as_Lcaos_frontend_widgets_WidgetInfo($n($as_s_Option($n(wc$3)._2__O())).get__O())).location__I() === 0) ? $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_rightColumn : $m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_leftColumn), $n($as_Lcaos_frontend_widgets_WidgetInfo($n($as_s_Option($n(wc$3)._2__O())).get__O())).expanded__Z());
     return w;
   }))));
   var this$4 = new $c_sci_$colon$colon(code, $m_sci_Nil$());
@@ -1316,7 +1316,7 @@ function $p_Lcaos_frontend_Site$__renderWidgets__V($thiz) {
 }
 function $p_Lcaos_frontend_Site$__mkWidget__T2__F0__F0__Lcaos_frontend_widgets_OutputArea__Lcaos_frontend_Documentation__Lcaos_frontend_widgets_Widget($thiz, w, get, getAll, out, doc) {
   try {
-    var x4 = $as_Lcaos_frontend_widgets_WidgetInfo($n(w)._2__O());
+    var x4 = $as_Lcaos_frontend_widgets_WidgetInfo($n($as_s_Option($n(w)._2__O())).get__O());
     if ((x4 instanceof $c_Lcaos_frontend_widgets_WidgetInfo$Visualize)) {
       var x$1 = $as_Lcaos_frontend_widgets_WidgetInfo$Visualize(x4);
       var this$2 = $n(x$1);
@@ -2266,13 +2266,8 @@ function $m_Lcaos_frontend_widgets_Widget$() {
   return $n_Lcaos_frontend_widgets_Widget$;
 }
 function $f_Lcaos_frontend_widgets_WidgetInfo__$init$__V($thiz) {
-  $thiz.caos$frontend$widgets$WidgetInfo$$render_$eq__F0__V(new $c_sjsr_AnonFunction0((() => true)));
   $thiz.expanded_$eq__Z__V(false);
   $thiz.location_$eq__I__V(0);
-}
-function $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo($thiz, condition) {
-  $thiz.caos$frontend$widgets$WidgetInfo$$render_$eq__F0__V(condition);
-  return $thiz;
 }
 function $is_Lcaos_frontend_widgets_WidgetInfo(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcaos_frontend_widgets_WidgetInfo)));
@@ -14703,6 +14698,67 @@ function $p_Lmpst_frontend_CaosConfigurator$__mkSemantics__Lcaos_frontend_Settin
   var options$13 = $n(y$3).Lcaos_frontend_Setting__f_options;
   return $x_2.allowAll__Lcaos_frontend_Setting__Lcaos_frontend_Setting(new $c_Lcaos_frontend_Setting("Extra Requirements", children$13, checked$3, options$13));
 }
+function $p_Lmpst_frontend_CaosConfigurator$__sortWidgets__sci_Seq__sci_List($thiz, widgets) {
+  matchResult2: {
+    var \u03b41$___1;
+    var \u03b41$___2;
+    var \u03b41$___3;
+    var _1 = $m_sci_Nil$();
+    var _2 = $m_sci_Nil$();
+    var _3 = $m_sci_Nil$();
+    var x9 = $as_T3($n(widgets).foldLeft__O__F2__O(new $c_T3(_1, _2, _3), new $c_sjsr_AnonFunction2(((x$1, x$2) => {
+      var x$1$1 = $as_T3(x$1);
+      var x$2$1 = $as_T2(x$2);
+      var x1 = new $c_T2(x$1$1, x$2$1);
+      var x2 = $as_T3(x1.T2__f__1);
+      var x3 = $as_T2(x1.T2__f__2);
+      if ((x2 !== null)) {
+        var sA = $as_sci_List($n(x2).T3__f__1);
+        var sB = $as_sci_List($n(x2).T3__f__2);
+        var o = $as_sci_List($n(x2).T3__f__3);
+        if ((x3 !== null)) {
+          var title = $as_T($n(x3)._1__O());
+          var this$6 = $n(title);
+          if ($uZ(this$6.startsWith("Semantics A:"))) {
+            var this$7 = $n(sA);
+            var _1$1 = new $c_sci_$colon$colon(x3, this$7);
+            return new $c_T3(_1$1, sB, o);
+          } else {
+            var this$9 = $n(title);
+            if ($uZ(this$9.startsWith("Semantics B:"))) {
+              var this$10 = $n(sB);
+              var _2$1 = new $c_sci_$colon$colon(x3, this$10);
+              return new $c_T3(sA, _2$1, o);
+            } else {
+              var this$12 = $n(o);
+              var _3$1 = new $c_sci_$colon$colon(x3, this$12);
+              return new $c_T3(sA, sB, _3$1);
+            }
+          }
+        }
+      }
+      throw new $c_s_MatchError(x1);
+    }))));
+    if ((x9 !== null)) {
+      var semanticsA = $as_sci_List($n(x9).T3__f__1);
+      var semanticsB = $as_sci_List($n(x9).T3__f__2);
+      var others = $as_sci_List($n(x9).T3__f__3);
+      var \u03b41$___1 = semanticsA;
+      var \u03b41$___2 = semanticsB;
+      var \u03b41$___3 = others;
+      break matchResult2;
+    }
+    throw new $c_s_MatchError(x9);
+  }
+  var semanticsA$2 = $as_sci_List(\u03b41$___1);
+  var semanticsB$2 = $as_sci_List(\u03b41$___2);
+  var others$2 = $as_sci_List(\u03b41$___3);
+  var this$15 = $n($n(others$2).reverse__sci_List());
+  var suffix = $n(semanticsA$2).reverse__sci_List();
+  var this$16 = $n(this$15.appendedAll__sc_IterableOnce__sci_List(suffix));
+  var suffix$1 = $n(semanticsB$2).reverse__sci_List();
+  return this$16.appendedAll__sc_IterableOnce__sci_List(suffix$1);
+}
 /** @constructor */
 function $c_Lmpst_frontend_CaosConfigurator$() {
   this.Lmpst_frontend_CaosConfigurator$__f_documentation = null;
@@ -14779,68 +14835,9 @@ $c_Lmpst_frontend_CaosConfigurator$.prototype.setting__Lcaos_frontend_Setting = 
   return this.Lmpst_frontend_CaosConfigurator$__f_setting;
 });
 $c_Lmpst_frontend_CaosConfigurator$.prototype.widgets__sci_Seq = (function() {
-  matchResult2: {
-    var \u03b41$___1;
-    var \u03b41$___2;
-    var \u03b41$___3;
-    var rootA = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootA);
-    var rootB = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootB);
-    var $x_1 = new $c_Lmpst_frontend_auxiliary_Widgets(rootA, rootB).widgets__sci_Seq();
-    var _1 = $m_sci_Nil$();
-    var _2 = $m_sci_Nil$();
-    var _3 = $m_sci_Nil$();
-    var x9 = $as_T3($n($x_1).foldLeft__O__F2__O(new $c_T3(_1, _2, _3), new $c_sjsr_AnonFunction2(((x$1, x$2) => {
-      var x$1$1 = $as_T3(x$1);
-      var x$2$1 = $as_T2(x$2);
-      var x1 = new $c_T2(x$1$1, x$2$1);
-      var x2 = $as_T3(x1.T2__f__1);
-      var x3 = $as_T2(x1.T2__f__2);
-      if ((x2 !== null)) {
-        var sA = $as_sci_List($n(x2).T3__f__1);
-        var sB = $as_sci_List($n(x2).T3__f__2);
-        var o = $as_sci_List($n(x2).T3__f__3);
-        if ((x3 !== null)) {
-          var title = $as_T($n(x3)._1__O());
-          var this$7 = $n(title);
-          if ($uZ(this$7.startsWith("Semantics A:"))) {
-            var this$8 = $n(sA);
-            var _1$1 = new $c_sci_$colon$colon(x3, this$8);
-            return new $c_T3(_1$1, sB, o);
-          } else {
-            var this$10 = $n(title);
-            if ($uZ(this$10.startsWith("Semantics B:"))) {
-              var this$11 = $n(sB);
-              var _2$1 = new $c_sci_$colon$colon(x3, this$11);
-              return new $c_T3(sA, _2$1, o);
-            } else {
-              var this$13 = $n(o);
-              var _3$1 = new $c_sci_$colon$colon(x3, this$13);
-              return new $c_T3(sA, sB, _3$1);
-            }
-          }
-        }
-      }
-      throw new $c_s_MatchError(x1);
-    }))));
-    if ((x9 !== null)) {
-      var semanticsA = $as_sci_List($n(x9).T3__f__1);
-      var semanticsB = $as_sci_List($n(x9).T3__f__2);
-      var others = $as_sci_List($n(x9).T3__f__3);
-      var \u03b41$___1 = semanticsA;
-      var \u03b41$___2 = semanticsB;
-      var \u03b41$___3 = others;
-      break matchResult2;
-    }
-    throw new $c_s_MatchError(x9);
-  }
-  var semanticsA$2 = $as_sci_List(\u03b41$___1);
-  var semanticsB$2 = $as_sci_List(\u03b41$___2);
-  var others$2 = $as_sci_List(\u03b41$___3);
-  var this$16 = $n($n(others$2).reverse__sci_List());
-  var suffix = $n(semanticsA$2).reverse__sci_List();
-  var this$17 = $n(this$16.appendedAll__sc_IterableOnce__sci_List(suffix));
-  var suffix$1 = $n(semanticsB$2).reverse__sci_List();
-  return this$17.appendedAll__sc_IterableOnce__sci_List(suffix$1);
+  var rootA = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootA);
+  var rootB = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootB);
+  return $p_Lmpst_frontend_CaosConfigurator$__sortWidgets__sci_Seq__sci_List(this, new $c_Lmpst_frontend_auxiliary_Widgets(rootA, rootB).widgets__sci_Seq());
 });
 $c_Lmpst_frontend_CaosConfigurator$.prototype.examples__sc_Iterable = (function() {
   return this.Lmpst_frontend_CaosConfigurator$__f_examples;
@@ -23162,39 +23159,51 @@ var $d_Lmpst_frontend_auxiliary_Examples = new $TypeData().initClass($c_Lmpst_fr
   s_Product: 1,
   Ljava_io_Serializable: 1
 }));
-function $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__Lcaos_frontend_widgets_WidgetInfo($thiz, root) {
-  var a = new $c_sjsr_AnonFunction1(((global) => {
-    var global$1 = $as_Lmpst_syntax_Protocol(global);
-    var this$1 = $m_Lmpst_wellformedness_WellChanneled$();
-    if ((!$p_Lmpst_wellformedness_WellChanneled$__isWellChanneled__Lmpst_syntax_Protocol__Z(this$1, global$1))) {
-      return new $c_sci_$colon$colon((("[" + global$1) + "] is not well channeled"), $m_sci_Nil$());
-    } else {
-      return $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps());
-    }
-  }));
-  var this$5 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
-  var condition = new $c_sjsr_AnonFunction0((() => $n($p_Lmpst_frontend_auxiliary_Widgets__enabledExtraRequirements__T__sci_Set($thiz, root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$1) => {
+function $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__s_Option($thiz, root) {
+  var cond = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledExtraRequirements__T__sci_Set($thiz, root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$1) => {
     var _$1$1 = $as_Lcaos_frontend_Setting(_$1);
     return ($n(_$1$1).Lcaos_frontend_Setting__f_name === "Well Channeled");
-  })))));
-  return $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$5, condition);
+  })));
+  if (cond) {
+    var a = new $c_sjsr_AnonFunction1(((global) => {
+      var global$1 = $as_Lmpst_syntax_Protocol(global);
+      var this$2 = $m_Lmpst_wellformedness_WellChanneled$();
+      if ((!$p_Lmpst_wellformedness_WellChanneled$__isWellChanneled__Lmpst_syntax_Protocol__Z(this$2, global$1))) {
+        return new $c_sci_$colon$colon((("[" + global$1) + "] is not well channeled"), $m_sci_Nil$());
+      } else {
+        return $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps());
+      }
+    }));
+    return new $c_s_Some(new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a));
+  } else {
+    return $m_s_None$();
+  }
 }
-function $p_Lmpst_frontend_auxiliary_Widgets__mkWellBranched__T__Lcaos_frontend_widgets_WidgetInfo($thiz, root) {
-  var a = new $c_sjsr_AnonFunction1(((global) => {
-    var global$1 = $as_Lmpst_syntax_Protocol(global);
-    return ((!$m_Lmpst_wellformedness_WellBranched$().apply__Lmpst_syntax_Protocol__Z(global$1)) ? new $c_sci_$colon$colon((("[" + global$1) + "] is not well branched"), $m_sci_Nil$()) : $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps()));
-  }));
-  var this$4 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
-  var condition = new $c_sjsr_AnonFunction0((() => $n($p_Lmpst_frontend_auxiliary_Widgets__enabledExtraRequirements__T__sci_Set($thiz, root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$2) => {
+function $p_Lmpst_frontend_auxiliary_Widgets__mkWellBranched__T__s_Option($thiz, root) {
+  var cond = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledExtraRequirements__T__sci_Set($thiz, root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$2) => {
     var _$2$1 = $as_Lcaos_frontend_Setting(_$2);
     return ($n(_$2$1).Lcaos_frontend_Setting__f_name === "Well Branched");
-  })))));
-  return $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo(this$4, condition);
+  })));
+  if (cond) {
+    var a = new $c_sjsr_AnonFunction1(((global) => {
+      var global$1 = $as_Lmpst_syntax_Protocol(global);
+      return ((!$m_Lmpst_wellformedness_WellBranched$().apply__Lmpst_syntax_Protocol__Z(global$1)) ? new $c_sci_$colon$colon((("[" + global$1) + "] is not well branched"), $m_sci_Nil$()) : $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps()));
+    }));
+    return new $c_s_Some(new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a));
+  } else {
+    return $m_s_None$();
+  }
 }
-function $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__Lcaos_frontend_widgets_WidgetInfo($thiz, root) {
-  return $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo($n($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
+function $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__s_Option($thiz, root) {
+  var this$1 = $m_Lcaos_frontend_Site$();
+  var this$2 = $n($p_Lcaos_frontend_Site$__getSettingWidget__Lcaos_frontend_widgets_SettingWidget(this$1));
+  var cond = $n($n(this$2.Lcaos_frontend_widgets_SettingWidget__f_setting).allActiveFrom__T__sci_Set(root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$3) => {
+    var _$3$1 = $as_Lcaos_frontend_Setting(_$3);
+    return ($n(_$3$1).Lcaos_frontend_Setting__f_name === "Merge");
+  })));
+  return (cond ? new $c_s_Some($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
     var global$1 = $as_Lmpst_syntax_Protocol(global);
-    var this$2 = $n($as_sc_IterableOnceOps($n($p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__T__Lmpst_syntax_Protocol__sci_Set($thiz, root, global$1)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
+    var this$5 = $n($as_sc_IterableOnceOps($n($p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__T__Lmpst_syntax_Protocol__sci_Set($thiz, root, global$1)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
       var x$1$1 = $as_T2(x$1);
       if ((x$1$1 !== null)) {
         var participant = $as_T($n(x$1$1)._1__O());
@@ -23203,18 +23212,17 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__Lcaos_frontend_widget
       }
       throw new $c_s_MatchError(x$1$1);
     })))));
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$2, "", "\n", "");
-  })), new $c_Lcaos_view_Code("java"))), new $c_sjsr_AnonFunction0((() => {
-    var this$4 = $m_Lcaos_frontend_Site$();
-    var this$5 = $n($p_Lcaos_frontend_Site$__getSettingWidget__Lcaos_frontend_widgets_SettingWidget(this$4));
-    return $n($n(this$5.Lcaos_frontend_widgets_SettingWidget__f_setting).allActiveFrom__T__sci_Set(root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$3) => {
-      var _$3$1 = $as_Lcaos_frontend_Setting(_$3);
-      return ($n(_$3$1).Lcaos_frontend_Setting__f_name === "Merge");
-    })));
-  })));
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$5, "", "\n", "");
+  })), new $c_Lcaos_view_Code("java"))) : $m_s_None$());
 }
-function $p_Lmpst_frontend_auxiliary_Widgets__mkLocalAutomata__T__Lcaos_frontend_widgets_WidgetInfo($thiz, root) {
-  return $f_Lcaos_frontend_widgets_WidgetInfo__setRender__F0__Lcaos_frontend_widgets_WidgetInfo($n($m_Lcaos_frontend_Configurator$().viewMerms__F1__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
+function $p_Lmpst_frontend_auxiliary_Widgets__mkLocalAutomata__T__s_Option($thiz, root) {
+  var this$1 = $m_Lcaos_frontend_Site$();
+  var this$2 = $n($p_Lcaos_frontend_Site$__getSettingWidget__Lcaos_frontend_widgets_SettingWidget(this$1));
+  var cond = $n($n(this$2.Lcaos_frontend_widgets_SettingWidget__f_setting).allActiveFrom__T__sci_Set(root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$4) => {
+    var _$4$1 = $as_Lcaos_frontend_Setting(_$4);
+    return ($n(_$4$1).Lcaos_frontend_Setting__f_name === "Merge");
+  })));
+  return (cond ? new $c_s_Some($m_Lcaos_frontend_Configurator$().viewMerms__F1__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
     var global$1 = $as_Lmpst_syntax_Protocol(global);
     var environment = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global$1);
     return $n($as_sc_IterableOnceOps($n($p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__T__Lmpst_syntax_Protocol__sci_Set($thiz, root, global$1)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
@@ -23230,32 +23238,25 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkLocalAutomata__T__Lcaos_frontend
           var local$1 = $as_Lmpst_syntax_Protocol($n(x$1$3)._1__O());
           $as_sci_Map($n(x$1$3)._2__O());
           return $n(local$1).toSimpleString__T();
-        })), new $c_sjsr_AnonFunction1(((_$4) => {
-          var _$4$1 = $as_Lmpst_syntax_Protocol(_$4);
-          return $n(_$4$1).toSimpleString__T();
+        })), new $c_sjsr_AnonFunction1(((_$5) => {
+          var _$5$1 = $as_Lmpst_syntax_Protocol(_$5);
+          return $n(_$5$1).toSimpleString__T();
         })), 100);
         return new $c_T2(participant, lts);
       }
       throw new $c_s_MatchError(x$1$1);
     }))))).toList__sci_List();
-  })))), new $c_sjsr_AnonFunction0((() => {
-    var this$6 = $m_Lcaos_frontend_Site$();
-    var this$7 = $n($p_Lcaos_frontend_Site$__getSettingWidget__Lcaos_frontend_widgets_SettingWidget(this$6));
-    return $n($n(this$7.Lcaos_frontend_widgets_SettingWidget__f_setting).allActiveFrom__T__sci_Set(root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$5) => {
-      var _$5$1 = $as_Lcaos_frontend_Setting(_$5);
-      return ($n(_$5$1).Lcaos_frontend_Setting__f_name === "Merge");
-    })));
-  })));
+  })))) : $m_s_None$());
 }
-function $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__Lcaos_frontend_widgets_WidgetInfo($thiz, root) {
-  var eCM = $p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root);
-  var this$1 = $n(eCM);
-  if ((!this$1.isEmpty__Z())) {
+function $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__s_Option($thiz, root) {
+  var this$1 = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root));
+  var cond = (!this$1.isEmpty__Z());
+  if (cond) {
     matchResult7: {
       var \u03b41$___1;
       var \u03b41$___2;
       var \u03b41$___3;
-      var x14 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n(eCM).head__O()));
+      var x14 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root)).head__O()));
       if ((x14 !== null)) {
         var semantics = $as_Lcaos_sos_SOS($n(x14).T3__f__1);
         var initialState = $as_F1($n(x14).T3__f__2);
@@ -23270,27 +23271,23 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__L
     var semantics$2 = $as_Lcaos_sos_SOS(\u03b41$___1);
     var initialState$2 = $as_F1(\u03b41$___2);
     var showState$2 = $as_F1(\u03b41$___3);
-    return $m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(initialState$2, semantics$2, showState$2, new $c_sjsr_AnonFunction1(((_$6) => {
+    return new $c_s_Some($m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(initialState$2, semantics$2, showState$2, new $c_sjsr_AnonFunction1(((_$6) => {
       var _$6$1 = $as_Lmpst_syntax_Protocol(_$6);
       return $n(_$6$1).toString__T();
-    })), 100);
+    })), 100));
   } else {
-    var a = new $c_sjsr_AnonFunction1(((global) => {
-      $as_Lmpst_syntax_Protocol(global);
-      return $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps());
-    }));
-    return new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
+    return $m_s_None$();
   }
 }
-function $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__Lcaos_frontend_widgets_WidgetInfo($thiz, root) {
-  var eCM = $p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root);
-  var this$1 = $n(eCM);
-  if ((!this$1.isEmpty__Z())) {
+function $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__s_Option($thiz, root) {
+  var this$1 = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root));
+  var cond = (!this$1.isEmpty__Z());
+  if (cond) {
     matchResult8: {
       var \u03b42$___1;
       var \u03b42$___2;
       var \u03b42$___3;
-      var x18 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n(eCM).head__O()));
+      var x18 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root)).head__O()));
       if ((x18 !== null)) {
         var semantics = $as_Lcaos_sos_SOS($n(x18).T3__f__1);
         var initialState = $as_F1($n(x18).T3__f__2);
@@ -23305,31 +23302,25 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__Lcaos_frontend_
     var semantics$2 = $as_Lcaos_sos_SOS(\u03b42$___1);
     var initialState$2 = $as_F1(\u03b42$___2);
     var showState$2 = $as_F1(\u03b42$___3);
-    return $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(initialState$2, semantics$2, showState$2, $m_Lcaos_frontend_Configurator$().steps$default$4__F1(), $m_Lcaos_view_Text$());
+    return new $c_s_Some($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(initialState$2, semantics$2, showState$2, $m_Lcaos_frontend_Configurator$().steps$default$4__F1(), $m_Lcaos_view_Text$()));
   } else {
-    var a = new $c_sjsr_AnonFunction1(((global) => {
-      $as_Lmpst_syntax_Protocol(global);
-      return $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps());
-    }));
-    return new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
+    return $m_s_None$();
   }
 }
-function $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__Lcaos_frontend_widgets_WidgetInfo($thiz, rootA, rootB) {
-  var eCMA = $p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootA);
-  var eCMB = $p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootB);
-  var this$1 = $n(eCMA);
+function $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option($thiz, rootA, rootB) {
+  var this$1 = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootA));
   if ((!this$1.isEmpty__Z())) {
-    var this$2 = $n(eCMB);
-    var $x_1 = (!this$2.isEmpty__Z());
+    var this$2 = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootB));
+    var cond = (!this$2.isEmpty__Z());
   } else {
-    var $x_1 = false;
+    var cond = false;
   }
-  if ($x_1) {
+  if (cond) {
     matchResult9: {
       var \u03b43$___1;
       var \u03b43$___2;
       var \u03b43$___3;
-      var x22 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootA, $as_Lcaos_frontend_Setting($n(eCMA).head__O()));
+      var x22 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootA, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootA)).head__O()));
       if ((x22 !== null)) {
         var semanticsA = $as_Lcaos_sos_SOS($n(x22).T3__f__1);
         var initialStateA = $as_F1($n(x22).T3__f__2);
@@ -23348,7 +23339,7 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__Lcaos_fronte
       var \u03b44$___1;
       var \u03b44$___2;
       var \u03b44$___3;
-      var x26 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootB, $as_Lcaos_frontend_Setting($n(eCMB).head__O()));
+      var x26 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootB, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootB)).head__O()));
       if ((x26 !== null)) {
         var semanticsB = $as_Lcaos_sos_SOS($n(x26).T3__f__1);
         var initialStateB = $as_F1($n(x26).T3__f__2);
@@ -23363,16 +23354,12 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__Lcaos_fronte
     var semanticsB$2 = $as_Lcaos_sos_SOS(\u03b44$___1);
     var initialStateB$2 = $as_F1(\u03b44$___2);
     var showStateB$2 = $as_F1(\u03b44$___3);
-    return $m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(semanticsA$2, semanticsB$2, initialStateA$2, initialStateB$2, showStateA$2, showStateB$2, new $c_sjsr_AnonFunction1(((_$7) => {
+    return new $c_s_Some($m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(semanticsA$2, semanticsB$2, initialStateA$2, initialStateB$2, showStateA$2, showStateB$2, new $c_sjsr_AnonFunction1(((_$7) => {
       var _$7$1 = $as_Lmpst_syntax_Protocol(_$7);
       return $n(_$7$1).toString__T();
-    })), 100);
+    })), 100));
   } else {
-    var a = new $c_sjsr_AnonFunction1(((global) => {
-      $as_Lmpst_syntax_Protocol(global);
-      return $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps());
-    }));
-    return new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
+    return $m_s_None$();
   }
 }
 function $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, enabledCommunicationModel) {
@@ -23686,25 +23673,28 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.productElement__I__O = (function(n
   throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n));
 });
 $c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
-  var y = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
+  var value = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
     var global$1 = $as_Lmpst_syntax_Protocol(global);
     return $m_Lmpst_frontend_auxiliary_view_MessageSequenceChart$().apply__Lmpst_syntax_Protocol__T(global$1);
   })), $m_Lcaos_view_Mermaid$());
+  var y = new $c_s_Some(value);
   var $x_2 = new $c_T2("Message Sequence Chart", y);
-  var y$1 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global$2) => {
+  var value$1 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global$2) => {
     var global$3 = $as_Lmpst_syntax_Protocol(global$2);
     return ("" + $n(global$3).toString__T());
   })), new $c_Lcaos_view_Code("java"));
+  var y$1 = new $c_s_Some(value$1);
   var $x_1 = new $c_T2("Global", y$1);
   var a = new $c_sjsr_AnonFunction1(((global$3$1) => {
     var global$4 = $as_Lmpst_syntax_Protocol(global$3$1);
     return ((!$m_Lmpst_wellformedness_WellBounded$().apply__Lmpst_syntax_Protocol__Z(global$4)) ? new $c_sci_$colon$colon((("[" + global$4) + "] is not well bounded"), $m_sci_Nil$()) : $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps()));
   }));
-  var y$2 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
-  var this$15 = new $c_sci_$colon$colon($x_2, new $c_sci_$colon$colon($x_1, new $c_sci_$colon$colon(new $c_T2("Well Bounded", y$2), $m_sci_Nil$())));
+  var value$2 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
+  var y$2 = new $c_s_Some(value$2);
+  var this$18 = new $c_sci_$colon$colon($x_2, new $c_sci_$colon$colon($x_1, new $c_sci_$colon$colon(new $c_T2("Well Bounded", y$2), $m_sci_Nil$())));
   var f = ((root) => {
     var root$1 = $as_T(root);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__Lcaos_frontend_widgets_WidgetInfo(this, root$1);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__s_Option(this, root$1);
   });
   var arg1 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var y$3 = f(arg1);
@@ -23712,10 +23702,10 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
   var arg1$1 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
   var y$4 = f(arg1$1);
   var suffix = new $c_sci_$colon$colon($x_3, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Channeled", y$4), $m_sci_Nil$()));
-  var this$20 = $n(this$15.appendedAll__sc_IterableOnce__sci_List(suffix));
+  var this$23 = $n(this$18.appendedAll__sc_IterableOnce__sci_List(suffix));
   var f$1 = ((root$2) => {
     var root$3 = $as_T(root$2);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellBranched__T__Lcaos_frontend_widgets_WidgetInfo(this, root$3);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellBranched__T__s_Option(this, root$3);
   });
   var arg1$2 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var y$5 = f$1(arg1$2);
@@ -23723,10 +23713,10 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
   var arg1$3 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
   var y$6 = f$1(arg1$3);
   var suffix$1 = new $c_sci_$colon$colon($x_4, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Branched", y$6), $m_sci_Nil$()));
-  var this$25 = $n(this$20.appendedAll__sc_IterableOnce__sci_List(suffix$1));
+  var this$28 = $n(this$23.appendedAll__sc_IterableOnce__sci_List(suffix$1));
   var f$2 = ((root$3$1) => {
     var root$4 = $as_T(root$3$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__Lcaos_frontend_widgets_WidgetInfo(this, root$4);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__s_Option(this, root$4);
   });
   var arg1$4 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var y$7 = f$2(arg1$4);
@@ -23734,10 +23724,10 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
   var arg1$5 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
   var y$8 = f$2(arg1$5);
   var suffix$2 = new $c_sci_$colon$colon($x_5, new $c_sci_$colon$colon(new $c_T2("Semantics B: Locals", y$8), $m_sci_Nil$()));
-  var this$30 = $n(this$25.appendedAll__sc_IterableOnce__sci_List(suffix$2));
+  var this$33 = $n(this$28.appendedAll__sc_IterableOnce__sci_List(suffix$2));
   var f$3 = ((root$4$1) => {
     var root$5 = $as_T(root$4$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalAutomata__T__Lcaos_frontend_widgets_WidgetInfo(this, root$5);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalAutomata__T__s_Option(this, root$5);
   });
   var arg1$6 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var y$9 = f$3(arg1$6);
@@ -23745,10 +23735,10 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
   var arg1$7 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
   var y$10 = f$3(arg1$7);
   var suffix$3 = new $c_sci_$colon$colon($x_6, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Automata", y$10), $m_sci_Nil$()));
-  var this$35 = $n(this$30.appendedAll__sc_IterableOnce__sci_List(suffix$3));
+  var this$38 = $n(this$33.appendedAll__sc_IterableOnce__sci_List(suffix$3));
   var f$4 = ((root$5$1) => {
     var root$6 = $as_T(root$5$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__Lcaos_frontend_widgets_WidgetInfo(this, root$6);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__s_Option(this, root$6);
   });
   var arg1$8 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var y$11 = f$4(arg1$8);
@@ -23756,10 +23746,10 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
   var arg1$9 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
   var y$12 = f$4(arg1$9);
   var suffix$4 = new $c_sci_$colon$colon($x_7, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Compositional Automata", y$12), $m_sci_Nil$()));
-  var this$40 = $n(this$35.appendedAll__sc_IterableOnce__sci_List(suffix$4));
+  var this$43 = $n(this$38.appendedAll__sc_IterableOnce__sci_List(suffix$4));
   var f$5 = ((root$6$1) => {
     var root$7 = $as_T(root$6$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__Lcaos_frontend_widgets_WidgetInfo(this, root$7);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__s_Option(this, root$7);
   });
   var arg1$10 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var y$13 = f$5(arg1$10);
@@ -23767,12 +23757,12 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
   var arg1$11 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
   var y$14 = f$5(arg1$11);
   var suffix$5 = new $c_sci_$colon$colon($x_8, new $c_sci_$colon$colon(new $c_T2("Semantics B: Step-by-Step", y$14), $m_sci_Nil$()));
-  var this$43 = $n(this$40.appendedAll__sc_IterableOnce__sci_List(suffix$5));
+  var this$46 = $n(this$43.appendedAll__sc_IterableOnce__sci_List(suffix$5));
   var arg1$12 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var arg2 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$15 = $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__Lcaos_frontend_widgets_WidgetInfo(this, arg1$12, arg2);
+  var y$15 = $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option(this, arg1$12, arg2);
   var suffix$6 = new $c_sci_$colon$colon(new $c_T2("Bisimulation", y$15), $m_sci_Nil$());
-  return this$43.appendedAll__sc_IterableOnce__sci_List(suffix$6);
+  return this$46.appendedAll__sc_IterableOnce__sci_List(suffix$6);
 });
 function $as_Lmpst_frontend_auxiliary_Widgets(obj) {
   return (((obj instanceof $c_Lmpst_frontend_auxiliary_Widgets) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.frontend.auxiliary.Widgets"));
@@ -24987,7 +24977,6 @@ var $d_Lcaos_frontend_widgets_Widget$$anon$1 = new $TypeData().initClass($c_Lcao
 }));
 /** @constructor */
 function $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a) {
-  this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_caos$frontend$widgets$WidgetInfo$$render = null;
   this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_expanded = false;
   this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_location = 0;
   this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_a = null;
@@ -25000,17 +24989,11 @@ $c_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype.constructor = $c_Lcaos_fr
 function $h_Lcaos_frontend_widgets_WidgetInfo$Analyse() {
 }
 $h_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype = $c_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype;
-$c_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype.caos$frontend$widgets$WidgetInfo$$render__F0 = (function() {
-  return this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_caos$frontend$widgets$WidgetInfo$$render;
-});
 $c_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype.expanded__Z = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_expanded;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype.location__I = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_location;
-});
-$c_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype.caos$frontend$widgets$WidgetInfo$$render_$eq__F0__V = (function(x$1) {
-  this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_caos$frontend$widgets$WidgetInfo$$render = x$1;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$Analyse.prototype.expanded_$eq__Z__V = (function(x$1) {
   this.Lcaos_frontend_widgets_WidgetInfo$Analyse__f_expanded = x$1;
@@ -25084,7 +25067,6 @@ function $asArrayOf_Lcaos_frontend_widgets_WidgetInfo$Explore(obj, depth) {
 }
 /** @constructor */
 function $c_Lcaos_frontend_widgets_WidgetInfo$Simulate(sos, v, lb, typ, pre) {
-  this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_caos$frontend$widgets$WidgetInfo$$render = null;
   this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_expanded = false;
   this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_location = 0;
   this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_sos = null;
@@ -25105,17 +25087,11 @@ $c_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype.constructor = $c_Lcaos_f
 function $h_Lcaos_frontend_widgets_WidgetInfo$Simulate() {
 }
 $h_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype = $c_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype;
-$c_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype.caos$frontend$widgets$WidgetInfo$$render__F0 = (function() {
-  return this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_caos$frontend$widgets$WidgetInfo$$render;
-});
 $c_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype.expanded__Z = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_expanded;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype.location__I = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_location;
-});
-$c_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype.caos$frontend$widgets$WidgetInfo$$render_$eq__F0__V = (function(x$1) {
-  this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_caos$frontend$widgets$WidgetInfo$$render = x$1;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$Simulate.prototype.expanded_$eq__Z__V = (function(x$1) {
   this.Lcaos_frontend_widgets_WidgetInfo$Simulate__f_expanded = x$1;
@@ -25235,7 +25211,6 @@ var $d_Lcaos_frontend_widgets_WidgetInfo$Simulate = new $TypeData().initClass($c
 }));
 /** @constructor */
 function $c_Lcaos_frontend_widgets_WidgetInfo$Visualize(v, typ, pre) {
-  this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_caos$frontend$widgets$WidgetInfo$$render = null;
   this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_expanded = false;
   this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_location = 0;
   this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_v = null;
@@ -25252,17 +25227,11 @@ $c_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype.constructor = $c_Lcaos_
 function $h_Lcaos_frontend_widgets_WidgetInfo$Visualize() {
 }
 $h_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype = $c_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype;
-$c_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype.caos$frontend$widgets$WidgetInfo$$render__F0 = (function() {
-  return this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_caos$frontend$widgets$WidgetInfo$$render;
-});
 $c_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype.expanded__Z = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_expanded;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype.location__I = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_location;
-});
-$c_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype.caos$frontend$widgets$WidgetInfo$$render_$eq__F0__V = (function(x$1) {
-  this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_caos$frontend$widgets$WidgetInfo$$render = x$1;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$Visualize.prototype.expanded_$eq__Z__V = (function(x$1) {
   this.Lcaos_frontend_widgets_WidgetInfo$Visualize__f_expanded = x$1;
@@ -25363,7 +25332,6 @@ function $asArrayOf_Lcaos_frontend_widgets_WidgetInfo$VisualizeAll(obj, depth) {
 }
 /** @constructor */
 function $c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt(v, t, pre) {
-  this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_caos$frontend$widgets$WidgetInfo$$render = null;
   this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_expanded = false;
   this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_location = 0;
   this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_v = null;
@@ -25380,17 +25348,11 @@ $c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype.constructor = $c_Lca
 function $h_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt() {
 }
 $h_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype = $c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype;
-$c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype.caos$frontend$widgets$WidgetInfo$$render__F0 = (function() {
-  return this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_caos$frontend$widgets$WidgetInfo$$render;
-});
 $c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype.expanded__Z = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_expanded;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype.location__I = (function() {
   return this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_location;
-});
-$c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype.caos$frontend$widgets$WidgetInfo$$render_$eq__F0__V = (function(x$1) {
-  this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_caos$frontend$widgets$WidgetInfo$$render = x$1;
 });
 $c_Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt.prototype.expanded_$eq__Z__V = (function(x$1) {
   this.Lcaos_frontend_widgets_WidgetInfo$VisualizeOpt__f_expanded = x$1;
