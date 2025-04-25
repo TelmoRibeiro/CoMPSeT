@@ -2,7 +2,7 @@ package mpst.frontend.auxiliary
 
 import caos.frontend.Configurator.*
 import caos.frontend.Setting
-import caos.frontend.Site.{getFileAsText, getSetting}
+import caos.frontend.Site.getSetting
 import caos.frontend.widgets.WidgetInfo
 import caos.sos.SOS
 import caos.view.{Code, Mermaid}
