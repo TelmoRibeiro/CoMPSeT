@@ -14698,67 +14698,6 @@ function $p_Lmpst_frontend_CaosConfigurator$__mkSemantics__Lcaos_frontend_Settin
   var options$13 = $n(y$3).Lcaos_frontend_Setting__f_options;
   return $x_2.allowAll__Lcaos_frontend_Setting__Lcaos_frontend_Setting(new $c_Lcaos_frontend_Setting("Extra Requirements", children$13, checked$3, options$13));
 }
-function $p_Lmpst_frontend_CaosConfigurator$__sortWidgets__sci_Seq__sci_List($thiz, widgets) {
-  matchResult2: {
-    var \u03b41$___1;
-    var \u03b41$___2;
-    var \u03b41$___3;
-    var _1 = $m_sci_Nil$();
-    var _2 = $m_sci_Nil$();
-    var _3 = $m_sci_Nil$();
-    var x9 = $as_T3($n(widgets).foldLeft__O__F2__O(new $c_T3(_1, _2, _3), new $c_sjsr_AnonFunction2(((x$1, x$2) => {
-      var x$1$1 = $as_T3(x$1);
-      var x$2$1 = $as_T2(x$2);
-      var x1 = new $c_T2(x$1$1, x$2$1);
-      var x2 = $as_T3(x1.T2__f__1);
-      var x3 = $as_T2(x1.T2__f__2);
-      if ((x2 !== null)) {
-        var sA = $as_sci_List($n(x2).T3__f__1);
-        var sB = $as_sci_List($n(x2).T3__f__2);
-        var o = $as_sci_List($n(x2).T3__f__3);
-        if ((x3 !== null)) {
-          var title = $as_T($n(x3)._1__O());
-          var this$6 = $n(title);
-          if ($uZ(this$6.startsWith("Semantics A:"))) {
-            var this$7 = $n(sA);
-            var _1$1 = new $c_sci_$colon$colon(x3, this$7);
-            return new $c_T3(_1$1, sB, o);
-          } else {
-            var this$9 = $n(title);
-            if ($uZ(this$9.startsWith("Semantics B:"))) {
-              var this$10 = $n(sB);
-              var _2$1 = new $c_sci_$colon$colon(x3, this$10);
-              return new $c_T3(sA, _2$1, o);
-            } else {
-              var this$12 = $n(o);
-              var _3$1 = new $c_sci_$colon$colon(x3, this$12);
-              return new $c_T3(sA, sB, _3$1);
-            }
-          }
-        }
-      }
-      throw new $c_s_MatchError(x1);
-    }))));
-    if ((x9 !== null)) {
-      var semanticsA = $as_sci_List($n(x9).T3__f__1);
-      var semanticsB = $as_sci_List($n(x9).T3__f__2);
-      var others = $as_sci_List($n(x9).T3__f__3);
-      var \u03b41$___1 = semanticsA;
-      var \u03b41$___2 = semanticsB;
-      var \u03b41$___3 = others;
-      break matchResult2;
-    }
-    throw new $c_s_MatchError(x9);
-  }
-  var semanticsA$2 = $as_sci_List(\u03b41$___1);
-  var semanticsB$2 = $as_sci_List(\u03b41$___2);
-  var others$2 = $as_sci_List(\u03b41$___3);
-  var this$15 = $n($n(others$2).reverse__sci_List());
-  var suffix = $n(semanticsA$2).reverse__sci_List();
-  var this$16 = $n(this$15.appendedAll__sc_IterableOnce__sci_List(suffix));
-  var suffix$1 = $n(semanticsB$2).reverse__sci_List();
-  return this$16.appendedAll__sc_IterableOnce__sci_List(suffix$1);
-}
 /** @constructor */
 function $c_Lmpst_frontend_CaosConfigurator$() {
   this.Lmpst_frontend_CaosConfigurator$__f_documentation = null;
@@ -14837,7 +14776,7 @@ $c_Lmpst_frontend_CaosConfigurator$.prototype.setting__Lcaos_frontend_Setting = 
 $c_Lmpst_frontend_CaosConfigurator$.prototype.widgets__sci_Seq = (function() {
   var rootA = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootA);
   var rootB = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootB);
-  return $p_Lmpst_frontend_CaosConfigurator$__sortWidgets__sci_Seq__sci_List(this, new $c_Lmpst_frontend_auxiliary_Widgets(rootA, rootB).widgets__sci_Seq());
+  return new $c_Lmpst_frontend_auxiliary_Widgets(rootA, rootB).sortedWidgets__sci_Seq();
 });
 $c_Lmpst_frontend_CaosConfigurator$.prototype.examples__sc_Iterable = (function() {
   return this.Lmpst_frontend_CaosConfigurator$__f_examples;
@@ -23159,6 +23098,98 @@ var $d_Lmpst_frontend_auxiliary_Examples = new $TypeData().initClass($c_Lmpst_fr
   s_Product: 1,
   Ljava_io_Serializable: 1
 }));
+function $p_Lmpst_frontend_auxiliary_Widgets__widgets__sci_Seq($thiz) {
+  var value = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
+    var global$1 = $as_Lmpst_syntax_Protocol(global);
+    return $m_Lmpst_frontend_auxiliary_view_MessageSequenceChart$().apply__Lmpst_syntax_Protocol__T(global$1);
+  })), $m_Lcaos_view_Mermaid$());
+  var y = new $c_s_Some(value);
+  var $x_2 = new $c_T2("Message Sequence Chart", y);
+  var value$1 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global$2) => {
+    var global$3 = $as_Lmpst_syntax_Protocol(global$2);
+    return ("" + $n(global$3).toString__T());
+  })), new $c_Lcaos_view_Code("java"));
+  var y$1 = new $c_s_Some(value$1);
+  var $x_1 = new $c_T2("Global", y$1);
+  var a = new $c_sjsr_AnonFunction1(((global$3$1) => {
+    var global$4 = $as_Lmpst_syntax_Protocol(global$3$1);
+    return ((!$m_Lmpst_wellformedness_WellBounded$().apply__Lmpst_syntax_Protocol__Z(global$4)) ? new $c_sci_$colon$colon((("[" + global$4) + "] is not well bounded"), $m_sci_Nil$()) : $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps()));
+  }));
+  var value$2 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
+  var y$2 = new $c_s_Some(value$2);
+  var this$18 = new $c_sci_$colon$colon($x_2, new $c_sci_$colon$colon($x_1, new $c_sci_$colon$colon(new $c_T2("Well Bounded", y$2), $m_sci_Nil$())));
+  var f = ((root) => {
+    var root$1 = $as_T(root);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__s_Option($thiz, root$1);
+  });
+  var arg1 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
+  var y$3 = f(arg1);
+  var $x_3 = new $c_T2("Semantics A: Well Channeled", y$3);
+  var arg1$1 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
+  var y$4 = f(arg1$1);
+  var suffix = new $c_sci_$colon$colon($x_3, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Channeled", y$4), $m_sci_Nil$()));
+  var this$23 = $n(this$18.appendedAll__sc_IterableOnce__sci_List(suffix));
+  var f$1 = ((root$2) => {
+    var root$3 = $as_T(root$2);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellBranched__T__s_Option($thiz, root$3);
+  });
+  var arg1$2 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
+  var y$5 = f$1(arg1$2);
+  var $x_4 = new $c_T2("Semantics A: Well Branched", y$5);
+  var arg1$3 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
+  var y$6 = f$1(arg1$3);
+  var suffix$1 = new $c_sci_$colon$colon($x_4, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Branched", y$6), $m_sci_Nil$()));
+  var this$28 = $n(this$23.appendedAll__sc_IterableOnce__sci_List(suffix$1));
+  var f$2 = ((root$3$1) => {
+    var root$4 = $as_T(root$3$1);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__s_Option($thiz, root$4);
+  });
+  var arg1$4 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
+  var y$7 = f$2(arg1$4);
+  var $x_5 = new $c_T2("Semantics A: Locals", y$7);
+  var arg1$5 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
+  var y$8 = f$2(arg1$5);
+  var suffix$2 = new $c_sci_$colon$colon($x_5, new $c_sci_$colon$colon(new $c_T2("Semantics B: Locals", y$8), $m_sci_Nil$()));
+  var this$33 = $n(this$28.appendedAll__sc_IterableOnce__sci_List(suffix$2));
+  var f$3 = ((root$4$1) => {
+    var root$5 = $as_T(root$4$1);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalAutomata__T__s_Option($thiz, root$5);
+  });
+  var arg1$6 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
+  var y$9 = f$3(arg1$6);
+  var $x_6 = new $c_T2("Semantics A: Local Automata", y$9);
+  var arg1$7 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
+  var y$10 = f$3(arg1$7);
+  var suffix$3 = new $c_sci_$colon$colon($x_6, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Automata", y$10), $m_sci_Nil$()));
+  var this$38 = $n(this$33.appendedAll__sc_IterableOnce__sci_List(suffix$3));
+  var f$4 = ((root$5$1) => {
+    var root$6 = $as_T(root$5$1);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__s_Option($thiz, root$6);
+  });
+  var arg1$8 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
+  var y$11 = f$4(arg1$8);
+  var $x_7 = new $c_T2("Semantics A: Local Compositional Automata", y$11);
+  var arg1$9 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
+  var y$12 = f$4(arg1$9);
+  var suffix$4 = new $c_sci_$colon$colon($x_7, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Compositional Automata", y$12), $m_sci_Nil$()));
+  var this$43 = $n(this$38.appendedAll__sc_IterableOnce__sci_List(suffix$4));
+  var f$5 = ((root$6$1) => {
+    var root$7 = $as_T(root$6$1);
+    return $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__s_Option($thiz, root$7);
+  });
+  var arg1$10 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
+  var y$13 = f$5(arg1$10);
+  var $x_8 = new $c_T2("Semantics A: Step-by-Step", y$13);
+  var arg1$11 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
+  var y$14 = f$5(arg1$11);
+  var suffix$5 = new $c_sci_$colon$colon($x_8, new $c_sci_$colon$colon(new $c_T2("Semantics B: Step-by-Step", y$14), $m_sci_Nil$()));
+  var this$46 = $n(this$43.appendedAll__sc_IterableOnce__sci_List(suffix$5));
+  var arg1$12 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
+  var arg2 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
+  var y$15 = $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option($thiz, arg1$12, arg2);
+  var suffix$6 = new $c_sci_$colon$colon(new $c_T2("Bisimulation", y$15), $m_sci_Nil$());
+  return this$46.appendedAll__sc_IterableOnce__sci_List(suffix$6);
+}
 function $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__s_Option($thiz, root) {
   var cond = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledExtraRequirements__T__sci_Set($thiz, root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$1) => {
     var _$1$1 = $as_Lcaos_frontend_Setting(_$1);
@@ -23252,25 +23283,25 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__s
   var this$1 = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root));
   var cond = (!this$1.isEmpty__Z());
   if (cond) {
-    matchResult7: {
-      var \u03b41$___1;
-      var \u03b41$___2;
-      var \u03b41$___3;
-      var x14 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root)).head__O()));
-      if ((x14 !== null)) {
-        var semantics = $as_Lcaos_sos_SOS($n(x14).T3__f__1);
-        var initialState = $as_F1($n(x14).T3__f__2);
-        var showState = $as_F1($n(x14).T3__f__3);
-        var \u03b41$___1 = semantics;
-        var \u03b41$___2 = initialState;
-        var \u03b41$___3 = showState;
-        break matchResult7;
+    matchResult9: {
+      var \u03b42$___1;
+      var \u03b42$___2;
+      var \u03b42$___3;
+      var x26 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root)).head__O()));
+      if ((x26 !== null)) {
+        var semantics = $as_Lcaos_sos_SOS($n(x26).T3__f__1);
+        var initialState = $as_F1($n(x26).T3__f__2);
+        var showState = $as_F1($n(x26).T3__f__3);
+        var \u03b42$___1 = semantics;
+        var \u03b42$___2 = initialState;
+        var \u03b42$___3 = showState;
+        break matchResult9;
       }
-      throw new $c_s_MatchError(x14);
+      throw new $c_s_MatchError(x26);
     }
-    var semantics$2 = $as_Lcaos_sos_SOS(\u03b41$___1);
-    var initialState$2 = $as_F1(\u03b41$___2);
-    var showState$2 = $as_F1(\u03b41$___3);
+    var semantics$2 = $as_Lcaos_sos_SOS(\u03b42$___1);
+    var initialState$2 = $as_F1(\u03b42$___2);
+    var showState$2 = $as_F1(\u03b42$___3);
     return new $c_s_Some($m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(initialState$2, semantics$2, showState$2, new $c_sjsr_AnonFunction1(((_$6) => {
       var _$6$1 = $as_Lmpst_syntax_Protocol(_$6);
       return $n(_$6$1).toString__T();
@@ -23283,25 +23314,25 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__s_Option($thiz,
   var this$1 = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root));
   var cond = (!this$1.isEmpty__Z());
   if (cond) {
-    matchResult8: {
-      var \u03b42$___1;
-      var \u03b42$___2;
-      var \u03b42$___3;
-      var x18 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root)).head__O()));
-      if ((x18 !== null)) {
-        var semantics = $as_Lcaos_sos_SOS($n(x18).T3__f__1);
-        var initialState = $as_F1($n(x18).T3__f__2);
-        var showState = $as_F1($n(x18).T3__f__3);
-        var \u03b42$___1 = semantics;
-        var \u03b42$___2 = initialState;
-        var \u03b42$___3 = showState;
-        break matchResult8;
+    matchResult10: {
+      var \u03b43$___1;
+      var \u03b43$___2;
+      var \u03b43$___3;
+      var x30 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, root)).head__O()));
+      if ((x30 !== null)) {
+        var semantics = $as_Lcaos_sos_SOS($n(x30).T3__f__1);
+        var initialState = $as_F1($n(x30).T3__f__2);
+        var showState = $as_F1($n(x30).T3__f__3);
+        var \u03b43$___1 = semantics;
+        var \u03b43$___2 = initialState;
+        var \u03b43$___3 = showState;
+        break matchResult10;
       }
-      throw new $c_s_MatchError(x18);
+      throw new $c_s_MatchError(x30);
     }
-    var semantics$2 = $as_Lcaos_sos_SOS(\u03b42$___1);
-    var initialState$2 = $as_F1(\u03b42$___2);
-    var showState$2 = $as_F1(\u03b42$___3);
+    var semantics$2 = $as_Lcaos_sos_SOS(\u03b43$___1);
+    var initialState$2 = $as_F1(\u03b43$___2);
+    var showState$2 = $as_F1(\u03b43$___3);
     return new $c_s_Some($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(initialState$2, semantics$2, showState$2, $m_Lcaos_frontend_Configurator$().steps$default$4__F1(), $m_Lcaos_view_Text$()));
   } else {
     return $m_s_None$();
@@ -23316,44 +23347,44 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option($th
     var cond = false;
   }
   if (cond) {
-    matchResult9: {
-      var \u03b43$___1;
-      var \u03b43$___2;
-      var \u03b43$___3;
-      var x22 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootA, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootA)).head__O()));
-      if ((x22 !== null)) {
-        var semanticsA = $as_Lcaos_sos_SOS($n(x22).T3__f__1);
-        var initialStateA = $as_F1($n(x22).T3__f__2);
-        var showStateA = $as_F1($n(x22).T3__f__3);
-        var \u03b43$___1 = semanticsA;
-        var \u03b43$___2 = initialStateA;
-        var \u03b43$___3 = showStateA;
-        break matchResult9;
-      }
-      throw new $c_s_MatchError(x22);
-    }
-    var semanticsA$2 = $as_Lcaos_sos_SOS(\u03b43$___1);
-    var initialStateA$2 = $as_F1(\u03b43$___2);
-    var showStateA$2 = $as_F1(\u03b43$___3);
-    matchResult10: {
+    matchResult11: {
       var \u03b44$___1;
       var \u03b44$___2;
       var \u03b44$___3;
-      var x26 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootB, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootB)).head__O()));
-      if ((x26 !== null)) {
-        var semanticsB = $as_Lcaos_sos_SOS($n(x26).T3__f__1);
-        var initialStateB = $as_F1($n(x26).T3__f__2);
-        var showStateB = $as_F1($n(x26).T3__f__3);
-        var \u03b44$___1 = semanticsB;
-        var \u03b44$___2 = initialStateB;
-        var \u03b44$___3 = showStateB;
-        break matchResult10;
+      var x34 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootA, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootA)).head__O()));
+      if ((x34 !== null)) {
+        var semanticsA = $as_Lcaos_sos_SOS($n(x34).T3__f__1);
+        var initialStateA = $as_F1($n(x34).T3__f__2);
+        var showStateA = $as_F1($n(x34).T3__f__3);
+        var \u03b44$___1 = semanticsA;
+        var \u03b44$___2 = initialStateA;
+        var \u03b44$___3 = showStateA;
+        break matchResult11;
       }
-      throw new $c_s_MatchError(x26);
+      throw new $c_s_MatchError(x34);
     }
-    var semanticsB$2 = $as_Lcaos_sos_SOS(\u03b44$___1);
-    var initialStateB$2 = $as_F1(\u03b44$___2);
-    var showStateB$2 = $as_F1(\u03b44$___3);
+    var semanticsA$2 = $as_Lcaos_sos_SOS(\u03b44$___1);
+    var initialStateA$2 = $as_F1(\u03b44$___2);
+    var showStateA$2 = $as_F1(\u03b44$___3);
+    matchResult12: {
+      var \u03b45$___1;
+      var \u03b45$___2;
+      var \u03b45$___3;
+      var x38 = $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, rootB, $as_Lcaos_frontend_Setting($n($p_Lmpst_frontend_auxiliary_Widgets__enabledCommunicationModels__T__sci_Set($thiz, rootB)).head__O()));
+      if ((x38 !== null)) {
+        var semanticsB = $as_Lcaos_sos_SOS($n(x38).T3__f__1);
+        var initialStateB = $as_F1($n(x38).T3__f__2);
+        var showStateB = $as_F1($n(x38).T3__f__3);
+        var \u03b45$___1 = semanticsB;
+        var \u03b45$___2 = initialStateB;
+        var \u03b45$___3 = showStateB;
+        break matchResult12;
+      }
+      throw new $c_s_MatchError(x38);
+    }
+    var semanticsB$2 = $as_Lcaos_sos_SOS(\u03b45$___1);
+    var initialStateB$2 = $as_F1(\u03b45$___2);
+    var showStateB$2 = $as_F1(\u03b45$___3);
     return new $c_s_Some($m_Lcaos_frontend_Configurator$().compareBranchBisim__Lcaos_sos_SOS__Lcaos_sos_SOS__F1__F1__F1__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(semanticsA$2, semanticsB$2, initialStateA$2, initialStateB$2, showStateA$2, showStateB$2, new $c_sjsr_AnonFunction1(((_$7) => {
       var _$7$1 = $as_Lmpst_syntax_Protocol(_$7);
       return $n(_$7$1).toString__T();
@@ -23363,8 +23394,8 @@ function $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option($th
   }
 }
 function $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Setting__T3($thiz, root, enabledCommunicationModel) {
-  var x37 = $n(enabledCommunicationModel).Lcaos_frontend_Setting__f_name;
-  switch (x37) {
+  var x49 = $n(enabledCommunicationModel).Lcaos_frontend_Setting__f_name;
+  switch (x49) {
     case "Sync": {
       var _1 = $m_Lmpst_frontend_auxiliary_wrappers_SyncEnvironmentWrapper$SyncTraverseWrapper$();
       var _2 = new $c_sjsr_AnonFunction1(((global) => {
@@ -23405,29 +23436,29 @@ function $p_Lmpst_frontend_auxiliary_Widgets__getArguments__T__Lcaos_frontend_Se
       break;
     }
     default: {
-      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("unexpected communication model [" + x37) + "] found"));
+      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("unexpected communication model [" + x49) + "] found"));
     }
   }
 }
 function $p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__T__Lmpst_syntax_Protocol__sci_Set($thiz, root, global) {
-  matchResult14: {
+  matchResult16: {
     var localsWithParticipantOption;
-    var x38 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
-    if ($n(x38).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$9) => {
+    var x50 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
+    if ($n(x50).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$9) => {
       var _$9$1 = $as_Lcaos_frontend_Setting(_$9);
       return ($n(_$9$1).Lcaos_frontend_Setting__f_name === "Plain");
     })))) {
       var value = $m_Lmpst_projection_PlainMergeProjection$().projectionWithParticipant__Lmpst_syntax_Protocol__sci_Set(global);
       var localsWithParticipantOption = new $c_s_Some(value);
-      break matchResult14;
+      break matchResult16;
     }
-    if ($n(x38).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$10) => {
+    if ($n(x50).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$10) => {
       var _$10$1 = $as_Lcaos_frontend_Setting(_$10);
       return ($n(_$10$1).Lcaos_frontend_Setting__f_name === "Full");
     })))) {
       var value$1 = $m_Lmpst_projection_FullMergeProjection$().projectionWithParticipant__Lmpst_syntax_Protocol__sci_Set(global);
       var localsWithParticipantOption = new $c_s_Some(value$1);
-      break matchResult14;
+      break matchResult16;
     }
     var localsWithParticipantOption = $m_s_None$();
   }
@@ -23439,10 +23470,10 @@ function $p_Lmpst_frontend_auxiliary_Widgets__localsWithParticipant__T__Lmpst_sy
   return localsWithParticipant;
 }
 function $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__T__Lmpst_syntax_Protocol__T3($thiz, root, global) {
-  matchResult15: {
+  matchResult17: {
     var initialStateOption;
-    var x39 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
-    if ($n(x39).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$11) => {
+    var x51 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
+    if ($n(x51).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$11) => {
       var _$11$1 = $as_Lcaos_frontend_Setting(_$11);
       return ($n(_$11$1).Lcaos_frontend_Setting__f_name === "Plain");
     })))) {
@@ -23451,9 +23482,9 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__T__Lmpst_syntax_
       var _3 = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global);
       var value = new $c_T3(_1, _2, _3);
       var initialStateOption = new $c_s_Some(value);
-      break matchResult15;
+      break matchResult17;
     }
-    if ($n(x39).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$12) => {
+    if ($n(x51).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$12) => {
       var _$12$1 = $as_Lcaos_frontend_Setting(_$12);
       return ($n(_$12$1).Lcaos_frontend_Setting__f_name === "Full");
     })))) {
@@ -23462,7 +23493,7 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__T__Lmpst_syntax_
       var _3$1 = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global);
       var value$1 = new $c_T3(_1$1, _2$1, _3$1);
       var initialStateOption = new $c_s_Some(value$1);
-      break matchResult15;
+      break matchResult17;
     }
     var initialStateOption = $m_s_None$();
   }
@@ -23474,10 +23505,10 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateSync__T__Lmpst_syntax_
   return initialState;
 }
 function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__T__Lmpst_syntax_Protocol__T3($thiz, root, global) {
-  matchResult16: {
+  matchResult18: {
     var initialStateOption;
-    var x40 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
-    if ($n(x40).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$13) => {
+    var x52 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
+    if ($n(x52).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$13) => {
       var _$13$1 = $as_Lcaos_frontend_Setting(_$13);
       return ($n(_$13$1).Lcaos_frontend_Setting__f_name === "Plain");
     })))) {
@@ -23486,9 +23517,9 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__T__Lmpst_synt
       var _3 = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global);
       var value = new $c_T3(_1, _2, _3);
       var initialStateOption = new $c_s_Some(value);
-      break matchResult16;
+      break matchResult18;
     }
-    if ($n(x40).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$14) => {
+    if ($n(x52).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$14) => {
       var _$14$1 = $as_Lcaos_frontend_Setting(_$14);
       return ($n(_$14$1).Lcaos_frontend_Setting__f_name === "Full");
     })))) {
@@ -23497,7 +23528,7 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__T__Lmpst_synt
       var _3$1 = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global);
       var value$1 = new $c_T3(_1$1, _2$1, _3$1);
       var initialStateOption = new $c_s_Some(value$1);
-      break matchResult16;
+      break matchResult18;
     }
     var initialStateOption = $m_s_None$();
   }
@@ -23509,10 +23540,10 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncCS__T__Lmpst_synt
   return initialState;
 }
 function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__T__Lmpst_syntax_Protocol__T3($thiz, root, global) {
-  matchResult17: {
+  matchResult19: {
     var initialStateOption;
-    var x41 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
-    if ($n(x41).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$15) => {
+    var x53 = $p_Lmpst_frontend_auxiliary_Widgets__enabledMerges__T__sci_Set($thiz, root);
+    if ($n(x53).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$15) => {
       var _$15$1 = $as_Lcaos_frontend_Setting(_$15);
       return ($n(_$15$1).Lcaos_frontend_Setting__f_name === "Plain");
     })))) {
@@ -23521,9 +23552,9 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__T__Lmpst_syn
       var _3 = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global);
       var value = new $c_T3(_1, _2, _3);
       var initialStateOption = new $c_s_Some(value);
-      break matchResult17;
+      break matchResult19;
     }
-    if ($n(x41).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$16) => {
+    if ($n(x53).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$16) => {
       var _$16$1 = $as_Lcaos_frontend_Setting(_$16);
       return ($n(_$16$1).Lcaos_frontend_Setting__f_name === "Full");
     })))) {
@@ -23532,7 +23563,7 @@ function $p_Lmpst_frontend_auxiliary_Widgets__initialStateAsyncNCS__T__Lmpst_syn
       var _3$1 = $m_Lmpst_utility_Environment$().localsEnvironment__Lmpst_syntax_Protocol__sci_Map(global);
       var value$1 = new $c_T3(_1$1, _2$1, _3$1);
       var initialStateOption = new $c_s_Some(value$1);
-      break matchResult17;
+      break matchResult19;
     }
     var initialStateOption = $m_s_None$();
   }
@@ -23672,97 +23703,67 @@ $c_Lmpst_frontend_auxiliary_Widgets.prototype.productElement__I__O = (function(n
   }
   throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n));
 });
-$c_Lmpst_frontend_auxiliary_Widgets.prototype.widgets__sci_Seq = (function() {
-  var value = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global) => {
-    var global$1 = $as_Lmpst_syntax_Protocol(global);
-    return $m_Lmpst_frontend_auxiliary_view_MessageSequenceChart$().apply__Lmpst_syntax_Protocol__T(global$1);
-  })), $m_Lcaos_view_Mermaid$());
-  var y = new $c_s_Some(value);
-  var $x_2 = new $c_T2("Message Sequence Chart", y);
-  var value$1 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global$2) => {
-    var global$3 = $as_Lmpst_syntax_Protocol(global$2);
-    return ("" + $n(global$3).toString__T());
-  })), new $c_Lcaos_view_Code("java"));
-  var y$1 = new $c_s_Some(value$1);
-  var $x_1 = new $c_T2("Global", y$1);
-  var a = new $c_sjsr_AnonFunction1(((global$3$1) => {
-    var global$4 = $as_Lmpst_syntax_Protocol(global$3$1);
-    return ((!$m_Lmpst_wellformedness_WellBounded$().apply__Lmpst_syntax_Protocol__Z(global$4)) ? new $c_sci_$colon$colon((("[" + global$4) + "] is not well bounded"), $m_sci_Nil$()) : $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps()));
-  }));
-  var value$2 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
-  var y$2 = new $c_s_Some(value$2);
-  var this$18 = new $c_sci_$colon$colon($x_2, new $c_sci_$colon$colon($x_1, new $c_sci_$colon$colon(new $c_T2("Well Bounded", y$2), $m_sci_Nil$())));
-  var f = ((root) => {
-    var root$1 = $as_T(root);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__s_Option(this, root$1);
-  });
-  var arg1 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$3 = f(arg1);
-  var $x_3 = new $c_T2("Semantics A: Well Channeled", y$3);
-  var arg1$1 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$4 = f(arg1$1);
-  var suffix = new $c_sci_$colon$colon($x_3, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Channeled", y$4), $m_sci_Nil$()));
-  var this$23 = $n(this$18.appendedAll__sc_IterableOnce__sci_List(suffix));
-  var f$1 = ((root$2) => {
-    var root$3 = $as_T(root$2);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkWellBranched__T__s_Option(this, root$3);
-  });
-  var arg1$2 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$5 = f$1(arg1$2);
-  var $x_4 = new $c_T2("Semantics A: Well Branched", y$5);
-  var arg1$3 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$6 = f$1(arg1$3);
-  var suffix$1 = new $c_sci_$colon$colon($x_4, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Branched", y$6), $m_sci_Nil$()));
-  var this$28 = $n(this$23.appendedAll__sc_IterableOnce__sci_List(suffix$1));
-  var f$2 = ((root$3$1) => {
-    var root$4 = $as_T(root$3$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__s_Option(this, root$4);
-  });
-  var arg1$4 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$7 = f$2(arg1$4);
-  var $x_5 = new $c_T2("Semantics A: Locals", y$7);
-  var arg1$5 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$8 = f$2(arg1$5);
-  var suffix$2 = new $c_sci_$colon$colon($x_5, new $c_sci_$colon$colon(new $c_T2("Semantics B: Locals", y$8), $m_sci_Nil$()));
-  var this$33 = $n(this$28.appendedAll__sc_IterableOnce__sci_List(suffix$2));
-  var f$3 = ((root$4$1) => {
-    var root$5 = $as_T(root$4$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalAutomata__T__s_Option(this, root$5);
-  });
-  var arg1$6 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$9 = f$3(arg1$6);
-  var $x_6 = new $c_T2("Semantics A: Local Automata", y$9);
-  var arg1$7 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$10 = f$3(arg1$7);
-  var suffix$3 = new $c_sci_$colon$colon($x_6, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Automata", y$10), $m_sci_Nil$()));
-  var this$38 = $n(this$33.appendedAll__sc_IterableOnce__sci_List(suffix$3));
-  var f$4 = ((root$5$1) => {
-    var root$6 = $as_T(root$5$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalAutomata__T__s_Option(this, root$6);
-  });
-  var arg1$8 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$11 = f$4(arg1$8);
-  var $x_7 = new $c_T2("Semantics A: Local Compositional Automata", y$11);
-  var arg1$9 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$12 = f$4(arg1$9);
-  var suffix$4 = new $c_sci_$colon$colon($x_7, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Compositional Automata", y$12), $m_sci_Nil$()));
-  var this$43 = $n(this$38.appendedAll__sc_IterableOnce__sci_List(suffix$4));
-  var f$5 = ((root$6$1) => {
-    var root$7 = $as_T(root$6$1);
-    return $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__s_Option(this, root$7);
-  });
-  var arg1$10 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$13 = f$5(arg1$10);
-  var $x_8 = new $c_T2("Semantics A: Step-by-Step", y$13);
-  var arg1$11 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$14 = f$5(arg1$11);
-  var suffix$5 = new $c_sci_$colon$colon($x_8, new $c_sci_$colon$colon(new $c_T2("Semantics B: Step-by-Step", y$14), $m_sci_Nil$()));
-  var this$46 = $n(this$43.appendedAll__sc_IterableOnce__sci_List(suffix$5));
-  var arg1$12 = this.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var arg2 = this.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$15 = $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option(this, arg1$12, arg2);
-  var suffix$6 = new $c_sci_$colon$colon(new $c_T2("Bisimulation", y$15), $m_sci_Nil$());
-  return this$46.appendedAll__sc_IterableOnce__sci_List(suffix$6);
+$c_Lmpst_frontend_auxiliary_Widgets.prototype.sortedWidgets__sci_Seq = (function() {
+  matchResult6: {
+    var \u03b41$___1;
+    var \u03b41$___2;
+    var \u03b41$___3;
+    var $x_1 = $p_Lmpst_frontend_auxiliary_Widgets__widgets__sci_Seq(this);
+    var _1 = $m_sci_Nil$();
+    var _2 = $m_sci_Nil$();
+    var _3 = $m_sci_Nil$();
+    var x16 = $as_T3($n($x_1).foldLeft__O__F2__O(new $c_T3(_1, _2, _3), new $c_sjsr_AnonFunction2(((x$1, x$2) => {
+      var x$1$1 = $as_T3(x$1);
+      var x$2$1 = $as_T2(x$2);
+      var x8 = new $c_T2(x$1$1, x$2$1);
+      var x9 = $as_T3(x8.T2__f__1);
+      var x10 = $as_T2(x8.T2__f__2);
+      if ((x9 !== null)) {
+        var sA = $as_sci_List($n(x9).T3__f__1);
+        var sB = $as_sci_List($n(x9).T3__f__2);
+        var o = $as_sci_List($n(x9).T3__f__3);
+        if ((x10 !== null)) {
+          var title = $as_T($n(x10)._1__O());
+          var this$6 = $n(title);
+          if ($uZ(this$6.startsWith("Semantics A:"))) {
+            var this$7 = $n(sA);
+            var _1$1 = new $c_sci_$colon$colon(x10, this$7);
+            return new $c_T3(_1$1, sB, o);
+          } else {
+            var this$9 = $n(title);
+            if ($uZ(this$9.startsWith("Semantics B:"))) {
+              var this$10 = $n(sB);
+              var _2$1 = new $c_sci_$colon$colon(x10, this$10);
+              return new $c_T3(sA, _2$1, o);
+            } else {
+              var this$12 = $n(o);
+              var _3$1 = new $c_sci_$colon$colon(x10, this$12);
+              return new $c_T3(sA, sB, _3$1);
+            }
+          }
+        }
+      }
+      throw new $c_s_MatchError(x8);
+    }))));
+    if ((x16 !== null)) {
+      var semanticsA = $as_sci_List($n(x16).T3__f__1);
+      var semanticsB = $as_sci_List($n(x16).T3__f__2);
+      var others = $as_sci_List($n(x16).T3__f__3);
+      var \u03b41$___1 = semanticsA;
+      var \u03b41$___2 = semanticsB;
+      var \u03b41$___3 = others;
+      break matchResult6;
+    }
+    throw new $c_s_MatchError(x16);
+  }
+  var semanticsA$2 = $as_sci_List(\u03b41$___1);
+  var semanticsB$2 = $as_sci_List(\u03b41$___2);
+  var others$2 = $as_sci_List(\u03b41$___3);
+  var this$15 = $n($n(others$2).reverse__sci_List());
+  var suffix = $n(semanticsA$2).reverse__sci_List();
+  var this$16 = $n(this$15.appendedAll__sc_IterableOnce__sci_List(suffix));
+  var suffix$1 = $n(semanticsB$2).reverse__sci_List();
+  return this$16.appendedAll__sc_IterableOnce__sci_List(suffix$1);
 });
 function $as_Lmpst_frontend_auxiliary_Widgets(obj) {
   return (((obj instanceof $c_Lmpst_frontend_auxiliary_Widgets) || (obj === null)) ? obj : $throwClassCastException(obj, "mpst.frontend.auxiliary.Widgets"));

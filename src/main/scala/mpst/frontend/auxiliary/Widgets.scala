@@ -22,7 +22,21 @@ case class Widgets(rootA: String, rootB: String):
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{ case k -> v => s"$k -> $v" }.mkString("\n")
 
-  def widgets: Seq[(String, Option[WidgetInfo[Global]])] = List(
+  def sortedWidgets: Seq[(String, Option[WidgetInfo[Global]])] =
+    val (semanticsA, semanticsB, others) = widgets.foldLeft(
+      ( List.empty[(String, Option[WidgetInfo[Global]])],
+        List.empty[(String, Option[WidgetInfo[Global]])],
+        List.empty[(String, Option[WidgetInfo[Global]])] )
+    ) {
+      case ((sA, sB, o), widget @ (title, _)) =>
+        if      title.startsWith("Semantics A:") then (widget :: sA, sB, o)
+        else if title.startsWith("Semantics B:") then (sA, widget :: sB, o)
+        else    (sA, sB, widget :: o)
+    }
+    others.reverse ++ semanticsA.reverse ++ semanticsB.reverse
+  end sortedWidgets
+
+  private def widgets: Seq[(String, Option[WidgetInfo[Global]])] = List(
     "Message Sequence Chart" -> Some(
       view(
         MessageSequenceChart.apply,

@@ -28,21 +28,7 @@ object CaosConfigurator extends Configurator[Global]:
 
   override val examples: Seq[Example] = Examples(setting, s"$root.$rootA", s"$root.$rootB").examples
 
-  private def sortWidgets(widgets: Seq[(String, Option[WidgetInfo[Global]])]) =
-    val (semanticsA, semanticsB, others) = widgets.foldLeft(
-      (List.empty[(String, Option[WidgetInfo[Global]])],
-        List.empty[(String, Option[WidgetInfo[Global]])],
-        List.empty[(String, Option[WidgetInfo[Global]])])
-    ) {
-      case ((sA, sB, o), widget@(title, _)) =>
-        if      title.startsWith("Semantics A:") then (widget :: sA, sB, o)
-        else if title.startsWith("Semantics B:") then (sA, widget :: sB, o)
-        else    (sA, sB, widget :: o)
-    }
-    others.reverse ++ semanticsA.reverse ++ semanticsB.reverse
-  end sortWidgets
-
   override def widgets: Seq[(String, Option[WidgetInfo[Global]])] =
-    sortWidgets(Widgets(s"$root.$rootA", s"$root.$rootB").widgets)
+    Widgets(s"$root.$rootA", s"$root.$rootB").sortedWidgets
   end widgets
 end CaosConfigurator
