@@ -22,23 +22,26 @@ case class Widgets(rootA: String, rootB: String):
   extension [K, V](map: Map[K, V])
     private def toPrettyPrint: String = map.map{ case k -> v => s"$k -> $v" }.mkString("\n")
 
-  def widgets: Seq[(String, WidgetInfo[Global])] = List(
-    "Message Sequence Chart" ->
+  def widgets: Seq[(String, Option[WidgetInfo[Global]])] = List(
+    "Message Sequence Chart" -> Some(
       view(
         MessageSequenceChart.apply,
         Mermaid
-      ),
+      )
+    ),
 
-    "Global" ->
+    "Global" -> Some(
       view((global: Global) =>
         s"${global.toString}",
         Code("java")
-      ),
+      )
+    ),
 
-    "Well Bounded" ->
+    "Well Bounded" -> Some(
       check((global: Global) =>
         if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
-      ),
+      )
+    ),
   ) ++ mkWidgetsForAll(
     "Semantics A: Well Channeled",
     "Semantics B: Well Channeled",
@@ -68,39 +71,42 @@ case class Widgets(rootA: String, rootB: String):
     mkBisimulation,
   )
 
-  private def mkWidgetsForAll(nameA: String, nameB: String, mkWidget: (root: String) => WidgetInfo[Global]): Seq[(String, WidgetInfo[Global])] = List(
+  private def mkWidgetsForAll(nameA: String, nameB: String, mkWidget: (root: String) => Option[WidgetInfo[Global]]): Seq[(String, Option[WidgetInfo[Global]])] = List(
     nameA -> mkWidget(rootA),
     nameB -> mkWidget(rootB),
   )
   end mkWidgetsForAll
 
-  private def mkWidgetsFromAll(name: String, mkWidget: (rootA: String, rooB: String) => WidgetInfo[Global]): Seq[(String, WidgetInfo[Global])] = List(
+  private def mkWidgetsFromAll(name: String, mkWidget: (rootA: String, rooB: String) => Option[WidgetInfo[Global]]): Seq[(String, Option[WidgetInfo[Global]])] = List(
     name -> mkWidget(rootA, rootB),
   )
   end mkWidgetsFromAll
 
-  private def mkWellChanneled(root: String): WidgetInfo[Global] =
+  private def mkWellChanneled(root: String): Option[WidgetInfo[Global]] = Option.when(enabledExtraRequirements(root).exists(_.name == "Well Channeled")) {
     check((global: Global) =>
       if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
-    ).setRender(enabledExtraRequirements(root).exists(_.name == "Well Channeled"))
+    )
+  }
   end mkWellChanneled
 
-  private def mkWellBranched(root: String): WidgetInfo[Global] =
+  private def mkWellBranched(root: String): Option[WidgetInfo[Global]] = Option.when(enabledExtraRequirements(root).exists(_.name == "Well Branched")) {
     check((global: Global) =>
       if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
-    ).setRender(enabledExtraRequirements(root).exists(_.name == "Well Branched"))
+    )
+  }
   end mkWellBranched
 
-  private def mkLocals(root: String): WidgetInfo[Global] =
+  private def mkLocals(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge")) {
     view((global: Global) =>
       localsWithParticipant(root)(using global).map {
         case participant -> local => s"$participant: ${local.toSimpleString}"
       }.mkString("\n"),
       Code("java")
-    ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge"))
+    )
+  }
   end mkLocals
 
-  private def mkLocalAutomata(root: String): WidgetInfo[Global] =
+  private def mkLocalAutomata(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge")) {
     viewMerms((global: Global) =>
       val environment: Environment = localsEnvironment(global)
       localsWithParticipant(root)(using global).map { case participant -> local =>
@@ -113,55 +119,46 @@ case class Widgets(rootA: String, rootB: String):
         )
         participant -> lts
       }.toList
-    ).setRender(getSetting.allActiveFrom(root).exists(_.name == "Merge"))
+    )
+  }
   end mkLocalAutomata
 
-  private def mkLocalCompositionalAutomata(root: String): WidgetInfo[Global] =
-    val eCM = enabledCommunicationModels(root)
-    if eCM.nonEmpty then
-      val (semantics, initialState, showState) = getArguments(root, eCM.head)
-      lts(
-        initialState,
-        semantics,
-        showState,
-        _.toString,
-        100
-      )
-    else
-      check((global: Global) => Seq.empty)
+  private def mkLocalCompositionalAutomata(root: String): Option[WidgetInfo[Global]] = Option.when(enabledCommunicationModels(root).nonEmpty) {
+    val (semantics, initialState, showState) = getArguments(root, enabledCommunicationModels(root).head)
+    lts(
+      initialState,
+      semantics,
+      showState,
+      _.toString,
+      100
+    )
+  }
   end mkLocalCompositionalAutomata
 
-  private def mkStepsBySteps(root: String): WidgetInfo[Global] =
-    val eCM = enabledCommunicationModels(root)
-    if eCM.nonEmpty then
-      val (semantics, initialState, showState) = getArguments(root, eCM.head)
-      steps(
-        initialState,
-        semantics,
-        showState
-      )
-    else
-      check((global: Global) => Seq.empty)
+  private def mkStepsBySteps(root: String): Option[WidgetInfo[Global]] = Option.when(enabledCommunicationModels(root).nonEmpty) {
+    val (semantics, initialState, showState) = getArguments(root, enabledCommunicationModels(root).head)
+    steps(
+      initialState,
+      semantics,
+      showState
+    )
+  }
   end mkStepsBySteps
 
-  private def mkBisimulation(rootA: String, rootB: String): WidgetInfo[Global] =
-    val eCMA = enabledCommunicationModels(rootA)
-    val eCMB = enabledCommunicationModels(rootB)
-    if eCMA.nonEmpty && eCMB.nonEmpty then
-      val (semanticsA, initialStateA, showStateA) = getArguments(rootA, eCMA.head)
-      val (semanticsB, initialStateB, showStateB) = getArguments(rootB, eCMB.head)
-      compareBranchBisim(
-        semanticsA,
-        semanticsB,
-        initialStateA,
-        initialStateB,
-        showStateA,
-        showStateB,
-        _.toString,
-        100,
-      )
-    else
-      check((global: Global) => Seq.empty)
+  private def mkBisimulation(rootA: String, rootB: String): Option[WidgetInfo[Global]] = Option.when(enabledCommunicationModels(rootA).nonEmpty && enabledCommunicationModels(rootB).nonEmpty) {
+    val (semanticsA, initialStateA, showStateA) = getArguments(rootA, enabledCommunicationModels(rootA).head)
+    val (semanticsB, initialStateB, showStateB) = getArguments(rootB, enabledCommunicationModels(rootB).head)
+    compareBranchBisim(
+      semanticsA,
+      semanticsB,
+      initialStateA,
+      initialStateB,
+      showStateA,
+      showStateB,
+      _.toString,
+      100,
+    )
+  }
   end mkBisimulation
 
   private type State = SyncState | CausalState | NonCausalState
