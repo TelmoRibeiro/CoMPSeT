@@ -69,12 +69,12 @@ case class Widgets(rootA: String, rootB: String):
     "Semantics B: Locals",
     mkLocals,
   ) ++ mkWidgetsForAll(
-    "Semantics A: Local Automata",
-    "Semantics B: Local Automata",
+    "Semantics A: Local FSM",
+    "Semantics B: Local FSM",
     mkLocalAutomata,
   ) ++ mkWidgetsForAll(
-    "Semantics A: Local Compositional Automata",
-    "Semantics B: Local Compositional Automata",
+    "Semantics A: Local Compositional FSM",
+    "Semantics B: Local Compositional FSM",
     mkLocalCompositionalAutomata,
   ) ++ mkWidgetsForAll(
     "Semantics A: Step-by-Step",
