@@ -8,7 +8,7 @@ This document describes how to run and recompile the tool:
 - Using `compset-src` (supports running/recompiling, *outside* a virtual machine)
 
 --------------------
-# To Do: Add Skip As Comm Action | Add Tests
+# To Do: Add Tests
 
 # How to use `compset.ova`
 

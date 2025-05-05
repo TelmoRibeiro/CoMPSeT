@@ -43,14 +43,12 @@ case class Widgets(rootA: String, rootB: String):
         Mermaid
       )
     ),
-
     "Global" -> Some(
       view((global: Global) =>
         s"${global.toString}",
         Code("java")
       )
     ),
-
     "Well Bounded" -> Some(
       check((global: Global) =>
         if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
