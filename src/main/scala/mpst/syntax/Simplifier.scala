@@ -18,8 +18,9 @@ object Simplifier:
     //case Choice  (protocolA, Skip) => runOnce(protocolA)
     //case Choice  (Skip, protocolB) => runOnce(protocolB)
     // @ telmo - a choice between doing something or skipping should not be considered the same as just doing something
-    case RecursionFixedPoint(_, Skip) => Skip // @ telmo - took from struct. congruence
+    case RecursionFixedPoint(variableA, Sequence(Skip, RecursionCall(variableB))) if variableA == variableB => Skip // @ telmo - took from struct. congruence
     case RecursionKleeneStar(Skip)    => Skip // @ telmo - abusing from the previous notation
+    case RecursionFixedPoint(variable, protocolB) if !hasVariable(protocolB, variable) => protocolB
     case Choice(protocolA, protocolB) if protocolA == protocolB => runOnce(protocolA) // @ telmo - a choice between doing A or doing A is no choice at all
     case Sequence(protocolA, protocolB) => Sequence(runOnce(protocolA), runOnce(protocolB))
     case Parallel(protocolA, protocolB) => Parallel(runOnce(protocolA), runOnce(protocolB))

@@ -118,6 +118,16 @@ object Protocol:
     hasKleeneStarRecursion(protocol) || hasFixedPointRecursion(protocol)
   end hasRecursion
 
+  def hasVariable(protocol: Protocol, variable: Variable): Boolean = protocol match
+    case _: Interaction | _: Action | Skip => false
+    case RecursionCall(variableB) => variableB == variable
+    case Sequence(protocolA, protocolB) => hasVariable(protocolA, variable) || hasVariable(protocolB, variable)
+    case Parallel(protocolA, protocolB) => hasVariable(protocolA, variable) || hasVariable(protocolB, variable)
+    case Choice  (protocolA, protocolB) => hasVariable(protocolA, variable) || hasVariable(protocolB, variable)
+    case RecursionFixedPoint(variableB, protocolB) => hasVariable(protocolB, variable) && variableB != variable
+    case RecursionKleeneStar(protocolA)            => hasVariable(protocolA, variable)
+  end hasVariable
+
   def mkUnexpectedConstructMessage(protocol: Protocol): String =
     s"unexpected construct found in [$protocol]"
   end mkUnexpectedConstructMessage
