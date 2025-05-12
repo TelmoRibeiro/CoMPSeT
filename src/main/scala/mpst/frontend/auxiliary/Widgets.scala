@@ -69,11 +69,11 @@ case class Widgets(rootA: String, rootB: String):
   ) ++ mkWidgetsForAll(
     "Semantics A: Local FSMs",
     "Semantics B: Local FSMs",
-    mkLocalAutomata,
+    mkLocalFSM,
   ) ++ mkWidgetsForAll(
     "Semantics A: Local Compositional FSM",
     "Semantics B: Local Compositional FSM",
-    mkLocalCompositionalAutomata,
+    mkLocalCompositionalFSM,
   ) ++ mkWidgetsForAll(
     "Semantics A: Step-by-Step",
     "Semantics B: Step-by-Step",
@@ -118,7 +118,7 @@ case class Widgets(rootA: String, rootB: String):
   }
   end mkLocals
 
-  private def mkLocalAutomata(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge")) {
+  private def mkLocalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge")) {
     viewMerms((global: Global) =>
       val environment: Environment = localsEnvironment(global)
       localsWithParticipant(root)(using global).map { case participant -> local =>
@@ -133,9 +133,9 @@ case class Widgets(rootA: String, rootB: String):
       }.toList
     )
   }
-  end mkLocalAutomata
+  end mkLocalFSM
 
-  private def mkLocalCompositionalAutomata(root: String): Option[WidgetInfo[Global]] = Option.when(enabledCommunicationModels(root).nonEmpty) {
+  private def mkLocalCompositionalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(enabledCommunicationModels(root).nonEmpty) {
     val (semantics, initialState, showState) = getArguments(root, enabledCommunicationModels(root).head)
     lts(
       initialState,
@@ -145,7 +145,7 @@ case class Widgets(rootA: String, rootB: String):
       100
     )
   }
-  end mkLocalCompositionalAutomata
+  end mkLocalCompositionalFSM
 
   private def mkStepsBySteps(root: String): Option[WidgetInfo[Global]] = Option.when(enabledCommunicationModels(root).nonEmpty) {
     val (semantics, initialState, showState) = getArguments(root, enabledCommunicationModels(root).head)
