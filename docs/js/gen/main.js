@@ -23094,11 +23094,11 @@ function $c_Lmpst_frontend_auxiliary_Examples(setting, rootA, rootB) {
   var setting$4 = new $c_s_Some(setting);
   var $x_7 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit", "recursive controller-worker - v2", "controller-worker with fixed point recursion (no settings)", setting$4);
   var setting$5 = new $c_s_Some(setting);
-  var $x_6 = new $c_Lcaos_frontend_Configurator$Example("pA->pB:TaskA || pA->pB:TaskB", "simple task delegation", "a simple task delegation using parallel composition (no settings)", setting$5);
+  var $x_6 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskC)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskC)", "simple branching - v1", "a simple branching protocol - plain-merge (no settings)", setting$5);
   var setting$6 = new $c_s_Some(setting);
-  var $x_5 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskC)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskC)", "simple branching - v1", "a simple branching protocol - plain-merge (no settings)", setting$6);
+  var $x_5 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)", "simple branching - v2", "a simple branching protocol - full-merge (no settings)", setting$6);
   var setting$7 = new $c_s_Some(setting);
-  var $x_4 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)", "simple branching - v2", "a simple branching protocol - full-merge (no settings)", setting$7);
+  var $x_4 = new $c_Lcaos_frontend_Configurator$Example("pA->pB:TaskA || pA->pB:TaskB", "simple task delegation", "a simple task delegation using parallel composition (no settings)", setting$7);
   var y = $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__T__Lcaos_frontend_Setting(this, rootA);
   var setting$8 = new $c_s_Some(y);
   var $x_3 = new $c_Lcaos_frontend_Configurator$Example("c->wA:Work ; c->wB:Work ;\n(wA->c:Done || wB->c:Done)", "controller-workers - v1 (APIGenInScala3)", "controller-workers-v1 under the APIGenInScala3 settings", setting$8);

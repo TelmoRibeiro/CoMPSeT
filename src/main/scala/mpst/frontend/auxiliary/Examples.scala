@@ -74,11 +74,6 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> "controller-worker with fixed point recursion (no settings)"
       -> setting,
 
-    "simple task delegation"
-      -> simpleDelegation
-      -> "a simple task delegation using parallel composition (no settings)"
-      -> setting,
-
     "simple branching - v1"
       -> simpleBranchingV1
       -> "a simple branching protocol - plain-merge (no settings)"
@@ -87,6 +82,11 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
     "simple branching - v2"
       -> simpleBranchingV2
       -> "a simple branching protocol - full-merge (no settings)"
+      -> setting,
+
+    "simple task delegation"
+      -> simpleDelegation
+      -> "a simple task delegation using parallel composition (no settings)"
       -> setting,
 
     "controller-workers - v1 (APIGenInScala3)"
