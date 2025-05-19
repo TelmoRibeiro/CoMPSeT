@@ -123,5 +123,12 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> simpleDelegation
       -> "simple task delegation compared for both APIGenInScala3 and ST4MP"
       -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA)(using setting)),
+
+    "simple task delegation (APIGenInScala3 vs Non-Causal Asynchronous)"
+      -> simpleDelegation
+      -> "simple task delegation compared for both APIGenInScala3 and Non-Causal Asynchronous"
+      -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA)(using setting))
+      .setCheckedPath(s"$rootB.Communication Model.Causal Asynchronous", false)
+      .setCheckedPath(s"$rootB.Communication Model.Non-Causal Asynchronous", true),
   )
 end Examples
