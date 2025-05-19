@@ -101,12 +101,17 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
 
     "simple branching - v1 (GentleIntroMPAsyncST)"
       -> simpleBranchingV1
-      -> "simple branching - v1 under the GentleIntroMPAsyncST"
+      -> "simple branching - v1 under the GentleIntroMPAsyncST settings"
       -> mkGentleIntroMPAsyncST(rootA),
 
     "simple branching - v2 (VeryGentleIntroMPST)"
       -> simpleBranchingV2
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
       -> mkVeryGentleIntroMPST(rootA),
+
+    "controller-workers - v1 (GentleIntroMPAsyncST)"
+      -> controllerWorkerV1
+      -> "failed parallel composition for the controller-workers - v1 under GentleIntroMPAsyncST settings"
+      -> mkGentleIntroMPAsyncST(rootA),
   )
 end Examples
