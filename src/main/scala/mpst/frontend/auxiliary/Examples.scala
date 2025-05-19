@@ -5,31 +5,31 @@ import caos.frontend.Setting
 
 case class Examples(setting: Setting, rootA: String, rootB: String):
   private def mkVeryGentleIntroMPST(root: String): Setting = setting
-    .setCheckedPath(s"$root.Merge.Full", true)
-    .setCheckedPath(s"$root.Communication Model.Sync", true)
+    .setCheckedPath(s"$root.Merge Criteria.Full", true)
+    .setCheckedPath(s"$root.Communication Model.Synchronous", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkVeryGentleIntroMPST
 
   private def mkGentleIntroMPAsyncST(root: String): Setting = setting
-    .setCheckedPath(s"$root.Merge.Plain", true)
-    .setCheckedPath(s"$root.Communication Model.Causal Async", true)
+    .setCheckedPath(s"$root.Merge Criteria.Plain", true)
+    .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkGentleIntroMPAsyncST
 
   private def mkAPIGenInScala3(root: String): Setting = setting
-    .setCheckedPath(s"$root.Merge.Plain", true)
-    .setCheckedPath(s"$root.Communication Model.Causal Async", true)
-    .setCheckedPath(s"$root.Parallel", true)
+    .setCheckedPath(s"$root.Merge Criteria.Plain", true)
+    .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
+    .setCheckedPath(s"$root.Parallel Composition", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
   end mkAPIGenInScala3
 
   private def mkST4MP(root: String): Setting = setting
-    .setCheckedPath(s"$root.Merge.Plain", true)
-    .setCheckedPath(s"$root.Communication Model.Causal Async", true)
-    .setCheckedPath(s"$root.Parallel", true)
+    .setCheckedPath(s"$root.Merge Criteria.Plain", true)
+    .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
+    .setCheckedPath(s"$root.Parallel Composition", true)
     .setCheckedPath(s"$root.Recursion.Kleene Star", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)

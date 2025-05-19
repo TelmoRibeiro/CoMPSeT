@@ -108,7 +108,7 @@ case class Widgets(rootA: String, rootB: String):
   }
   end mkWellBranched
 
-  private def mkLocals(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge")) {
+  private def mkLocals(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge Criteria")) {
     view((global: Global) =>
       localsWithParticipant(root)(using global).map {
         case participant -> local => s"$participant: ${local.toSimpleString}"
@@ -118,7 +118,7 @@ case class Widgets(rootA: String, rootB: String):
   }
   end mkLocals
 
-  private def mkLocalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge")) {
+  private def mkLocalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge Criteria")) {
     viewMerms((global: Global) =>
       val environment: Environment = localsEnvironment(global)
       localsWithParticipant(root)(using global).map { case participant -> local =>
@@ -184,17 +184,17 @@ case class Widgets(rootA: String, rootB: String):
     end getShowState
 
     enabledCommunicationModel.name match
-      case "Sync" => (
+      case "Synchronous" => (
         SyncTraverseWrapper.asInstanceOf[SOS[Action, State]],
         (global: Global) => initialStateSync(root)(using global),
         getShowState,
       )
-      case "Causal Async" => (
+      case "Causal Asynchronous" => (
         NetworkCausal.asInstanceOf[SOS[Action, State]],
         (global: Global) => initialStateAsyncCS(root)(using global),
         getShowState,
       )
-      case "Non-Causal Async" => (
+      case "Non-Causal Asynchronous" => (
         NetworkNonCausal.asInstanceOf[SOS[Action, State]],
         (global: Global) => initialStateAsyncNCS(root)(using global),
         getShowState,
@@ -251,7 +251,7 @@ case class Widgets(rootA: String, rootB: String):
   end initialStateAsyncNCS
 
   private def checkLocalsAgainstAllConditions(root: String, localsWithParticipant: Set[(Participant, Local)]): Unit =
-    checkLocalsAgainstCondition(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom(root).exists(_.name == "Parallel"), "Parallel")
+    checkLocalsAgainstCondition(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom(root).exists(_.name == "Parallel Composition"), "Parallel Composition")
     checkLocalsAgainstCondition(localsWithParticipant, hasKleeneStarRecursion, !enabledRecursions(root).exists(_.name == "Kleene Star"), "Recursion Kleene Star")
     checkLocalsAgainstCondition(localsWithParticipant, hasFixedPointRecursion, !enabledRecursions(root).exists(_.name == "Fixed Point"), "Recursion Fixed Point")
   end checkLocalsAgainstAllConditions
@@ -266,6 +266,6 @@ case class Widgets(rootA: String, rootB: String):
 
   private def enabledCommunicationModels(root: String): Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Communication Model")
   private def enabledExtraRequirements(root: String):   Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Extra Requirements")
-  private def enabledMerges(root: String):              Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Merge")
+  private def enabledMerges(root: String):              Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Merge Criteria")
   private def enabledRecursions(root: String):          Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Recursion")
 end Widgets
