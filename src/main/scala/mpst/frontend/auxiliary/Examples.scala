@@ -4,21 +4,21 @@ import caos.frontend.Configurator.Example
 import caos.frontend.Setting
 
 case class Examples(setting: Setting, rootA: String, rootB: String):
-  private def mkVeryGentleIntroMPST(root: String): Setting = setting
+  private def mkVeryGentleIntroMPST(root: String)(using setting: Setting): Setting = setting
     .setCheckedPath(s"$root.Merge Criteria.Full", true)
     .setCheckedPath(s"$root.Communication Model.Synchronous", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkVeryGentleIntroMPST
 
-  private def mkGentleIntroMPAsyncST(root: String): Setting = setting
+  private def mkGentleIntroMPAsyncST(root: String)(using setting: Setting): Setting = setting
     .setCheckedPath(s"$root.Merge Criteria.Plain", true)
     .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
     .setCheckedPath(s"$root.Recursion.Fixed Point", true)
     .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
   end mkGentleIntroMPAsyncST
 
-  private def mkAPIGenInScala3(root: String): Setting = setting
+  private def mkAPIGenInScala3(root: String)(using setting: Setting): Setting = setting
     .setCheckedPath(s"$root.Merge Criteria.Plain", true)
     .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
     .setCheckedPath(s"$root.Parallel Composition", true)
@@ -26,7 +26,7 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
     .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
   end mkAPIGenInScala3
 
-  private def mkST4MP(root: String): Setting = setting
+  private def mkST4MP(root: String)(using setting: Setting): Setting = setting
     .setCheckedPath(s"$root.Merge Criteria.Plain", true)
     .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
     .setCheckedPath(s"$root.Parallel Composition", true)
@@ -92,26 +92,31 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
     "controller-workers - v1 (APIGenInScala3)"
       -> controllerWorkerV1
       -> "controller-workers-v1 under the APIGenInScala3 settings"
-      -> mkAPIGenInScala3(rootA),
+      -> mkAPIGenInScala3(rootA)(using setting),
 
     "recursive controller-worker - v1 (ST4MP)"
       -> recursiveControllerWorkerV1
       -> "recursive controller-worker - v1 under the ST4MP settings"
-      -> mkST4MP(rootA),
+      -> mkST4MP(rootA)(using setting),
 
     "simple branching - v1 (GentleIntroMPAsyncST)"
       -> simpleBranchingV1
       -> "simple branching - v1 under the GentleIntroMPAsyncST settings"
-      -> mkGentleIntroMPAsyncST(rootA),
+      -> mkGentleIntroMPAsyncST(rootA)(using setting),
 
     "simple branching - v2 (VeryGentleIntroMPST)"
       -> simpleBranchingV2
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
-      -> mkVeryGentleIntroMPST(rootA),
+      -> mkVeryGentleIntroMPST(rootA)(using setting),
 
     "controller-workers - v1 (GentleIntroMPAsyncST)"
       -> controllerWorkerV1
       -> "failed parallel composition for the controller-workers - v1 under GentleIntroMPAsyncST settings"
-      -> mkGentleIntroMPAsyncST(rootA),
+      -> mkGentleIntroMPAsyncST(rootA)(using setting),
+
+    "simple branching - v2 (VeryGentleIntroMPST vs GentleIntroMPAsyncST)"
+      -> simpleBranchingV2
+      -> "simple branching - v2 compared for both VeryGentleIntroMPST and GentleIntroMPAsyncST"
+      -> mkGentleIntroMPAsyncST(rootB)(using mkVeryGentleIntroMPST(rootA)(using setting)),
   )
 end Examples
