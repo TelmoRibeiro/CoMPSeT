@@ -45,9 +45,9 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
 
   private val controllerWorkerV1: String = "c->wA:Work ; c->wB:Work ;\n(wA->c:Done || wB->c:Done)"
 
-  private val controllerWorkerV2: String = "(\n\tc->wA:Work ; c->wB:Work ;\n\t(wA->c:Done || wB->c:Done)\n)*"
+  private val recursiveControllerWorkerV1: String = "(c->w:Work ; w->c:Done)*"
 
-  private val recursiveControllerWorker: String = "def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit"
+  private val recursiveControllerWorkerV2: String = "def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit"
 
   private val badWellBranched: String = "(c->wA:Work ; wA->c:Done)\n\t+\n(c->wB:Work ; wB->c:Done)"
 
@@ -64,9 +64,14 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> "fully sequentialized controller-workers (no settings)"
       -> setting,
 
-    "controller-workers - v2"
-      -> controllerWorkerV2
-      -> "standard controller-workers under kleene star recursion (no settings)"
+    "recursive controller-worker - v1"
+      -> recursiveControllerWorkerV1
+      -> "controller-worker with kleene star recursion (no settings)"
+      -> setting,
+
+    "recursive controller-worker - v2"
+      -> recursiveControllerWorkerV2
+      -> "controller-worker with fixed point recursion (no settings)"
       -> setting,
 
     "simple task delegation"
@@ -84,39 +89,14 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> "a simple branching protocol - full-merge (no settings)"
       -> setting,
 
-    "controller-worker - fixed point recursion"
-      -> recursiveControllerWorker
-      -> "sequentialized controller-worker with fixed point recursion (no settings)"
-      -> setting,
-
-    "APIGenInScala3 settings"
-      -> controllerWorkerV0
-      -> "APIGenInScala3 settings (placeholder protocol)"
-      -> mkAPIGenInScala3(rootA),
-
-    "ST4MP settings"
-      -> controllerWorkerV0
-      -> "ST4MP settings (placeholder protocol)"
-      -> mkST4MP(rootA),
-
-    "VeryGentleIntroMPST settings"
-      -> controllerWorkerV0
-      -> "VeryGentleIntroMPST settings (placeholder protocol)"
-      -> mkVeryGentleIntroMPST(rootA),
-
-    "GentleIntroMPAsyncST settings"
-      -> controllerWorkerV0
-      -> "GentleIntroMPAsyncST settings (placeholder protocol)"
-      -> mkGentleIntroMPAsyncST(rootA),
-
     "controller-workers - v1 (APIGenInScala3)"
       -> controllerWorkerV1
       -> "controller-workers-v1 under the APIGenInScala3 settings"
       -> mkAPIGenInScala3(rootA),
 
-    "controller-workers - v2 (ST4MP)"
-      -> controllerWorkerV2
-      -> "controller-workers-v2 under the ST4MP settings"
+    "recursive controller-worker - v1 (ST4MP)"
+      -> recursiveControllerWorkerV1
+      -> "recursive controller-worker - v1 under the ST4MP settings"
       -> mkST4MP(rootA),
 
     "simple branching - v1 (GentleIntroMPAsyncST)"
@@ -128,15 +108,5 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> simpleBranchingV2
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
       -> mkVeryGentleIntroMPST(rootA),
-
-    "controller-worker - fixed point recursion (ST4MP) | recursion fail"
-      -> recursiveControllerWorker
-      -> "failed recursion for the controller-worker - fixed point recursion under ST4MP settings"
-      -> mkST4MP(rootA),
-
-    "controller-workers - v2 (GentleIntroMPAsyncST) | parallel fail"
-      -> controllerWorkerV2
-      -> "failed parallel for the controller-workers - v2 under GentleIntroMPAsyncST settings"
-      -> mkGentleIntroMPAsyncST(rootA),
   )
 end Examples
