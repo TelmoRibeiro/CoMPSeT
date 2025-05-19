@@ -119,7 +119,7 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> "simple branching - v2 compared for both VeryGentleIntroMPST and GentleIntroMPAsyncST"
       -> mkGentleIntroMPAsyncST(rootB)(using mkVeryGentleIntroMPST(rootA)(using setting)),
 
-    "simple task delegation"
+    "simple task delegation (APIGenInScala3 vs ST4MP)"
       -> simpleDelegation
       -> "simple task delegation compared for both APIGenInScala3 and ST4MP"
       -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA)(using setting)),

@@ -23119,7 +23119,7 @@ function $c_Lmpst_frontend_auxiliary_Examples(setting, rootA, rootB) {
   var $x_1 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)", "simple branching - v2 (VeryGentleIntroMPST vs GentleIntroMPAsyncST)", "simple branching - v2 compared for both VeryGentleIntroMPST and GentleIntroMPAsyncST", setting$13);
   var y$6 = $p_Lmpst_frontend_auxiliary_Examples__mkST4MP__T__Lcaos_frontend_Setting__Lcaos_frontend_Setting(this, rootB, $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__T__Lcaos_frontend_Setting__Lcaos_frontend_Setting(this, rootA, setting));
   var setting$14 = new $c_s_Some(y$6);
-  var elems = $x_14.wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([$x_13, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_Lcaos_frontend_Configurator$Example("pA->pB:TaskA || pA->pB:TaskB", "simple task delegation", "simple task delegation compared for both APIGenInScala3 and ST4MP", setting$14)]));
+  var elems = $x_14.wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([$x_13, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_Lcaos_frontend_Configurator$Example("pA->pB:TaskA || pA->pB:TaskB", "simple task delegation (APIGenInScala3 vs ST4MP)", "simple task delegation compared for both APIGenInScala3 and ST4MP", setting$14)]));
   this.Lmpst_frontend_auxiliary_Examples__f_examples = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems);
 }
 $c_Lmpst_frontend_auxiliary_Examples.prototype = new $h_O();
