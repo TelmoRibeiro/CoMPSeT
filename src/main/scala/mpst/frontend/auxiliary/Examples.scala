@@ -109,10 +109,10 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
       -> mkVeryGentleIntroMPST(rootA)(using setting),
 
-    "controller-workers - v1 (GentleIntroMPAsyncST)"
-      -> controllerWorkerV1
-      -> "failed parallel composition for the controller-workers - v1 under GentleIntroMPAsyncST settings"
-      -> mkGentleIntroMPAsyncST(rootA)(using setting),
+    "recursive controller-worker - v2"
+      -> recursiveControllerWorkerV2
+      -> "recursive controller-worker - v2 under the APIGenInScala3 settings"
+      -> mkAPIGenInScala3(rootA)(using setting),
 
     "simple branching - v2 (VeryGentleIntroMPST vs GentleIntroMPAsyncST)"
       -> simpleBranchingV2
