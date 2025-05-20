@@ -109,7 +109,7 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
       -> mkVeryGentleIntroMPST(rootA)(using setting),
 
-    "recursive controller-worker - v2"
+    "recursive controller-worker - v2 (APIGenInScala3)"
       -> recursiveControllerWorkerV2
       -> "recursive controller-worker - v2 under the APIGenInScala3 settings"
       -> mkAPIGenInScala3(rootA)(using setting),
