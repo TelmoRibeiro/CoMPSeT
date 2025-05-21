@@ -10,7 +10,7 @@ object MPSTSemantic:
   end accepting
 
   def next[A >: Action](protocol: Protocol)(using environment: SingleEnvironment): Set[(A, Protocol)] =
-    MPSTSemantic.nextAuxiliary(protocol)(using environment).toSet
+    MPSTSemantic.nextAuxiliary(protocol).toSet
   end next
 
   private def acceptAuxiliary(protocol: Protocol): Boolean = protocol match
