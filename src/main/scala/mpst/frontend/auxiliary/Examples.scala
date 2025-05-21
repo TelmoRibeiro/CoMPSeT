@@ -53,6 +53,9 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
 
   private val badWellChannelled: String = "(c->w:TaskA ; w->c:Done)\n\t||\n(c->w:TaskB ; w->c:Done)"
 
+  // keyword for implicit!
+  implicit private  val defaultSetting: Setting = setting // change this!
+
   val examples: Seq[Example] = List(
     "controller-workers - v1"
       -> controllerWorkerV1
@@ -92,7 +95,7 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
     "controller-workers - v1 (APIGenInScala3)"
       -> controllerWorkerV1
       -> "controller-workers-v1 under the APIGenInScala3 settings"
-      -> mkAPIGenInScala3(rootA)(using setting),
+      -> mkAPIGenInScala3(rootA),
 
     "recursive controller-worker - v1 (ST4MP)"
       -> recursiveControllerWorkerV1
