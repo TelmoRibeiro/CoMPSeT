@@ -53,8 +53,7 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
 
   private val badWellChannelled: String = "(c->w:TaskA ; w->c:Done)\n\t||\n(c->w:TaskB ; w->c:Done)"
 
-  // keyword for implicit!
-  implicit private  val defaultSetting: Setting = setting // change this!
+  implicit private val defaultSetting: Setting = setting
 
   val examples: Seq[Example] = List(
     "controller-workers - v1"
@@ -100,37 +99,37 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
     "recursive controller-worker - v1 (ST4MP)"
       -> recursiveControllerWorkerV1
       -> "recursive controller-worker - v1 under the ST4MP settings"
-      -> mkST4MP(rootA)(using setting),
+      -> mkST4MP(rootA),
 
     "simple branching - v1 (GentleIntroMPAsyncST)"
       -> simpleBranchingV1
       -> "simple branching - v1 under the GentleIntroMPAsyncST settings"
-      -> mkGentleIntroMPAsyncST(rootA)(using setting),
+      -> mkGentleIntroMPAsyncST(rootA),
 
     "simple branching - v2 (VeryGentleIntroMPST)"
       -> simpleBranchingV2
       -> "simple branching - v2 under the VeryGentleIntroMPST settings"
-      -> mkVeryGentleIntroMPST(rootA)(using setting),
+      -> mkVeryGentleIntroMPST(rootA),
 
     "recursive controller-worker - v2 (APIGenInScala3)"
       -> recursiveControllerWorkerV2
       -> "recursive controller-worker - v2 under the APIGenInScala3 settings"
-      -> mkAPIGenInScala3(rootA)(using setting),
+      -> mkAPIGenInScala3(rootA),
 
     "simple branching - v2 (VeryGentleIntroMPST vs GentleIntroMPAsyncST)"
       -> simpleBranchingV2
       -> "simple branching - v2 compared for both VeryGentleIntroMPST and GentleIntroMPAsyncST"
-      -> mkGentleIntroMPAsyncST(rootB)(using mkVeryGentleIntroMPST(rootA)(using setting)),
+      -> mkGentleIntroMPAsyncST(rootB)(using mkVeryGentleIntroMPST(rootA)),
 
     "simple task delegation (APIGenInScala3 vs ST4MP)"
       -> simpleDelegation
       -> "simple task delegation compared for both APIGenInScala3 and ST4MP"
-      -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA)(using setting)),
+      -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA)),
 
     "simple task delegation (APIGenInScala3 vs Non-Causal Asynchronous)"
       -> simpleDelegation
       -> "simple task delegation compared for both APIGenInScala3 and Non-Causal Asynchronous"
-      -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA)(using setting))
+      -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA))
       .setCheckedPath(s"$rootB.Communication Model.Causal Asynchronous", false)
       .setCheckedPath(s"$rootB.Communication Model.Non-Causal Asynchronous", true),
   )
