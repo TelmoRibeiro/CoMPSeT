@@ -6749,7 +6749,7 @@ function $p_Lmpst_projection_FullMergeProjection$__isMergeable__sci_Set__sci_Set
                   if ((actionB$3 instanceof $c_Lmpst_syntax_Protocol$Recv)) {
                     var receiveB$3 = $as_Lmpst_syntax_Protocol$Recv(actionB$3);
                     if (((($n(x53).Lmpst_syntax_Protocol$Recv__f_sender !== $n(receiveB$3).Lmpst_syntax_Protocol$Recv__f_sender) || ($n(x53).Lmpst_syntax_Protocol$Recv__f_receiver !== $n(receiveB$3).Lmpst_syntax_Protocol$Recv__f_receiver)) || ($n(x53).Lmpst_syntax_Protocol$Recv__f_label !== $n(receiveB$3).Lmpst_syntax_Protocol$Recv__f_label))) {
-                      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), ((("[Full Merge] - could not merge [" + x53) + "] with [") + receiveB$3));
+                      throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (((("[Full Merge] - could not merge [" + x53) + "] with [") + receiveB$3) + "]"));
                     }
                   }
                   return $m_sci_Set$EmptySet$();

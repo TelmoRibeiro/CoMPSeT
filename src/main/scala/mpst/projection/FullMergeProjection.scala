@@ -74,7 +74,7 @@ object FullMergeProjection:
               case sendB: Send =>
                 throw RuntimeException(s"[Full Merge] - could not merge [$receiveA] with [$sendB]")
               case receiveB: Recv if receiveA.sender != receiveB.sender || receiveA.receiver != receiveB.receiver || receiveA.label != receiveB.label =>
-                throw RuntimeException(s"[Full Merge] - could not merge [$receiveA] with [$receiveB")
+                throw RuntimeException(s"[Full Merge] - could not merge [$receiveA] with [$receiveB]")
               case _ => Set.empty
             }
           }
