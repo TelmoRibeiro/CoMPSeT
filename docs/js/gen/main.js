@@ -23111,9 +23111,9 @@ function $c_Lmpst_frontend_auxiliary_Examples(setting, rootA, rootB) {
   var y$3 = $p_Lmpst_frontend_auxiliary_Examples__mkVeryGentleIntroMPST__T__Lcaos_frontend_Setting__Lcaos_frontend_Setting(this, rootA, setting);
   var setting$11 = new $c_s_Some(y$3);
   var $x_4 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)", "simple branching - v2 (VeryGentleIntroMPST)", "simple branching - v2 under the VeryGentleIntroMPST settings", setting$11);
-  var y$4 = $p_Lmpst_frontend_auxiliary_Examples__mkAPIGenInScala3__T__Lcaos_frontend_Setting__Lcaos_frontend_Setting(this, rootA, setting);
+  var y$4 = $p_Lmpst_frontend_auxiliary_Examples__mkVeryGentleIntroMPST__T__Lcaos_frontend_Setting__Lcaos_frontend_Setting(this, rootA, setting);
   var setting$12 = new $c_s_Some(y$4);
-  var $x_3 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit", "recursive controller-worker - v2 (APIGenInScala3)", "recursive controller-worker - v2 under the APIGenInScala3 settings", setting$12);
+  var $x_3 = new $c_Lcaos_frontend_Configurator$Example("def X in \n\tc->w:Work ; w->c:Done ; X\n\t\t+\n\tc->w:Quit", "recursive controller-worker - v2 (VeryGentleIntroMPST)", "recursive controller-worker - v2 under the VeryGentleIntroMPST settings", setting$12);
   var y$5 = $p_Lmpst_frontend_auxiliary_Examples__mkGentleIntroMPAsyncST__T__Lcaos_frontend_Setting__Lcaos_frontend_Setting(this, rootB, $p_Lmpst_frontend_auxiliary_Examples__mkVeryGentleIntroMPST__T__Lcaos_frontend_Setting__Lcaos_frontend_Setting(this, rootA, setting));
   var setting$13 = new $c_s_Some(y$5);
   var $x_2 = new $c_Lcaos_frontend_Configurator$Example("(pA->pB:TaskA ; pB->pC:TaskA)\n\t+\n(pA->pB:TaskB ; pB->pC:TaskB)", "simple branching - v2 (VeryGentleIntroMPST vs GentleIntroMPAsyncST)", "simple branching - v2 compared for both VeryGentleIntroMPST and GentleIntroMPAsyncST", setting$13);
