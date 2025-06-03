@@ -33,8 +33,8 @@ object CaosConfigurator extends Configurator[Global]:
   end widgets
 
   override val footer: String =
-    """Source code at: <a href="https://github.com/TelmoRibeiro/CoMPSeT">https://github.com/TelmoRibeiro/CoMPSeT</a>.<br>
+    """Source code at: <a href="https://github.com/TelmoRibeiro/CoMPSeT">CoMPSeT source</a>.<br>
       |The tool builds upon: <a href="https:/github.com/arcalab/CAOS">CAOS</a>.<br>
-      |It is concretely established over our extension of CAOS. available at: <a href="https:/github.com/TelmoRibeiro/CAOS">Extended CAOS</a>.
+      |It is concretely established over our extension of CAOS. available at: <a href="https:/github.com/TelmoRibeiro/CAOS">Extended CAOS source</a>.
       |""".stripMargin
 end CaosConfigurator
