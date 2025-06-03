@@ -14724,7 +14724,6 @@ function $p_Lmpst_frontend_CaosConfigurator$__mkSemantics__Lcaos_frontend_Settin
 /** @constructor */
 function $c_Lmpst_frontend_CaosConfigurator$() {
   this.Lmpst_frontend_CaosConfigurator$__f_documentation = null;
-  this.Lmpst_frontend_CaosConfigurator$__f_footer = null;
   this.Lmpst_frontend_CaosConfigurator$__f_name = null;
   this.Lmpst_frontend_CaosConfigurator$__f_languageName = null;
   this.Lmpst_frontend_CaosConfigurator$__f_parser = null;
@@ -14733,6 +14732,7 @@ function $c_Lmpst_frontend_CaosConfigurator$() {
   this.Lmpst_frontend_CaosConfigurator$__f_rootB = null;
   this.Lmpst_frontend_CaosConfigurator$__f_setting = null;
   this.Lmpst_frontend_CaosConfigurator$__f_examples = null;
+  this.Lmpst_frontend_CaosConfigurator$__f_footer = null;
   $n_Lmpst_frontend_CaosConfigurator$ = this;
   $f_Lcaos_frontend_Configurator__$init$__V(this);
   this.Lmpst_frontend_CaosConfigurator$__f_name = "CoMPSeT - Comparison of Multiparty Session Types";
@@ -14763,6 +14763,7 @@ function $c_Lmpst_frontend_CaosConfigurator$() {
   var rootA = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootA);
   var rootB = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootB);
   this.Lmpst_frontend_CaosConfigurator$__f_examples = new $c_Lmpst_frontend_auxiliary_Examples(setting, rootA, rootB).Lmpst_frontend_auxiliary_Examples__f_examples;
+  this.Lmpst_frontend_CaosConfigurator$__f_footer = $m_sc_StringOps$().stripMargin$extension__T__C__T("Source code at: <a href=\"https://github.com/TelmoRibeiro/CoMPSeT\">https://github.com/TelmoRibeiro/CoMPSeT</a>.<br>\r\n      |The tool builds upon: <a href=\"https:/github.com/arcalab/CAOS\">CAOS</a>.<br>\r\n      |It is concretely established over our extension of CAOS. available at: <a href=\"https:/github.com/TelmoRibeiro/CAOS\">Extended CAOS</a>.\r\n      |", 124);
 }
 $c_Lmpst_frontend_CaosConfigurator$.prototype = new $h_O();
 $c_Lmpst_frontend_CaosConfigurator$.prototype.constructor = $c_Lmpst_frontend_CaosConfigurator$;
@@ -14772,9 +14773,6 @@ function $h_Lmpst_frontend_CaosConfigurator$() {
 $h_Lmpst_frontend_CaosConfigurator$.prototype = $c_Lmpst_frontend_CaosConfigurator$.prototype;
 $c_Lmpst_frontend_CaosConfigurator$.prototype.documentation__Lcaos_frontend_Documentation = (function() {
   return this.Lmpst_frontend_CaosConfigurator$__f_documentation;
-});
-$c_Lmpst_frontend_CaosConfigurator$.prototype.footer__T = (function() {
-  return this.Lmpst_frontend_CaosConfigurator$__f_footer;
 });
 $c_Lmpst_frontend_CaosConfigurator$.prototype.caos$frontend$Configurator$_setter_$smallWidgets_$eq__sc_Iterable__V = (function(x$0) {
 });
@@ -14800,6 +14798,9 @@ $c_Lmpst_frontend_CaosConfigurator$.prototype.widgets__sci_Seq = (function() {
   var rootA = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootA);
   var rootB = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootB);
   return new $c_Lmpst_frontend_auxiliary_Widgets(rootA, rootB).sortedWidgets__sci_Seq();
+});
+$c_Lmpst_frontend_CaosConfigurator$.prototype.footer__T = (function() {
+  return this.Lmpst_frontend_CaosConfigurator$__f_footer;
 });
 $c_Lmpst_frontend_CaosConfigurator$.prototype.examples__sc_Iterable = (function() {
   return this.Lmpst_frontend_CaosConfigurator$__f_examples;
