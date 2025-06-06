@@ -116,6 +116,16 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> "recursive controller-worker - v2 under the GentleIntroMPAsyncST settings"
       -> mkGentleIntroMPAsyncST(rootA),
 
+    "simple branching - v2 (GentleIntroMPAsyncST)"
+      -> simpleBranchingV2
+      -> "simple branching - v2 under the GentleIntroMPAsyncST settings (fail)"
+      -> mkGentleIntroMPAsyncST(rootA),
+
+    "recursive controller-worker - v1 (VeryGentleIntroMPST)"
+      -> recursiveControllerWorkerV1
+      -> "recursive controller-worker - v1 under the VeryGentleIntroMPST settings (fail)"
+      -> mkVeryGentleIntroMPST(rootA),
+
     "simple branching - v2 (VeryGentleIntroMPST vs GentleIntroMPAsyncST)"
       -> simpleBranchingV2
       -> "simple branching - v2 compared for both VeryGentleIntroMPST and GentleIntroMPAsyncST"
