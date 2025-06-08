@@ -14763,7 +14763,7 @@ function $c_Lmpst_frontend_CaosConfigurator$() {
   var rootA = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootA);
   var rootB = ((this.Lmpst_frontend_CaosConfigurator$__f_root + ".") + this.Lmpst_frontend_CaosConfigurator$__f_rootB);
   this.Lmpst_frontend_CaosConfigurator$__f_examples = new $c_Lmpst_frontend_auxiliary_Examples(setting, rootA, rootB).Lmpst_frontend_auxiliary_Examples__f_examples;
-  this.Lmpst_frontend_CaosConfigurator$__f_footer = $m_sc_StringOps$().stripMargin$extension__T__C__T("Source code at: <a href=\"https://github.com/TelmoRibeiro/CoMPSeT\">CoMPSeT source</a>.<br>\r\n      |CoMPSeT builds upon: <a href=\"https://github.com/arcalab/CAOS\">CAOS source</a>.\r\n      |More concretely, our extension: <a href=\"https://github.com/TelmoRibeiro/CAOS\">Extended CAOS source</a>.\r\n      |", 124);
+  this.Lmpst_frontend_CaosConfigurator$__f_footer = $m_sc_StringOps$().stripMargin$extension__T__C__T("Source code at <a href=\"https://github.com/TelmoRibeiro/CoMPSeT\">CoMPSeT source</a>.<br>\r\n      |CoMPSeT builds upon <a href=\"https://github.com/arcalab/CAOS\">CAOS source</a>.\r\n      |More concretely, our extension <a href=\"https://github.com/TelmoRibeiro/CAOS\">extended CAOS source</a>.\r\n      |", 124);
 }
 $c_Lmpst_frontend_CaosConfigurator$.prototype = new $h_O();
 $c_Lmpst_frontend_CaosConfigurator$.prototype.constructor = $c_Lmpst_frontend_CaosConfigurator$;
