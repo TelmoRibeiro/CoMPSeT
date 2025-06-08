@@ -6232,8 +6232,8 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.constructor 
 function $h_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$() {
 }
 $h_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype = $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype;
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.accepting__sci_Set__sci_Map__Z = (function(localsWithParticipant, pending) {
-  return ($n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.accepting__sci_Set__sci_Map__Z = (function(locals, pending) {
+  return ($n(locals).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     if ((x$1$1 !== null)) {
       var local = $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O());
@@ -6242,26 +6242,26 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.accepting__s
     throw new $c_s_MatchError(x$1$1);
   }))) && $n(pending).isEmpty__Z());
 });
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.next__sci_Set__sci_Map__sci_Map__sci_Set = (function(localsWithParticipant, pending, environment) {
-  return $as_sci_Set($n(localsWithParticipant).flatMap__F1__O(new $c_sjsr_AnonFunction1(((localWithParticipant) => {
-    var localWithParticipant$1 = $as_T2(localWithParticipant);
-    return $as_sc_IterableOnce($n($m_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$().mpst$operational_semantic$Network$NetworkCausal$$$nextEntry__T2__sci_Map__sci_Map__sci_Set(localWithParticipant$1, pending, environment)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.next__sci_Set__sci_Map__sci_Map__sci_Set = (function(locals, pending, environment) {
+  return $as_sci_Set($n(locals).flatMap__F1__O(new $c_sjsr_AnonFunction1(((local) => {
+    var local$1 = $as_T2(local);
+    return $as_sc_IterableOnce($n($m_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$().mpst$operational_semantic$Network$NetworkCausal$$$localReduction__T2__sci_Map__sci_Map__sci_Set(local$1, pending, environment)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
       var x$1$1 = $as_T3(x$1);
       if ((x$1$1 !== null)) {
         var nextAction = $as_Lmpst_syntax_Protocol($n(x$1$1).T3__f__1);
-        var nextLocalWithParticipant = $as_T2($n(x$1$1).T3__f__2);
+        var nextLocal = $as_T2($n(x$1$1).T3__f__2);
         var nextPending = $as_sci_Map($n(x$1$1).T3__f__3);
-        var this$1 = $n(localsWithParticipant);
-        var this$2 = $n(this$1.excl__O__sci_SetOps(localWithParticipant$1));
-        var _2 = this$2.incl__O__sci_SetOps(nextLocalWithParticipant);
+        var this$1 = $n(locals);
+        var this$2 = $n(this$1.excl__O__sci_SetOps(local$1));
+        var _2 = this$2.incl__O__sci_SetOps(nextLocal);
         return new $c_T3(nextAction, _2, nextPending);
       }
       throw new $c_s_MatchError(x$1$1);
     }))));
   }))));
 });
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.mpst$operational_semantic$Network$NetworkCausal$$$nextEntry__T2__sci_Map__sci_Map__sci_Set = (function(localWithParticipant, pending, environment) {
-  var this$1 = $n($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set($as_Lmpst_syntax_Protocol($n(localWithParticipant)._2__O()), $as_sci_Map($n(environment).apply__O__O($n(localWithParticipant)._1__O()))));
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.mpst$operational_semantic$Network$NetworkCausal$$$localReduction__T2__sci_Map__sci_Map__sci_Set = (function(local, pending, environment) {
+  var this$1 = $n($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set($as_Lmpst_syntax_Protocol($n(local)._2__O()), $as_sci_Map($n(environment).apply__O__O($n(local)._1__O()))));
   var p = new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     return ((x$1$1 !== null) && ($as_Lmpst_syntax_Protocol($n(x$1$1)._1__O()), $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O()), true));
@@ -6281,7 +6281,7 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$.prototype.mpst$operati
     if ((x$1$4 !== null)) {
       var nextAction$2 = $as_Lmpst_syntax_Protocol($n(x$1$4)._1__O());
       var nextLocal$2 = $as_Lmpst_syntax_Protocol($n(x$1$4)._2__O());
-      var self = $n(localWithParticipant)._1__O();
+      var self = $n(local)._1__O();
       var ev$7 = $as_T(self);
       var _2 = new $c_T2(ev$7, nextLocal$2);
       var _3 = $p_Lmpst_operational\uff3fsemantic_Network$NetworkCausal$__nextPending$1__Lmpst_syntax_Protocol__sci_Map__sci_Map(this, nextAction$2, pending);
@@ -6332,8 +6332,8 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.construct
 function $h_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$() {
 }
 $h_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype = $c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype;
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.accepting__sci_Set__Lmpst_utility_Multiset__Z = (function(localsWithParticipant, pending) {
-  if ($n(localsWithParticipant).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.accepting__sci_Set__Lmpst_utility_Multiset__Z = (function(locals, pending) {
+  if ($n(locals).forall__F1__Z(new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     if ((x$1$1 !== null)) {
       var local = $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O());
@@ -6347,26 +6347,26 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.accepting
     return false;
   }
 });
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.next__sci_Set__Lmpst_utility_Multiset__sci_Map__sci_Set = (function(localsWithParticipant, pending, environment) {
-  return $as_sci_Set($n(localsWithParticipant).flatMap__F1__O(new $c_sjsr_AnonFunction1(((localWithParticipant) => {
-    var localWithParticipant$1 = $as_T2(localWithParticipant);
-    return $as_sc_IterableOnce($n($m_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$().mpst$operational_semantic$Network$NetworkNonCausal$$$nextEntry__T2__Lmpst_utility_Multiset__sci_Map__sci_Set(localWithParticipant$1, pending, environment)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.next__sci_Set__Lmpst_utility_Multiset__sci_Map__sci_Set = (function(locals, pending, environment) {
+  return $as_sci_Set($n(locals).flatMap__F1__O(new $c_sjsr_AnonFunction1(((local) => {
+    var local$1 = $as_T2(local);
+    return $as_sc_IterableOnce($n($m_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$().mpst$operational_semantic$Network$NetworkNonCausal$$$nextReduction__T2__Lmpst_utility_Multiset__sci_Map__sci_Set(local$1, pending, environment)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
       var x$1$1 = $as_T3(x$1);
       if ((x$1$1 !== null)) {
         var nextAction = $as_Lmpst_syntax_Protocol($n(x$1$1).T3__f__1);
-        var nextLocalWithParticipant = $as_T2($n(x$1$1).T3__f__2);
+        var nextLocal = $as_T2($n(x$1$1).T3__f__2);
         var nextPending = $as_Lmpst_utility_Multiset($n(x$1$1).T3__f__3);
-        var this$1 = $n(localsWithParticipant);
-        var this$2 = $n(this$1.excl__O__sci_SetOps(localWithParticipant$1));
-        var _2 = this$2.incl__O__sci_SetOps(nextLocalWithParticipant);
+        var this$1 = $n(locals);
+        var this$2 = $n(this$1.excl__O__sci_SetOps(local$1));
+        var _2 = this$2.incl__O__sci_SetOps(nextLocal);
         return new $c_T3(nextAction, _2, nextPending);
       }
       throw new $c_s_MatchError(x$1$1);
     }))));
   }))));
 });
-$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.mpst$operational_semantic$Network$NetworkNonCausal$$$nextEntry__T2__Lmpst_utility_Multiset__sci_Map__sci_Set = (function(localWithParticipant, pending, environment) {
-  var this$1 = $n($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set($as_Lmpst_syntax_Protocol($n(localWithParticipant)._2__O()), $as_sci_Map($n(environment).apply__O__O($n(localWithParticipant)._1__O()))));
+$c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.mpst$operational_semantic$Network$NetworkNonCausal$$$nextReduction__T2__Lmpst_utility_Multiset__sci_Map__sci_Set = (function(local, pending, environment) {
+  var this$1 = $n($m_Lmpst_operational\uff3fsemantic_MPSTSemantic$().next__Lmpst_syntax_Protocol__sci_Map__sci_Set($as_Lmpst_syntax_Protocol($n(local)._2__O()), $as_sci_Map($n(environment).apply__O__O($n(local)._1__O()))));
   var p = new $c_sjsr_AnonFunction1(((x$1) => {
     var x$1$1 = $as_T2(x$1);
     return ((x$1$1 !== null) && ($as_Lmpst_syntax_Protocol($n(x$1$1)._1__O()), $as_Lmpst_syntax_Protocol($n(x$1$1)._2__O()), true));
@@ -6386,7 +6386,7 @@ $c_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$.prototype.mpst$oper
     if ((x$1$4 !== null)) {
       var nextAction$2 = $as_Lmpst_syntax_Protocol($n(x$1$4)._1__O());
       var nextLocal$2 = $as_Lmpst_syntax_Protocol($n(x$1$4)._2__O());
-      var self = $n(localWithParticipant)._1__O();
+      var self = $n(local)._1__O();
       var ev$8 = $as_T(self);
       var _2 = new $c_T2(ev$8, nextLocal$2);
       var _3 = $p_Lmpst_operational\uff3fsemantic_Network$NetworkNonCausal$__nextPending$2__Lmpst_syntax_Protocol__Lmpst_utility_Multiset__Lmpst_utility_Multiset(this, nextAction$2, pending);

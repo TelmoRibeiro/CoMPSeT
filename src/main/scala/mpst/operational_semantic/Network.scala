@@ -11,20 +11,24 @@ object Network:
   object NetworkCausal:
     type ChannelQueue = Map[(Participant, Participant), Queue[Label]]
 
-    def accepting(localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue): Boolean =
-      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) } && pending.isEmpty
+    def accepting(locals: Set[(Participant, Local)], pending: ChannelQueue): Boolean =
+      locals.forall{ case _ -> local => MPSTSemantic.accepting(local) } && pending.isEmpty
     end accepting
 
-    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: ChannelQueue)(using environment: Environment): Set[(A, Set[(Participant, Local)], ChannelQueue)] =
-      localsWithParticipant.flatMap( localWithParticipant =>
-        nextEntry(localWithParticipant, pending).map {
-          case (nextAction, nextLocalWithParticipant, nextPending) =>
-            (nextAction, localsWithParticipant - localWithParticipant + nextLocalWithParticipant, nextPending)
+    private type CausalLocalsReductions = Set[(Action, Set[(Participant, Local)], ChannelQueue)]
+
+    def next[A >: Action](locals: Set[(Participant, Local)], pending: ChannelQueue)(using environment: Environment): CausalLocalsReductions =
+      locals.flatMap(local =>
+        localReduction(local, pending).map {
+          case (nextAction, nextLocal, nextPending) =>
+            (nextAction, locals - local + nextLocal, nextPending)
         }
       )
     end next
 
-    private def nextEntry(localWithParticipant: (Participant, Local), pending: ChannelQueue)(using environment: Environment): Set[(Action, (Participant, Local), ChannelQueue)] =
+    private type CausalLocalReductions = Set[(Action, (Participant, Local), ChannelQueue)]
+
+    private def localReduction(local: (Participant, Local), pending: ChannelQueue)(using environment: Environment): CausalLocalReductions =
       def notBlocked(action: Action, pending: ChannelQueue): Boolean = action match
         case _: Send => true
         case recvAction: Recv =>
@@ -41,28 +45,32 @@ object Network:
           if updatedQueue.isEmpty then pending - key else pending + (key -> updatedQueue)
       end nextPending
 
-      for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1))
+      for nextAction -> nextLocal <- MPSTSemantic.next(local._2)(using environment(local._1))
         if notBlocked(nextAction, pending)
-      yield (nextAction, localWithParticipant._1 -> nextLocal, nextPending(nextAction, pending))
-    end nextEntry
+      yield (nextAction, local._1 -> nextLocal, nextPending(nextAction, pending))
+    end localReduction
   end NetworkCausal
 
 
   object NetworkNonCausal:
-    def accepting(localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action]): Boolean =
-      localsWithParticipant.forall{ case _ -> local => MPSTSemantic.accepting(local) } && pending.isEmpty
+    def accepting(locals: Set[(Participant, Local)], pending: Multiset[Action]): Boolean =
+      locals.forall{ case _ -> local => MPSTSemantic.accepting(local) } && pending.isEmpty
     end accepting
 
-    def next[A >: Action](localsWithParticipant: Set[(Participant, Local)], pending: Multiset[Action])(using environment: Environment): Set[(A, Set[(Participant, Local)], Multiset[Action])] =
-      localsWithParticipant.flatMap (
-        localWithParticipant => nextEntry(localWithParticipant, pending).map {
-          case (nextAction, nextLocalWithParticipant, nextPending) =>
-            (nextAction, localsWithParticipant - localWithParticipant + nextLocalWithParticipant, nextPending)
+    private type NonCausalLocalsReductions = Set[(Action, Set[(Participant, Local)], Multiset[Action])]
+
+    def next[A >: Action](locals: Set[(Participant, Local)], pending: Multiset[Action])(using environment: Environment): NonCausalLocalsReductions =
+      locals.flatMap (
+        local => nextReduction(local, pending).map {
+          case (nextAction, nextLocal, nextPending) =>
+            (nextAction, locals - local + nextLocal, nextPending)
         }
       )
     end next
 
-    private def nextEntry(localWithParticipant: (Participant, Local), pending: Multiset[Action])(using environment: Environment): Set[(Action, (Participant, Local), Multiset[Action])] =
+    private type NonCausalLocalReductions = Set[(Action, (Participant, Local), Multiset[Action])]
+
+    private def nextReduction(local: (Participant, Local), pending: Multiset[Action])(using environment: Environment): NonCausalLocalReductions =
       def notBlocked(action: Action, pending: Multiset[Action]): Boolean = action match
         case _: Send => true
         case recvAction: Recv => pending contains matchingAction(recvAction)
@@ -73,9 +81,9 @@ object Network:
         case recvAction: Recv => pending - matchingAction(recvAction)
       end nextPending
 
-      for nextAction -> nextLocal <- MPSTSemantic.next(localWithParticipant._2)(using environment(localWithParticipant._1))
+      for nextAction -> nextLocal <- MPSTSemantic.next(local._2)(using environment(local._1))
         if notBlocked(nextAction, pending)
-      yield (nextAction, localWithParticipant._1 -> nextLocal, nextPending(nextAction, pending))
-    end nextEntry
+      yield (nextAction, local._1 -> nextLocal, nextPending(nextAction, pending))
+    end nextReduction
   end NetworkNonCausal
 end Network
