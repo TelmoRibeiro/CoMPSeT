@@ -7467,6 +7467,108 @@ function $m_Lmpst_utility_Environment$() {
   }
   return $n_Lmpst_utility_Environment$;
 }
+function $p_Lmpst_wellformedness_KleeneStarProjectable$__isKleeneStarProjectable__Lmpst_syntax_Protocol__Z($thiz, global) {
+  var global$tailLocal1 = global;
+  while (true) {
+    var x3 = global$tailLocal1;
+    matchAlts1: {
+      matchAlts2: {
+        if ((x3 instanceof $c_Lmpst_syntax_Protocol$Interaction)) {
+          break matchAlts2;
+        }
+        if (((x3 instanceof $c_Lmpst_syntax_Protocol$Send) || (x3 instanceof $c_Lmpst_syntax_Protocol$Recv))) {
+          break matchAlts2;
+        }
+        var x = $s_Lmpst_syntax_Protocol$__Skip__Lmpst_syntax_Protocol();
+        if (((x === null) ? (x3 === null) : $n(x).equals__O__Z(x3))) {
+          break matchAlts2;
+        }
+        if ((x3 instanceof $c_Lmpst_syntax_Protocol$RecursionCall)) {
+          break matchAlts2;
+        }
+        break matchAlts1;
+      }
+      return true;
+    }
+    if ((x3 instanceof $c_Lmpst_syntax_Protocol$Sequence)) {
+      var x$1 = $as_Lmpst_syntax_Protocol$Sequence(x3);
+      var this$2 = $n(x$1);
+      var x21 = this$2.Lmpst_syntax_Protocol$Sequence__f_protocolA;
+      var this$3 = $n(x$1);
+      var x22 = this$3.Lmpst_syntax_Protocol$Sequence__f_protocolB;
+      if ((x21 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+        throw $ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), (("KP-consistent check is not yet supported for [" + global$tailLocal1) + "]"));
+      }
+      if ($p_Lmpst_wellformedness_KleeneStarProjectable$__isKleeneStarProjectable__Lmpst_syntax_Protocol__Z($thiz, x21)) {
+        global$tailLocal1 = x22;
+        continue;
+      } else {
+        return false;
+      }
+    }
+    if ((x3 instanceof $c_Lmpst_syntax_Protocol$Parallel)) {
+      var x$1$1 = $as_Lmpst_syntax_Protocol$Parallel(x3);
+      var this$5 = $n(x$1$1);
+      var x17 = this$5.Lmpst_syntax_Protocol$Parallel__f_protocolA;
+      var this$6 = $n(x$1$1);
+      var x18 = this$6.Lmpst_syntax_Protocol$Parallel__f_protocolB;
+      if ($p_Lmpst_wellformedness_KleeneStarProjectable$__isKleeneStarProjectable__Lmpst_syntax_Protocol__Z($thiz, x17)) {
+        global$tailLocal1 = x18;
+        continue;
+      } else {
+        return false;
+      }
+    }
+    if ((x3 instanceof $c_Lmpst_syntax_Protocol$Choice)) {
+      var x$1$2 = $as_Lmpst_syntax_Protocol$Choice(x3);
+      var this$8 = $n(x$1$2);
+      var x13 = this$8.Lmpst_syntax_Protocol$Choice__f_protocolA;
+      var this$9 = $n(x$1$2);
+      var x14 = this$9.Lmpst_syntax_Protocol$Choice__f_protocolB;
+      if ($p_Lmpst_wellformedness_KleeneStarProjectable$__isKleeneStarProjectable__Lmpst_syntax_Protocol__Z($thiz, x13)) {
+        global$tailLocal1 = x14;
+        continue;
+      } else {
+        return false;
+      }
+    }
+    if ((x3 instanceof $c_Lmpst_syntax_Protocol$RecursionFixedPoint)) {
+      var x$1$3 = $as_Lmpst_syntax_Protocol$RecursionFixedPoint(x3);
+      $n(x$1$3);
+      var this$12 = $n(x$1$3);
+      var x10 = this$12.Lmpst_syntax_Protocol$RecursionFixedPoint__f_protocolB;
+      global$tailLocal1 = x10;
+      continue;
+    }
+    if ((x3 instanceof $c_Lmpst_syntax_Protocol$RecursionKleeneStar)) {
+      var x$1$4 = $as_Lmpst_syntax_Protocol$RecursionKleeneStar(x3);
+      var this$14 = $n(x$1$4);
+      var x6 = this$14.Lmpst_syntax_Protocol$RecursionKleeneStar__f_protocolA;
+      global$tailLocal1 = x6;
+      continue;
+    }
+    throw new $c_s_MatchError(x3);
+  }
+}
+/** @constructor */
+function $c_Lmpst_wellformedness_KleeneStarProjectable$() {
+}
+$c_Lmpst_wellformedness_KleeneStarProjectable$.prototype = new $h_O();
+$c_Lmpst_wellformedness_KleeneStarProjectable$.prototype.constructor = $c_Lmpst_wellformedness_KleeneStarProjectable$;
+/** @constructor */
+function $h_Lmpst_wellformedness_KleeneStarProjectable$() {
+}
+$h_Lmpst_wellformedness_KleeneStarProjectable$.prototype = $c_Lmpst_wellformedness_KleeneStarProjectable$.prototype;
+var $d_Lmpst_wellformedness_KleeneStarProjectable$ = new $TypeData().initClass($c_Lmpst_wellformedness_KleeneStarProjectable$, "mpst.wellformedness.KleeneStarProjectable$", ({
+  Lmpst_wellformedness_KleeneStarProjectable$: 1
+}));
+var $n_Lmpst_wellformedness_KleeneStarProjectable$;
+function $m_Lmpst_wellformedness_KleeneStarProjectable$() {
+  if ((!$n_Lmpst_wellformedness_KleeneStarProjectable$)) {
+    $n_Lmpst_wellformedness_KleeneStarProjectable$ = new $c_Lmpst_wellformedness_KleeneStarProjectable$();
+  }
+  return $n_Lmpst_wellformedness_KleeneStarProjectable$;
+}
 function $p_Lmpst_wellformedness_WellBounded$__getBoundedVariables__Lmpst_syntax_Protocol__sci_Set__sci_Set($thiz, global, boundedVariables) {
   var boundedVariables$tailLocal1 = boundedVariables;
   var global$tailLocal1 = global;
@@ -23211,91 +23313,103 @@ function $p_Lmpst_frontend_auxiliary_Widgets__widgets__sci_Seq($thiz) {
     return $m_Lmpst_frontend_auxiliary_view_MessageSequenceChart$().apply__Lmpst_syntax_Protocol__T(global$1);
   })), $m_Lcaos_view_Mermaid$());
   var y = new $c_s_Some(value);
-  var $x_2 = new $c_T2("Message Sequence Chart", y);
+  var $x_3 = new $c_T2("Message Sequence Chart", y);
   var value$1 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((global$2) => {
     var global$3 = $as_Lmpst_syntax_Protocol(global$2);
     return ("" + $n(global$3).toString__T());
   })), new $c_Lcaos_view_Code("java"));
   var y$1 = new $c_s_Some(value$1);
-  var $x_1 = new $c_T2("Global", y$1);
+  var $x_2 = new $c_T2("Global", y$1);
   var a = new $c_sjsr_AnonFunction1(((global$3$1) => {
     var global$4 = $as_Lmpst_syntax_Protocol(global$3$1);
     return ((!$m_Lmpst_wellformedness_WellBounded$().apply__Lmpst_syntax_Protocol__Z(global$4)) ? new $c_sci_$colon$colon((("[" + global$4) + "] is not well bounded"), $m_sci_Nil$()) : $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps()));
   }));
   var value$2 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
   var y$2 = new $c_s_Some(value$2);
-  var this$18 = new $c_sci_$colon$colon($x_2, new $c_sci_$colon$colon($x_1, new $c_sci_$colon$colon(new $c_T2("Well Bounded", y$2), $m_sci_Nil$())));
+  var $x_1 = new $c_T2("Well Bounded", y$2);
+  var a$1 = new $c_sjsr_AnonFunction1(((global$4$1) => {
+    var global$5 = $as_Lmpst_syntax_Protocol(global$4$1);
+    var this$14 = $m_Lmpst_wellformedness_KleeneStarProjectable$();
+    if ((!$p_Lmpst_wellformedness_KleeneStarProjectable$__isKleeneStarProjectable__Lmpst_syntax_Protocol__Z(this$14, global$5))) {
+      return new $c_sci_$colon$colon((("[" + global$5) + "] is not KP-consistent"), $m_sci_Nil$());
+    } else {
+      return $as_sci_Seq($m_sci_Seq$().empty__sc_SeqOps());
+    }
+  }));
+  var value$3 = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a$1);
+  var y$3 = new $c_s_Some(value$3);
+  var this$24 = new $c_sci_$colon$colon($x_3, new $c_sci_$colon$colon($x_2, new $c_sci_$colon$colon($x_1, new $c_sci_$colon$colon(new $c_T2("Kleene Star Projectable", y$3), $m_sci_Nil$()))));
   var f = ((root) => {
     var root$1 = $as_T(root);
     return $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__s_Option($thiz, root$1);
   });
   var arg1 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$3 = f(arg1);
-  var $x_3 = new $c_T2("Semantics A: Well Channeled", y$3);
+  var y$4 = f(arg1);
+  var $x_4 = new $c_T2("Semantics A: Well Channeled", y$4);
   var arg1$1 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$4 = f(arg1$1);
-  var suffix = new $c_sci_$colon$colon($x_3, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Channeled", y$4), $m_sci_Nil$()));
-  var this$23 = $n(this$18.appendedAll__sc_IterableOnce__sci_List(suffix));
+  var y$5 = f(arg1$1);
+  var suffix = new $c_sci_$colon$colon($x_4, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Channeled", y$5), $m_sci_Nil$()));
+  var this$29 = $n(this$24.appendedAll__sc_IterableOnce__sci_List(suffix));
   var f$1 = ((root$2) => {
     var root$3 = $as_T(root$2);
     return $p_Lmpst_frontend_auxiliary_Widgets__mkWellBranched__T__s_Option($thiz, root$3);
   });
   var arg1$2 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$5 = f$1(arg1$2);
-  var $x_4 = new $c_T2("Semantics A: Well Branched", y$5);
+  var y$6 = f$1(arg1$2);
+  var $x_5 = new $c_T2("Semantics A: Well Branched", y$6);
   var arg1$3 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$6 = f$1(arg1$3);
-  var suffix$1 = new $c_sci_$colon$colon($x_4, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Branched", y$6), $m_sci_Nil$()));
-  var this$28 = $n(this$23.appendedAll__sc_IterableOnce__sci_List(suffix$1));
+  var y$7 = f$1(arg1$3);
+  var suffix$1 = new $c_sci_$colon$colon($x_5, new $c_sci_$colon$colon(new $c_T2("Semantics B: Well Branched", y$7), $m_sci_Nil$()));
+  var this$34 = $n(this$29.appendedAll__sc_IterableOnce__sci_List(suffix$1));
   var f$2 = ((root$3$1) => {
     var root$4 = $as_T(root$3$1);
     return $p_Lmpst_frontend_auxiliary_Widgets__mkLocals__T__s_Option($thiz, root$4);
   });
   var arg1$4 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$7 = f$2(arg1$4);
-  var $x_5 = new $c_T2("Semantics A: Locals", y$7);
+  var y$8 = f$2(arg1$4);
+  var $x_6 = new $c_T2("Semantics A: Locals", y$8);
   var arg1$5 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$8 = f$2(arg1$5);
-  var suffix$2 = new $c_sci_$colon$colon($x_5, new $c_sci_$colon$colon(new $c_T2("Semantics B: Locals", y$8), $m_sci_Nil$()));
-  var this$33 = $n(this$28.appendedAll__sc_IterableOnce__sci_List(suffix$2));
+  var y$9 = f$2(arg1$5);
+  var suffix$2 = new $c_sci_$colon$colon($x_6, new $c_sci_$colon$colon(new $c_T2("Semantics B: Locals", y$9), $m_sci_Nil$()));
+  var this$39 = $n(this$34.appendedAll__sc_IterableOnce__sci_List(suffix$2));
   var f$3 = ((root$4$1) => {
     var root$5 = $as_T(root$4$1);
     return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalFSM__T__s_Option($thiz, root$5);
   });
   var arg1$6 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$9 = f$3(arg1$6);
-  var $x_6 = new $c_T2("Semantics A: Local FSMs", y$9);
+  var y$10 = f$3(arg1$6);
+  var $x_7 = new $c_T2("Semantics A: Local FSMs", y$10);
   var arg1$7 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$10 = f$3(arg1$7);
-  var suffix$3 = new $c_sci_$colon$colon($x_6, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local FSMs", y$10), $m_sci_Nil$()));
-  var this$38 = $n(this$33.appendedAll__sc_IterableOnce__sci_List(suffix$3));
+  var y$11 = f$3(arg1$7);
+  var suffix$3 = new $c_sci_$colon$colon($x_7, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local FSMs", y$11), $m_sci_Nil$()));
+  var this$44 = $n(this$39.appendedAll__sc_IterableOnce__sci_List(suffix$3));
   var f$4 = ((root$5$1) => {
     var root$6 = $as_T(root$5$1);
     return $p_Lmpst_frontend_auxiliary_Widgets__mkLocalCompositionalFSM__T__s_Option($thiz, root$6);
   });
   var arg1$8 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$11 = f$4(arg1$8);
-  var $x_7 = new $c_T2("Semantics A: Local Compositional FSM", y$11);
+  var y$12 = f$4(arg1$8);
+  var $x_8 = new $c_T2("Semantics A: Local Compositional FSM", y$12);
   var arg1$9 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$12 = f$4(arg1$9);
-  var suffix$4 = new $c_sci_$colon$colon($x_7, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Compositional FSM", y$12), $m_sci_Nil$()));
-  var this$43 = $n(this$38.appendedAll__sc_IterableOnce__sci_List(suffix$4));
+  var y$13 = f$4(arg1$9);
+  var suffix$4 = new $c_sci_$colon$colon($x_8, new $c_sci_$colon$colon(new $c_T2("Semantics B: Local Compositional FSM", y$13), $m_sci_Nil$()));
+  var this$49 = $n(this$44.appendedAll__sc_IterableOnce__sci_List(suffix$4));
   var f$5 = ((root$6$1) => {
     var root$7 = $as_T(root$6$1);
     return $p_Lmpst_frontend_auxiliary_Widgets__mkStepsBySteps__T__s_Option($thiz, root$7);
   });
   var arg1$10 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
-  var y$13 = f$5(arg1$10);
-  var $x_8 = new $c_T2("Semantics A: Step-by-Step", y$13);
+  var y$14 = f$5(arg1$10);
+  var $x_9 = new $c_T2("Semantics A: Step-by-Step", y$14);
   var arg1$11 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$14 = f$5(arg1$11);
-  var suffix$5 = new $c_sci_$colon$colon($x_8, new $c_sci_$colon$colon(new $c_T2("Semantics B: Step-by-Step", y$14), $m_sci_Nil$()));
-  var this$46 = $n(this$43.appendedAll__sc_IterableOnce__sci_List(suffix$5));
+  var y$15 = f$5(arg1$11);
+  var suffix$5 = new $c_sci_$colon$colon($x_9, new $c_sci_$colon$colon(new $c_T2("Semantics B: Step-by-Step", y$15), $m_sci_Nil$()));
+  var this$52 = $n(this$49.appendedAll__sc_IterableOnce__sci_List(suffix$5));
   var arg1$12 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootA;
   var arg2 = $thiz.Lmpst_frontend_auxiliary_Widgets__f_rootB;
-  var y$15 = $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option($thiz, arg1$12, arg2);
-  var suffix$6 = new $c_sci_$colon$colon(new $c_T2("Bisimulation", y$15), $m_sci_Nil$());
-  return this$46.appendedAll__sc_IterableOnce__sci_List(suffix$6);
+  var y$16 = $p_Lmpst_frontend_auxiliary_Widgets__mkBisimulation__T__T__s_Option($thiz, arg1$12, arg2);
+  var suffix$6 = new $c_sci_$colon$colon(new $c_T2("Bisimulation", y$16), $m_sci_Nil$());
+  return this$52.appendedAll__sc_IterableOnce__sci_List(suffix$6);
 }
 function $p_Lmpst_frontend_auxiliary_Widgets__mkWellChanneled__T__s_Option($thiz, root) {
   var cond = $n($p_Lmpst_frontend_auxiliary_Widgets__enabledExtraRequirements__T__sci_Set($thiz, root)).exists__F1__Z(new $c_sjsr_AnonFunction1(((_$1) => {

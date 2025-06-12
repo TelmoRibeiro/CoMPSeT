@@ -15,7 +15,7 @@ import mpst.projection.{FullMergeProjection, PlainMergeProjection}
 import mpst.syntax.Protocol.*
 import mpst.utility.Environment.{Environment, SingleEnvironment, localsEnvironment}
 import mpst.utility.Multiset
-import mpst.wellformedness.{WellBounded, WellBranched, WellChanneled}
+import mpst.wellformedness.{WellBounded, WellBranched, WellChanneled, KleeneStarProjectable}
 
 
 case class Widgets(rootA: String, rootB: String):
@@ -52,6 +52,11 @@ case class Widgets(rootA: String, rootB: String):
     "Well Bounded" -> Some(
       check((global: Global) =>
         if !WellBounded(global) then Seq(s"[$global] is not well bounded") else Seq.empty
+      )
+    ),
+    "Kleene Star Projectable" -> Some(
+      check((global: Global) =>
+        if !KleeneStarProjectable(global) then Seq(s"[$global] is not KP-consistent") else Seq.empty
       )
     ),
   ) ++ mkWidgetsForAll(
