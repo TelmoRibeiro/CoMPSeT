@@ -99,21 +99,21 @@ case class Widgets(rootA: String, rootB: String):
   )
   end mkWidgetsFromAll
 
-  private def mkWellChanneled(root: String): Option[WidgetInfo[Global]] = Option.when(enabledExtraRequirements(root).exists(_.name == "Well Channeled")) {
+  private def mkWellChanneled(root: String): Option[WidgetInfo[Global]] = Option.when(enabledExtraRequirements(root).exists(_.name.get == "Well Channeled")) {
     check((global: Global) =>
       if !WellChanneled(global) then Seq(s"[$global] is not well channeled") else Seq.empty
     )
   }
   end mkWellChanneled
 
-  private def mkWellBranched(root: String): Option[WidgetInfo[Global]] = Option.when(enabledExtraRequirements(root).exists(_.name == "Well Branched")) {
+  private def mkWellBranched(root: String): Option[WidgetInfo[Global]] = Option.when(enabledExtraRequirements(root).exists(_.name.get == "Well Branched")) {
     check((global: Global) =>
       if !WellBranched(global) then Seq(s"[$global] is not well branched") else Seq.empty
     )
   }
   end mkWellBranched
 
-  private def mkLocals(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge Criteria")) {
+  private def mkLocals(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name.get == "Merge Criteria")) {
     view((global: Global) =>
       localsWithParticipant(root)(using global).map {
         case participant -> local => s"$participant: ${local.toSimpleString}"
@@ -123,7 +123,7 @@ case class Widgets(rootA: String, rootB: String):
   }
   end mkLocals
 
-  private def mkLocalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge Criteria")) {
+  private def mkLocalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name.get == "Merge Criteria")) {
     viewMerms((global: Global) =>
       val environment: Environment = localsEnvironment(global)
       localsWithParticipant(root)(using global).map { case participant -> local =>
@@ -188,7 +188,7 @@ case class Widgets(rootA: String, rootB: String):
       }.mkString("\n")
     end getShowState
 
-    enabledCommunicationModel.name match
+    enabledCommunicationModel.name.get match
       case "Synchronous" => (
         SyncTraverseWrapper.asInstanceOf[SOS[Action, State]],
         (global: Global) => initialStateSync(root)(using global),
@@ -209,9 +209,9 @@ case class Widgets(rootA: String, rootB: String):
 
   private def localsWithParticipant(root: String)(using global: Global): Set[(Participant, Local)] =
     val localsWithParticipantOption = enabledMerges(root) match
-      case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Plain") =>
         Some(PlainMergeProjection.projectionWithParticipant(global))
-      case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Full") =>
         Some(FullMergeProjection.projectionWithParticipant(global))
       case _ => None
     val localsWithParticipant = localsWithParticipantOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
@@ -221,9 +221,9 @@ case class Widgets(rootA: String, rootB: String):
 
   private def initialStateSync(root: String)(using global: Global): (Set[(Participant, Local)], Option[Recv], Environment) =
     val initialStateOption = enabledMerges(root) match
-      case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
-      case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Full") =>
         Some((FullMergeProjection.projectionWithParticipant(global), None, localsEnvironment(global)))
       case _ => None
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled"))
@@ -233,9 +233,9 @@ case class Widgets(rootA: String, rootB: String):
 
   private def initialStateAsyncCS(root: String)(using global: Global): (Set[(Participant, Local)], ChannelQueue, Environment) =
     val initialStateOption = enabledMerges(root) match
-      case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
-      case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Full") =>
         Some((FullMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
       case _ => None
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
@@ -245,9 +245,9 @@ case class Widgets(rootA: String, rootB: String):
 
   private def initialStateAsyncNCS(root: String)(using global: Global): (Set[(Participant, Local)], Multiset[Action], Environment) =
     val initialStateOption = enabledMerges(root) match
-      case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
-      case enabledMerge if enabledMerge.exists(_.name == "Full") =>
+      case enabledMerge if enabledMerge.exists(_.name.get == "Full") =>
         Some((FullMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
       case _ => None
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
@@ -256,9 +256,9 @@ case class Widgets(rootA: String, rootB: String):
   end initialStateAsyncNCS
 
   private def checkLocalsAgainstAllConditions(root: String, localsWithParticipant: Set[(Participant, Local)]): Unit =
-    checkLocalsAgainstCondition(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom(root).exists(_.name == "Parallel Composition"), "Parallel Composition")
-    checkLocalsAgainstCondition(localsWithParticipant, hasKleeneStarRecursion, !enabledRecursions(root).exists(_.name == "Kleene Star"), "Recursion Kleene Star")
-    checkLocalsAgainstCondition(localsWithParticipant, hasFixedPointRecursion, !enabledRecursions(root).exists(_.name == "Fixed Point"), "Recursion Fixed Point")
+    checkLocalsAgainstCondition(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom(root).exists(_.name.get == "Parallel Composition"), "Parallel Composition")
+    checkLocalsAgainstCondition(localsWithParticipant, hasKleeneStarRecursion, !enabledRecursions(root).exists(_.name.get == "Kleene Star"), "Recursion Kleene Star")
+    checkLocalsAgainstCondition(localsWithParticipant, hasFixedPointRecursion, !enabledRecursions(root).exists(_.name.get == "Fixed Point"), "Recursion Fixed Point")
   end checkLocalsAgainstAllConditions
 
   private def checkLocalsAgainstCondition(localsWithParticipant: Set[(Participant, Local)], localCondition: Local => Boolean, settingCondition: => Boolean, prefix: String): Unit =

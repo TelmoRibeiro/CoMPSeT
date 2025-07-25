@@ -24,7 +24,7 @@ object CaosConfigurator extends Configurator[Global]:
     "Merge Criteria" -> ("Plain" || "Full") && "Communication Model" -> ("Synchronous" || "Causal Asynchronous" || "Non-Causal Asynchronous") && "Parallel Composition" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
   end mkSemantics
 
-  override val setting: Setting = Setting(root, List(s"$rootA" -> mkSemantics, s"$rootB" -> mkSemantics), options = List("allowAll"))
+  override val setting: Setting = Setting(Some(root), List(s"$rootA" -> mkSemantics, s"$rootB" -> mkSemantics), options = List("allowAll"))
 
   override val examples: Seq[Example] = Examples(setting, s"$root.$rootA", s"$root.$rootB").examples
 
