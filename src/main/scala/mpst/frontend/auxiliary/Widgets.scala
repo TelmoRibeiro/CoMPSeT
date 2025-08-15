@@ -113,7 +113,7 @@ case class Widgets(rootA: String, rootB: String):
   }
   end mkWellBranched
 
-  private def mkLocals(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge Criteria")) {
+  private def mkLocals(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allFrom(root, _.checked).exists(_.name == "Merge Criteria")) {
     view((global: Global) =>
       localsWithParticipant(root)(using global).map {
         case participant -> local => s"$participant: ${local.toSimpleString}"
@@ -123,7 +123,7 @@ case class Widgets(rootA: String, rootB: String):
   }
   end mkLocals
 
-  private def mkLocalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allActiveFrom(root).exists(_.name == "Merge Criteria")) {
+  private def mkLocalFSM(root: String): Option[WidgetInfo[Global]] = Option.when(getSetting.allFrom(root, _.checked).exists(_.name == "Merge Criteria")) {
     viewMerms((global: Global) =>
       val environment: Environment = localsEnvironment(global)
       localsWithParticipant(root)(using global).map { case participant -> local =>
