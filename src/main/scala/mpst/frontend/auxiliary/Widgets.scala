@@ -194,14 +194,14 @@ case class Widgets(rootA: String, rootB: String):
         (global: Global) => initialStateSync(root)(using global),
         getShowState,
       )
-      case "Causal Asynchronous" => (
+      case "Ordered Asynchronous" => (
         NetworkCausal.asInstanceOf[SOS[Action, State]],
-        (global: Global) => initialStateAsyncCS(root)(using global),
+        (global: Global) => initialStateAsyncOrdered(root)(using global),
         getShowState,
       )
-      case "Non-Causal Asynchronous" => (
+      case "Unordered Asynchronous" => (
         NetworkNonCausal.asInstanceOf[SOS[Action, State]],
-        (global: Global) => initialStateAsyncNCS(root)(using global),
+        (global: Global) => initialStateAsyncUnordered(root)(using global),
         getShowState,
       )
       case other => throw RuntimeException(s"unexpected communication model [$other] found")
@@ -231,7 +231,7 @@ case class Widgets(rootA: String, rootB: String):
     initialState
   end initialStateSync
 
-  private def initialStateAsyncCS(root: String)(using global: Global): (Set[(Participant, Local)], ChannelQueue, Environment) =
+  private def initialStateAsyncOrdered(root: String)(using global: Global): (Set[(Participant, Local)], ChannelQueue, Environment) =
     val initialStateOption = enabledMerges(root) match
       case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), Map.empty, localsEnvironment(global)))
@@ -241,9 +241,9 @@ case class Widgets(rootA: String, rootB: String):
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], ChannelQueue, Environment)]
     checkLocalsAgainstAllConditions(root, initialState._1)
     initialState
-  end initialStateAsyncCS
+  end initialStateAsyncOrdered
 
-  private def initialStateAsyncNCS(root: String)(using global: Global): (Set[(Participant, Local)], Multiset[Action], Environment) =
+  private def initialStateAsyncUnordered(root: String)(using global: Global): (Set[(Participant, Local)], Multiset[Action], Environment) =
     val initialStateOption = enabledMerges(root) match
       case enabledMerge if enabledMerge.exists(_.name == "Plain") =>
         Some((PlainMergeProjection.projectionWithParticipant(global), Multiset(), localsEnvironment(global)))
@@ -253,7 +253,7 @@ case class Widgets(rootA: String, rootB: String):
     val initialState = initialStateOption.getOrElse(throw RuntimeException("Merge - some option must be enabled")).asInstanceOf[(Set[(Participant, Local)], Multiset[Action], Environment)]
     checkLocalsAgainstAllConditions(root, initialState._1)
     initialState
-  end initialStateAsyncNCS
+  end initialStateAsyncUnordered
 
   private def checkLocalsAgainstAllConditions(root: String, localsWithParticipant: Set[(Participant, Local)]): Unit =
     checkLocalsAgainstCondition(localsWithParticipant, hasParallel, !getSetting.allActiveLeavesFrom(root).exists(_.name == "Parallel Composition"), "Parallel Composition")
@@ -272,5 +272,5 @@ case class Widgets(rootA: String, rootB: String):
   private def enabledCommunicationModels(root: String): Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Communication Model")
   private def enabledExtraRequirements(root: String):   Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Extra Requirements")
   private def enabledMerges(root: String):              Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Merge Criteria")
-  private def enabledRecursions(root: String):          Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Recursion")
+  private def enabledRecursions(root: String):          Set[Setting] = getSetting.allActiveLeavesFrom(s"$root.Recursion Scheme")
 end Widgets

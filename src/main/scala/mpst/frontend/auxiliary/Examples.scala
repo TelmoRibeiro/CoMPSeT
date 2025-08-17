@@ -7,20 +7,20 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
   private def mkVeryGentleIntroMPST(root: String)(using setting: Setting): Setting = setting
     .checkAll(s"$root.Merge Criteria.Full", true)
     .checkAll(s"$root.Communication Model.Synchronous", true)
-    .checkAll(s"$root.Recursion.Fixed Point", true)
+    .checkAll(s"$root.Recursion Scheme.Fixed Point", true)
     .checkAll(s"$root.Extra Requirements.Well Branched", true)
   end mkVeryGentleIntroMPST
 
   private def mkGentleIntroMPAsyncST(root: String)(using setting: Setting): Setting = setting
     .checkAll(s"$root.Merge Criteria.Plain", true)
-    .checkAll(s"$root.Communication Model.Causal Asynchronous", true)
-    .checkAll(s"$root.Recursion.Fixed Point", true)
+    .checkAll(s"$root.Communication Model.Ordered Asynchronous", true)
+    .checkAll(s"$root.Recursion Scheme.Fixed Point", true)
     .checkAll(s"$root.Extra Requirements.Well Branched", true)
   end mkGentleIntroMPAsyncST
 
   private def mkAPIGenInScala3(root: String)(using setting: Setting): Setting = setting
     .checkAll(s"$root.Merge Criteria.Plain", true)
-    .checkAll(s"$root.Communication Model.Causal Asynchronous", true)
+    .checkAll(s"$root.Communication Model.Ordered Asynchronous", true)
     .checkAll(s"$root.Parallel Composition", true)
     .checkAll(s"$root.Extra Requirements.Well Branched", true)
     .checkAll(s"$root.Extra Requirements.Well Channeled", true)
@@ -28,9 +28,9 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
 
   private def mkST4MP(root: String)(using setting: Setting): Setting = setting
     .checkAll(s"$root.Merge Criteria.Plain", true)
-    .checkAll(s"$root.Communication Model.Causal Asynchronous", true)
+    .checkAll(s"$root.Communication Model.Ordered Asynchronous", true)
     .checkAll(s"$root.Parallel Composition", true)
-    .checkAll(s"$root.Recursion.Kleene Star", true)
+    .checkAll(s"$root.Recursion Scheme.Kleene Star", true)
     .checkAll(s"$root.Extra Requirements.Well Branched", true)
     .checkAll(s"$root.Extra Requirements.Well Channeled", true)
   end mkST4MP
@@ -140,7 +140,7 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> simpleDelegation
       -> "simple task delegation compared for both APIGenInScala3 and Non-Causal Asynchronous"
       -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA))
-      .checkAll(s"$rootB.Communication Model.Causal Asynchronous", false)
-      .checkAll(s"$rootB.Communication Model.Non-Causal Asynchronous", true),
+      .checkAll(s"$rootB.Communication Model.Ordered Asynchronous", false)
+      .checkAll(s"$rootB.Communication Model.Unordered Asynchronous", true),
   )
 end Examples

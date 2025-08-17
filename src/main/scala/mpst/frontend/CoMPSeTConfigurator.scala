@@ -9,8 +9,8 @@ import mpst.syntax.Parser
 import mpst.syntax.Protocol.Global
 
 
-object CaosConfigurator extends Configurator[Global]:
-  override val name: String = "CoMPSeT - Comparison of Multiparty Session Types"
+object CoMPSeTConfigurator extends Configurator[Global]:
+  override val name: String = "CoMPSeT - Comparing Multiparty Session Types"
 
   override val languageName: String = "Session"
 
@@ -21,7 +21,7 @@ object CaosConfigurator extends Configurator[Global]:
   private val rootB: String = "Semantics B"
 
   private def mkSemantics: Setting =
-    "Merge Criteria" -> ("Plain" || "Full") && "Communication Model" -> ("Synchronous" || "Causal Asynchronous" || "Non-Causal Asynchronous") && "Parallel Composition" && "Recursion" -> ("Fixed Point" || "Kleene Star") && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
+    "Merge Criteria" -> ("Plain" || "Full") && "Communication Model" -> ("Synchronous" || "Ordered Asynchronous" || "Unordered Asynchronous") && "Parallel Composition" && "Recursion Scheme" -> ("Fixed Point" || "Kleene Star") && "Extra Requirements" -> ("Well Branched" && "Well Channeled")
   end mkSemantics
 
   override val setting: Option[Setting] = Setting(root, List(s"$rootA" -> mkSemantics, s"$rootB" -> mkSemantics), options = List("allowAll"))
@@ -37,4 +37,4 @@ object CaosConfigurator extends Configurator[Global]:
       |CoMPSeT builds upon <a href="https://github.com/arcalab/CAOS">CAOS source</a>.
       |More concretely, our extension <a href="https://github.com/TelmoRibeiro/CAOS">extended CAOS source</a>.
       |""".stripMargin
-end CaosConfigurator
+end CoMPSeTConfigurator

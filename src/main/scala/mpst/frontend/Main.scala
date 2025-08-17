@@ -6,5 +6,5 @@ import caos.frontend.Site.initSite
 
 
 object Main:
-  def main(args: Array[String]): Unit = initSite[Global](CaosConfigurator)
+  def main(args: Array[String]): Unit = initSite[Global](CoMPSeTConfigurator)
 end Main
