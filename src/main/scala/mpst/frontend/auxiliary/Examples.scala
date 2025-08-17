@@ -5,34 +5,34 @@ import caos.frontend.Setting
 
 case class Examples(setting: Setting, rootA: String, rootB: String):
   private def mkVeryGentleIntroMPST(root: String)(using setting: Setting): Setting = setting
-    .setCheckedPath(s"$root.Merge Criteria.Full", true)
-    .setCheckedPath(s"$root.Communication Model.Synchronous", true)
-    .setCheckedPath(s"$root.Recursion.Fixed Point", true)
-    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
+    .checkAll(s"$root.Merge Criteria.Full", true)
+    .checkAll(s"$root.Communication Model.Synchronous", true)
+    .checkAll(s"$root.Recursion.Fixed Point", true)
+    .checkAll(s"$root.Extra Requirements.Well Branched", true)
   end mkVeryGentleIntroMPST
 
   private def mkGentleIntroMPAsyncST(root: String)(using setting: Setting): Setting = setting
-    .setCheckedPath(s"$root.Merge Criteria.Plain", true)
-    .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
-    .setCheckedPath(s"$root.Recursion.Fixed Point", true)
-    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
+    .checkAll(s"$root.Merge Criteria.Plain", true)
+    .checkAll(s"$root.Communication Model.Causal Asynchronous", true)
+    .checkAll(s"$root.Recursion.Fixed Point", true)
+    .checkAll(s"$root.Extra Requirements.Well Branched", true)
   end mkGentleIntroMPAsyncST
 
   private def mkAPIGenInScala3(root: String)(using setting: Setting): Setting = setting
-    .setCheckedPath(s"$root.Merge Criteria.Plain", true)
-    .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
-    .setCheckedPath(s"$root.Parallel Composition", true)
-    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
-    .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
+    .checkAll(s"$root.Merge Criteria.Plain", true)
+    .checkAll(s"$root.Communication Model.Causal Asynchronous", true)
+    .checkAll(s"$root.Parallel Composition", true)
+    .checkAll(s"$root.Extra Requirements.Well Branched", true)
+    .checkAll(s"$root.Extra Requirements.Well Channeled", true)
   end mkAPIGenInScala3
 
   private def mkST4MP(root: String)(using setting: Setting): Setting = setting
-    .setCheckedPath(s"$root.Merge Criteria.Plain", true)
-    .setCheckedPath(s"$root.Communication Model.Causal Asynchronous", true)
-    .setCheckedPath(s"$root.Parallel Composition", true)
-    .setCheckedPath(s"$root.Recursion.Kleene Star", true)
-    .setCheckedPath(s"$root.Extra Requirements.Well Branched", true)
-    .setCheckedPath(s"$root.Extra Requirements.Well Channeled", true)
+    .checkAll(s"$root.Merge Criteria.Plain", true)
+    .checkAll(s"$root.Communication Model.Causal Asynchronous", true)
+    .checkAll(s"$root.Parallel Composition", true)
+    .checkAll(s"$root.Recursion.Kleene Star", true)
+    .checkAll(s"$root.Extra Requirements.Well Branched", true)
+    .checkAll(s"$root.Extra Requirements.Well Channeled", true)
   end mkST4MP
 
   private val simpleDelegation: String = "pA->pB:TaskA || pA->pB:TaskB"
@@ -140,7 +140,7 @@ case class Examples(setting: Setting, rootA: String, rootB: String):
       -> simpleDelegation
       -> "simple task delegation compared for both APIGenInScala3 and Non-Causal Asynchronous"
       -> mkST4MP(rootB)(using mkAPIGenInScala3(rootA))
-      .setCheckedPath(s"$rootB.Communication Model.Causal Asynchronous", false)
-      .setCheckedPath(s"$rootB.Communication Model.Non-Causal Asynchronous", true),
+      .checkAll(s"$rootB.Communication Model.Causal Asynchronous", false)
+      .checkAll(s"$rootB.Communication Model.Non-Causal Asynchronous", true),
   )
 end Examples
