@@ -1235,32 +1235,54 @@ function $p_Lcaos_frontend_Site$__renderWidgets__V($thiz) {
     }));
     var this$7 = $n($m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
     var w = $p_Lcaos_frontend_Site$__mkWidget__T2__F0__F0__Lcaos_frontend_widgets_OutputArea__Lcaos_frontend_Documentation__Lcaos_frontend_widgets_Widget($x_3, wc$3, $x_2, $x_1, $as_Lcaos_frontend_widgets_OutputArea($n(this$7.Lcaos_frontend_SiteState__f_errorArea).get__O()), $n(config).documentation__Lcaos_frontend_Documentation());
-    var $x_5 = $n(w);
+    var $x_6 = $n(w);
     if (($n($as_Lcaos_frontend_widgets_WidgetInfo($n($as_s_Option($n(wc$3)._2__O())).get__O())).location__I() === 0)) {
       var this$8 = $n($m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-      var $x_4 = $as_Lcaos_frontend_widgets_DomElem($n(this$8.Lcaos_frontend_SiteState__f_rightColumn).get__O());
+      var $x_5 = $as_Lcaos_frontend_widgets_DomElem($n(this$8.Lcaos_frontend_SiteState__f_rightColumn).get__O());
     } else {
       var this$9 = $n($m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-      var $x_4 = $as_Lcaos_frontend_widgets_DomElem($n(this$9.Lcaos_frontend_SiteState__f_leftColumn).get__O());
+      var $x_5 = $as_Lcaos_frontend_widgets_DomElem($n(this$9.Lcaos_frontend_SiteState__f_leftColumn).get__O());
     }
-    $x_5.init__Lcaos_frontend_widgets_DomElem__Z__V($x_4, $n($as_Lcaos_frontend_widgets_WidgetInfo($n($as_s_Option($n(wc$3)._2__O())).get__O())).expanded__Z());
+    if ($n($as_Lcaos_frontend_widgets_WidgetInfo($n($as_s_Option($n(wc$3)._2__O())).get__O())).expanded__Z()) {
+      var $x_4 = true;
+    } else {
+      var this$10 = $n($m_Lcaos_frontend_Site$().Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+      var $x_4 = $n(this$10.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets).exists__F1__Z(new $c_sjsr_AnonFunction1(((widget) => {
+        var widget$1 = $as_Lcaos_frontend_widgets_Widget(widget);
+        return ($n(widget$1).Lcaos_frontend_widgets_Widget__f_title === $n(w).Lcaos_frontend_widgets_Widget__f_title);
+      })));
+    }
+    $x_6.init__Lcaos_frontend_widgets_DomElem__Z__V($x_5, $x_4);
     return w;
   }))));
-  var $x_7 = $thiz.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state;
-  var this$10 = $n($n(boxes).toList__sci_List());
+  var this$12 = $n($thiz.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  var this$11 = $n(boxes);
+  var previouslyExpandedWidgets = $m_sci_Set$().from__sc_IterableOnce__sci_Set(this$11);
+  var leftColumn = this$12.Lcaos_frontend_SiteState__f_leftColumn;
+  var rightColumn = this$12.Lcaos_frontend_SiteState__f_rightColumn;
+  var errorArea = this$12.Lcaos_frontend_SiteState__f_errorArea;
+  var descriptionArea = this$12.Lcaos_frontend_SiteState__f_descriptionArea;
+  var toReload = this$12.Lcaos_frontend_SiteState__f_toReload;
+  var lastConfig = this$12.Lcaos_frontend_SiteState__f_lastConfig;
+  var codeWidget = this$12.Lcaos_frontend_SiteState__f_codeWidget;
+  var examplesWidget = this$12.Lcaos_frontend_SiteState__f_examplesWidget;
+  var settingWidget = this$12.Lcaos_frontend_SiteState__f_settingWidget;
+  $thiz.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = new $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget, previouslyExpandedWidgets);
+  var this$14 = $n($thiz.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  var this$13 = $n($n(boxes).toList__sci_List());
   var f = ((b) => {
     var b$1 = $as_Lcaos_frontend_widgets_Widget(b);
     return new $c_sjsr_AnonFunction0((() => {
       $n(b$1).update__V();
     }));
   });
-  if ((this$10 === $m_sci_Nil$())) {
-    var $x_6 = $m_sci_Nil$();
+  if ((this$13 === $m_sci_Nil$())) {
+    var toReload$1 = $m_sci_Nil$();
   } else {
-    var arg1 = this$10.head__O();
+    var arg1 = this$13.head__O();
     var h = new $c_sci_$colon$colon(f(arg1), $m_sci_Nil$());
     var t = h;
-    var rest = $as_sci_List(this$10.tail__O());
+    var rest = $as_sci_List(this$13.tail__O());
     while ((rest !== $m_sci_Nil$())) {
       var arg1$1 = $n(rest).head__O();
       var nx = new $c_sci_$colon$colon(f(arg1$1), $m_sci_Nil$());
@@ -1268,9 +1290,18 @@ function $p_Lcaos_frontend_Site$__renderWidgets__V($thiz) {
       t = nx;
       rest = $as_sci_List($n(rest).tail__O());
     }
-    var $x_6 = h;
+    var toReload$1 = h;
   }
-  $thiz.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = $n($x_7).withToReload__sci_List__Lcaos_frontend_SiteState($x_6);
+  var leftColumn$1 = this$14.Lcaos_frontend_SiteState__f_leftColumn;
+  var rightColumn$1 = this$14.Lcaos_frontend_SiteState__f_rightColumn;
+  var errorArea$1 = this$14.Lcaos_frontend_SiteState__f_errorArea;
+  var descriptionArea$1 = this$14.Lcaos_frontend_SiteState__f_descriptionArea;
+  var lastConfig$1 = this$14.Lcaos_frontend_SiteState__f_lastConfig;
+  var codeWidget$1 = this$14.Lcaos_frontend_SiteState__f_codeWidget;
+  var examplesWidget$1 = this$14.Lcaos_frontend_SiteState__f_examplesWidget;
+  var settingWidget$1 = this$14.Lcaos_frontend_SiteState__f_settingWidget;
+  var previouslyExpandedWidgets$1 = this$14.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  $thiz.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = new $c_Lcaos_frontend_SiteState(leftColumn$1, rightColumn$1, errorArea$1, descriptionArea$1, toReload$1, lastConfig$1, codeWidget$1, examplesWidget$1, settingWidget$1, previouslyExpandedWidgets$1);
 }
 function $p_Lcaos_frontend_Site$__initialiseContainers__V($thiz) {
   var contentDiv = $n($n($n($m_Lcaos_frontend_widgets_DomNode$().select__T__Lcaos_frontend_widgets_DomElem("contentWrap")).append__T__Lcaos_frontend_widgets_DomElem("div")).attr__T__T__Lcaos_frontend_widgets_DomElem("class", "content")).attr__T__T__Lcaos_frontend_widgets_DomElem("id", "content");
@@ -1503,12 +1534,13 @@ function $c_Lcaos_frontend_Site$() {
   var rightColumn = $m_s_None$();
   var errorArea = $m_s_None$();
   var descriptionArea = $m_s_None$();
-  var toReload = $m_s_None$();
+  var toReload = $m_sci_Nil$();
   var lastConfig = $m_s_None$();
   var codeWidget = $m_s_None$();
   var examplesWidget = $m_s_None$();
   var settingWidget = $m_s_None$();
-  this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = new $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget);
+  var previouslyExpandedWidgets = $m_sci_Set$EmptySet$();
+  this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = new $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget, previouslyExpandedWidgets);
 }
 $c_Lcaos_frontend_Site$.prototype = new $h_O();
 $c_Lcaos_frontend_Site$.prototype.constructor = $c_Lcaos_frontend_Site$;
@@ -1546,28 +1578,31 @@ $c_Lcaos_frontend_Site$.prototype.initSite__Lcaos_frontend_Configurator__V = (fu
   $x_1.init__Lcaos_frontend_widgets_DomElem__V($as_Lcaos_frontend_widgets_DomElem($n(this$4.Lcaos_frontend_SiteState__f_leftColumn).get__O()));
   var settingWidget = new $c_Lcaos_frontend_Site$$anon$2(config);
   this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state).withSettingWidget__Lcaos_frontend_widgets_SettingWidget__Lcaos_frontend_SiteState(settingWidget);
-  var this$5 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  settingWidget.init__Lcaos_frontend_widgets_DomElem__Z__V($as_Lcaos_frontend_widgets_DomElem($n(this$5.Lcaos_frontend_SiteState__f_leftColumn).get__O()), true);
+  var this$5 = $n(settingWidget.Lcaos_frontend_widgets_SettingWidget__f_setting);
+  if ((!this$5.isEmpty__Z())) {
+    var this$6 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+    settingWidget.init__Lcaos_frontend_widgets_DomElem__Z__V($as_Lcaos_frontend_widgets_DomElem($n(this$6.Lcaos_frontend_SiteState__f_leftColumn).get__O()), true);
+  }
   var $x_2 = new $c_sjsr_AnonFunction0((() => {
     $m_Lcaos_frontend_Site$().caos$frontend$Site$$$globalReload__V();
   }));
-  var this$6 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  var value = $as_Lcaos_frontend_widgets_OutputArea($n(this$6.Lcaos_frontend_SiteState__f_descriptionArea).get__O());
+  var this$7 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  var value = $as_Lcaos_frontend_widgets_OutputArea($n(this$7.Lcaos_frontend_SiteState__f_descriptionArea).get__O());
   var examplesWidget = new $c_Lcaos_frontend_widgets_ExampleWidget("Examples", config, $x_2, codeWidget, new $c_s_Some(value), settingWidget);
   this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state).withExamplesWidget__Lcaos_frontend_widgets_ExampleWidget__Lcaos_frontend_SiteState(examplesWidget);
-  var this$8 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  var $x_3 = $n($as_Lcaos_frontend_widgets_OutputArea($n(this$8.Lcaos_frontend_SiteState__f_descriptionArea).get__O()));
   var this$9 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  $x_3.init__Lcaos_frontend_widgets_DomElem__V($as_Lcaos_frontend_widgets_DomElem($n(this$9.Lcaos_frontend_SiteState__f_leftColumn).get__O()));
+  var $x_3 = $n($as_Lcaos_frontend_widgets_OutputArea($n(this$9.Lcaos_frontend_SiteState__f_descriptionArea).get__O()));
   var this$10 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  var $x_4 = $n($as_Lcaos_frontend_widgets_ExampleWidget($n(this$10.Lcaos_frontend_SiteState__f_examplesWidget).get__O()));
+  $x_3.init__Lcaos_frontend_widgets_DomElem__V($as_Lcaos_frontend_widgets_DomElem($n(this$10.Lcaos_frontend_SiteState__f_leftColumn).get__O()));
   var this$11 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  $x_4.init__Lcaos_frontend_widgets_DomElem__Z__V($as_Lcaos_frontend_widgets_DomElem($n(this$11.Lcaos_frontend_SiteState__f_leftColumn).get__O()), true);
+  var $x_4 = $n($as_Lcaos_frontend_widgets_ExampleWidget($n(this$11.Lcaos_frontend_SiteState__f_examplesWidget).get__O()));
+  var this$12 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  $x_4.init__Lcaos_frontend_widgets_DomElem__Z__V($as_Lcaos_frontend_widgets_DomElem($n(this$12.Lcaos_frontend_SiteState__f_leftColumn).get__O()), true);
   var x = $n(mainExample).Lcaos_frontend_Configurator$Example__f_description;
-  var this$14 = $n(x);
-  if ((!(this$14 === ""))) {
-    var this$15 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-    $n($as_Lcaos_frontend_widgets_OutputArea($n(this$15.Lcaos_frontend_SiteState__f_descriptionArea).get__O())).setValue__T__V($n(mainExample).Lcaos_frontend_Configurator$Example__f_description);
+  var this$15 = $n(x);
+  if ((!(this$15 === ""))) {
+    var this$16 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+    $n($as_Lcaos_frontend_widgets_OutputArea($n(this$16.Lcaos_frontend_SiteState__f_descriptionArea).get__O())).setValue__T__V($n(mainExample).Lcaos_frontend_Configurator$Example__f_description);
     this.setSetting__Lcaos_frontend_Setting__V($as_Lcaos_frontend_Setting($n($n(mainExample).Lcaos_frontend_Configurator$Example__f_setting).get__O()));
   }
 });
@@ -1575,15 +1610,31 @@ $c_Lcaos_frontend_Site$.prototype.caos$frontend$Site$$$globalReload__V = (functi
   var this$1 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
   var this$2 = $n($as_Lcaos_frontend_widgets_OutputArea($n(this$1.Lcaos_frontend_SiteState__f_errorArea).get__O()));
   $n(this$2.Lcaos_frontend_widgets_OutputArea__f_outputs).text__T__Lcaos_frontend_widgets_DomNode("");
+  var this$3 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  var expandedWidgets = $as_sci_Set($n(this$3.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets).filter__F1__O(new $c_sjsr_AnonFunction1(((widget) => {
+    var widget$1 = $as_Lcaos_frontend_widgets_Widget(widget);
+    return $n(widget$1).isVisible__Z();
+  }))));
+  var this$4 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  var leftColumn = this$4.Lcaos_frontend_SiteState__f_leftColumn;
+  var rightColumn = this$4.Lcaos_frontend_SiteState__f_rightColumn;
+  var errorArea = this$4.Lcaos_frontend_SiteState__f_errorArea;
+  var descriptionArea = this$4.Lcaos_frontend_SiteState__f_descriptionArea;
+  var toReload = this$4.Lcaos_frontend_SiteState__f_toReload;
+  var lastConfig = this$4.Lcaos_frontend_SiteState__f_lastConfig;
+  var codeWidget = this$4.Lcaos_frontend_SiteState__f_codeWidget;
+  var examplesWidget = this$4.Lcaos_frontend_SiteState__f_examplesWidget;
+  var settingWidget = this$4.Lcaos_frontend_SiteState__f_settingWidget;
+  this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state = new $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget, expandedWidgets);
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("rightbar").innerHTML = "";
   $p_Lcaos_frontend_Site$__renderWidgets__V(this);
-  var this$3 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  $n($as_Lcaos_frontend_widgets_CodeWidget($n(this$3.Lcaos_frontend_SiteState__f_codeWidget).get__O())).update__V();
-  var this$4 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  $n($as_Lcaos_frontend_widgets_SettingWidget($n(this$4.Lcaos_frontend_SiteState__f_settingWidget).get__O())).update__V();
   var this$5 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
-  var this$6 = $n($as_sci_List($n(this$5.Lcaos_frontend_SiteState__f_toReload).get__O()));
-  var these = this$6;
+  $n($as_Lcaos_frontend_widgets_CodeWidget($n(this$5.Lcaos_frontend_SiteState__f_codeWidget).get__O())).update__V();
+  var this$6 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  $n($as_Lcaos_frontend_widgets_SettingWidget($n(this$6.Lcaos_frontend_SiteState__f_settingWidget).get__O())).update__V();
+  var this$7 = $n(this.Lcaos_frontend_Site$__f_caos$frontend$Site$$$state);
+  var this$8 = $n(this$7.Lcaos_frontend_SiteState__f_toReload);
+  var these = this$8;
   while ((!$n(these).isEmpty__Z())) {
     var arg1 = $n(these).head__O();
     var f = $as_F0(arg1);
@@ -21599,7 +21650,7 @@ var $d_Lcaos_frontend_Site$$anon$1 = new $TypeData().initClass($c_Lcaos_frontend
   Lcaos_frontend_widgets_Setable: 1
 }));
 /** @constructor */
-function $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget) {
+function $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget, previouslyExpandedWidgets) {
   this.Lcaos_frontend_SiteState__f_leftColumn = null;
   this.Lcaos_frontend_SiteState__f_rightColumn = null;
   this.Lcaos_frontend_SiteState__f_errorArea = null;
@@ -21609,6 +21660,7 @@ function $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descrip
   this.Lcaos_frontend_SiteState__f_codeWidget = null;
   this.Lcaos_frontend_SiteState__f_examplesWidget = null;
   this.Lcaos_frontend_SiteState__f_settingWidget = null;
+  this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets = null;
   this.Lcaos_frontend_SiteState__f_leftColumn = leftColumn;
   this.Lcaos_frontend_SiteState__f_rightColumn = rightColumn;
   this.Lcaos_frontend_SiteState__f_errorArea = errorArea;
@@ -21618,6 +21670,7 @@ function $c_Lcaos_frontend_SiteState(leftColumn, rightColumn, errorArea, descrip
   this.Lcaos_frontend_SiteState__f_codeWidget = codeWidget;
   this.Lcaos_frontend_SiteState__f_examplesWidget = examplesWidget;
   this.Lcaos_frontend_SiteState__f_settingWidget = settingWidget;
+  this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets = previouslyExpandedWidgets;
 }
 $c_Lcaos_frontend_SiteState.prototype = new $h_O();
 $c_Lcaos_frontend_SiteState.prototype.constructor = $c_Lcaos_frontend_SiteState;
@@ -21642,56 +21695,63 @@ $c_Lcaos_frontend_SiteState.prototype.equals__O__Z = (function(x$0) {
     if (((x === null) ? (x$2 === null) : $n(x).equals__O__Z(x$2))) {
       var x$3 = this.Lcaos_frontend_SiteState__f_rightColumn;
       var x$4 = $n(x$0$2).Lcaos_frontend_SiteState__f_rightColumn;
-      var $x_8 = ((x$3 === null) ? (x$4 === null) : $n(x$3).equals__O__Z(x$4));
+      var $x_9 = ((x$3 === null) ? (x$4 === null) : $n(x$3).equals__O__Z(x$4));
+    } else {
+      var $x_9 = false;
+    }
+    if ($x_9) {
+      var x$5 = this.Lcaos_frontend_SiteState__f_errorArea;
+      var x$6 = $n(x$0$2).Lcaos_frontend_SiteState__f_errorArea;
+      var $x_8 = ((x$5 === null) ? (x$6 === null) : $n(x$5).equals__O__Z(x$6));
     } else {
       var $x_8 = false;
     }
     if ($x_8) {
-      var x$5 = this.Lcaos_frontend_SiteState__f_errorArea;
-      var x$6 = $n(x$0$2).Lcaos_frontend_SiteState__f_errorArea;
-      var $x_7 = ((x$5 === null) ? (x$6 === null) : $n(x$5).equals__O__Z(x$6));
+      var x$7 = this.Lcaos_frontend_SiteState__f_descriptionArea;
+      var x$8 = $n(x$0$2).Lcaos_frontend_SiteState__f_descriptionArea;
+      var $x_7 = ((x$7 === null) ? (x$8 === null) : $n(x$7).equals__O__Z(x$8));
     } else {
       var $x_7 = false;
     }
     if ($x_7) {
-      var x$7 = this.Lcaos_frontend_SiteState__f_descriptionArea;
-      var x$8 = $n(x$0$2).Lcaos_frontend_SiteState__f_descriptionArea;
-      var $x_6 = ((x$7 === null) ? (x$8 === null) : $n(x$7).equals__O__Z(x$8));
+      var x$9 = this.Lcaos_frontend_SiteState__f_toReload;
+      var x$10 = $n(x$0$2).Lcaos_frontend_SiteState__f_toReload;
+      var $x_6 = ((x$9 === null) ? (x$10 === null) : $n(x$9).equals__O__Z(x$10));
     } else {
       var $x_6 = false;
     }
     if ($x_6) {
-      var x$9 = this.Lcaos_frontend_SiteState__f_toReload;
-      var x$10 = $n(x$0$2).Lcaos_frontend_SiteState__f_toReload;
-      var $x_5 = ((x$9 === null) ? (x$10 === null) : $n(x$9).equals__O__Z(x$10));
+      var x$11 = this.Lcaos_frontend_SiteState__f_lastConfig;
+      var x$12 = $n(x$0$2).Lcaos_frontend_SiteState__f_lastConfig;
+      var $x_5 = ((x$11 === null) ? (x$12 === null) : $n(x$11).equals__O__Z(x$12));
     } else {
       var $x_5 = false;
     }
     if ($x_5) {
-      var x$11 = this.Lcaos_frontend_SiteState__f_lastConfig;
-      var x$12 = $n(x$0$2).Lcaos_frontend_SiteState__f_lastConfig;
-      var $x_4 = ((x$11 === null) ? (x$12 === null) : $n(x$11).equals__O__Z(x$12));
+      var x$13 = this.Lcaos_frontend_SiteState__f_codeWidget;
+      var x$14 = $n(x$0$2).Lcaos_frontend_SiteState__f_codeWidget;
+      var $x_4 = ((x$13 === null) ? (x$14 === null) : $n(x$13).equals__O__Z(x$14));
     } else {
       var $x_4 = false;
     }
     if ($x_4) {
-      var x$13 = this.Lcaos_frontend_SiteState__f_codeWidget;
-      var x$14 = $n(x$0$2).Lcaos_frontend_SiteState__f_codeWidget;
-      var $x_3 = ((x$13 === null) ? (x$14 === null) : $n(x$13).equals__O__Z(x$14));
+      var x$15 = this.Lcaos_frontend_SiteState__f_examplesWidget;
+      var x$16 = $n(x$0$2).Lcaos_frontend_SiteState__f_examplesWidget;
+      var $x_3 = ((x$15 === null) ? (x$16 === null) : $n(x$15).equals__O__Z(x$16));
     } else {
       var $x_3 = false;
     }
     if ($x_3) {
-      var x$15 = this.Lcaos_frontend_SiteState__f_examplesWidget;
-      var x$16 = $n(x$0$2).Lcaos_frontend_SiteState__f_examplesWidget;
-      var $x_2 = ((x$15 === null) ? (x$16 === null) : $n(x$15).equals__O__Z(x$16));
+      var x$17 = this.Lcaos_frontend_SiteState__f_settingWidget;
+      var x$18 = $n(x$0$2).Lcaos_frontend_SiteState__f_settingWidget;
+      var $x_2 = ((x$17 === null) ? (x$18 === null) : $n(x$17).equals__O__Z(x$18));
     } else {
       var $x_2 = false;
     }
     if ($x_2) {
-      var x$17 = this.Lcaos_frontend_SiteState__f_settingWidget;
-      var x$18 = $n(x$0$2).Lcaos_frontend_SiteState__f_settingWidget;
-      var $x_1 = ((x$17 === null) ? (x$18 === null) : $n(x$17).equals__O__Z(x$18));
+      var x$19 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+      var x$20 = $n(x$0$2).Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+      var $x_1 = ((x$19 === null) ? (x$20 === null) : $n(x$19).equals__O__Z(x$20));
     } else {
       var $x_1 = false;
     }
@@ -21709,7 +21769,7 @@ $c_Lcaos_frontend_SiteState.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$()._toString__s_Product__T(this);
 });
 $c_Lcaos_frontend_SiteState.prototype.productArity__I = (function() {
-  return 9;
+  return 10;
 });
 $c_Lcaos_frontend_SiteState.prototype.productPrefix__T = (function() {
   return "SiteState";
@@ -21752,6 +21812,10 @@ $c_Lcaos_frontend_SiteState.prototype.productElement__I__O = (function(n) {
       return this.Lcaos_frontend_SiteState__f_settingWidget;
       break;
     }
+    case 9: {
+      return this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+      break;
+    }
     default: {
       throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n));
     }
@@ -21767,7 +21831,8 @@ $c_Lcaos_frontend_SiteState.prototype.withLeftColumn__Lcaos_frontend_widgets_Dom
   var codeWidget = this.Lcaos_frontend_SiteState__f_codeWidget;
   var examplesWidget = this.Lcaos_frontend_SiteState__f_examplesWidget;
   var settingWidget = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$1, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget);
+  var previouslyExpandedWidgets = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$1, rightColumn, errorArea, descriptionArea, toReload, lastConfig, codeWidget, examplesWidget, settingWidget, previouslyExpandedWidgets);
 });
 $c_Lcaos_frontend_SiteState.prototype.withRightColumn__Lcaos_frontend_widgets_DomElem__Lcaos_frontend_SiteState = (function(rightColumn) {
   var rightColumn$1 = new $c_s_Some(rightColumn);
@@ -21779,7 +21844,8 @@ $c_Lcaos_frontend_SiteState.prototype.withRightColumn__Lcaos_frontend_widgets_Do
   var codeWidget$1 = this.Lcaos_frontend_SiteState__f_codeWidget;
   var examplesWidget$1 = this.Lcaos_frontend_SiteState__f_examplesWidget;
   var settingWidget$1 = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$1, rightColumn$1, errorArea$1, descriptionArea$1, toReload$1, lastConfig$1, codeWidget$1, examplesWidget$1, settingWidget$1);
+  var previouslyExpandedWidgets$1 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$1, rightColumn$1, errorArea$1, descriptionArea$1, toReload$1, lastConfig$1, codeWidget$1, examplesWidget$1, settingWidget$1, previouslyExpandedWidgets$1);
 });
 $c_Lcaos_frontend_SiteState.prototype.withErrorArea__Lcaos_frontend_widgets_OutputArea__Lcaos_frontend_SiteState = (function(errorArea) {
   var errorArea$2 = new $c_s_Some(errorArea);
@@ -21791,7 +21857,8 @@ $c_Lcaos_frontend_SiteState.prototype.withErrorArea__Lcaos_frontend_widgets_Outp
   var codeWidget$2 = this.Lcaos_frontend_SiteState__f_codeWidget;
   var examplesWidget$2 = this.Lcaos_frontend_SiteState__f_examplesWidget;
   var settingWidget$2 = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$2, rightColumn$2, errorArea$2, descriptionArea$2, toReload$2, lastConfig$2, codeWidget$2, examplesWidget$2, settingWidget$2);
+  var previouslyExpandedWidgets$2 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$2, rightColumn$2, errorArea$2, descriptionArea$2, toReload$2, lastConfig$2, codeWidget$2, examplesWidget$2, settingWidget$2, previouslyExpandedWidgets$2);
 });
 $c_Lcaos_frontend_SiteState.prototype.withDescriptionArea__Lcaos_frontend_widgets_OutputArea__Lcaos_frontend_SiteState = (function(descriptionArea) {
   var descriptionArea$3 = new $c_s_Some(descriptionArea);
@@ -21803,46 +21870,50 @@ $c_Lcaos_frontend_SiteState.prototype.withDescriptionArea__Lcaos_frontend_widget
   var codeWidget$3 = this.Lcaos_frontend_SiteState__f_codeWidget;
   var examplesWidget$3 = this.Lcaos_frontend_SiteState__f_examplesWidget;
   var settingWidget$3 = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$3, rightColumn$3, errorArea$3, descriptionArea$3, toReload$3, lastConfig$3, codeWidget$3, examplesWidget$3, settingWidget$3);
+  var previouslyExpandedWidgets$3 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$3, rightColumn$3, errorArea$3, descriptionArea$3, toReload$3, lastConfig$3, codeWidget$3, examplesWidget$3, settingWidget$3, previouslyExpandedWidgets$3);
 });
-$c_Lcaos_frontend_SiteState.prototype.withToReload__sci_List__Lcaos_frontend_SiteState = (function(toReload) {
-  var toReload$4 = new $c_s_Some(toReload);
+$c_Lcaos_frontend_SiteState.prototype.withLastConfig__Lcaos_frontend_Configurator__Lcaos_frontend_SiteState = (function(lastConfig) {
+  var lastConfig$4 = new $c_s_Some(lastConfig);
   var leftColumn$4 = this.Lcaos_frontend_SiteState__f_leftColumn;
   var rightColumn$4 = this.Lcaos_frontend_SiteState__f_rightColumn;
   var errorArea$4 = this.Lcaos_frontend_SiteState__f_errorArea;
   var descriptionArea$4 = this.Lcaos_frontend_SiteState__f_descriptionArea;
-  var lastConfig$4 = this.Lcaos_frontend_SiteState__f_lastConfig;
+  var toReload$4 = this.Lcaos_frontend_SiteState__f_toReload;
   var codeWidget$4 = this.Lcaos_frontend_SiteState__f_codeWidget;
   var examplesWidget$4 = this.Lcaos_frontend_SiteState__f_examplesWidget;
   var settingWidget$4 = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$4, rightColumn$4, errorArea$4, descriptionArea$4, toReload$4, lastConfig$4, codeWidget$4, examplesWidget$4, settingWidget$4);
+  var previouslyExpandedWidgets$4 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$4, rightColumn$4, errorArea$4, descriptionArea$4, toReload$4, lastConfig$4, codeWidget$4, examplesWidget$4, settingWidget$4, previouslyExpandedWidgets$4);
 });
-$c_Lcaos_frontend_SiteState.prototype.withLastConfig__Lcaos_frontend_Configurator__Lcaos_frontend_SiteState = (function(lastConfig) {
-  var lastConfig$5 = new $c_s_Some(lastConfig);
+$c_Lcaos_frontend_SiteState.prototype.withCodeWidget__Lcaos_frontend_widgets_CodeWidget__Lcaos_frontend_SiteState = (function(codeWidget) {
+  var codeWidget$5 = new $c_s_Some(codeWidget);
   var leftColumn$5 = this.Lcaos_frontend_SiteState__f_leftColumn;
   var rightColumn$5 = this.Lcaos_frontend_SiteState__f_rightColumn;
   var errorArea$5 = this.Lcaos_frontend_SiteState__f_errorArea;
   var descriptionArea$5 = this.Lcaos_frontend_SiteState__f_descriptionArea;
   var toReload$5 = this.Lcaos_frontend_SiteState__f_toReload;
-  var codeWidget$5 = this.Lcaos_frontend_SiteState__f_codeWidget;
+  var lastConfig$5 = this.Lcaos_frontend_SiteState__f_lastConfig;
   var examplesWidget$5 = this.Lcaos_frontend_SiteState__f_examplesWidget;
   var settingWidget$5 = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$5, rightColumn$5, errorArea$5, descriptionArea$5, toReload$5, lastConfig$5, codeWidget$5, examplesWidget$5, settingWidget$5);
+  var previouslyExpandedWidgets$5 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$5, rightColumn$5, errorArea$5, descriptionArea$5, toReload$5, lastConfig$5, codeWidget$5, examplesWidget$5, settingWidget$5, previouslyExpandedWidgets$5);
 });
-$c_Lcaos_frontend_SiteState.prototype.withCodeWidget__Lcaos_frontend_widgets_CodeWidget__Lcaos_frontend_SiteState = (function(codeWidget) {
-  var codeWidget$6 = new $c_s_Some(codeWidget);
+$c_Lcaos_frontend_SiteState.prototype.withExamplesWidget__Lcaos_frontend_widgets_ExampleWidget__Lcaos_frontend_SiteState = (function(examplesWidget) {
+  var examplesWidget$6 = new $c_s_Some(examplesWidget);
   var leftColumn$6 = this.Lcaos_frontend_SiteState__f_leftColumn;
   var rightColumn$6 = this.Lcaos_frontend_SiteState__f_rightColumn;
   var errorArea$6 = this.Lcaos_frontend_SiteState__f_errorArea;
   var descriptionArea$6 = this.Lcaos_frontend_SiteState__f_descriptionArea;
   var toReload$6 = this.Lcaos_frontend_SiteState__f_toReload;
   var lastConfig$6 = this.Lcaos_frontend_SiteState__f_lastConfig;
-  var examplesWidget$6 = this.Lcaos_frontend_SiteState__f_examplesWidget;
+  var codeWidget$6 = this.Lcaos_frontend_SiteState__f_codeWidget;
   var settingWidget$6 = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$6, rightColumn$6, errorArea$6, descriptionArea$6, toReload$6, lastConfig$6, codeWidget$6, examplesWidget$6, settingWidget$6);
+  var previouslyExpandedWidgets$6 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$6, rightColumn$6, errorArea$6, descriptionArea$6, toReload$6, lastConfig$6, codeWidget$6, examplesWidget$6, settingWidget$6, previouslyExpandedWidgets$6);
 });
-$c_Lcaos_frontend_SiteState.prototype.withExamplesWidget__Lcaos_frontend_widgets_ExampleWidget__Lcaos_frontend_SiteState = (function(examplesWidget) {
-  var examplesWidget$7 = new $c_s_Some(examplesWidget);
+$c_Lcaos_frontend_SiteState.prototype.withSettingWidget__Lcaos_frontend_widgets_SettingWidget__Lcaos_frontend_SiteState = (function(settingWidget) {
+  var settingWidget$7 = new $c_s_Some(settingWidget);
   var leftColumn$7 = this.Lcaos_frontend_SiteState__f_leftColumn;
   var rightColumn$7 = this.Lcaos_frontend_SiteState__f_rightColumn;
   var errorArea$7 = this.Lcaos_frontend_SiteState__f_errorArea;
@@ -21850,20 +21921,9 @@ $c_Lcaos_frontend_SiteState.prototype.withExamplesWidget__Lcaos_frontend_widgets
   var toReload$7 = this.Lcaos_frontend_SiteState__f_toReload;
   var lastConfig$7 = this.Lcaos_frontend_SiteState__f_lastConfig;
   var codeWidget$7 = this.Lcaos_frontend_SiteState__f_codeWidget;
-  var settingWidget$7 = this.Lcaos_frontend_SiteState__f_settingWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$7, rightColumn$7, errorArea$7, descriptionArea$7, toReload$7, lastConfig$7, codeWidget$7, examplesWidget$7, settingWidget$7);
-});
-$c_Lcaos_frontend_SiteState.prototype.withSettingWidget__Lcaos_frontend_widgets_SettingWidget__Lcaos_frontend_SiteState = (function(settingWidget) {
-  var settingWidget$8 = new $c_s_Some(settingWidget);
-  var leftColumn$8 = this.Lcaos_frontend_SiteState__f_leftColumn;
-  var rightColumn$8 = this.Lcaos_frontend_SiteState__f_rightColumn;
-  var errorArea$8 = this.Lcaos_frontend_SiteState__f_errorArea;
-  var descriptionArea$8 = this.Lcaos_frontend_SiteState__f_descriptionArea;
-  var toReload$8 = this.Lcaos_frontend_SiteState__f_toReload;
-  var lastConfig$8 = this.Lcaos_frontend_SiteState__f_lastConfig;
-  var codeWidget$8 = this.Lcaos_frontend_SiteState__f_codeWidget;
-  var examplesWidget$8 = this.Lcaos_frontend_SiteState__f_examplesWidget;
-  return new $c_Lcaos_frontend_SiteState(leftColumn$8, rightColumn$8, errorArea$8, descriptionArea$8, toReload$8, lastConfig$8, codeWidget$8, examplesWidget$8, settingWidget$8);
+  var examplesWidget$7 = this.Lcaos_frontend_SiteState__f_examplesWidget;
+  var previouslyExpandedWidgets$7 = this.Lcaos_frontend_SiteState__f_previouslyExpandedWidgets;
+  return new $c_Lcaos_frontend_SiteState(leftColumn$7, rightColumn$7, errorArea$7, descriptionArea$7, toReload$7, lastConfig$7, codeWidget$7, examplesWidget$7, settingWidget$7, previouslyExpandedWidgets$7);
 });
 function $as_Lcaos_frontend_SiteState(obj) {
   return (((obj instanceof $c_Lcaos_frontend_SiteState) || (obj === null)) ? obj : $throwClassCastException(obj, "caos.frontend.SiteState"));
